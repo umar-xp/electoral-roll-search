@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karnataka Electoral Roll Search | ಮತದಾರರ ಪಟ್ಟಿ ಹುಡುಕಾಟ</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Serif:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    --saffron: #FF6B00;
+    --saffron-light: #FF8C38;
+    --green: #138808;
+    --green-light: #1aad0a;
+    --blue: #000080;
+    --white: #FFFFFF;
+    --cream: #FFF9F0;
+    --gray-50: #F9FAFB;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-400: #9CA3AF;
+    --gray-600: #4B5563;
+    --gray-800: #1F2937;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.14);
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Serif', Georgia, serif;
+    background: var(--cream);
+    color: var(--gray-800);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, var(--saffron) 0%, #FF8C38 40%, var(--green) 100%);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      45deg, transparent, transparent 20px,
+      rgba(255,255,255,0.03) 20px, rgba(255,255,255,0.03) 40px
+    );
+  }
+  .header-inner {
+    max-width: 900px; margin: 0 auto;
+    padding: 20px 20px 16px;
+    display: flex; align-items: center; gap: 16px;
+    position: relative;
+  }
+  .emblem {
+    width: 56px; height: 56px;
+    background: white; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .header-text h1 {
+    font-family: 'Noto Sans Kannada', sans-serif;
+    font-size: 20px; font-weight: 700;
+    color: white; line-height: 1.2;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+  .header-text p {
+    font-size: 13px; color: rgba(255,255,255,0.88);
+    margin-top: 2px; font-family: 'Noto Serif', serif;
+  }
+  .tricolor-bar {
+    height: 5px;
+    background: linear-gradient(to right, var(--saffron) 33.3%, white 33.3%, white 66.6%, var(--green) 66.6%);
+  }
+
+  /* MAIN */
+  .main { max-width: 900px; margin: 0 auto; padding: 24px 16px 48px; }
+
+  /* CARD */
+  .card {
+    background: white; border-radius: var(--radius);
+    box-shadow: var(--shadow-md); margin-bottom: 20px;
+    border: 1px solid var(--gray-200);
+    overflow: hidden;
+  }
+  .card-header {
+    background: var(--gray-50); border-bottom: 1px solid var(--gray-200);
+    padding: 12px 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .card-header .step-badge {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--saffron); color: white;
+    font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    flex-shrink: 0;
+  }
+  .card-header h2 {
+    font-size: 15px; font-weight: 600;
+    color: var(--gray-800); font-family: 'Noto Sans Kannada', sans-serif;
+  }
+  .card-body { padding: 20px; }
+
+  /* FORM ELEMENTS */
+  label {
+    display: block; font-size: 13px; font-weight: 600;
+    color: var(--gray-600); margin-bottom: 6px;
+    font-family: 'Noto Sans Kannada', sans-serif;
+  }
+  select, input[type="text"] {
+    width: 100%; padding: 10px 14px;
+    border: 1.5px solid var(--gray-200); border-radius: 8px;
+    font-size: 14px; font-family: 'Noto Sans Kannada', sans-serif;
+    color: var(--gray-800); background: white;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none; -webkit-appearance: none;
+  }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center;
+    padding-right: 36px;
+  }
+  select:focus, input[type="text"]:focus {
+    outline: none; border-color: var(--saffron);
+    box-shadow: 0 0 0 3px rgba(255,107,0,0.12);
+  }
+  select:disabled, input[type="text"]:disabled {
+    background: var(--gray-50); color: var(--gray-400); cursor: not-allowed;
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+
+  /* UPLOAD ZONE */
+  .upload-zone {
+    border: 2px dashed var(--gray-200); border-radius: var(--radius);
+    padding: 28px 20px; text-align: center; cursor: pointer;
+    transition: all 0.2s; position: relative;
+    background: var(--gray-50);
+  }
+  .upload-zone:hover, .upload-zone.dragover {
+    border-color: var(--saffron); background: #FFF5EC;
+  }
+  .upload-zone.disabled {
+    opacity: 0.5; cursor: not-allowed; pointer-events: none;
+  }
+  .upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+  .upload-icon { font-size: 36px; margin-bottom: 8px; }
+  .upload-zone p { font-size: 14px; color: var(--gray-600); }
+  .upload-zone small { font-size: 12px; color: var(--gray-400); margin-top: 4px; display: block; }
+
+  /* STATUS & PROGRESS */
+  .status-bar {
+    background: var(--gray-50); border: 1px solid var(--gray-200);
+    border-radius: 8px; padding: 12px 16px; margin-top: 12px;
+    display: none;
+  }
+  .status-bar.show { display: block; }
+  .status-text { font-size: 13px; color: var(--gray-600); margin-bottom: 8px; }
+  .progress { background: var(--gray-200); border-radius: 99px; height: 6px; overflow: hidden; }
+  .progress-fill {
+    height: 100%; border-radius: 99px;
+    background: linear-gradient(90deg, var(--saffron), var(--green));
+    transition: width 0.4s ease; width: 0%;
+  }
+
+  /* LOADED PDF CHIPS */
+  .pdf-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .pdf-chip {
+    background: #ECFDF5; border: 1px solid #A7F3D0;
+    border-radius: 99px; padding: 4px 12px;
+    font-size: 12px; color: var(--green); font-family: 'JetBrains Mono', monospace;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .pdf-chip .dot { width: 6px; height: 6px; background: var(--green-light); border-radius: 50%; }
+
+  /* SEARCH */
+  .search-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 12px; align-items: end; }
+  @media (max-width: 600px) { .search-row { grid-template-columns: 1fr; } }
+
+  .btn {
+    padding: 10px 22px; border: none; border-radius: 8px;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    font-family: 'Noto Sans Kannada', sans-serif;
+    transition: all 0.18s; white-space: nowrap;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-primary {
+    background: var(--saffron); color: white;
+  }
+  .btn-primary:hover { background: #E55F00; transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+  .btn-primary:disabled { background: var(--gray-200); color: var(--gray-400); cursor: not-allowed; transform: none; }
+  .btn-sm { padding: 6px 14px; font-size: 13px; }
+  .btn-success { background: var(--green); color: white; }
+  .btn-success:hover { background: #0f6b06; }
+  .btn-outline { background: white; color: var(--gray-600); border: 1.5px solid var(--gray-200); }
+  .btn-outline:hover { border-color: var(--gray-400); background: var(--gray-50); }
+
+  /* RESULTS */
+  .results-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .results-count {
+    font-size: 13px; color: var(--gray-600);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .result-card {
+    border: 1.5px solid var(--gray-200); border-radius: 10px;
+    padding: 16px; margin-bottom: 12px;
+    transition: all 0.18s; position: relative;
+    background: white;
+  }
+  .result-card.best-match {
+    border-color: var(--saffron); background: #FFFAF5;
+  }
+  .result-card.best-match::before {
+    content: '★ Best Match';
+    position: absolute; top: -10px; left: 16px;
+    background: var(--saffron); color: white;
+    font-size: 11px; font-weight: 700; padding: 2px 10px; border-radius: 99px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .result-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px; margin-bottom: 12px;
+  }
+  .result-field label {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px;
+    color: var(--gray-400); margin-bottom: 2px;
+  }
+  .result-field .val {
+    font-size: 15px; font-weight: 600; color: var(--gray-800);
+    font-family: 'Noto Sans Kannada', sans-serif;
+  }
+  .result-field .val.small { font-size: 13px; }
+  mark { background: #FEF3C7; color: inherit; border-radius: 2px; padding: 0 1px; }
+  .result-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+  /* SUCCESS MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000; padding: 16px;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s;
+  }
+  .modal-overlay.show { opacity: 1; pointer-events: all; }
+  .modal {
+    background: white; border-radius: 16px; max-width: 420px; width: 100%;
+    box-shadow: var(--shadow-lg); padding: 32px; text-align: center;
+    transform: translateY(20px); transition: transform 0.2s;
+  }
+  .modal-overlay.show .modal { transform: translateY(0); }
+  .modal .big-check { font-size: 56px; margin-bottom: 12px; }
+  .modal h3 { font-size: 22px; font-weight: 700; color: var(--green); margin-bottom: 8px; }
+  .modal p { color: var(--gray-600); font-size: 15px; margin-bottom: 20px; }
+  .modal-info {
+    background: var(--gray-50); border-radius: 10px; padding: 16px;
+    margin-bottom: 20px; text-align: left;
+  }
+  .modal-info-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 14px; }
+  .modal-info-row span:first-child { color: var(--gray-600); }
+  .modal-info-row span:last-child { font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+
+  /* ALERTS */
+  .alert {
+    padding: 12px 16px; border-radius: 8px; font-size: 13px;
+    margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px;
+  }
+  .alert-warning { background: #FFFBEB; border: 1px solid #FDE68A; color: #92400E; }
+  .alert-error { background: #FEF2F2; border: 1px solid #FECACA; color: #991B1B; }
+  .alert-info { background: #EFF6FF; border: 1px solid #BFDBFE; color: #1E40AF; }
+  .alert-success { background: #ECFDF5; border: 1px solid #A7F3D0; color: #065F46; }
+
+  /* HINT */
+  .hint { font-size: 12px; color: var(--gray-400); margin-top: 5px; }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: var(--gray-100); margin: 16px 0; }
+
+  /* FOOTER */
+  footer {
+    text-align: center; font-size: 12px; color: var(--gray-400);
+    padding: 24px 16px; border-top: 1px solid var(--gray-200);
+    max-width: 900px; margin: 0 auto;
+  }
+
+  /* SPINNER */
+  .spinner {
+    width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: white; border-radius: 50%;
+    animation: spin 0.7s linear infinite; display: inline-block;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .no-results {
+    text-align: center; padding: 32px 16px; color: var(--gray-400);
+  }
+  .no-results .icon { font-size: 40px; margin-bottom: 8px; }
+
+  .tag {
+    display: inline-block; font-size: 11px; padding: 2px 8px;
+    border-radius: 99px; font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+  }
+  .tag-male { background: #DBEAFE; color: #1D4ED8; }
+  .tag-female { background: #FCE7F3; color: #9D174D; }
+  .tag-age { background: var(--gray-100); color: var(--gray-600); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="emblem">🗳️</div>
+    <div class="header-text">
+      <h1>Karnataka Electoral Roll Search</h1>
+      <p>ಕರ್ನಾಟಕ ಮತದಾರರ ಪಟ್ಟಿ ಹುಡುಕಾಟ &nbsp;·&nbsp; Chief Electoral Officer</p>
+    </div>
+  </div>
+</div>
+<div class="tricolor-bar"></div>
+
+<div class="main">
+
+  <!-- STEP 1: SELECT LOCATION -->
+  <div class="card">
+    <div class="card-header">
+      <div class="step-badge">1</div>
+      <h2>Select District & Assembly Constituency | ಜಿಲ್ಲೆ ಮತ್ತು ವಿಧಾನಸಭಾ ಕ್ಷೇತ್ರ ಆಯ್ಕೆ</h2>
+    </div>
+    <div class="card-body">
+      <div class="form-row">
+        <div>
+          <label>District | ಜಿಲ್ಲೆ</label>
+          <select id="districtSelect" onchange="onDistrictChange()">
+            <option value="">— Select District —</option>
+          </select>
+        </div>
+        <div>
+          <label>Assembly Constituency | ವಿಧಾನಸಭಾ ಕ್ಷೇತ್ರ</label>
+          <select id="acSelect" disabled onchange="onACChange()">
+            <option value="">— Select Assembly Constituency —</option>
+          </select>
+        </div>
+      </div>
+      <div id="acInfo" class="alert alert-info" style="margin-top:12px;display:none">
+        <span>ℹ️</span>
+        <span id="acInfoText"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: UPLOAD PDF -->
+  <div class="card">
+    <div class="card-header">
+      <div class="step-badge">2</div>
+      <h2>Upload Electoral Roll PDF | ಮತದಾರರ ಪಟ್ಟಿ PDF ಅಪ್ಲೋಡ್</h2>
+    </div>
+    <div class="card-body">
+      <div id="uploadAlert" class="alert alert-info">
+        <span>👆</span>
+        <span>Please select District and Assembly Constituency first, then upload the PDF part file downloaded from the CEO Karnataka website.</span>
+      </div>
+
+      <div class="upload-zone disabled" id="uploadZone">
+        <input type="file" id="pdfInput" accept=".pdf" onchange="onFileSelected(event)" disabled>
+        <div class="upload-icon">📄</div>
+        <p>Click to upload or drag & drop PDF here</p>
+        <small>File must be in CEO Karnataka format: e.g. <b>A1620037.pdf</b></small>
+      </div>
+
+      <div class="status-bar" id="statusBar">
+        <div class="status-text" id="statusText">Processing...</div>
+        <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+
+      <div id="loadedPdfs" class="pdf-chips" style="margin-top:12px;"></div>
+    </div>
+  </div>
+
+  <!-- STEP 3: SEARCH -->
+  <div class="card">
+    <div class="card-header">
+      <div class="step-badge">3</div>
+      <h2>Search Voter | ಮತದಾರರ ಹೆಸರು ಹುಡುಕಿ</h2>
+    </div>
+    <div class="card-body">
+      <div class="search-row">
+        <div>
+          <label>Your Name | ನಿಮ್ಮ ಹೆಸರು (full or partial)</label>
+          <input type="text" id="searchName" placeholder="e.g. Syed or ಸ್ಯೆಯದ್" disabled>
+          <div class="hint">Works in English, Kannada, or any phonetic spelling</div>
+        </div>
+        <div>
+          <label>Father's / Husband's Name | ತಂದೆ / ಗಂಡನ ಹೆಸರು</label>
+          <input type="text" id="searchRelative" placeholder="e.g. Mohammed or partial name" disabled>
+          <div class="hint">Optional — helps narrow down results</div>
+        </div>
+        <div>
+          <button class="btn btn-primary" id="searchBtn" onclick="performSearch()" disabled>
+            🔍 Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="resultsSection" style="display:none">
+    <div class="results-header">
+      <div class="results-count" id="resultsCount"></div>
+      <button class="btn btn-outline btn-sm" onclick="clearResults()">✕ Clear</button>
+    </div>
+    <div id="resultsContainer"></div>
+  </div>
+
+</div><!-- /main -->
+
+<footer>
+  <p>This tool is for community service. Data is sourced from official CEO Karnataka electoral rolls.</p>
+  <p style="margin-top:4px">ಈ ಸೇವೆ ಸಮುದಾಯ ಸೇವೆಗಾಗಿ · All data stored locally in your browser</p>
+</footer>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="successModal">
+  <div class="modal">
+    <div class="big-check">✅</div>
+    <h3>Voter Found! | ಮತದಾರರು ಪತ್ತೆಯಾಗಿದ್ದಾರೆ!</h3>
+    <p>Your voter details have been located in the electoral roll.</p>
+    <div class="modal-info" id="modalInfo"></div>
+    <p style="font-size:12px;color:var(--gray-400)">Please note these details for your reference.</p>
+    <button class="btn btn-success" onclick="closeModal()" style="width:100%">Done | ಮುಗಿಯಿತು</button>
+  </div>
+</div>
+
+<script>
+// ====================================================================
+// DATA: DISTRICTS & ASSEMBLY CONSTITUENCIES
+// ====================================================================
+const AC_DATA = {
+  "BAGALKOT": [
+    {name:"Jamkhandi",num:"A210"},{name:"Bilgi",num:"A211"},{name:"Mudhol",num:"A212"},
+    {name:"Bagalkot",num:"A213"},{name:"Badami",num:"A214"},{name:"Gulegud",num:"A215"},{name:"Hungund",num:"A216"}
+  ],
+  "BANGALORE RURAL": [
+    {name:"Kanakapura",num:"A091"},{name:"Sathanur",num:"A092"},{name:"Channapatna",num:"A093"},
+    {name:"Ramanagar",num:"A094"},{name:"Magadi",num:"A095"},{name:"Nelamangala",num:"A096"},
+    {name:"Doddaballapur",num:"A097"},{name:"Devanahalli",num:"A098"},{name:"Hosakote",num:"A099"}
+  ],
+  "BANGALORE URBAN": [
+    {name:"Yelahanka",num:"A088"},{name:"Uttarahalli",num:"A089"},{name:"Varthur",num:"A090"},{name:"Anekal",num:"A100"}
+  ],
+  "BBMP": [
+    {name:"Malleshwaram",num:"A076"},{name:"Rajaji Nagar",num:"A077"},{name:"Gandhi Nagar",num:"A078"},
+    {name:"Chickpet",num:"A079"},{name:"Binnypet",num:"A080"},{name:"Chamrajpet",num:"A081"},
+    {name:"Basavanagudi",num:"A082"},{name:"Jayanagar",num:"A083"},{name:"Shanti Nagar",num:"A084"},
+    {name:"Shivajinagar",num:"A085"},{name:"Bharathinagar",num:"A086"},{name:"Jayamahal",num:"A087"}
+  ],
+  "BELGAUM": [
+    {name:"Ramdurg",num:"A192"},{name:"Saundatti",num:"A193"},{name:"Bailhongal",num:"A194"},
+    {name:"Kittur",num:"A195"},{name:"Khanapur",num:"A196"},{name:"Belgaum",num:"A197"},
+    {name:"Uchagaon",num:"A198"},{name:"Bagewadi",num:"A199"},{name:"Gokak",num:"A200"},
+    {name:"Arabhavi",num:"A201"},{name:"Hukkeri",num:"A202"},{name:"Sankeshwar",num:"A203"},
+    {name:"Nippani",num:"A204"},{name:"Sadalga",num:"A205"},{name:"Chikkodi",num:"A206"},
+    {name:"Raibag",num:"A207"},{name:"Kagwad",num:"A208"},{name:"Athani",num:"A209"}
+  ],
+  "BELLARY": [
+    {name:"Siruguppa",num:"A031"},{name:"Kurugodu",num:"A032"},{name:"Bellary",num:"A033"},
+    {name:"Hospet",num:"A034"},{name:"Sandur",num:"A035"},{name:"Kudligi",num:"A036"},
+    {name:"Kottur",num:"A037"},{name:"Hadagali",num:"A038"}
+  ],
+  "BIDAR": [
+    {name:"Aurad",num:"A001"},{name:"Bhalki",num:"A002"},{name:"Hulsoor",num:"A003"},
+    {name:"Bidar",num:"A004"},{name:"Humnabad",num:"A005"},{name:"Basavakalyan",num:"A006"}
+  ],
+  "BIJAPURA": [
+    {name:"Muddebihal",num:"A217"},{name:"Huvina Hipparagi",num:"A218"},{name:"Basavana Bagevadi",num:"A219"},
+    {name:"Tikota",num:"A220"},{name:"Bijapur",num:"A221"},{name:"Ballolli",num:"A222"},
+    {name:"Indi",num:"A223"},{name:"Sindagi",num:"A224"}
+  ],
+  "CHAMARAJANAGAR": [
+    {name:"Hanur",num:"A110"},{name:"Kollegal",num:"A111"},{name:"Santhemarahalli",num:"A119"},
+    {name:"Chamarajanagar",num:"A120"},{name:"Gundlupet",num:"A121"}
+  ],
+  "CHIKKAMAGALURU": [
+    {name:"Sringeri",num:"A152"},{name:"Mudigere",num:"A153"},{name:"Chikmagalur",num:"A154"},
+    {name:"Birur",num:"A155"},{name:"Kadur",num:"A156"},{name:"Tarikere",num:"A157"}
+  ],
+  "CHITRADURGA": [
+    {name:"Bharamasagara",num:"A043"},{name:"Chitradurga",num:"A044"},{name:"Molakalmuru",num:"A046"},
+    {name:"Challakere",num:"A047"},{name:"Hiriyur",num:"A048"},{name:"Holalkere",num:"A049"},{name:"Hosadurga",num:"A050"}
+  ],
+  "DAKSHINA KANNADA": [
+    {name:"Sullia",num:"A137"},{name:"Puttur",num:"A138"},{name:"Vittla",num:"A139"},
+    {name:"Belthangady",num:"A140"},{name:"Bantval",num:"A141"},{name:"Mangalore",num:"A142"},
+    {name:"Ullal",num:"A143"},{name:"Surathkal",num:"A144"},{name:"Moodabidri",num:"A151"}
+  ],
+  "DAVANGERE": [
+    {name:"Harapanahalli",num:"A039"},{name:"Harihar",num:"A040"},{name:"Davanagere",num:"A041"},
+    {name:"Mayakonda",num:"A042"},{name:"Jagalur",num:"A045"},{name:"Channagiri",num:"A158"},{name:"Honnali",num:"A161"}
+  ],
+  "DHARWAD": [
+    {name:"Dharwad Rural",num:"A174"},{name:"Dharwad",num:"A175"},{name:"Hubli",num:"A176"},
+    {name:"Hubli Rural",num:"A177"},{name:"Kalghatgi",num:"A178"},{name:"Kundgol",num:"A179"},{name:"Navalgund",num:"A191"}
+  ],
+  "GADAG": [
+    {name:"Shirahatti",num:"A186"},{name:"Mundargi",num:"A187"},{name:"Gadag",num:"A188"},
+    {name:"Ron",num:"A189"},{name:"Nargund",num:"A190"}
+  ],
+  "GULBARGA": [
+    {name:"Chincholi",num:"A007"},{name:"Kamalapur",num:"A008"},{name:"Aland",num:"A009"},
+    {name:"Gulbarga",num:"A010"},{name:"Shahabad",num:"A011"},{name:"Afzalpur",num:"A012"},
+    {name:"Chittapur",num:"A013"},{name:"Sedam",num:"A014"},{name:"Jevargi",num:"A015"},
+    {name:"Gurmitkal",num:"A016"},{name:"Yadgir",num:"A017"},{name:"Shahapur",num:"A018"},{name:"Shorapur",num:"A019"}
+  ],
+  "HASSAN": [
+    {name:"Belur",num:"A129"},{name:"Arsikere",num:"A130"},{name:"Gandasi",num:"A131"},
+    {name:"Shravanabelagola",num:"A132"},{name:"Holenarasipur",num:"A133"},{name:"Arkalgud",num:"A134"},
+    {name:"Hassan",num:"A135"},{name:"Sakleshpur",num:"A136"}
+  ],
+  "HAVERI": [
+    {name:"Shiggaon",num:"A180"},{name:"Hangal",num:"A181"},{name:"Hirekerur",num:"A182"},
+    {name:"Ranibennur",num:"A183"},{name:"Byadgi",num:"A184"},{name:"Haveri",num:"A185"}
+  ],
+  "KODAGU": [{name:"Virajpet",num:"A126"},{name:"Madikeri",num:"A127"},{name:"Somwarpet",num:"A128"}],
+  "KOLAR": [
+    {name:"Gauribidanur",num:"A064"},{name:"Chikballapur",num:"A065"},{name:"Sidlaghatta",num:"A066"},
+    {name:"Bagepalli",num:"A067"},{name:"Chintamani",num:"A068"},{name:"Srinivasapur",num:"A069"},
+    {name:"Mulbagal",num:"A070"},{name:"Kolar Gold Field",num:"A071"},{name:"Bethamangala",num:"A072"},
+    {name:"Kolar",num:"A073"},{name:"Vemagal",num:"A074"},{name:"Malur",num:"A075"}
+  ],
+  "KOPPAL": [
+    {name:"Kushtagi",num:"A026"},{name:"Yelburga",num:"A027"},{name:"Kanakagiri",num:"A028"},
+    {name:"Gangawati",num:"A029"},{name:"Koppal",num:"A030"}
+  ],
+  "MANDYA": [
+    {name:"Nagamangala",num:"A101"},{name:"Maddur",num:"A102"},{name:"Kiragaval",num:"A103"},
+    {name:"Malavalli",num:"A104"},{name:"Mandya",num:"A105"},{name:"Keragodu",num:"A106"},
+    {name:"Shrirangapattana",num:"A107"},{name:"Pandavapura",num:"A108"},{name:"Krishnarajpete",num:"A109"}
+  ],
+  "MYSORE": [
+    {name:"Bannur",num:"A112"},{name:"T. Narasipur",num:"A113"},{name:"Krishnaraja",num:"A114"},
+    {name:"Chamaraja",num:"A115"},{name:"Narasimharaja",num:"A116"},{name:"Chamundeshwari",num:"A117"},
+    {name:"Nanjangud",num:"A118"},{name:"Heggadadevankote",num:"A122"},{name:"Hunsur",num:"A123"},
+    {name:"Krishnarajanagara",num:"A124"},{name:"Periyapatna",num:"A125"}
+  ],
+  "RAICHUR": [
+    {name:"Devadurga",num:"A020"},{name:"Raichur",num:"A021"},{name:"Kalmala",num:"A022"},
+    {name:"Manvi",num:"A023"},{name:"Lingsugur",num:"A024"},{name:"Sindhanur",num:"A025"}
+  ],
+  "SHIVAMOGGA": [
+    {name:"Holehonnur",num:"A159"},{name:"Bhadravati",num:"A160"},{name:"Shimoga",num:"A162"},
+    {name:"Tirthahalli",num:"A163"},{name:"Hosanagar",num:"A164"},{name:"Sagar",num:"A165"},
+    {name:"Sorab",num:"A166"},{name:"Shikaripura",num:"A167"}
+  ],
+  "TUMKUR": [
+    {name:"Pavagada",num:"A051"},{name:"Sira",num:"A052"},{name:"Kalambella",num:"A053"},
+    {name:"Bellavi",num:"A054"},{name:"Madhugiri",num:"A055"},{name:"Koratagere",num:"A056"},
+    {name:"Tumkur",num:"A057"},{name:"Kunigal",num:"A058"},{name:"Huliyurdurga",num:"A059"},
+    {name:"Gubbi",num:"A060"},{name:"Turuvekere",num:"A061"},{name:"Tiptur",num:"A062"},{name:"Chikkanayakanahalli",num:"A063"}
+  ],
+  "UDUPI": [
+    {name:"Kapu",num:"A145"},{name:"Udupi",num:"A146"},{name:"Brahmavar",num:"A147"},
+    {name:"Kundapura",num:"A148"},{name:"Byndoor",num:"A149"},{name:"Karkala",num:"A150"}
+  ],
+  "UTTAR KANNADA": [
+    {name:"Sirsi",num:"A168"},{name:"Bhatkal",num:"A169"},{name:"Kumta",num:"A170"},
+    {name:"Ankola",num:"A171"},{name:"Karwar",num:"A172"},{name:"Haliyal",num:"A173"}
+  ]
+};
+
+// ====================================================================
+// TRANSLITERATION — Latin phonetic to Kannada variants
+// ====================================================================
+const PHONETIC_MAP = {
+  // ---- Muslim / Urdu names ----
+  "syed":       ["ಸ್ಯೆಯದ್","ಸೈಯದ್","ಸಯ್ಯದ್","ಸ್ಯೆಯದ"],
+  "syeda":      ["ಸ್ಯೆಯದಾ","ಸೈಯದಾ","ಸ್ಯೆದಾ"],
+  "khan":       ["ಖಾನ್","ಖಾನ","ಖಾನ್ ","ಖಾನ "],
+  "khanum":     ["ಖಾನಂ","ಖಾನುಂ","ಖಾನಮ್"],
+  "pasha":      ["ಪಾಶ","ಪಾಷ","ಬಾಶ","ಬಾಷ"],
+  "basha":      ["ಬಾಶ","ಬಾಷ","ಬಾಸ","ಪಾಶ"],
+  "mohammed":   ["ಮಹಮದ್","ಮೊಹಮ್ಮದ್","ಮುಹಮ್ಮದ್","ಮಹಮ್ಮದ","ಮೊಹಮದ್","ಮಹಮ್ಮದ್","ಮೊಹಮ್ಮದ"],
+  "mohammad":   ["ಮಹಮದ್","ಮೊಹಮ್ಮದ್","ಮೊಹಮದ್","ಮಹಮ್ಮದ್"],
+  "mohamad":    ["ಮಹಮದ್","ಮೊಹಮದ್"],
+  "mohamed":    ["ಮಹಮದ್","ಮೊಹಮದ್","ಮುಹಮ್ಮದ್"],
+  "muhammed":   ["ಮುಹಮ್ಮದ್","ಮಹಮದ್"],
+  "banu":       ["ಬಾನು","ಬಾನ್","ಭಾನು","ಬಾನ"],
+  "begum":      ["ಬೇಗಂ","ಬೇಗಮ್","ಬೇಗುಂ","ಬೀಗಂ","ಬೇಗಂ","ಬೇಗಮ"],
+  "akram":      ["ಅಕ್ರಮ್","ಅಕ್ರಮ"],
+  "bibi":       ["ಬೀಬಿ","ಬಿಬಿ"],
+  "shabana":    ["ಶಬಾನ","ಶಬಾನ","ಷಬಾನ","ಶಬಾನಾ"],
+  "fatima":     ["ಫಾತಿಮ","ಫಾತಿಮ","ಫಾತ್ಮಾ","ಫಾತಿಮಾ"],
+  "abdul":      ["ಅಬ್ದುಲ್","ಅಬ್ಬೂಲ್","ಅಬ್ದುಲ"],
+  "ibrahim":    ["ಇಬ್ರಾಹಿಂ","ಇಬ್ರಾಹಿಮ್"],
+  "hassan":     ["ಹಸನ್","ಹಸನ","ಹಾಸನ್"],
+  "hussain":    ["ಹುಸೇನ್","ಹುಸೈನ್","ಹುಸ್ಸೇನ್"],
+  "hussein":    ["ಹುಸೇನ್","ಹುಸೈನ್"],
+  "imaam":      ["ಇಮಾಮ್","ಇಮಾಮ"],
+  "imam":       ["ಇಮಾಮ್","ಇಮಾಮ"],
+  "nazeer":     ["ನಜೀರ್","ನಜೀರ"],
+  "nazar":      ["ನಜರ್","ನಜ಼ರ"],
+  "rasheed":    ["ರಶೀದ್","ರಶೀದ"],
+  "rashid":     ["ರಶೀದ್","ರಾಷಿದ್"],
+  "saleem":     ["ಸಲೀಮ್","ಸಲೀಮ"],
+  "salim":      ["ಸಲೀಮ್","ಸಲಿಮ್"],
+  "shareef":    ["ಶರೀಫ್","ಷರೀಫ್"],
+  "sharif":     ["ಶರೀಫ್","ಷರೀಫ್"],
+  "shabbir":    ["ಶಬ್ಬೀರ್","ಸಬ್ಬೀರ"],
+  "jabeer":     ["ಜಬೀರ್","ಜಬೀರ"],
+  "jabir":      ["ಜಬೀರ್","ಜಾಬಿರ"],
+  "kareem":     ["ಕರೀಮ","ಕರೀಮ್"],
+  "karim":      ["ಕರೀಮ","ಕರಿಮ್"],
+  "rahim":      ["ರಹೀಮ","ರಹಿಮ್"],
+  "raheem":     ["ರಹೀಮ","ರಹೀಮ್"],
+  "aminabi":    ["ಅಮೀನಾ ಬಿ","ಅಮೀನಾಬಿ"],
+  "amina":      ["ಅಮೀನಾ","ಅಮಿನ"],
+  "aisha":      ["ಐಶ","ಆಯಿಶ"],
+  "ayesha":     ["ಐಶ","ಅಯೇಶಾ"],
+  "sakeena":    ["ಸಕೀನ","ಸಖೀನ"],
+  "zubaida":    ["ಜುಬೇದಾ","ಜ಼ುಬೈದ"],
+  "zubeida":    ["ಜುಬೇದಾ","ಜ಼ುಬೈದ"],
+  "mujeer":     ["ಮುಜೀರ","ಮುಜೀರ್"],
+  "fayaz":      ["ಫಯಾಜ","ಫಯಾಜ್"],
+  "faiyaz":     ["ಫಯಾಜ","ಫಯ್ಯಾಜ"],
+  "noorulla":   ["ನೂರುಲ್ಲ","ನೂರ್ ಉಲ್ಲ"],
+  "noorullakhan":["ನೂರುಲ್ಲಾಖಾನ್","ನೂರ್ ಉಲ್ಲ ಖಾನ"],
+  "khillemualla":["ಖಿಲೇಮುಲ್ಲ","ಖಿಲೇಮುಲ್ಲಾ"],
+  "sultana":    ["ಸುಲ್ತಾನ","ಸುಲ್ಥಾನ"],
+  "sultan":     ["ಸುಲ್ತಾನ","ಸುಲ್ಥಾನ"],
+  "majeed":     ["ಮಜೀದ","ಮಜೀದ್"],
+  "taher":      ["ತಾಹೆರ","ತಾಹಿರ"],
+  "tahir":      ["ತಾಹಿರ","ತಾಹೆರ"],
+  "wahab":      ["ವಹಾಬ","ವಾಹಬ"],
+  "waliulla":   ["ವಲೀಉಲ್ಲ","ವಲಿ ಉಲ್ಲ"],
+  // ---- Hindu / Kannada names ----
+  "kumar":      ["ಕುಮಾರ್","ಕುಮಾರ"],
+  "lakshmi":    ["ಲಕ್ಷ್ಮಿ","ಲಕ್ಷ್ಮಮ್ಮ","ಲಕ್ಷ್ಮೀ"],
+  "venkatesh":  ["ವೆಂಕಟೇಶ್","ವೆಂಕಟೇಶ"],
+  "narayana":   ["ನಾರಾಯಣ","ನಾರಾಯಣ್"],
+  "ramesh":     ["ರಮೇಶ್","ರಮೇಶ"],
+  "suresh":     ["ಸುರೇಶ್","ಸುರೇಶ"],
+  "shivakumar": ["ಶಿವಕುಮಾರ್","ಶಿವಕುಮಾರ"],
+  "manjula":    ["ಮಂಜುಲ","ಮಂಜುಳ"],
+  "rajesh":     ["ರಾಜೇಶ","ರಾಜೇಶ್"],
+  "girish":     ["ಗಿರೀಶ","ಗಿರೀಶ್"],
+  "mahesh":     ["ಮಹೇಶ","ಮಹೇಶ್"],
+  "ganesh":     ["ಗಣೇಶ","ಗಣೇಶ್"],
+  "ravi":       ["ರವಿ","ರವಿ"],
+  "rupa":       ["ರೂಪ","ರೂಪಾ"],
+  "sunitha":    ["ಸುನಿತ","ಸುನೀತ"],
+  "savitha":    ["ಸಾವಿತ","ಸಾವಿತ್ರಿ"],
+  "kavitha":    ["ಕಾವ್ಯ","ಕಾವಿತ"],
+  "anitha":     ["ಅನಿತ","ಅನೀತ"],
+  "rekha":      ["ರೇಖ","ರೇಖಾ"],
+  "usha":       ["ಉಷ","ಉಷಾ"],
+  "pushpa":     ["ಪುಷ್ಪ","ಪುಷ್ಪ"],
+  "geetha":     ["ಗೀತ","ಗೀತಾ"],
+  "nandini":    ["ನಂದಿನಿ","ನಂದಿನಿ"],
+  "sridevi":    ["ಶ್ರೀದೇವಿ","ಸ್ರೀದೇವಿ"],
+  "basavaraj":  ["ಬಸವರಾಜ","ಬಸವರಾಜ್"],
+  "nagaraj":    ["ನಾಗರಾಜ","ನಾಗರಾಜ್"],
+  "shivaraj":   ["ಶಿವರಾಜ","ಶಿವರಾಜ್"],
+  "muniswamy":  ["ಮುನಿಸ್ವಾಮಿ","ಮುನಿಸ್ವಾಮಿ"],
+  "rangaswamy": ["ರಂಗಸ್ವಾಮಿ","ರಂಗಸ್ವಾಮಿ"],
+  "thimmaiah":  ["ತಿಮ್ಮಯ್ಯ","ತಿಮ್ಮಪ್ಪ"],
+  "hanumantha": ["ಹನುಮಂತ","ಹನುಮಂತಪ್ಪ"],
+  "siddappa":   ["ಸಿದ್ದಪ್ಪ","ಸಿದ್ದ"],
+  "lingappa":   ["ಲಿಂಗಪ್ಪ","ಲಿಂಗ"],
+  "venkatarao": ["ವೆಂಕಟರಾವ","ವೆಂಕಟ ರಾವ"],
+  "chendraiah": ["ಚೆಂದ್ರಯ್ಯ","ಚಂದ್ರಯ್ಯ"],
+  "nanjaiah":   ["ನಂಜಯ್ಯ","ನಂಜಪ್ಪ"],
+  "munirajappa":["ಮುನಿರಾಜಪ್ಪ","ಮುನಿರಾಜ"],
+  "krishna":    ["ಕೃಷ್ಣ","ಕ್ರಿಷ್ಣ"],
+  "rama":       ["ರಾಮ","ರಾಮ"],
+  "srinivas":   ["ಶ್ರೀನಿವಾಸ","ಸ್ರೀನಿವಾಸ"],
+  "manjunath":  ["ಮಂಜುನಾಥ","ಮಂಜುನಾಥ್"],
+  "subramani":  ["ಸುಬ್ರಮಣಿ","ಸುಬ್ರಹ್ಮಣ್ಯ"],
+  "shivashankar":["ಶಿವಶಂಕರ","ಶಿವಶಂಕರ್"],
+  "bhaskar":    ["ಭಾಸ್ಕರ","ಭಾಸ್ಕರ್"],
+  "siddalingaiah":["ಸಿದ್ದಲಿಂಗಯ್ಯ","ಸಿದ್ದಲಿಂಗ"],
+  "ashwath":    ["ಅಶ್ವತ್","ಅಶ್ವಥ"],
+  "ashwathappa":["ಅಶ್ವತ್ಥಪ್ಪ","ಅಶ್ವತ್ಪ್ಪ"],
+  "gurappa":    ["ಗುರಪ್ಪ","ಗುರಪ್ಪ"],
+  "rudra":      ["ರುದ್ರ","ರುದ್ರ"]
+};
+
+// ====================================================================
+// PHONETIC NORMALIZATION: map common char sequences
+// ====================================================================
+const PHONETIC_NORMALIZE = [
+  [/ಸ್ಯೆ/g,   "sye"],
+  [/ಸ್ಯ/g,    "sy"],
+  [/ಯದ್/g,   "yad"],
+  [/ಖಾನ/g,   "khan"],
+  [/ಬೇಗ/g,   "beg"],
+  [/ಮಹಮ/g,   "moham"],
+  [/ಮುಹ/g,   "muh"],
+  [/ಮೊಹ/g,   "moh"],
+  [/ಕುಮಾರ/g, "kumar"],
+  [/ಲಕ್ಷ್ಮ/g, "lakshm"],
+  [/ರಮೇಶ/g,  "ramesh"],
+  [/ಸುರೇಶ/g, "suresh"],
+  [/ನಾರಾಯಣ/g,"narayana"],
+  [/ರಾಜೇಶ/g, "rajesh"],
+  [/ಹನುಮ/g,  "hanum"],
+  [/ಸಿದ್ದ/g, "sidda"],
+  [/ಫಾತಿಮ/g, "fatim"],
+  [/ಬಾನು/g,  "banu"],
+  [/ಶಬಾನ/g,  "shaban"],
+  [/ಅಕ್ರಮ/g, "akram"],
+  [/ಇಬ್ರಾಹಿಂ/g,"ibrahim"],
+  [/ಹುಸೇನ/g, "hussain"],
+  [/ಫಯಾಜ/g,  "fayaz"],
+  [/ನೂರ/g,   "noor"],
+  [/ಮಂಜುನಾಥ/g,"manjunath"],
+  [/ಮಂಜ/g,   "manj"],
+  [/ಗಣೇಶ/g,  "ganesh"],
+  [/ಲಿಂಗ/g,  "linga"],
+  [/ಬಸವ/g,   "basava"],
+  [/ವೆಂಕಟ/g, "venkata"]
+];
+
+// ====================================================================
+// STATE
+// ====================================================================
+let currentAC = null;
+let voterDB = {};      // key = "AC_PARTNUM" => array of voter records
+let fuseInstances = {}; // key = "AC_PARTNUM" => Fuse instance
+let currentSearchScope = []; // which DB keys to search
+
+// Disable worker to avoid blob:// CSP errors in sandboxed iframes
+pdfjsLib.GlobalWorkerOptions.workerSrc = '';
+
+// ====================================================================
+// INIT
+// ====================================================================
+window.onload = function() {
+  loadFromStorage();
+  populateDistricts();
+};
+
+function loadFromStorage() {
+  try {
+    const saved = localStorage.getItem('electoralDB');
+    if (saved) {
+      voterDB = JSON.parse(saved);
+      Object.keys(voterDB).forEach(key => buildFuseIndex(key));
+    }
+  } catch(e) { voterDB = {}; }
+}
+
+function saveToStorage() {
+  try { localStorage.setItem('electoralDB', JSON.stringify(voterDB)); }
+  catch(e) { console.warn('Storage full, could not save'); }
+}
+
+// ====================================================================
+// DROPDOWNS
+// ====================================================================
+function populateDistricts() {
+  const sel = document.getElementById('districtSelect');
+  Object.keys(AC_DATA).sort().forEach(d => {
+    const opt = document.createElement('option');
+    opt.value = d; opt.textContent = d;
+    sel.appendChild(opt);
+  });
+}
+
+function onDistrictChange() {
+  const district = document.getElementById('districtSelect').value;
+  const acSel = document.getElementById('acSelect');
+  acSel.innerHTML = '<option value="">— Select Assembly Constituency —</option>';
+  acSel.disabled = !district;
+  document.getElementById('acInfo').style.display = 'none';
+  currentAC = null;
+  updateUploadState();
+  if (!district) return;
+  (AC_DATA[district] || []).forEach(ac => {
+    const opt = document.createElement('option');
+    opt.value = ac.num;
+    opt.textContent = `${ac.name} (${ac.num})`;
+    acSel.appendChild(opt);
+  });
+}
+
+function onACChange() {
+  const acNum = document.getElementById('acSelect').value;
+  if (!acNum) { currentAC = null; updateUploadState(); return; }
+  currentAC = acNum;
+  const numericAC = acNum.replace('A','');
+  const infoEl = document.getElementById('acInfo');
+  document.getElementById('acInfoText').textContent =
+    `AC Number: ${numericAC} | Expected PDF naming: A${numericAC}XXXX.pdf  (e.g. A${numericAC}0001.pdf for Part 1)`;
+  infoEl.style.display = 'flex';
+  updateUploadState();
+  refreshLoadedChips();
+}
+
+function updateUploadState() {
+  const ready = !!currentAC;
+  const zone = document.getElementById('uploadZone');
+  const input = document.getElementById('pdfInput');
+  const alertEl = document.getElementById('uploadAlert');
+  zone.classList.toggle('disabled', !ready);
+  input.disabled = !ready;
+  alertEl.style.display = ready ? 'none' : 'flex';
+  document.getElementById('searchName').disabled = !ready;
+  document.getElementById('searchRelative').disabled = !ready;
+  document.getElementById('searchBtn').disabled = !ready;
+}
+
+// ====================================================================
+// FILE SELECTION & VALIDATION
+// ====================================================================
+function onFileSelected(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  event.target.value = ''; // reset so same file can be re-selected
+
+  const filename = file.name;
+  // Validate format: A<3digits><3+digits>.pdf
+  const match = filename.match(/^A(\d{3})0(\d{3})\.pdf$/i);
+  if (!match) {
+    showAlert('error',
+      `❌ Invalid filename: <b>${filename}</b><br>
+       Expected format: <b>A${currentAC.replace('A','')}0XXX.pdf</b> (as downloaded from CEO Karnataka website).
+       Please do not rename the file.`);
+    return;
+  }
+
+  const fileAC = match[1];
+  const partNum = match[2];
+  const expectedAC = currentAC.replace('A','');
+
+  if (fileAC !== expectedAC) {
+    showAlert('error',
+      `❌ AC mismatch! File is for AC <b>${fileAC}</b> but you selected AC <b>${expectedAC}</b>.<br>
+       Please select the correct Assembly Constituency or upload the correct file.`);
+    return;
+  }
+
+  const dbKey = `${currentAC}_${partNum}`;
+  if (voterDB[dbKey]) {
+    showAlert('success', `✅ Part <b>${partNum}</b> of AC <b>${currentAC}</b> is already loaded from previous session! Ready to search.`);
+    currentSearchScope = getSearchScope();
+    return;
+  }
+
+  processPDF(file, dbKey, partNum);
+}
+
+function getSearchScope() {
+  if (!currentAC) return [];
+  return Object.keys(voterDB).filter(k => k.startsWith(currentAC + '_'));
+}
+
+// Drag and drop
+const uploadZone = document.getElementById('uploadZone');
+uploadZone.addEventListener('dragover', e => {
+  e.preventDefault(); uploadZone.classList.add('dragover');
+});
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault(); uploadZone.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file) onFileSelected({target:{files:[file],value:''}});
+});
+
+// ====================================================================
+// PDF PROCESSING — tries direct text first, falls back to OCR
+// ====================================================================
+async function processPDF(file, dbKey, partNum) {
+  showStatus('Loading PDF...', 3);
+  try {
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+    const totalPages = pdf.numPages;
+
+    // Step 1: try direct text extraction (fast, works if PDF has embedded text)
+    showStatus('Checking for embedded text...', 6);
+    let allRecords = await tryDirectExtract(pdf, totalPages);
+
+    // Step 2: if direct extraction yielded nothing, use OCR
+    if (allRecords.length === 0) {
+      showAlert('info',
+        `ℹ️ This is a scanned PDF. Starting OCR — this takes 1–3 minutes for ${totalPages} pages. Please wait.`);
+      allRecords = await runOCR(pdf, totalPages);
+    }
+
+    if (allRecords.length === 0) {
+      showAlert('error',
+        `❌ Could not extract any voter records from this PDF.<br>
+         Possible reasons: very low scan resolution, or the PDF is password-protected.`);
+      hideStatus(); return;
+    }
+
+    voterDB[dbKey] = allRecords;
+    buildFuseIndex(dbKey);
+    saveToStorage();
+    currentSearchScope = getSearchScope();
+
+    showStatus(`✅ Done! ${allRecords.length} voter records loaded from Part ${partNum}.`, 100);
+    setTimeout(hideStatus, 4000);
+    refreshLoadedChips();
+
+  } catch(err) {
+    showAlert('error', `❌ Error reading PDF: ${err.message}`);
+    hideStatus();
+  }
+}
+
+// ====================================================================
+// STRATEGY 1: Direct PDF text extraction
+// ====================================================================
+async function tryDirectExtract(pdf, totalPages) {
+  let allRecords = [];
+  for (let i = 1; i <= totalPages; i++) {
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    if (content.items.length > 10) {
+      allRecords = allRecords.concat(parseTextItems(content.items));
+    }
+  }
+  return allRecords;
+}
+
+// ====================================================================
+// STRATEGY 2: OCR using Tesseract.js (for scanned PDFs)
+// ====================================================================
+async function runOCR(pdf, totalPages) {
+  let allRecords = [];
+
+  // Safety check — confirm Tesseract loaded
+  if (typeof Tesseract === 'undefined') {
+    showAlert('error',
+      `❌ OCR library (Tesseract.js) failed to load.<br>
+       Please check your internet connection and reload the page. 
+       If the problem persists, open the page on a different browser (Chrome recommended).`);
+    return [];
+  }
+
+  // Create Tesseract worker with Kannada + English
+  showStatus('Loading OCR engine (Kannada + English)...', 8);
+  // Provide explicit CDN paths so Tesseract doesn't use blob:// URLs
+  const TESS_CDN = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/';
+  const TESS_LANG = 'https://cdn.jsdelivr.net/npm/tesseract.js-data@4.0.0/';
+  const worker = await Tesseract.createWorker(['kan', 'eng'], 1, {
+    workerPath:  TESS_CDN + 'worker.min.js',
+    corePath:    TESS_CDN + 'tesseract-core-simd-lstm.wasm.js',
+    langPath:    TESS_LANG,
+    logger: m => {
+      if (m.status === 'recognizing text') {
+        const p = 10 + Math.round((currentOCRPage / totalPages) * 85);
+        const inner = Math.round(m.progress * 100);
+        showStatus('OCR page ' + currentOCRPage + '/' + totalPages + ' — ' + inner + '%', p);
+      }
+    }
+  });
+
+  // Tune Tesseract for tabular data
+  await worker.setParameters({
+    tessedit_pageseg_mode: '6',   // assume uniform block of text
+    preserve_interword_spaces: '1'
+  });
+
+  let currentOCRPage = 1;
+  for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
+    currentOCRPage = pageNum;
+    const pct = 10 + Math.round((pageNum / totalPages) * 85);
+    showStatus(`OCR: page ${pageNum} of ${totalPages}... (please wait)`, pct);
+
+    // Render PDF page to canvas at 2.5× scale for better OCR accuracy
+    const page = await pdf.getPage(pageNum);
+    const viewport = page.getViewport({scale: 2.5});
+    const canvas = document.createElement('canvas');
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    await page.render({
+      canvasContext: canvas.getContext('2d'),
+      viewport
+    }).promise;
+
+    // Run OCR
+    const { data } = await worker.recognize(canvas);
+    const pageRecords = parseOCRText(data.text);
+    allRecords = allRecords.concat(pageRecords);
+
+    // Also store raw OCR lines for fuzzy fallback
+    if (pageRecords.length === 0 && data.text.trim().length > 50) {
+      // Store raw lines as minimal records so at least name search works
+      const rawRecords = parseOCRTextLoose(data.text);
+      allRecords = allRecords.concat(rawRecords);
+    }
+  }
+
+  await worker.terminate();
+  return allRecords;
+}
+
+// ====================================================================
+// PARSER 1: For direct text extraction (structured PDF items)
+// ====================================================================
+function parseTextItems(items) {
+  const records = [];
+  const lines = {};
+  items.forEach(item => {
+    const y = Math.round(item.transform[5] / 3) * 3;
+    if (!lines[y]) lines[y] = [];
+    lines[y].push({text: item.str, x: item.transform[4]});
+  });
+  Object.keys(lines).map(Number).sort((a,b) => b-a).forEach(y => {
+    const lineText = lines[y].sort((a,b)=>a.x-b.x).map(i=>i.str).join(' ').replace(/\s+/g,' ').trim();
+    const r = matchVoterLine(lineText);
+    if (r) records.push(r);
+  });
+  return records;
+}
+
+// ====================================================================
+// PARSER 2: For OCR text (line-by-line from Tesseract output)
+// ====================================================================
+function parseOCRText(text) {
+  const records = [];
+  const lines = text.split('\n');
+
+  for (let i = 0; i < lines.length; i++) {
+    // Sometimes OCR splits one row across 2 lines — try merging with next
+    const line = lines[i].replace(/\s+/g, ' ').trim();
+    if (!line) continue;
+
+    let r = matchVoterLine(line);
+    if (!r && i + 1 < lines.length) {
+      const merged = (line + ' ' + lines[i+1]).replace(/\s+/g, ' ').trim();
+      r = matchVoterLine(merged);
+      if (r) i++; // consumed next line
+    }
+    if (r) records.push(r);
+  }
+  return records;
+}
+
+// ====================================================================
+// PARSER 3: Loose parser — when strict regex fails, grab any Kannada names
+// This is a fallback so at least something is searchable
+// ====================================================================
+function parseOCRTextLoose(text) {
+  const records = [];
+  const lines = text.split('\n').filter(l => l.trim().length > 3);
+  let serial = 9000;
+
+  lines.forEach(line => {
+    // If line contains Kannada text and looks like a name
+    if (/[\u0C00-\u0C7F]{3,}/.test(line)) {
+      const parts = line.trim().split(/\s{2,}/);
+      if (parts.length >= 2) {
+        const name = parts[0] || '';
+        const rel  = parts[1] || '';
+        if (name.length > 2) {
+          records.push(makeRecord(String(serial++), '', name, '?', rel, '?', '0', ''));
+        }
+      } else if (line.trim().length > 4) {
+        records.push(makeRecord(String(serial++), '', line.trim(), '?', '', '?', '0', ''));
+      }
+    }
+  });
+  return records;
+}
+
+// ====================================================================
+// CORE ROW MATCHER — regex that handles OCR noise
+// CEO Karnataka format:
+//   serial  house  name  relation  relName  gender  age  [voterId]
+// ====================================================================
+function matchVoterLine(line) {
+  if (!line || line.length < 8) return null;
+
+  // Primary pattern (strict)
+  const strict = line.match(
+    /^(\d{1,4})\s+([\d\-\/A-Za-z\u0C00-\u0C7F]+)\s+([\u0C00-\u0C7F][\u0C00-\u0C7F\s\.\-']{2,40}?)\s+(ತಂದೆ|ತಾಯಿ|ಗಂಡ|ಇತರೆ|gg|eo|@o)\s+([\u0C00-\u0C7F][\u0C00-\u0C7F\s\.\-']{1,40}?)\s+(ಗಂ|ಹೆಂ|go|Co|co|Go)\s+(\d{1,3})\s*([\w\d]{6,15})?/
+  );
+  if (strict) {
+    const rel = normalizeRelation(strict[4]);
+    const gen = normalizeGender(strict[6]);
+    return makeRecord(strict[1], strict[2], strict[3], rel, strict[5], gen, strict[7], strict[8]||'');
+  }
+
+  // Looser pattern — OCR sometimes garbles relation/gender tokens
+  const loose = line.match(
+    /^(\d{1,4})\s+([\d\-\/A-Za-z]+)\s+([\u0C00-\u0C7F][\u0C00-\u0C7F\s\.\-']{2,40}?)\s+([\u0C00-\u0C7F]{2,6})\s+([\u0C00-\u0C7F][\u0C00-\u0C7F\s\.\-']{1,40}?)\s+([\u0C00-\u0C7F]{1,3}|[A-Za-z]{1,3})\s+(\d{1,3})\s*([\w\d]*)/
+  );
+  if (loose) {
+    const rel = normalizeRelation(loose[4]);
+    const gen = normalizeGender(loose[6]);
+    if (rel && gen) {
+      return makeRecord(loose[1], loose[2], loose[3], rel, loose[5], gen, loose[7], loose[8]||'');
+    }
+  }
+  return null;
+}
+
+function normalizeRelation(s) {
+  if (!s) return null;
+  const t = s.trim();
+  if (/ತಂದೆ|gg|तंदे/.test(t)) return 'ತಂದೆ';
+  if (/ತಾಯಿ/.test(t)) return 'ತಾಯಿ';
+  if (/ಗಂಡ|eo|@o/.test(t)) return 'ಗಂಡ';
+  if (/ಇತರೆ/.test(t)) return 'ಇತರೆ';
+  if (/[\u0C00-\u0C7F]{2}/.test(t)) return t; // keep whatever OCR found
+  return null;
+}
+
+function normalizeGender(s) {
+  if (!s) return null;
+  const t = s.trim();
+  if (/ಗಂ|go|Go|^G$|^M$|male/i.test(t)) return 'Male';
+  if (/ಹೆಂ|Co|co|^F$|female/i.test(t)) return 'Female';
+  if (/[\u0C00-\u0C7F]/.test(t)) return t.includes('ಹ') ? 'Female' : 'Male';
+  return null;
+}
+
+function makeRecord(serial, house, name, relation, relName, gender, age, voterId) {
+  name    = (name||'').trim();
+  relName = (relName||'').trim();
+  return {
+    serial, house, name, relation, relName, gender, age, voterId,
+    nameLower:    name.toLowerCase(),
+    relNameLower: relName.toLowerCase(),
+    namePhonetic: toPhonetic(name),
+    relPhonetic:  toPhonetic(relName)
+  };
+}
+
+// ====================================================================
+// PHONETIC CONVERSION: Kannada → Latin-like string for fuzzy match
+// ====================================================================
+function toPhonetic(text) {
+  let t = text.toLowerCase();
+  PHONETIC_NORMALIZE.forEach(([re, rep]) => { t = t.replace(re, rep); });
+  return t;
+}
+
+// ====================================================================
+// BUILD FUSE INDEX
+// ====================================================================
+function buildFuseIndex(dbKey) {
+  const data = voterDB[dbKey];
+  if (!data || !data.length) return;
+  fuseInstances[dbKey] = new Fuse(data, {
+    keys: ['name','relName','nameLower','relNameLower','namePhonetic','relPhonetic','voterId'],
+    threshold: 0.45,
+    distance: 80,
+    includeScore: true,
+    ignoreLocation: true,
+    useExtendedSearch: false
+  });
+}
+
+// ====================================================================
+// SEARCH
+// ====================================================================
+function performSearch() {
+  const nameQ = document.getElementById('searchName').value.trim();
+  const relQ  = document.getElementById('searchRelative').value.trim();
+
+  if (!nameQ && !relQ) {
+    showAlert('warning', 'Please enter at least your name to search.');
+    return;
+  }
+
+  const scope = getSearchScope();
+  if (!scope.length) {
+    showAlert('warning', 'No electoral roll data loaded. Please upload a PDF part file first.');
+    return;
+  }
+
+  const nameVariants = nameQ ? generateVariants(nameQ) : [];
+  const relVariants  = relQ  ? generateVariants(relQ)  : [];
+
+  let allMatches = new Map(); // serial+dbKey => {record, score, dbKey, nameMatch, relMatch}
+
+  scope.forEach(dbKey => {
+    const records = voterDB[dbKey] || [];
+
+    records.forEach(r => {
+      const uid = dbKey + '_' + r.serial;
+      let nameHit = false, relHit = false;
+
+      if (nameVariants.length) {
+        nameHit = nameVariants.some(v =>
+          r.nameLower.includes(v) || r.namePhonetic.includes(v) ||
+          r.name.toLowerCase().includes(v.toLowerCase())
+        );
+      }
+      if (relVariants.length) {
+        relHit = relVariants.some(v =>
+          r.relNameLower.includes(v) || r.relPhonetic.includes(v) ||
+          r.relName.toLowerCase().includes(v.toLowerCase())
+        );
+      }
+
+      if (nameHit || relHit) {
+        const score = (nameHit ? 2 : 0) + (relHit ? 1 : 0);
+        if (!allMatches.has(uid) || allMatches.get(uid).score < score) {
+          allMatches.set(uid, { record:r, score, dbKey, nameHit, relHit });
+        }
+      }
+    });
+
+    // Also run fuzzy
+    if (fuseInstances[dbKey]) {
+      const allVariants = [...nameVariants, ...relVariants];
+      allVariants.forEach(v => {
+        fuseInstances[dbKey].search(v, {limit:20}).forEach(res => {
+          const uid = dbKey + '_' + res.item.serial;
+          if (!allMatches.has(uid)) {
+            allMatches.set(uid, { record:res.item, score:0.5, dbKey, nameHit:false, relHit:false });
+          }
+        });
+      });
+    }
+  });
+
+  // Sort: best matches (both name+rel) first, then name-only, then fuzzy
+  const sorted = Array.from(allMatches.values()).sort((a,b) => b.score - a.score);
+  displayResults(sorted.slice(0, 20), nameQ, relQ);
+}
+
+// ====================================================================
+// GENERATE SEARCH VARIANTS
+// ====================================================================
+function generateVariants(query) {
+  const q = query.toLowerCase().trim();
+  const variants = new Set([q]);
+
+  // Check phonetic map
+  Object.entries(PHONETIC_MAP).forEach(([latin, kanList]) => {
+    if (latin === q || latin.includes(q) || q.includes(latin)) {
+      variants.add(latin);
+      kanList.forEach(k => variants.add(k.toLowerCase()));
+    }
+    kanList.forEach(k => {
+      if (k.toLowerCase().includes(q) || q.includes(k.toLowerCase())) {
+        variants.add(latin);
+        kanList.forEach(k2 => variants.add(k2.toLowerCase()));
+      }
+    });
+  });
+
+  // If purely latin, add phonetic version
+  if (/^[a-z\s]+$/.test(q)) {
+    variants.add(toPhonetic(q));
+  }
+
+  return Array.from(variants).filter(v => v.length >= 2);
+}
+
+// ====================================================================
+// DISPLAY RESULTS
+// ====================================================================
+function displayResults(results, nameQ, relQ) {
+  const section = document.getElementById('resultsSection');
+  const container = document.getElementById('resultsContainer');
+  const countEl = document.getElementById('resultsCount');
+
+  section.style.display = 'block';
+  container.innerHTML = '';
+
+  if (!results.length) {
+    countEl.textContent = 'No results found';
+    container.innerHTML = `
+      <div class="no-results">
+        <div class="icon">🔍</div>
+        <p>No voter records found matching your search.</p>
+        <p style="margin-top:8px;font-size:13px">Try uploading more PDF parts or check the spelling.</p>
+      </div>`;
+    return;
+  }
+
+  countEl.textContent = `Showing top ${Math.min(results.length, 5)} of ${results.length} matches`;
+
+  results.slice(0, 5).forEach((match, idx) => {
+    const r = match.record;
+    const partNum = match.dbKey.split('_')[1];
+    const acNum = match.dbKey.split('_')[0];
+
+    const div = document.createElement('div');
+    div.className = 'result-card' + (idx === 0 ? ' best-match' : '');
+    div.innerHTML = `
+      <div class="result-grid">
+        <div class="result-field">
+          <label>Name | ಹೆಸರು</label>
+          <div class="val">${highlight(r.name, nameQ)}</div>
+        </div>
+        <div class="result-field">
+          <label>Father's / Husband's Name</label>
+          <div class="val">${highlight(r.relName, relQ)}</div>
+        </div>
+        <div class="result-field">
+          <label>Serial No.</label>
+          <div class="val small">${r.serial}</div>
+        </div>
+        <div class="result-field">
+          <label>House No.</label>
+          <div class="val small">${r.house}</div>
+        </div>
+        <div class="result-field">
+          <label>Gender / Age</label>
+          <div class="val small">
+            <span class="tag ${r.gender==='Male'?'tag-male':'tag-female'}">${r.gender}</span>
+            <span class="tag tag-age">${r.age} yrs</span>
+          </div>
+        </div>
+        <div class="result-field">
+          <label>Voter ID</label>
+          <div class="val small" style="font-family:'JetBrains Mono',monospace">${r.voterId || '—'}</div>
+        </div>
+      </div>
+      <div class="result-actions">
+        <button class="btn btn-success btn-sm" onclick="onSuccess('${acNum}','${partNum}','${escJ(r.name)}','${escJ(r.relName)}','${r.serial}','${r.voterId}')">
+          ✅ This is me / Found
+        </button>
+        <span style="font-size:12px;color:var(--gray-400)">Not you? Check next result →</span>
+      </div>`;
+    container.appendChild(div);
+  });
+
+  if (results.length > 5) {
+    const more = document.createElement('div');
+    more.className = 'alert alert-info';
+    more.style.marginTop = '8px';
+    more.innerHTML = `<span>ℹ️</span><span>${results.length - 5} more results found. Try more specific search terms to narrow down.</span>`;
+    container.appendChild(more);
+  }
+}
+
+function highlight(text, query) {
+  if (!text || !query) return text || '—';
+  try {
+    const re = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+    return text.replace(re, '<mark>$1</mark>');
+  } catch(e) { return text; }
+}
+
+function escJ(s) { return (s||'').replace(/'/g,"\\'").replace(/"/g,'\\"'); }
+
+// ====================================================================
+// SUCCESS MODAL
+// ====================================================================
+function onSuccess(acNum, partNum, name, relName, serial, voterId) {
+  const acNumeric = acNum.replace('A','');
+  // Find AC name
+  let acName = '';
+  Object.values(AC_DATA).flat().forEach(ac => {
+    if (ac.num === acNum) acName = ac.name;
+  });
+
+  document.getElementById('modalInfo').innerHTML = `
+    <div class="modal-info-row"><span>Voter Name</span><span>${name}</span></div>
+    <div class="modal-info-row"><span>Relation Name</span><span>${relName}</span></div>
+    <div class="modal-info-row"><span>Serial No.</span><span>${serial}</span></div>
+    <div class="modal-info-row"><span>AC Number</span><span>${acNumeric}</span></div>
+    <div class="modal-info-row"><span>AC Name</span><span>${acName}</span></div>
+    <div class="modal-info-row"><span>Part Number</span><span>${partNum}</span></div>
+    ${voterId ? `<div class="modal-info-row"><span>Voter ID</span><span>${voterId}</span></div>` : ''}
+  `;
+  document.getElementById('successModal').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('successModal').classList.remove('show');
+}
+
+document.getElementById('successModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ====================================================================
+// UI HELPERS
+// ====================================================================
+function showStatus(msg, pct) {
+  const bar = document.getElementById('statusBar');
+  bar.classList.add('show');
+  document.getElementById('statusText').textContent = msg;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+function hideStatus() {
+  document.getElementById('statusBar').classList.remove('show');
+}
+
+let alertTimeout;
+function showAlert(type, html) {
+  clearTimeout(alertTimeout);
+  const existing = document.getElementById('dynamicAlert');
+  if (existing) existing.remove();
+  const div = document.createElement('div');
+  div.id = 'dynamicAlert';
+  div.className = `alert alert-${type}`;
+  div.innerHTML = `<span>${getAlertIcon(type)}</span><span>${html}</span>`;
+  document.getElementById('uploadZone').parentNode.insertBefore(div, document.getElementById('uploadZone'));
+  if (type !== 'error') alertTimeout = setTimeout(() => div.remove(), 6000);
+}
+function getAlertIcon(t) {
+  return {warning:'⚠️',error:'❌',info:'ℹ️',success:'✅'}[t] || 'ℹ️';
+}
+
+function refreshLoadedChips() {
+  if (!currentAC) return;
+  const container = document.getElementById('loadedPdfs');
+  const keys = Object.keys(voterDB).filter(k => k.startsWith(currentAC + '_'));
+  container.innerHTML = '';
+  if (keys.length) {
+    const label = document.createElement('div');
+    label.style = 'font-size:12px;color:var(--gray-400);width:100%;margin-bottom:4px';
+    label.textContent = 'Already loaded parts (from previous sessions):';
+    container.appendChild(label);
+    keys.sort().forEach(k => {
+      const part = k.split('_')[1];
+      const chip = document.createElement('div');
+      chip.className = 'pdf-chip';
+      chip.innerHTML = `<span class="dot"></span> Part ${part}`;
+      container.appendChild(chip);
+    });
+    currentSearchScope = keys;
+  }
+}
+
+function clearResults() {
+  document.getElementById('resultsSection').style.display = 'none';
+}
+
+// Enter key
+document.getElementById('searchName').addEventListener('keydown', e => { if(e.key==='Enter') performSearch(); });
+document.getElementById('searchRelative').addEventListener('keydown', e => { if(e.key==='Enter') performSearch(); });
+</script>
+</body>
+</html>
