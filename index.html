@@ -765,7 +765,18 @@ if (document.readyState === 'loading') {
   initApp();
 }
 
+// Storage with graceful fallback if localStorage is blocked (tracking prevention)
+let storageAvailable = false;
+try {
+  localStorage.setItem('_test', '1');
+  localStorage.removeItem('_test');
+  storageAvailable = true;
+} catch(e) {
+  console.warn('localStorage blocked — data will not persist across sessions.');
+}
+
 function loadFromStorage() {
+  if (!storageAvailable) return;
   try {
     const saved = localStorage.getItem('electoralDB');
     if (saved) {
@@ -776,8 +787,15 @@ function loadFromStorage() {
 }
 
 function saveToStorage() {
-  try { localStorage.setItem('electoralDB', JSON.stringify(voterDB)); }
-  catch(e) { console.warn('Storage full, could not save'); }
+  if (!storageAvailable) {
+    console.warn('Storage blocked — processed data kept in memory only for this session.');
+    return;
+  }
+  try {
+    localStorage.setItem('electoralDB', JSON.stringify(voterDB));
+  } catch(e) {
+    console.warn('Storage quota exceeded — data not saved:', e.message);
+  }
 }
 
 // ====================================================================
@@ -1325,83 +1343,158 @@ function generateVariants(query) {
 }
 
 // ====================================================================
-// DISPLAY RESULTS
+// DISPLAY RESULTS  — pure DOM, no innerHTML for data (avoids all quoting bugs)
 // ====================================================================
 function displayResults(results, nameQ, relQ) {
-  const section = document.getElementById('resultsSection');
+  const section   = document.getElementById('resultsSection');
   const container = document.getElementById('resultsContainer');
-  const countEl = document.getElementById('resultsCount');
+  const countEl   = document.getElementById('resultsCount');
 
   section.style.display = 'block';
   container.innerHTML = '';
 
   if (!results.length) {
     countEl.textContent = 'No results found';
-    container.innerHTML = `
-      <div class="no-results">
-        <div class="icon">🔍</div>
-        <p>No voter records found matching your search.</p>
-        <p style="margin-top:8px;font-size:13px">Try uploading more PDF parts or check the spelling.</p>
-      </div>`;
+    const empty = document.createElement('div');
+    empty.className = 'no-results';
+    empty.innerHTML = '<div class="icon">&#128269;</div>'
+      + '<p>No voter records found matching your search.</p>'
+      + '<p style="margin-top:8px;font-size:13px">Try uploading more PDF parts or check the spelling.</p>';
+    container.appendChild(empty);
     return;
   }
 
-  countEl.textContent = `Showing top ${Math.min(results.length, 5)} of ${results.length} matches`;
+  let currentPage = 0;
+  const PAGE_SIZE = 5;
 
-  results.slice(0, 5).forEach((match, idx) => {
-    const r = match.record;
-    const partNum = match.dbKey.split('_')[1];
-    const acNum = match.dbKey.split('_')[0];
-
-    const div = document.createElement('div');
-    div.className = 'result-card' + (idx === 0 ? ' best-match' : '');
-    div.innerHTML = `
-      <div class="result-grid">
-        <div class="result-field">
-          <label>Name | ಹೆಸರು</label>
-          <div class="val">${highlight(r.name, nameQ)}</div>
-        </div>
-        <div class="result-field">
-          <label>Father's / Husband's Name</label>
-          <div class="val">${highlight(r.relName, relQ)}</div>
-        </div>
-        <div class="result-field">
-          <label>Serial No.</label>
-          <div class="val small">${r.serial}</div>
-        </div>
-        <div class="result-field">
-          <label>House No.</label>
-          <div class="val small">${r.house}</div>
-        </div>
-        <div class="result-field">
-          <label>Gender / Age</label>
-          <div class="val small">
-            <span class="tag ${r.gender==='Male'?'tag-male':'tag-female'}">${r.gender}</span>
-            <span class="tag tag-age">${r.age} yrs</span>
-          </div>
-        </div>
-        <div class="result-field">
-          <label>Voter ID</label>
-          <div class="val small" style="font-family:'JetBrains Mono',monospace">${r.voterId || '—'}</div>
-        </div>
-      </div>
-      <div class="result-actions">
-        <button class="btn btn-success btn-sm" onclick="onSuccess('${acNum}','${partNum}','${escJ(r.name)}','${escJ(r.relName)}','${r.serial}','${r.voterId}')">
-          ✅ This is me / Found
-        </button>
-        <span style="font-size:12px;color:var(--gray-400)">Not you? Check next result →</span>
-      </div>`;
-    container.appendChild(div);
-  });
-
-  if (results.length > 5) {
-    const more = document.createElement('div');
-    more.className = 'alert alert-info';
-    more.style.marginTop = '8px';
-    more.innerHTML = `<span>ℹ️</span><span>${results.length - 5} more results found. Try more specific search terms to narrow down.</span>`;
-    container.appendChild(more);
+  function makeField(labelText, valueHTML) {
+    const wrap = document.createElement('div');
+    wrap.className = 'result-field';
+    const lbl = document.createElement('label');
+    lbl.textContent = labelText;
+    const val = document.createElement('div');
+    val.className = 'val';
+    val.innerHTML = valueHTML;          // safe: valueHTML is our own highlight() output
+    wrap.appendChild(lbl);
+    wrap.appendChild(val);
+    return wrap;
   }
+
+  function makeSmallField(labelText, valueText, extraStyle) {
+    const wrap = document.createElement('div');
+    wrap.className = 'result-field';
+    const lbl = document.createElement('label');
+    lbl.textContent = labelText;
+    const val = document.createElement('div');
+    val.className = 'val small';
+    if (extraStyle) val.style.cssText = extraStyle;
+    val.textContent = valueText;
+    wrap.appendChild(lbl);
+    wrap.appendChild(val);
+    return wrap;
+  }
+
+  function renderPage() {
+    Array.from(container.querySelectorAll('.result-card, .load-more-row')).forEach(el => el.remove());
+
+    const end       = (currentPage + 1) * PAGE_SIZE;
+    const shown     = results.slice(0, end);
+    const remaining = results.length - end;
+
+    countEl.textContent = 'Showing ' + shown.length + ' of ' + results.length + ' matches';
+
+    shown.forEach(function(match, idx) {
+      const r       = match.record;
+      const partNum = match.dbKey.split('_')[1];
+      const acNum   = match.dbKey.split('_')[0];
+      const isBest  = (idx === 0 && currentPage === 0);
+
+      // Card wrapper
+      const card = document.createElement('div');
+      card.className = 'result-card' + (isBest ? ' best-match' : '');
+
+      // Grid
+      const grid = document.createElement('div');
+      grid.className = 'result-grid';
+
+      grid.appendChild(makeField('Name | ನಿಮ್ಮ ಹೆಸರು', highlight(r.name, nameQ)));
+      grid.appendChild(makeField("Father's / Husband's Name", highlight(r.relName, relQ)));
+      grid.appendChild(makeSmallField('Serial No.', r.serial));
+      grid.appendChild(makeSmallField('House No.',  r.house));
+
+      // Gender + Age tags
+      const genderWrap = document.createElement('div');
+      genderWrap.className = 'result-field';
+      const gLbl = document.createElement('label');
+      gLbl.textContent = 'Gender / Age';
+      const gVal = document.createElement('div');
+      gVal.className = 'val small';
+      const gTag = document.createElement('span');
+      gTag.className = 'tag ' + (r.gender === 'Male' ? 'tag-male' : 'tag-female');
+      gTag.textContent = r.gender;
+      const aTag = document.createElement('span');
+      aTag.className = 'tag tag-age';
+      aTag.textContent = r.age + ' yrs';
+      gVal.appendChild(gTag);
+      gVal.appendChild(document.createTextNode(' '));
+      gVal.appendChild(aTag);
+      genderWrap.appendChild(gLbl);
+      genderWrap.appendChild(gVal);
+      grid.appendChild(genderWrap);
+
+      grid.appendChild(makeSmallField('Voter ID', r.voterId || '—', 'font-family:monospace'));
+
+      card.appendChild(grid);
+
+      // Actions row
+      const actions = document.createElement('div');
+      actions.className = 'result-actions';
+
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-success btn-sm';
+      btn.textContent = '✅ This is me / Found';
+      // Closure captures exact voter data — no string escaping needed
+      btn.addEventListener('click', (function(ac, pt, nm, rn, sr, vi) {
+        return function() { onSuccess(ac, pt, nm, rn, sr, vi); };
+      })(acNum, partNum, r.name, r.relName, r.serial, r.voterId));
+
+      const hint = document.createElement('span');
+      hint.style.cssText = 'font-size:12px;color:var(--gray-400)';
+      hint.textContent = 'Not you? Check next result →';
+
+      actions.appendChild(btn);
+      actions.appendChild(hint);
+      card.appendChild(actions);
+      container.appendChild(card);
+    });
+
+    // Next 5 / end-of-results row
+    const row = document.createElement('div');
+    row.className = 'load-more-row';
+    if (remaining > 0) {
+      row.style.cssText = 'text-align:center;padding:12px 0';
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'btn btn-outline';
+      nextBtn.textContent = 'Next 5 results (' + remaining + ' remaining) →';
+      nextBtn.addEventListener('click', function() {
+        currentPage++;
+        renderPage();
+        const cards = container.querySelectorAll('.result-card');
+        const firstNew = cards[currentPage * PAGE_SIZE];
+        if (firstNew) firstNew.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+      row.appendChild(nextBtn);
+      container.appendChild(row);
+    } else if (results.length > PAGE_SIZE) {
+      row.style.cssText = 'text-align:center;padding:10px;font-size:13px;color:var(--gray-400)';
+      row.textContent = '— All ' + results.length + ' results shown —';
+      container.appendChild(row);
+    }
+  }
+
+  renderPage();
 }
+
 
 function highlight(text, query) {
   if (!text || !query) return text || '—';
