@@ -913,7 +913,6 @@ uploadZone.addEventListener('drop', e => {
 async function processPDF(file, dbKey, partNum) {
   showStatus('Loading PDF...', 3);
   try {
-    // Set workerSrc here (not at top-level) so pdfjsLib is guaranteed loaded
     pdfjsLib.GlobalWorkerOptions.workerSrc =
       'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
@@ -922,7 +921,7 @@ async function processPDF(file, dbKey, partNum) {
       throw new Error('File is empty or could not be read');
     }
 
-    showStatus('Parsing PDF structure...', 4);
+    showStatus('Parsing PDF structure...', 5);
     let pdf;
     try {
       pdf = await pdfjsLib.getDocument({
@@ -932,33 +931,36 @@ async function processPDF(file, dbKey, partNum) {
         useSystemFonts: true
       }).promise;
     } catch(pdfErr) {
-      // If worker fails, retry with worker disabled
-      console.warn('PDF worker failed, retrying without worker:', pdfErr);
+      console.warn('PDF worker failed, retrying:', pdfErr);
       pdfjsLib.GlobalWorkerOptions.workerSrc = '';
       pdf = await pdfjsLib.getDocument({data: new Uint8Array(arrayBuffer)}).promise;
     }
-    const totalPages = pdf.numPages;
 
-    // Step 1: try direct text extraction (fast, works if PDF has embedded text)
-    showStatus('Checking for embedded text...', 6);
+    const totalPages = pdf.numPages;
+    showStatus('Checking for embedded text...', 7);
+
+    // Step 1: try direct text extraction (instant — works if PDF has real text layer)
     let allRecords = await tryDirectExtract(pdf, totalPages);
+    console.log('Direct extract records:', allRecords.length);
 
     // Step 2: if direct extraction yielded nothing, use OCR
     if (allRecords.length === 0) {
       showAlert('info',
-        `ℹ️ This is a scanned PDF. Starting OCR — this takes 1–3 minutes for ${totalPages} pages. Please wait.`);
+        'ℹ️ Scanned PDF detected. Starting OCR — takes 2–4 minutes for ' +
+        totalPages + ' pages. Please keep this tab open.');
       allRecords = await runOCR(pdf, totalPages);
+      console.log('OCR records:', allRecords.length);
     }
 
     if (allRecords.length === 0) {
       showAlert('error',
-        `❌ Could not extract any voter records from this PDF.<br>
-         Possible reasons: very low scan resolution, or the PDF is password-protected.`);
-      hideStatus(); return;
+        '❌ Could not extract voter records.<br>' +
+        'Please open browser console (F12 → Console tab) and share the log for debugging.');
+      hideStatus();
+      return;
     }
 
     voterDB[dbKey] = allRecords;
-    // Save metadata so dedup message can show when it was processed
     voterDB[dbKey + '_meta'] = {
       processedAt: new Date().toISOString(),
       recordCount: allRecords.length,
@@ -968,17 +970,85 @@ async function processPDF(file, dbKey, partNum) {
     saveToStorage();
     currentSearchScope = getSearchScope();
 
-    showStatus(`✅ Done! ${allRecords.length} voter records loaded from Part ${partNum}.`, 100);
+    showStatus('✅ Done! ' + allRecords.length + ' voter records loaded from Part ' + partNum + '.', 100);
     setTimeout(hideStatus, 4000);
     refreshLoadedChips();
 
   } catch(err) {
     const msg = (err && err.message) ? err.message : JSON.stringify(err);
     console.error('processPDF error:', err);
-    showAlert('error', '❌ Error reading PDF: ' + msg + '<br><small>Check browser console (F12) for details.</small>');
+    showAlert('error', '❌ Error reading PDF: ' + msg);
     hideStatus();
   }
 }
+
+// ====================================================================
+// STRATEGY 2: OCR using Tesseract.js
+// PSM 3 = fully automatic page segmentation (DO NOT force PSM 6)
+// PSM 6 breaks on pages that have headers + table content mixed
+// Diagnostic confirmed scale 2.5 works well for this PDF
+// ====================================================================
+async function runOCR(pdf, totalPages) {
+  if (typeof Tesseract === 'undefined') {
+    showAlert('error', '❌ OCR library not loaded. Please refresh the page.');
+    return [];
+  }
+
+  showStatus('Loading OCR engine...', 8);
+  let currentOCRPage = 1;
+
+  let worker;
+  try {
+    worker = await Tesseract.createWorker(['kan', 'eng'], 1, {
+      logger: m => {
+        if (m.status === 'recognizing text') {
+          const p = 10 + Math.round((currentOCRPage / totalPages) * 85);
+          showStatus('OCR page ' + currentOCRPage + '/' + totalPages +
+            ' — ' + Math.round(m.progress * 100) + '%', p);
+        } else if (m.status) {
+          showStatus(m.status + '...', 9);
+        }
+      }
+    });
+    // NO setParameters — use Tesseract default PSM 3 (auto segmentation)
+    // PSM 6 (uniform block) was causing zero extractions on mixed-layout pages
+  } catch(tErr) {
+    console.error('Tesseract init failed:', tErr);
+    showAlert('error', '❌ OCR engine failed to start: ' + (tErr.message || tErr));
+    return [];
+  }
+
+  let allRecords = [];
+  for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
+    currentOCRPage = pageNum;
+    const page   = await pdf.getPage(pageNum);
+    const vp     = page.getViewport({scale: 2.5}); // ~180 DPI confirmed working
+    const canvas = document.createElement('canvas');
+    canvas.width  = vp.width;
+    canvas.height = vp.height;
+    await page.render({canvasContext: canvas.getContext('2d'), viewport: vp}).promise;
+
+    const {data} = await worker.recognize(canvas);
+
+    // Log first page raw output for debugging
+    if (pageNum <= 2) {
+      const previewLines = data.text.split('\n').filter(l => l.trim()).slice(0, 5);
+      console.log('Page ' + pageNum + ' OCR preview:', previewLines);
+    }
+
+    const pageRecords = parseOCRText(data.text);
+    console.log('Page ' + pageNum + ': ' + pageRecords.length + ' records extracted');
+    allRecords = allRecords.concat(pageRecords);
+  }
+
+  await worker.terminate();
+  console.log('Total records from OCR:', allRecords.length);
+  if (allRecords.length > 0) {
+    console.log('Sample record:', JSON.stringify(allRecords[0]));
+  }
+  return allRecords;
+}
+
 
 // ====================================================================
 // STRATEGY 1: Direct PDF text extraction
@@ -1026,11 +1096,6 @@ async function runOCR(pdf, totalPages) {
     showAlert('error','❌ OCR engine failed to start: ' + (tErr.message || tErr));
     return [];
   }
-
-  await worker.setParameters({
-    tessedit_pageseg_mode: '6',
-    preserve_interword_spaces: '1'
-  });
 
   for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
     currentOCRPage = pageNum;
