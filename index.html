@@ -740,8 +740,9 @@ let voterDB = {};      // key = "AC_PARTNUM" => array of voter records
 let fuseInstances = {}; // key = "AC_PARTNUM" => Fuse instance
 let currentSearchScope = []; // which DB keys to search
 
-// Disable worker to avoid blob:// CSP errors in sandboxed iframes
-pdfjsLib.GlobalWorkerOptions.workerSrc = '';
+// Use CDN worker (works on GitHub Pages); empty string fallback handled inside processPDF
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
 // ====================================================================
 // INIT
@@ -756,7 +757,7 @@ function loadFromStorage() {
     const saved = localStorage.getItem('electoralDB');
     if (saved) {
       voterDB = JSON.parse(saved);
-      Object.keys(voterDB).forEach(key => buildFuseIndex(key));
+      Object.keys(voterDB).filter(k => !k.endsWith('_meta')).forEach(key => buildFuseIndex(key));
     }
   } catch(e) { voterDB = {}; }
 }
@@ -827,34 +828,49 @@ function updateUploadState() {
 function onFileSelected(event) {
   const file = event.target.files[0];
   if (!file) return;
-  event.target.value = ''; // reset so same file can be re-selected
+  event.target.value = '';
 
   const filename = file.name;
-  // Validate format: A<3digits><3+digits>.pdf
+
+  // ── Rule 1: Must match CEO Karnataka naming exactly ──────────────────
+  // Format: A + 3-digit-AC + 0 + 3-digit-part + .pdf   e.g. A1620037.pdf
   const match = filename.match(/^A(\d{3})0(\d{3})\.pdf$/i);
   if (!match) {
     showAlert('error',
-      `❌ Invalid filename: <b>${filename}</b><br>
-       Expected format: <b>A${currentAC.replace('A','')}0XXX.pdf</b> (as downloaded from CEO Karnataka website).
-       Please do not rename the file.`);
+      `❌ <b>Invalid filename: ${filename}</b><br>
+       This site only accepts files downloaded directly from the CEO Karnataka website.<br>
+       Expected format: <b>A${currentAC.replace('A','')}0XXX.pdf</b><br>
+       Do <u>not</u> rename the file before uploading.`);
     return;
   }
 
-  const fileAC = match[1];
+  // ── Rule 2: AC in filename must match selected AC ─────────────────────
+  const fileAC  = match[1];
   const partNum = match[2];
   const expectedAC = currentAC.replace('A','');
 
   if (fileAC !== expectedAC) {
     showAlert('error',
-      `❌ AC mismatch! File is for AC <b>${fileAC}</b> but you selected AC <b>${expectedAC}</b>.<br>
-       Please select the correct Assembly Constituency or upload the correct file.`);
+      `❌ <b>Wrong constituency file.</b><br>
+       You selected AC <b>${expectedAC}</b> but uploaded a file for AC <b>${fileAC}</b>.<br>
+       Either change the Assembly Constituency dropdown or upload the correct file.`);
     return;
   }
 
-  const dbKey = `${currentAC}_${partNum}`;
+  // ── Rule 3: Dedup — already processed by any user? ───────────────────
+  const dbKey = \`\${currentAC}_\${partNum}\`;
   if (voterDB[dbKey]) {
-    showAlert('success', `✅ Part <b>${partNum}</b> of AC <b>${currentAC}</b> is already loaded from previous session! Ready to search.`);
+    const meta = voterDB[dbKey + '_meta'] || {};
+    const count = voterDB[dbKey].length;
+    const when  = meta.processedAt
+      ? new Date(meta.processedAt).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'})
+      : 'earlier';
+    showAlert('success',
+      `✅ <b>Already processed!</b> Part <b>${partNum}</b> (AC ${expectedAC}) was uploaded ${when} 
+       and has <b>${count} voter records</b> ready.<br>
+       No re-upload needed — go ahead and search.`);
     currentSearchScope = getSearchScope();
+    refreshLoadedChips();
     return;
   }
 
@@ -863,7 +879,7 @@ function onFileSelected(event) {
 
 function getSearchScope() {
   if (!currentAC) return [];
-  return Object.keys(voterDB).filter(k => k.startsWith(currentAC + '_'));
+  return Object.keys(voterDB).filter(k => k.startsWith(currentAC + '_') && !k.endsWith('_meta'));
 }
 
 // Drag and drop
@@ -884,8 +900,32 @@ uploadZone.addEventListener('drop', e => {
 async function processPDF(file, dbKey, partNum) {
   showStatus('Loading PDF...', 3);
   try {
+    // Ensure workerSrc is set; fall back to fake-worker mode if blob is blocked
+    if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+
     const arrayBuffer = await file.arrayBuffer();
-    const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+    if (!arrayBuffer || arrayBuffer.byteLength === 0) {
+      throw new Error('File is empty or could not be read');
+    }
+
+    showStatus('Parsing PDF structure...', 4);
+    let pdf;
+    try {
+      pdf = await pdfjsLib.getDocument({
+        data: arrayBuffer,
+        useWorkerFetch: false,
+        isEvalSupported: false,
+        useSystemFonts: true
+      }).promise;
+    } catch(pdfErr) {
+      // If worker fails, retry with worker disabled
+      console.warn('PDF worker failed, retrying without worker:', pdfErr);
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '';
+      pdf = await pdfjsLib.getDocument({data: new Uint8Array(arrayBuffer)}).promise;
+    }
     const totalPages = pdf.numPages;
 
     // Step 1: try direct text extraction (fast, works if PDF has embedded text)
@@ -907,6 +947,12 @@ async function processPDF(file, dbKey, partNum) {
     }
 
     voterDB[dbKey] = allRecords;
+    // Save metadata so dedup message can show when it was processed
+    voterDB[dbKey + '_meta'] = {
+      processedAt: new Date().toISOString(),
+      recordCount: allRecords.length,
+      partNum, acNum: currentAC
+    };
     buildFuseIndex(dbKey);
     saveToStorage();
     currentSearchScope = getSearchScope();
@@ -916,7 +962,9 @@ async function processPDF(file, dbKey, partNum) {
     refreshLoadedChips();
 
   } catch(err) {
-    showAlert('error', `❌ Error reading PDF: ${err.message}`);
+    const msg = (err && err.message) ? err.message : JSON.stringify(err);
+    console.error('processPDF error:', err);
+    showAlert('error', '❌ Error reading PDF: ' + msg + '<br><small>Check browser console (F12) for details.</small>');
     hideStatus();
   }
 }
@@ -954,20 +1002,23 @@ async function runOCR(pdf, totalPages) {
   // Create Tesseract worker with Kannada + English
   showStatus('Loading OCR engine (Kannada + English)...', 8);
   // Provide explicit CDN paths so Tesseract doesn't use blob:// URLs
-  const TESS_CDN = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/';
-  const TESS_LANG = 'https://cdn.jsdelivr.net/npm/tesseract.js-data@4.0.0/';
-  const worker = await Tesseract.createWorker(['kan', 'eng'], 1, {
-    workerPath:  TESS_CDN + 'worker.min.js',
-    corePath:    TESS_CDN + 'tesseract-core-simd-lstm.wasm.js',
-    langPath:    TESS_LANG,
-    logger: m => {
-      if (m.status === 'recognizing text') {
-        const p = 10 + Math.round((currentOCRPage / totalPages) * 85);
-        const inner = Math.round(m.progress * 100);
-        showStatus('OCR page ' + currentOCRPage + '/' + totalPages + ' — ' + inner + '%', p);
+  let worker;
+  try {
+    worker = await Tesseract.createWorker(['kan', 'eng'], 1, {
+      logger: m => {
+        if (m.status === 'recognizing text') {
+          const p = 10 + Math.round((currentOCRPage / totalPages) * 85);
+          showStatus('OCR page ' + currentOCRPage + '/' + totalPages + ' — ' + Math.round(m.progress*100) + '%', p);
+        } else if (m.status) {
+          showStatus(m.status + '...', 9);
+        }
       }
-    }
-  });
+    });
+  } catch(tErr) {
+    console.error('Tesseract init failed:', tErr);
+    showAlert('error', '❌ OCR engine failed to start: ' + (tErr.message||String(tErr)));
+    return [];
+  }
 
   // Tune Tesseract for tabular data
   await worker.setParameters({
@@ -1418,18 +1469,25 @@ function getAlertIcon(t) {
 function refreshLoadedChips() {
   if (!currentAC) return;
   const container = document.getElementById('loadedPdfs');
-  const keys = Object.keys(voterDB).filter(k => k.startsWith(currentAC + '_'));
+  // Only real data keys (not _meta keys)
+  const keys = Object.keys(voterDB).filter(k => k.startsWith(currentAC + '_') && !k.endsWith('_meta'));
   container.innerHTML = '';
   if (keys.length) {
     const label = document.createElement('div');
-    label.style = 'font-size:12px;color:var(--gray-400);width:100%;margin-bottom:4px';
-    label.textContent = 'Already loaded parts (from previous sessions):';
+    label.style = 'font-size:12px;color:var(--gray-400);width:100%;margin-bottom:6px';
+    label.textContent = `${keys.length} part(s) already processed — no re-upload needed:`;
     container.appendChild(label);
     keys.sort().forEach(k => {
       const part = k.split('_')[1];
+      const meta = voterDB[k + '_meta'] || {};
+      const count = meta.recordCount || (voterDB[k] || []).length;
+      const when  = meta.processedAt
+        ? new Date(meta.processedAt).toLocaleDateString('en-IN',{day:'numeric',month:'short'})
+        : '';
       const chip = document.createElement('div');
       chip.className = 'pdf-chip';
-      chip.innerHTML = `<span class="dot"></span> Part ${part}`;
+      chip.title = `Part ${part} · ${count} records · processed ${when}`;
+      chip.innerHTML = `<span class="dot"></span> Part ${part} &nbsp;·&nbsp; ${count} voters${when ? ' &nbsp;·&nbsp; ' + when : ''}`;
       container.appendChild(chip);
     });
     currentSearchScope = keys;
