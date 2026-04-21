@@ -729,6 +729,17 @@ const PHONETIC_NORMALIZE = [
   [/ಬಸವ/g,   "basava"],
   [/ವೆಂಕಟ/g, "venkata"]
 ];
+// ====================================================================
+// PHONETIC CONVERSION: Kannada text -> latin-like string for fuzzy match
+// ====================================================================
+function toPhonetic(text) {
+  if (!text) return '';
+  let t = text.toLowerCase();
+  PHONETIC_NORMALIZE.forEach(([re, rep]) => { t = t.replace(re, rep); });
+  return t;
+}
+
+
 
 // ====================================================================
 // STATE
@@ -985,75 +996,55 @@ async function tryDirectExtract(pdf, totalPages) {
 }
 
 // ====================================================================
-// STRATEGY 2: OCR using Tesseract.js (for scanned PDFs)
+// STRATEGY 2: OCR using Tesseract.js
+// Scale 2.5 (180 DPI) confirmed working from diagnostic test
 // ====================================================================
 async function runOCR(pdf, totalPages) {
   let allRecords = [];
 
-  // Safety check — confirm Tesseract loaded
   if (typeof Tesseract === 'undefined') {
-    showAlert('error',
-      `❌ OCR library (Tesseract.js) failed to load.<br>
-       Please check your internet connection and reload the page. 
-       If the problem persists, open the page on a different browser (Chrome recommended).`);
+    showAlert('error','❌ OCR library not loaded. Please refresh the page.');
     return [];
   }
 
-  // Create Tesseract worker with Kannada + English
   showStatus('Loading OCR engine (Kannada + English)...', 8);
-  // Provide explicit CDN paths so Tesseract doesn't use blob:// URLs
+  let currentOCRPage = 1; // declared here so logger closure can access it
   let worker;
   try {
-    worker = await Tesseract.createWorker(['kan', 'eng'], 1, {
+    worker = await Tesseract.createWorker(['kan','eng'], 1, {
       logger: m => {
         if (m.status === 'recognizing text') {
           const p = 10 + Math.round((currentOCRPage / totalPages) * 85);
-          showStatus('OCR page ' + currentOCRPage + '/' + totalPages + ' — ' + Math.round(m.progress*100) + '%', p);
+          showStatus('OCR page ' + currentOCRPage + '/' + totalPages +
+            ' — ' + Math.round(m.progress * 100) + '%', p);
         } else if (m.status) {
           showStatus(m.status + '...', 9);
         }
       }
     });
   } catch(tErr) {
-    console.error('Tesseract init failed:', tErr);
-    showAlert('error', '❌ OCR engine failed to start: ' + (tErr.message||String(tErr)));
+    showAlert('error','❌ OCR engine failed to start: ' + (tErr.message || tErr));
     return [];
   }
 
-  // Tune Tesseract for tabular data
   await worker.setParameters({
-    tessedit_pageseg_mode: '6',   // assume uniform block of text
+    tessedit_pageseg_mode: '6',
     preserve_interword_spaces: '1'
   });
 
-  let currentOCRPage = 1;
   for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
     currentOCRPage = pageNum;
-    const pct = 10 + Math.round((pageNum / totalPages) * 85);
-    showStatus(`OCR: page ${pageNum} of ${totalPages}... (please wait)`, pct);
-
-    // Render PDF page to canvas at 2.5× scale for better OCR accuracy
-    const page = await pdf.getPage(pageNum);
-    const viewport = page.getViewport({scale: 2.5});
+    const page  = await pdf.getPage(pageNum);
+    // Scale 2.5 = ~180 DPI — confirmed by diagnostic as producing good Kannada output
+    const vp    = page.getViewport({scale: 2.5});
     const canvas = document.createElement('canvas');
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-    await page.render({
-      canvasContext: canvas.getContext('2d'),
-      viewport
-    }).promise;
+    canvas.width  = vp.width;
+    canvas.height = vp.height;
+    await page.render({canvasContext: canvas.getContext('2d'), viewport: vp}).promise;
 
-    // Run OCR
-    const { data } = await worker.recognize(canvas);
+    const {data} = await worker.recognize(canvas);
     const pageRecords = parseOCRText(data.text);
     allRecords = allRecords.concat(pageRecords);
-
-    // Also store raw OCR lines for fuzzy fallback
-    if (pageRecords.length === 0 && data.text.trim().length > 50) {
-      // Store raw lines as minimal records so at least name search works
-      const rawRecords = parseOCRTextLoose(data.text);
-      allRecords = allRecords.concat(rawRecords);
-    }
   }
 
   await worker.terminate();
@@ -1061,7 +1052,7 @@ async function runOCR(pdf, totalPages) {
 }
 
 // ====================================================================
-// PARSER 1: For direct text extraction (structured PDF items)
+// PARSER 1: For direct PDF text extraction (structured items)
 // ====================================================================
 function parseTextItems(items) {
   const records = [];
@@ -1080,22 +1071,27 @@ function parseTextItems(items) {
 }
 
 // ====================================================================
-// PARSER 2: For OCR text (line-by-line from Tesseract output)
+// PARSER 2: For OCR text output (line by line)
+// Handles \u200C (ZWNJ) characters that Tesseract inserts in Kannada text
 // ====================================================================
 function parseOCRText(text) {
   const records = [];
-  const lines = text.split('\n');
+  // Normalize: remove zero-width chars that break matching, collapse spaces
+  const lines = text
+    .replace(/\u200C|\u200D|\uFEFF/g, '\u200C') // normalise ZWNJ
+    .split('\n');
 
   for (let i = 0; i < lines.length; i++) {
-    // Sometimes OCR splits one row across 2 lines — try merging with next
-    const line = lines[i].replace(/\s+/g, ' ').trim();
+    let line = lines[i].replace(/\s+/g, ' ').trim();
     if (!line) continue;
 
     let r = matchVoterLine(line);
+
+    // If no match, try merging with next line (OCR sometimes wraps rows)
     if (!r && i + 1 < lines.length) {
-      const merged = (line + ' ' + lines[i+1]).replace(/\s+/g, ' ').trim();
+      const merged = (line + ' ' + lines[i+1]).replace(/\s+/g,' ').trim();
       r = matchVoterLine(merged);
-      if (r) i++; // consumed next line
+      if (r) i++;
     }
     if (r) records.push(r);
   }
@@ -1103,89 +1099,43 @@ function parseOCRText(text) {
 }
 
 // ====================================================================
-// PARSER 3: Loose parser — when strict regex fails, grab any Kannada names
-// This is a fallback so at least something is searchable
+// CORE VOTER ROW MATCHER
+//
+// CRITICAL FIX: Kannada Unicode block is U+0C80–U+0CFF
+// Previous code used U+0C00–U+0C7F which matched NOTHING
+//
+// Actual CEO Karnataka PDF row format (confirmed from OCR output):
+//   serial  house  name  ತಂದೆ.  relname  ಗಂ/ಹೆಂ  age  [voterID]
+//   e.g: "2 43 ಸಮೀರ ತಂದೆ. ಹುಲಿರಾಜ ಗಂ 25 KFM2748473"
 // ====================================================================
-function parseOCRTextLoose(text) {
-  const records = [];
-  const lines = text.split('\n').filter(l => l.trim().length > 3);
-  let serial = 9000;
+const KAN_RE = '[\\u0C80-\\u0CFF\\u200C\\u200D]';
 
-  lines.forEach(line => {
-    // If line contains Kannada text and looks like a name
-    if (/[\u0C00-\u0C7F]{3,}/.test(line)) {
-      const parts = line.trim().split(/\s{2,}/);
-      if (parts.length >= 2) {
-        const name = parts[0] || '';
-        const rel  = parts[1] || '';
-        if (name.length > 2) {
-          records.push(makeRecord(String(serial++), '', name, '?', rel, '?', '0', ''));
-        }
-      } else if (line.trim().length > 4) {
-        records.push(makeRecord(String(serial++), '', line.trim(), '?', '', '?', '0', ''));
-      }
-    }
-  });
-  return records;
-}
+const VOTER_PATTERN = new RegExp(
+  '^(\\d{1,4})'                                         // serial
+  + '\\s+([\\w\\/\\-\\.]+)'                             // house no
+  + '\\s+(' + KAN_RE + '(?:' + KAN_RE + '|[\\s\\.\\,\\-\\\'])*?)'  // name
+  + '\\s+(ತಂದೆ|ತಾಯಿ|ಗಂಡ|ಇತರೆ)[\\.]?\\s+'              // relation + optional dot
+  + '(' + KAN_RE + '(?:' + KAN_RE + '|[\\s\\.\\,\\-\\\'])*?)'      // rel name
+  + '\\s+(ಗಂ|ಹೆಂ)'                                      // gender short
+  + '\\s+(\\d{1,3})'                                    // age
+  + '(?:\\s+([\\w\\d]{6,15}))?'                         // voter ID optional
+  + '\\s*$'
+);
 
-// ====================================================================
-// CORE ROW MATCHER — regex that handles OCR noise
-// CEO Karnataka format:
-//   serial  house  name  relation  relName  gender  age  [voterId]
-// ====================================================================
 function matchVoterLine(line) {
   if (!line || line.length < 8) return null;
-
-  // Primary pattern (strict)
-  const strict = line.match(
-    /^(\d{1,4})\s+([\d\-\/A-Za-z\u0C00-\u0C7F]+)\s+([\u0C00-\u0C7F][\u0C00-\u0C7F\s\.\-']{2,40}?)\s+(ತಂದೆ|ತಾಯಿ|ಗಂಡ|ಇತರೆ|gg|eo|@o)\s+([\u0C00-\u0C7F][\u0C00-\u0C7F\s\.\-']{1,40}?)\s+(ಗಂ|ಹೆಂ|go|Co|co|Go)\s+(\d{1,3})\s*([\w\d]{6,15})?/
-  );
-  if (strict) {
-    const rel = normalizeRelation(strict[4]);
-    const gen = normalizeGender(strict[6]);
-    return makeRecord(strict[1], strict[2], strict[3], rel, strict[5], gen, strict[7], strict[8]||'');
-  }
-
-  // Looser pattern — OCR sometimes garbles relation/gender tokens
-  const loose = line.match(
-    /^(\d{1,4})\s+([\d\-\/A-Za-z]+)\s+([\u0C00-\u0C7F][\u0C00-\u0C7F\s\.\-']{2,40}?)\s+([\u0C00-\u0C7F]{2,6})\s+([\u0C00-\u0C7F][\u0C00-\u0C7F\s\.\-']{1,40}?)\s+([\u0C00-\u0C7F]{1,3}|[A-Za-z]{1,3})\s+(\d{1,3})\s*([\w\d]*)/
-  );
-  if (loose) {
-    const rel = normalizeRelation(loose[4]);
-    const gen = normalizeGender(loose[6]);
-    if (rel && gen) {
-      return makeRecord(loose[1], loose[2], loose[3], rel, loose[5], gen, loose[7], loose[8]||'');
-    }
-  }
-  return null;
+  const m = VOTER_PATTERN.exec(line.trim());
+  if (!m) return null;
+  return makeRecord(m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8] || '');
 }
 
-function normalizeRelation(s) {
-  if (!s) return null;
-  const t = s.trim();
-  if (/ತಂದೆ|gg|तंदे/.test(t)) return 'ತಂದೆ';
-  if (/ತಾಯಿ/.test(t)) return 'ತಾಯಿ';
-  if (/ಗಂಡ|eo|@o/.test(t)) return 'ಗಂಡ';
-  if (/ಇತರೆ/.test(t)) return 'ಇತರೆ';
-  if (/[\u0C00-\u0C7F]{2}/.test(t)) return t; // keep whatever OCR found
-  return null;
-}
-
-function normalizeGender(s) {
-  if (!s) return null;
-  const t = s.trim();
-  if (/ಗಂ|go|Go|^G$|^M$|male/i.test(t)) return 'Male';
-  if (/ಹೆಂ|Co|co|^F$|female/i.test(t)) return 'Female';
-  if (/[\u0C00-\u0C7F]/.test(t)) return t.includes('ಹ') ? 'Female' : 'Male';
-  return null;
-}
-
-function makeRecord(serial, house, name, relation, relName, gender, age, voterId) {
-  name    = (name||'').trim();
-  relName = (relName||'').trim();
+function makeRecord(serial, house, name, relation, relName, genderCode, age, voterId) {
+  name    = (name    || '').replace(/\u200C|\u200D/g, '').trim();
+  relName = (relName || '').replace(/\u200C|\u200D/g, '').trim();
+  const gender = genderCode === 'ಗಂ' ? 'Male' : 'Female';
   return {
-    serial, house, name, relation, relName, gender, age, voterId,
+    serial, house, name, relation, relName, gender, age,
+    voterId: voterId || '',
     nameLower:    name.toLowerCase(),
     relNameLower: relName.toLowerCase(),
     namePhonetic: toPhonetic(name),
@@ -1193,14 +1143,6 @@ function makeRecord(serial, house, name, relation, relName, gender, age, voterId
   };
 }
 
-// ====================================================================
-// PHONETIC CONVERSION: Kannada → Latin-like string for fuzzy match
-// ====================================================================
-function toPhonetic(text) {
-  let t = text.toLowerCase();
-  PHONETIC_NORMALIZE.forEach(([re, rep]) => { t = t.replace(re, rep); });
-  return t;
-}
 
 // ====================================================================
 // BUILD FUSE INDEX
