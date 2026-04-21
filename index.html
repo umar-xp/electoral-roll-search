@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Karnataka Electoral Roll Search | ಮತದಾರರ ಪಟ್ಟಿ ಹುಡುಕಾಟ</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Serif:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap');
 
@@ -740,17 +738,21 @@ let voterDB = {};      // key = "AC_PARTNUM" => array of voter records
 let fuseInstances = {}; // key = "AC_PARTNUM" => Fuse instance
 let currentSearchScope = []; // which DB keys to search
 
-// Use CDN worker (works on GitHub Pages); empty string fallback handled inside processPDF
-pdfjsLib.GlobalWorkerOptions.workerSrc =
-  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+// PDF.js workerSrc is set inside processPDF() after libraries have loaded
 
 // ====================================================================
 // INIT
 // ====================================================================
-window.onload = function() {
+function initApp() {
   loadFromStorage();
   populateDistricts();
-};
+}
+// Run when DOM is ready (scripts already loaded since they're at bottom of body)
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
 
 function loadFromStorage() {
   try {
@@ -858,7 +860,7 @@ function onFileSelected(event) {
   }
 
   // ── Rule 3: Dedup — already processed by any user? ───────────────────
-  const dbKey = \`\${currentAC}_\${partNum}\`;
+  const dbKey = `${currentAC}_${partNum}`;
   if (voterDB[dbKey]) {
     const meta = voterDB[dbKey + '_meta'] || {};
     const count = voterDB[dbKey].length;
@@ -900,11 +902,9 @@ uploadZone.addEventListener('drop', e => {
 async function processPDF(file, dbKey, partNum) {
   showStatus('Loading PDF...', 3);
   try {
-    // Ensure workerSrc is set; fall back to fake-worker mode if blob is blocked
-    if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
-      pdfjsLib.GlobalWorkerOptions.workerSrc =
-        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    }
+    // Set workerSrc here (not at top-level) so pdfjsLib is guaranteed loaded
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
     const arrayBuffer = await file.arrayBuffer();
     if (!arrayBuffer || arrayBuffer.byteLength === 0) {
@@ -1399,7 +1399,7 @@ function displayResults(results, nameQ, relQ) {
 function highlight(text, query) {
   if (!text || !query) return text || '—';
   try {
-    const re = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+    const re = new RegExp('(' + query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
     return text.replace(re, '<mark>$1</mark>');
   } catch(e) { return text; }
 }
@@ -1502,5 +1502,10 @@ function clearResults() {
 document.getElementById('searchName').addEventListener('keydown', e => { if(e.key==='Enter') performSearch(); });
 document.getElementById('searchRelative').addEventListener('keydown', e => { if(e.key==='Enter') performSearch(); });
 </script>
+
+<!-- Libraries loaded at end of body so DOM is ready and page renders instantly -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 </body>
 </html>
