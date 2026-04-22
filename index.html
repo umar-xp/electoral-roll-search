@@ -559,6 +559,8 @@ const AC_DATA = {
 const PHONETIC_MAP = {
   // ---- Muslim / Urdu names ----
   "syed":       ["ಸ್ಯೆಯದ್","ಸೈಯದ್","ಸಯ್ಯದ್","ಸ್ಯೆಯದ"],
+  "umar":       ["ಉಮರ್","ಉಮರ","ಉಮ್ಮರ್","ಉಮ್ಮರ"],
+  "omar":       ["ಉಮರ್","ಉಮರ","ಓಮರ್"],
   "syeda":      ["ಸ್ಯೆಯದಾ","ಸೈಯದಾ","ಸ್ಯೆದಾ"],
   "khan":       ["ಖಾನ್","ಖಾನ","ಖಾನ್ ","ಖಾನ "],
   "khanum":     ["ಖಾನಂ","ಖಾನುಂ","ಖಾನಮ್"],
@@ -1183,7 +1185,7 @@ function buildFuseIndex(dbKey) {
   if (!data || !data.length) return;
   fuseInstances[dbKey] = new Fuse(data, {
     keys: ['name','relName','nameLower','relNameLower','namePhonetic','relPhonetic','nameLatin','relLatin','voterId'],
-    threshold: 0.45,
+    threshold: 0.30,
     distance: 80,
     includeScore: true,
     ignoreLocation: true,
@@ -1209,56 +1211,72 @@ function performSearch() {
     return;
   }
 
-  const nameVariants = nameQ ? generateVariants(nameQ) : [];
-  const relVariants  = relQ  ? generateVariants(relQ)  : [];
+  // Split multi-word queries into individual tokens e.g. "Syed Umar" → ["syed","umar"]
+  // Each token generates its own variants; a record must match ALL tokens (AND logic)
+  const nameTokens = nameQ ? nameQ.trim().toLowerCase().split(/\s+/).filter(t => t.length >= 2).map(generateVariants) : [];
+  const relTokens  = relQ  ? relQ.trim().toLowerCase().split(/\s+/).filter(t => t.length >= 2).map(generateVariants) : [];
 
-  let allMatches = new Map(); // serial+dbKey => {record, score, dbKey, nameMatch, relMatch}
+  // Helper: does field string match ALL token-variant groups?
+  function tokenMatchField(fieldLatin, fieldLower, fieldPhonetic) {
+    return (tokenGroups) => tokenGroups.every(variants =>
+      variants.some(v => {
+        const vClean = v.replace(/[^a-z0-9]/g, '');
+        return fieldLower.includes(v) ||
+               fieldPhonetic.includes(v) ||
+               (vClean.length >= 2 && fieldLatin.includes(vClean));
+      })
+    );
+  }
+
+  let allMatches = new Map(); // uid => {record, score, dbKey, nameHit, relHit}
 
   scope.forEach(dbKey => {
     const records = voterDB[dbKey] || [];
 
     records.forEach(r => {
       const uid = dbKey + '_' + r.serial;
-      let nameHit = false, relHit = false;
+      const nLatin = r.nameLatin   || '';
+      const rLatin = r.relLatin    || '';
+      const nLower = r.nameLower   || '';
+      const rLower = r.relNameLower|| '';
+      const nPhon  = r.namePhonetic|| '';
+      const rPhon  = r.relPhonetic || '';
 
-      if (nameVariants.length) {
-        nameHit = nameVariants.some(v =>
-          r.nameLower.includes(v) || r.namePhonetic.includes(v) ||
-          r.name.toLowerCase().includes(v.toLowerCase()) ||
-          (r.nameLatin && r.nameLatin.includes(v.replace(/[^a-z0-9]/g,'')))
-        );
-      }
-      if (relVariants.length) {
-        relHit = relVariants.some(v =>
-          r.relNameLower.includes(v) || r.relPhonetic.includes(v) ||
-          r.relName.toLowerCase().includes(v.toLowerCase()) ||
-          (r.relLatin && r.relLatin.includes(v.replace(/[^a-z0-9]/g,'')))
-        );
-      }
+      let nameHit = nameTokens.length === 0 || tokenMatchField(nLatin, nLower, nPhon)(nameTokens);
+      let relHit  = relTokens.length === 0  || tokenMatchField(rLatin, rLower, rPhon)(relTokens);
 
-      if (nameHit || relHit) {
-        const score = (nameHit ? 2 : 0) + (relHit ? 1 : 0);
+      // Both must match if both are provided
+      const bothProvided = nameTokens.length > 0 && relTokens.length > 0;
+      const hit = bothProvided ? (nameHit && relHit) : (nameHit || relHit);
+
+      if (hit) {
+        const score = (nameTokens.length > 0 && nameHit ? 2 : 0) +
+                      (relTokens.length  > 0 && relHit  ? 1 : 0);
         if (!allMatches.has(uid) || allMatches.get(uid).score < score) {
           allMatches.set(uid, { record:r, score, dbKey, nameHit, relHit });
         }
       }
     });
+  });
 
-    // Also run fuzzy
-    if (fuseInstances[dbKey]) {
-      const allVariants = [...nameVariants, ...relVariants];
-      allVariants.forEach(v => {
-        fuseInstances[dbKey].search(v, {limit:20}).forEach(res => {
+  // Fuzzy fallback — only if exact/substring scan found nothing
+  if (allMatches.size === 0) {
+    const allQueryVariants = [...nameTokens, ...relTokens].flat();
+    scope.forEach(dbKey => {
+      if (!fuseInstances[dbKey]) return;
+      allQueryVariants.forEach(v => {
+        if (v.length < 3) return;
+        fuseInstances[dbKey].search(v, {limit:15}).forEach(res => {
           const uid = dbKey + '_' + res.item.serial;
           if (!allMatches.has(uid)) {
-            allMatches.set(uid, { record:res.item, score:0.5, dbKey, nameHit:false, relHit:false });
+            allMatches.set(uid, { record:res.item, score:0.1, dbKey, nameHit:false, relHit:false });
           }
         });
       });
-    }
-  });
+    });
+  }
 
-  // Sort: best matches (both name+rel) first, then name-only, then fuzzy
+  // Sort: both-hit first, then name-only/rel-only, then fuzzy
   const sorted = Array.from(allMatches.values()).sort((a,b) => b.score - a.score);
   displayResults(sorted.slice(0, 20), nameQ, relQ);
 }
