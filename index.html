@@ -331,51 +331,23 @@
 
 <div class="main">
 
-  <!-- STEP 1: SELECT LOCATION -->
+  <!-- STEP 1: UPLOAD PDF -->
   <div class="card">
     <div class="card-header">
       <div class="step-badge">1</div>
-      <h2>Select District & Assembly Constituency | ಜಿಲ್ಲೆ ಮತ್ತು ವಿಧಾನಸಭಾ ಕ್ಷೇತ್ರ ಆಯ್ಕೆ</h2>
-    </div>
-    <div class="card-body">
-      <div class="form-row">
-        <div>
-          <label>District | ಜಿಲ್ಲೆ</label>
-          <select id="districtSelect" onchange="onDistrictChange()">
-            <option value="">— Select District —</option>
-          </select>
-        </div>
-        <div>
-          <label>Assembly Constituency | ವಿಧಾನಸಭಾ ಕ್ಷೇತ್ರ</label>
-          <select id="acSelect" disabled onchange="onACChange()">
-            <option value="">— Select Assembly Constituency —</option>
-          </select>
-        </div>
-      </div>
-      <div id="acInfo" class="alert alert-info" style="margin-top:12px;display:none">
-        <span>ℹ️</span>
-        <span id="acInfoText"></span>
-      </div>
-    </div>
-  </div>
-
-  <!-- STEP 2: UPLOAD PDF -->
-  <div class="card">
-    <div class="card-header">
-      <div class="step-badge">2</div>
       <h2>Upload Electoral Roll PDF | ಮತದಾರರ ಪಟ್ಟಿ PDF ಅಪ್ಲೋಡ್</h2>
     </div>
     <div class="card-body">
-      <div id="uploadAlert" class="alert alert-info">
-        <span>👆</span>
-        <span>Please select District and Assembly Constituency first, then upload the PDF part file downloaded from the CEO Karnataka website.</span>
-      </div>
 
-      <div class="upload-zone disabled" id="uploadZone">
-        <input type="file" id="pdfInput" accept=".pdf" onchange="onFileSelected(event)" disabled>
+      <div class="upload-zone" id="uploadZone">
+        <input type="file" id="pdfInput" accept=".pdf" multiple onchange="onFileSelected(event)">
         <div class="upload-icon">📄</div>
-        <p>Click to upload or drag & drop PDF here</p>
-        <small>File must be in CEO Karnataka format: e.g. <b>A1620037.pdf</b></small>
+        <p>Click to upload or drag & drop PDF(s) here</p>
+        <small>CEO Karnataka format only — e.g. <b>A1620037.pdf</b>. AC is auto-detected from filename.</small>
+      </div>
+      <div id="multiFileNotice" class="alert alert-info" style="display:none;margin-top:10px">
+        <span>⏱️</span>
+        <span id="multiFileNoticeText"></span>
       </div>
 
       <div class="status-bar" id="statusBar">
@@ -387,26 +359,26 @@
     </div>
   </div>
 
-  <!-- STEP 3: SEARCH -->
+  <!-- STEP 2: SEARCH -->
   <div class="card">
     <div class="card-header">
-      <div class="step-badge">3</div>
+      <div class="step-badge">2</div>
       <h2>Search Voter | ಮತದಾರರ ಹೆಸರು ಹುಡುಕಿ</h2>
     </div>
     <div class="card-body">
       <div class="search-row">
         <div>
           <label>Your Name | ನಿಮ್ಮ ಹೆಸರು (full or partial)</label>
-          <input type="text" id="searchName" placeholder="e.g. Syed or ಸ್ಯೆಯದ್" disabled>
+          <input type="text" id="searchName" placeholder="e.g. Syed or ಸ್ಯೆಯದ್">
           <div class="hint">Works in English, Kannada, or any phonetic spelling</div>
         </div>
         <div>
           <label>Father's / Husband's Name | ತಂದೆ / ಗಂಡನ ಹೆಸರು</label>
-          <input type="text" id="searchRelative" placeholder="e.g. Mohammed or partial name" disabled>
+          <input type="text" id="searchRelative" placeholder="e.g. Mohammed or partial name">
           <div class="hint">Optional — helps narrow down results</div>
         </div>
         <div>
-          <button class="btn btn-primary" id="searchBtn" onclick="performSearch()" disabled>
+          <button class="btn btn-primary" id="searchBtn" onclick="performSearch()">
             🔍 Search
           </button>
         </div>
@@ -428,6 +400,7 @@
 <footer>
   <p>This tool is for community service. Data is sourced from official CEO Karnataka electoral rolls.</p>
   <p style="margin-top:4px">ಈ ಸೇವೆ ಸಮುದಾಯ ಸೇವೆಗಾಗಿ · All data stored locally in your browser</p>
+  <p id="statsFooter" style="margin-top:8px;font-size:13px;color:var(--gray-600)">👥 — visitors · ✅ — successful voter searches</p>
 </footer>
 
 <!-- SUCCESS MODAL -->
@@ -437,7 +410,9 @@
     <h3>Voter Found! | ಮತದಾರರು ಪತ್ತೆಯಾಗಿದ್ದಾರೆ!</h3>
     <p>Your voter details have been located in the electoral roll.</p>
     <div class="modal-info" id="modalInfo"></div>
-    <p style="font-size:12px;color:var(--gray-400)">Please note these details for your reference.</p>
+    <div style="background:#FFF3CD;border:1.5px solid #FF6B00;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#7A3A00;text-align:left">
+      ⭐ <strong>Note down your AC Number &amp; Part Number</strong> — you will need these when verifying your vote at the polling booth.
+    </div>
     <button class="btn btn-success" onclick="closeModal()" style="width:100%">Done | ಮುಗಿಯಿತು</button>
   </div>
 </div>
@@ -739,6 +714,32 @@ function toPhonetic(text) {
   return t;
 }
 
+// ====================================================================
+// KANNADA → LATIN transliteration (char-by-char)
+// e.g. ಮಂಜುನಾಥ → "mnjunaatha"
+// ====================================================================
+const KAN_LATIN_MAP = {
+  'ಅ':'a','ಆ':'aa','ಇ':'i','ಈ':'ii','ಉ':'u','ಊ':'uu','ಋ':'ru',
+  'ಎ':'e','ಏ':'ee','ಐ':'ai','ಒ':'o','ಓ':'oo','ಔ':'au',
+  'ಕ':'k','ಖ':'kh','ಗ':'g','ಘ':'gh','ಙ':'ng',
+  'ಚ':'ch','ಛ':'chh','ಜ':'j','ಝ':'jh','ಞ':'ny',
+  'ಟ':'t','ಠ':'th','ಡ':'d','ಢ':'dh','ಣ':'n',
+  'ತ':'t','ಥ':'th','ದ':'d','ಧ':'dh','ನ':'n',
+  'ಪ':'p','ಫ':'ph','ಬ':'b','ಭ':'bh','ಮ':'m',
+  'ಯ':'y','ರ':'r','ಲ':'l','ವ':'v','ಶ':'sh','ಷ':'sh','ಸ':'s','ಹ':'h','ಳ':'l','ಱ':'r','಴':'l',
+  'ಾ':'aa','ಿ':'i','ೀ':'ii','ು':'u','ೂ':'uu','ೃ':'ru',
+  'ೆ':'e','ೇ':'ee','ೈ':'ai','ೊ':'o','ೋ':'oo','ೌ':'au',
+  'ಂ':'n','ಃ':'h','್':'','ಽ':'','\u200C':'','\u200D':''
+};
+function kannadaToLatin(text) {
+  if (!text) return '';
+  let out = '';
+  for (const ch of text) {
+    out += KAN_LATIN_MAP[ch] !== undefined ? KAN_LATIN_MAP[ch] : ch;
+  }
+  return out.toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
 
 
 // ====================================================================
@@ -756,7 +757,9 @@ let currentSearchScope = []; // which DB keys to search
 // ====================================================================
 function initApp() {
   loadFromStorage();
-  populateDistricts();
+  refreshLoadedChips();
+  trackVisitor();
+  updateStatsFooter();
 }
 // Run when DOM is ready (scripts already loaded since they're at bottom of body)
 if (document.readyState === 'loading') {
@@ -799,105 +802,98 @@ function saveToStorage() {
 }
 
 // ====================================================================
-// DROPDOWNS
+// VISITOR & SUCCESS COUNTERS (shared storage via window.storage)
 // ====================================================================
-function populateDistricts() {
-  const sel = document.getElementById('districtSelect');
-  Object.keys(AC_DATA).sort().forEach(d => {
-    const opt = document.createElement('option');
-    opt.value = d; opt.textContent = d;
-    sel.appendChild(opt);
-  });
+async function trackVisitor() {
+  try {
+    if (sessionStorage.getItem('_visited')) return; // once per session
+    sessionStorage.setItem('_visited', '1');
+    const cur = await window.storage.get('stats:visitors', true).catch(() => null);
+    const n = cur ? (parseInt(cur.value, 10) || 0) + 1 : 1;
+    await window.storage.set('stats:visitors', String(n), true);
+    updateStatsFooter();
+  } catch(e) { /* shared storage unavailable — silent */ }
 }
 
-function onDistrictChange() {
-  const district = document.getElementById('districtSelect').value;
-  const acSel = document.getElementById('acSelect');
-  acSel.innerHTML = '<option value="">— Select Assembly Constituency —</option>';
-  acSel.disabled = !district;
-  document.getElementById('acInfo').style.display = 'none';
-  currentAC = null;
-  updateUploadState();
-  if (!district) return;
-  (AC_DATA[district] || []).forEach(ac => {
-    const opt = document.createElement('option');
-    opt.value = ac.num;
-    opt.textContent = `${ac.name} (${ac.num})`;
-    acSel.appendChild(opt);
-  });
+async function trackSuccessfulFind() {
+  try {
+    const cur = await window.storage.get('stats:successes', true).catch(() => null);
+    const n = cur ? (parseInt(cur.value, 10) || 0) + 1 : 1;
+    await window.storage.set('stats:successes', String(n), true);
+    updateStatsFooter();
+  } catch(e) { /* silent */ }
 }
 
-function onACChange() {
-  const acNum = document.getElementById('acSelect').value;
-  if (!acNum) { currentAC = null; updateUploadState(); return; }
-  currentAC = acNum;
-  const numericAC = acNum.replace('A','');
-  const infoEl = document.getElementById('acInfo');
-  document.getElementById('acInfoText').textContent =
-    `AC Number: ${numericAC} | Expected PDF naming: A${numericAC}XXXX.pdf  (e.g. A${numericAC}0001.pdf for Part 1)`;
-  infoEl.style.display = 'flex';
-  updateUploadState();
-  refreshLoadedChips();
+async function updateStatsFooter() {
+  try {
+    const v = await window.storage.get('stats:visitors', true).catch(() => null);
+    const s = await window.storage.get('stats:successes', true).catch(() => null);
+    const visitors  = v ? parseInt(v.value, 10) || 0 : 0;
+    const successes = s ? parseInt(s.value, 10) || 0 : 0;
+    const el = document.getElementById('statsFooter');
+    if (el) el.textContent = `👥 ${visitors} visitors · ✅ ${successes} successful voter searches`;
+  } catch(e) { /* silent */ }
 }
 
-function updateUploadState() {
-  const ready = !!currentAC;
-  const zone = document.getElementById('uploadZone');
-  const input = document.getElementById('pdfInput');
-  const alertEl = document.getElementById('uploadAlert');
-  zone.classList.toggle('disabled', !ready);
-  input.disabled = !ready;
-  alertEl.style.display = ready ? 'none' : 'flex';
-  document.getElementById('searchName').disabled = !ready;
-  document.getElementById('searchRelative').disabled = !ready;
-  document.getElementById('searchBtn').disabled = !ready;
-}
+// ====================================================================
+// DROPDOWNS — kept as no-op stubs (no longer shown in UI)
+// ====================================================================
+function populateDistricts() {}
+function onDistrictChange() {}
+function onACChange() {}
+function updateUploadState() {}
 
 // ====================================================================
 // FILE SELECTION & VALIDATION
 // ====================================================================
 function onFileSelected(event) {
-  const file = event.target.files[0];
-  if (!file) return;
+  const files = Array.from(event.target.files || []);
   event.target.value = '';
+  if (!files.length) return;
 
+  // ── Multi-file nudge ─────────────────────────────────────────────
+  const notice = document.getElementById('multiFileNotice');
+  const noticeText = document.getElementById('multiFileNoticeText');
+  if (files.length > 1) {
+    noticeText.textContent = `You've selected ${files.length} files. Each file takes 2–5 minutes to process — multiple files may take considerably longer. Please keep this tab open.`;
+    notice.style.display = 'flex';
+  } else {
+    notice.style.display = 'none';
+  }
+
+  files.forEach(file => validateAndProcess(file));
+}
+
+function validateAndProcess(file) {
   const filename = file.name;
 
   // ── Rule 1: Must match CEO Karnataka naming exactly ──────────────────
-  // Format: A + 3-digit-AC + 0 + 3-digit-part + .pdf   e.g. A1620037.pdf
   const match = filename.match(/^A(\d{3})0(\d{3})\.pdf$/i);
   if (!match) {
     showAlert('error',
       `❌ <b>Invalid filename: ${filename}</b><br>
-       This site only accepts files downloaded directly from the CEO Karnataka website.<br>
-       Expected format: <b>A${currentAC.replace('A','')}0XXX.pdf</b><br>
+       Expected CEO Karnataka format: <b>AXXXOYYY.pdf</b> (e.g. A1620037.pdf).<br>
        Do <u>not</u> rename the file before uploading.`);
     return;
   }
 
-  // ── Rule 2: AC in filename must match selected AC ─────────────────────
-  const fileAC  = match[1];
-  const partNum = match[2];
-  const expectedAC = currentAC.replace('A','');
+  // ── Auto-detect AC from filename ─────────────────────────────────────
+  const fileAC  = 'A' + match[1];   // e.g. "A162"
+  const partNum = match[2];          // e.g. "037"
 
-  if (fileAC !== expectedAC) {
-    showAlert('error',
-      `❌ <b>Wrong constituency file.</b><br>
-       You selected AC <b>${expectedAC}</b> but uploaded a file for AC <b>${fileAC}</b>.<br>
-       Either change the Assembly Constituency dropdown or upload the correct file.`);
-    return;
-  }
+  // Set currentAC to match this file (allows search scope to work)
+  currentAC = fileAC;
 
-  // ── Rule 3: Dedup — already processed by any user? ───────────────────
-  const dbKey = `${currentAC}_${partNum}`;
+  // ── Rule 2: Dedup — already processed? ───────────────────────────────
+  const dbKey = `${fileAC}_${partNum}`;
   if (voterDB[dbKey]) {
-    const meta = voterDB[dbKey + '_meta'] || {};
+    const meta  = voterDB[dbKey + '_meta'] || {};
     const count = voterDB[dbKey].length;
     const when  = meta.processedAt
       ? new Date(meta.processedAt).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'})
       : 'earlier';
     showAlert('success',
-      `✅ <b>Already processed!</b> Part <b>${partNum}</b> (AC ${expectedAC}) was uploaded ${when} 
+      `✅ <b>Already processed!</b> Part <b>${partNum}</b> (AC ${match[1]}) was uploaded ${when} 
        and has <b>${count} voter records</b> ready.<br>
        No re-upload needed — go ahead and search.`);
     currentSearchScope = getSearchScope();
@@ -909,8 +905,8 @@ function onFileSelected(event) {
 }
 
 function getSearchScope() {
-  if (!currentAC) return [];
-  return Object.keys(voterDB).filter(k => k.startsWith(currentAC + '_') && !k.endsWith('_meta'));
+  // Return all data keys regardless of AC — user may have uploaded multiple ACs
+  return Object.keys(voterDB).filter(k => !k.endsWith('_meta'));
 }
 
 // Drag and drop
@@ -1084,56 +1080,6 @@ async function tryDirectExtract(pdf, totalPages) {
 }
 
 // ====================================================================
-// STRATEGY 2: OCR using Tesseract.js
-// Scale 2.5 (180 DPI) confirmed working from diagnostic test
-// ====================================================================
-async function runOCR(pdf, totalPages) {
-  let allRecords = [];
-
-  if (typeof Tesseract === 'undefined') {
-    showAlert('error','❌ OCR library not loaded. Please refresh the page.');
-    return [];
-  }
-
-  showStatus('Loading OCR engine (Kannada + English)...', 8);
-  let currentOCRPage = 1; // declared here so logger closure can access it
-  let worker;
-  try {
-    worker = await Tesseract.createWorker(['kan','eng'], 1, {
-      logger: m => {
-        if (m.status === 'recognizing text') {
-          const p = 10 + Math.round((currentOCRPage / totalPages) * 85);
-          showStatus('OCR page ' + currentOCRPage + '/' + totalPages +
-            ' — ' + Math.round(m.progress * 100) + '%', p);
-        } else if (m.status) {
-          showStatus(m.status + '...', 9);
-        }
-      }
-    });
-  } catch(tErr) {
-    showAlert('error','❌ OCR engine failed to start: ' + (tErr.message || tErr));
-    return [];
-  }
-
-  for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
-    currentOCRPage = pageNum;
-    const page  = await pdf.getPage(pageNum);
-    // Scale 2.5 = ~180 DPI — confirmed by diagnostic as producing good Kannada output
-    const vp    = page.getViewport({scale: 2.5});
-    const canvas = document.createElement('canvas');
-    canvas.width  = vp.width;
-    canvas.height = vp.height;
-    await page.render({canvasContext: canvas.getContext('2d'), viewport: vp}).promise;
-
-    const {data} = await worker.recognize(canvas);
-    const pageRecords = parseOCRText(data.text);
-    allRecords = allRecords.concat(pageRecords);
-  }
-
-  await worker.terminate();
-  return allRecords;
-}
-
 // ====================================================================
 // PARSER 1: For direct PDF text extraction (structured items)
 // ====================================================================
@@ -1195,7 +1141,7 @@ const KAN_RE = '[\\u0C80-\\u0CFF\\u200C\\u200D]';
 
 const VOTER_PATTERN = new RegExp(
   '^(\\d{1,4})'                                         // serial
-  + '\\s+([\\w\\/\\-\\.]+)'                             // house no
+  + '\\s+([\\w\\u0C80-\\u0CFF\\/\\-\\.]+)'             // house no
   + '\\s+(' + KAN_RE + '(?:' + KAN_RE + '|[\\s\\.\\,\\-\\\'])*?)'  // name
   + '\\s+(ತಂದೆ|ತಾಯಿ|ಗಂಡ|ಇತರೆ)[\\.]?\\s+'              // relation + optional dot
   + '(' + KAN_RE + '(?:' + KAN_RE + '|[\\s\\.\\,\\-\\\'])*?)'      // rel name
@@ -1222,7 +1168,9 @@ function makeRecord(serial, house, name, relation, relName, genderCode, age, vot
     nameLower:    name.toLowerCase(),
     relNameLower: relName.toLowerCase(),
     namePhonetic: toPhonetic(name),
-    relPhonetic:  toPhonetic(relName)
+    relPhonetic:  toPhonetic(relName),
+    nameLatin:    kannadaToLatin(name),
+    relLatin:     kannadaToLatin(relName)
   };
 }
 
@@ -1234,7 +1182,7 @@ function buildFuseIndex(dbKey) {
   const data = voterDB[dbKey];
   if (!data || !data.length) return;
   fuseInstances[dbKey] = new Fuse(data, {
-    keys: ['name','relName','nameLower','relNameLower','namePhonetic','relPhonetic','voterId'],
+    keys: ['name','relName','nameLower','relNameLower','namePhonetic','relPhonetic','nameLatin','relLatin','voterId'],
     threshold: 0.45,
     distance: 80,
     includeScore: true,
@@ -1276,13 +1224,15 @@ function performSearch() {
       if (nameVariants.length) {
         nameHit = nameVariants.some(v =>
           r.nameLower.includes(v) || r.namePhonetic.includes(v) ||
-          r.name.toLowerCase().includes(v.toLowerCase())
+          r.name.toLowerCase().includes(v.toLowerCase()) ||
+          (r.nameLatin && r.nameLatin.includes(v.replace(/[^a-z0-9]/g,'')))
         );
       }
       if (relVariants.length) {
         relHit = relVariants.some(v =>
           r.relNameLower.includes(v) || r.relPhonetic.includes(v) ||
-          r.relName.toLowerCase().includes(v.toLowerCase())
+          r.relName.toLowerCase().includes(v.toLowerCase()) ||
+          (r.relLatin && r.relLatin.includes(v.replace(/[^a-z0-9]/g,'')))
         );
       }
 
@@ -1517,16 +1467,19 @@ function onSuccess(acNum, partNum, name, relName, serial, voterId) {
     if (ac.num === acNum) acName = ac.name;
   });
 
+  const saffron = 'color:var(--saffron);font-weight:700';
+
   document.getElementById('modalInfo').innerHTML = `
     <div class="modal-info-row"><span>Voter Name</span><span>${name}</span></div>
     <div class="modal-info-row"><span>Relation Name</span><span>${relName}</span></div>
     <div class="modal-info-row"><span>Serial No.</span><span>${serial}</span></div>
-    <div class="modal-info-row"><span>AC Number</span><span>${acNumeric}</span></div>
-    <div class="modal-info-row"><span>AC Name</span><span>${acName}</span></div>
-    <div class="modal-info-row"><span>Part Number</span><span>${partNum}</span></div>
+    <div class="modal-info-row"><span>⭐ AC Number</span><span style="${saffron}">${acNumeric}</span></div>
+    ${acName ? `<div class="modal-info-row"><span>AC Name</span><span>${acName}</span></div>` : ''}
+    <div class="modal-info-row"><span>⭐ Part Number</span><span style="${saffron}">${partNum}</span></div>
     ${voterId ? `<div class="modal-info-row"><span>Voter ID</span><span>${voterId}</span></div>` : ''}
   `;
   document.getElementById('successModal').classList.add('show');
+  trackSuccessfulFind();
 }
 
 function closeModal() {
@@ -1567,10 +1520,8 @@ function getAlertIcon(t) {
 }
 
 function refreshLoadedChips() {
-  if (!currentAC) return;
   const container = document.getElementById('loadedPdfs');
-  // Only real data keys (not _meta keys)
-  const keys = Object.keys(voterDB).filter(k => k.startsWith(currentAC + '_') && !k.endsWith('_meta'));
+  const keys = Object.keys(voterDB).filter(k => !k.endsWith('_meta'));
   container.innerHTML = '';
   if (keys.length) {
     const label = document.createElement('div');
@@ -1578,16 +1529,16 @@ function refreshLoadedChips() {
     label.textContent = `${keys.length} part(s) already processed — no re-upload needed:`;
     container.appendChild(label);
     keys.sort().forEach(k => {
-      const part = k.split('_')[1];
-      const meta = voterDB[k + '_meta'] || {};
+      const [acNum, part] = k.split('_');
+      const meta  = voterDB[k + '_meta'] || {};
       const count = meta.recordCount || (voterDB[k] || []).length;
       const when  = meta.processedAt
         ? new Date(meta.processedAt).toLocaleDateString('en-IN',{day:'numeric',month:'short'})
         : '';
       const chip = document.createElement('div');
       chip.className = 'pdf-chip';
-      chip.title = `Part ${part} · ${count} records · processed ${when}`;
-      chip.innerHTML = `<span class="dot"></span> Part ${part} &nbsp;·&nbsp; ${count} voters${when ? ' &nbsp;·&nbsp; ' + when : ''}`;
+      chip.title = `AC ${acNum} · Part ${part} · ${count} records · processed ${when}`;
+      chip.innerHTML = `<span class="dot"></span> AC ${acNum.replace('A','')} · Part ${part} &nbsp;·&nbsp; ${count} voters${when ? ' &nbsp;·&nbsp; ' + when : ''}`;
       container.appendChild(chip);
     });
     currentSearchScope = keys;
