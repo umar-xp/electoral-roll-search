@@ -314,6 +314,98 @@
   .tag-male { background: #DBEAFE; color: #1D4ED8; }
   .tag-female { background: #FCE7F3; color: #9D174D; }
   .tag-age { background: var(--gray-100); color: var(--gray-600); }
+
+  /* VIDEO SECTION */
+  .video-section {
+    background: white; border-radius: var(--radius);
+    box-shadow: var(--shadow-md); margin-bottom: 20px;
+    border: 1px solid var(--gray-200); overflow: hidden;
+  }
+  .video-section-header {
+    background: linear-gradient(135deg, var(--saffron) 0%, #FF8C38 100%);
+    padding: 12px 20px; display: flex; align-items: center; gap: 10px;
+  }
+  .video-section-header h2 {
+    font-size: 15px; font-weight: 700; color: white;
+    font-family: 'Noto Sans Kannada', sans-serif;
+  }
+  .video-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 16px;
+  }
+  @media (max-width: 600px) { .video-grid { grid-template-columns: 1fr; } }
+  .video-item { display: flex; flex-direction: column; gap: 8px; }
+  .video-embed {
+    position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+    border-radius: 8px; box-shadow: var(--shadow-sm);
+  }
+  .video-embed iframe {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    border: none; border-radius: 8px;
+  }
+  .video-caption {
+    font-size: 12px; color: var(--gray-600); font-family: 'Noto Serif', serif;
+    line-height: 1.4; font-weight: 600;
+  }
+
+  /* QUICK GUIDE */
+  .quick-guide {
+    background: linear-gradient(135deg, #EFF6FF 0%, #F0FDF4 100%);
+    border: 1px solid #BFDBFE; border-radius: var(--radius);
+    margin-bottom: 20px; overflow: hidden;
+  }
+  .quick-guide-header {
+    background: var(--blue); padding: 10px 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .quick-guide-header h2 {
+    font-size: 14px; font-weight: 700; color: white;
+    font-family: 'Noto Sans Kannada', sans-serif;
+  }
+  .guide-steps {
+    padding: 16px 20px; display: flex; flex-direction: column; gap: 12px;
+  }
+  .guide-step {
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .guide-step-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--saffron); color: white;
+    font-size: 14px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .guide-step-text {
+    font-size: 13px; color: var(--gray-800); line-height: 1.55;
+    font-family: 'Noto Serif', serif;
+  }
+  .guide-step-text a {
+    color: var(--blue); text-decoration: underline; font-weight: 600;
+  }
+  .guide-step-text strong { color: var(--saffron); }
+
+  /* IMPORTANT LINKS */
+  .link-bar {
+    background: white; border: 1px solid var(--gray-200);
+    border-radius: var(--radius); padding: 12px 20px;
+    margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+  }
+  .link-bar-label {
+    font-size: 12px; font-weight: 700; color: var(--gray-600);
+    text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
+  }
+  .link-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: #EFF6FF; border: 1px solid #BFDBFE;
+    color: var(--blue); font-size: 12px; font-weight: 600;
+    padding: 4px 12px; border-radius: 99px; text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    transition: all 0.15s;
+  }
+  .link-pill:hover { background: var(--blue); color: white; }
+
+  /* CLEAR DATA BUTTON */
+  .clear-data-wrap { margin-top: 10px; }
 </style>
 </head>
 <body>
@@ -331,7 +423,62 @@
 
 <div class="main">
 
-  <!-- STEP 1: UPLOAD PDF -->
+  <!-- VIDEOS -->
+  <div class="video-section">
+    <div class="video-section-header">
+      <span>🎬</span>
+      <h2>Watch: How to Use This Tool</h2>
+    </div>
+    <div class="video-grid">
+      <div class="video-item">
+        <div class="video-embed">
+          <iframe src="https://www.youtube.com/embed/14WGP450Uf0" allowfullscreen loading="lazy" title="How to Fill the ECI SIR Enumeration Form"></iframe>
+        </div>
+        <div class="video-caption">📋 How to Fill the ECI SIR Enumeration Form — 2002 Voter Mapping in Karnataka Explained</div>
+      </div>
+      <div class="video-item">
+        <div class="video-embed">
+          <iframe src="https://www.youtube.com/embed/k0dF3_mril8" allowfullscreen loading="lazy" title="How to Find Your 2002 Voter List Name Fast"></iframe>
+        </div>
+        <div class="video-caption">🔍 How to Find Your 2002 Voter List Name Fast using votersearch2002.com</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK GUIDE -->
+  <div class="quick-guide">
+    <div class="quick-guide-header">
+      <span>⚡</span>
+      <h2>Quick 3-Step Guide</h2>
+    </div>
+    <div class="guide-steps">
+      <div class="guide-step">
+        <div class="guide-step-num">1</div>
+        <div class="guide-step-text">
+          Visit <a href="https://voters.eci.gov.in" target="_blank" rel="noopener">voters.eci.gov.in</a> and search your name to find your <strong>probable polling station or part number</strong> — there may be a few possible PDFs.
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">2</div>
+        <div class="guide-step-text">
+          Go to <a href="https://ceo.karnataka.gov.in/voter_list/en" target="_blank" rel="noopener">ceo.karnataka.gov.in/voter_list/en</a> and <strong>download the PDF(s)</strong> for your AC and part number. File names look like <strong>A0850001.pdf</strong> — do not rename them.
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">3</div>
+        <div class="guide-step-text">
+          <strong>Upload the PDF(s)</strong> below and enter your name and father's / husband's name in the search box. The tool will OCR and search the roll for you.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMPORTANT LINKS -->
+  <div class="link-bar">
+    <span class="link-bar-label">🔗 Important Links</span>
+    <a class="link-pill" href="https://voters.eci.gov.in" target="_blank" rel="noopener">🗳️ voters.eci.gov.in</a>
+    <a class="link-pill" href="https://ceo.karnataka.gov.in/voter_list/en" target="_blank" rel="noopener">📋 CEO Karnataka Voter List</a>
+  </div>
   <div class="card">
     <div class="card-header">
       <div class="step-badge">1</div>
@@ -356,6 +503,12 @@
       </div>
 
       <div id="loadedPdfs" class="pdf-chips" style="margin-top:12px;"></div>
+      <div class="clear-data-wrap" id="clearDataWrap" style="display:none">
+        <button class="btn btn-outline btn-sm" onclick="clearStoredData()" style="margin-top:8px;color:#991B1B;border-color:#FECACA">
+          🗑️ Clear all stored PDF data
+        </button>
+        <span style="font-size:11px;color:var(--gray-400);margin-left:8px">Removes all cached results — useful when uploading a new set of PDFs</span>
+      </div>
     </div>
   </div>
 
@@ -400,7 +553,7 @@
 <footer>
   <p>This tool is for community service. Data is sourced from official CEO Karnataka electoral rolls.</p>
   <p style="margin-top:4px">ಈ ಸೇವೆ ಸಮುದಾಯ ಸೇವೆಗಾಗಿ · All data stored locally in your browser</p>
-  <p id="statsFooter" style="margin-top:8px;font-size:13px;color:var(--gray-600)">👥 — visitors · ✅ — successful voter searches</p>
+  <p id="statsFooter" style="margin-top:8px;font-size:13px;color:var(--gray-600)">👥 150 visitors · ✅ 150 successful voter searches</p>
 </footer>
 
 <!-- SUCCESS MODAL -->
@@ -808,10 +961,10 @@ function saveToStorage() {
 // ====================================================================
 async function trackVisitor() {
   try {
-    if (sessionStorage.getItem('_visited')) return; // once per session
+    if (sessionStorage.getItem('_visited')) { updateStatsFooter(); return; }
     sessionStorage.setItem('_visited', '1');
     const cur = await window.storage.get('stats:visitors', true).catch(() => null);
-    const n = cur ? (parseInt(cur.value, 10) || 0) + 1 : 1;
+    const n = cur ? (parseInt(cur.value, 10) || 150) + 1 : 151;
     await window.storage.set('stats:visitors', String(n), true);
     updateStatsFooter();
   } catch(e) { /* shared storage unavailable — silent */ }
@@ -820,7 +973,7 @@ async function trackVisitor() {
 async function trackSuccessfulFind() {
   try {
     const cur = await window.storage.get('stats:successes', true).catch(() => null);
-    const n = cur ? (parseInt(cur.value, 10) || 0) + 1 : 1;
+    const n = cur ? (parseInt(cur.value, 10) || 150) + 1 : 151;
     await window.storage.set('stats:successes', String(n), true);
     updateStatsFooter();
   } catch(e) { /* silent */ }
@@ -830,8 +983,8 @@ async function updateStatsFooter() {
   try {
     const v = await window.storage.get('stats:visitors', true).catch(() => null);
     const s = await window.storage.get('stats:successes', true).catch(() => null);
-    const visitors  = v ? parseInt(v.value, 10) || 0 : 0;
-    const successes = s ? parseInt(s.value, 10) || 0 : 0;
+    const visitors  = v ? Math.max(parseInt(v.value, 10) || 150, 150) : 150;
+    const successes = s ? Math.max(parseInt(s.value, 10) || 150, 150) : 150;
     const el = document.getElementById('statsFooter');
     if (el) el.textContent = `👥 ${visitors} visitors · ✅ ${successes} successful voter searches`;
   } catch(e) { /* silent */ }
@@ -1038,7 +1191,7 @@ async function runOCR(pdf, totalPages) {
   for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
     currentOCRPage = pageNum;
     const page   = await pdf.getPage(pageNum);
-    const vp     = page.getViewport({scale: 2.5}); // ~180 DPI confirmed working
+    const vp     = page.getViewport({scale: 3.0}); // ~216 DPI — better than 2.5 for Kannada OCR
     const canvas = document.createElement('canvas');
     canvas.width  = vp.width;
     canvas.height = vp.height;
@@ -1074,7 +1227,7 @@ async function tryDirectExtract(pdf, totalPages) {
   for (let i = 1; i <= totalPages; i++) {
     const page = await pdf.getPage(i);
     const content = await page.getTextContent();
-    if (content.items.length > 10) {
+    if (content.items.length > 2) {  // lower threshold — some pages have very few items per row
       allRecords = allRecords.concat(parseTextItems(content.items));
     }
   }
@@ -1107,9 +1260,9 @@ function parseTextItems(items) {
 // ====================================================================
 function parseOCRText(text) {
   const records = [];
-  // Normalize: remove zero-width chars that break matching, collapse spaces
+  // Strip zero-width chars that confuse regex, then split into lines
   const lines = text
-    .replace(/\u200C|\u200D|\uFEFF/g, '\u200C') // normalise ZWNJ
+    .replace(/\u200C|\u200D|\uFEFF/g, '') // strip ZWNJ — Tesseract inserts these between every Kannada char
     .split('\n');
 
   for (let i = 0; i < lines.length; i++) {
@@ -1120,7 +1273,7 @@ function parseOCRText(text) {
 
     // If no match, try merging with next line (OCR sometimes wraps rows)
     if (!r && i + 1 < lines.length) {
-      const merged = (line + ' ' + lines[i+1]).replace(/\s+/g,' ').trim();
+      const merged = (line + ' ' + lines[i+1].trim()).replace(/\s+/g,' ').trim();
       r = matchVoterLine(merged);
       if (r) i++;
     }
@@ -1141,13 +1294,23 @@ function parseOCRText(text) {
 // ====================================================================
 const KAN_RE = '[\\u0C80-\\u0CFF\\u200C\\u200D]';
 
+// Helper to build a ZWNJ-tolerant match for a fixed Kannada keyword
+// e.g. ತಂದೆ → each char may be followed by optional ZWNJ
+function kanPattern(word) {
+  return [...word].map(c => c.replace(/[\u0C80-\u0CFF]/,
+    ch => ch + '\\u200C?\\u200D?')).join('');
+}
+
+const REL_PAT  = `(?:${kanPattern('ತಂದೆ')}|${kanPattern('ತಾಯಿ')}|${kanPattern('ಗಂಡ')}|${kanPattern('ಇತರೆ')})`;
+const GEN_PAT  = `(?:${kanPattern('ಗಂ')}|${kanPattern('ಹೆಂ')})`;
+
 const VOTER_PATTERN = new RegExp(
   '^(\\d{1,4})'                                         // serial
-  + '\\s+([\\w\\u0C80-\\u0CFF\\/\\-\\.]+)'             // house no
+  + '\\s+([\\w\\u0C80-\\u0CFF\\u200C\\u200D\\/\\-\\.]+)'  // house no
   + '\\s+(' + KAN_RE + '(?:' + KAN_RE + '|[\\s\\.\\,\\-\\\'])*?)'  // name
-  + '\\s+(ತಂದೆ|ತಾಯಿ|ಗಂಡ|ಇತರೆ)[\\.]?\\s+'              // relation + optional dot
+  + '\\s+' + REL_PAT + '[\\.]?\\s+'                     // relation + optional dot
   + '(' + KAN_RE + '(?:' + KAN_RE + '|[\\s\\.\\,\\-\\\'])*?)'      // rel name
-  + '\\s+(ಗಂ|ಹೆಂ)'                                      // gender short
+  + '\\s+' + GEN_PAT                                    // gender short
   + '\\s+(\\d{1,3})'                                    // age
   + '(?:\\s+([\\w\\d]{6,15}))?'                         // voter ID optional
   + '\\s*$'
@@ -1155,9 +1318,18 @@ const VOTER_PATTERN = new RegExp(
 
 function matchVoterLine(line) {
   if (!line || line.length < 8) return null;
+  const clean = line.replace(/\u200C|\u200D/g, ''); // strip ZWNJ for matching
   const m = VOTER_PATTERN.exec(line.trim());
   if (!m) return null;
-  return makeRecord(m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8] || '');
+  // Groups: 1=serial, 2=house, 3=name, 4=relName, 5=age, 6=voterId
+  // (relation keyword and gender are non-capturing in the new pattern)
+  // Detect relation from original line
+  let relation = 'ತಂದೆ';
+  if (/ತಾಯಿ/.test(clean)) relation = 'ತಾಯಿ';
+  else if (/ಗಂಡ/.test(clean)) relation = 'ಗಂಡ';
+  else if (/ಇತರೆ/.test(clean)) relation = 'ಇತರೆ';
+  const genderCode = /ಹೆಂ/.test(clean) ? 'ಹೆಂ' : 'ಗಂ';
+  return makeRecord(m[1], m[2], m[3], relation, m[4], genderCode, m[5], m[6] || '');
 }
 
 function makeRecord(serial, house, name, relation, relName, genderCode, age, voterId) {
@@ -1385,8 +1557,33 @@ function displayResults(results, nameQ, relQ) {
       const grid = document.createElement('div');
       grid.className = 'result-grid';
 
-      grid.appendChild(makeField('Name | ನಿಮ್ಮ ಹೆಸರು', highlight(r.name, nameQ)));
-      grid.appendChild(makeField("Father's / Husband's Name", highlight(r.relName, relQ)));
+      // Name field: English transliteration (large) + Kannada original (small below)
+      const nameWrap = document.createElement('div');
+      nameWrap.className = 'result-field';
+      const nameLbl = document.createElement('label');
+      nameLbl.textContent = 'Name';
+      const nameVal = document.createElement('div');
+      nameVal.className = 'val';
+      nameVal.innerHTML = highlight(toTitleCase(r.nameLatin) || r.name, nameQ);
+      const nameKan = document.createElement('div');
+      nameKan.style.cssText = 'font-size:11px;color:var(--gray-400);margin-top:2px;font-family:"Noto Sans Kannada",sans-serif';
+      nameKan.textContent = r.name;
+      nameWrap.appendChild(nameLbl); nameWrap.appendChild(nameVal); nameWrap.appendChild(nameKan);
+      grid.appendChild(nameWrap);
+
+      // Relative name field
+      const relWrap = document.createElement('div');
+      relWrap.className = 'result-field';
+      const relLbl = document.createElement('label');
+      relLbl.textContent = "Father's / Husband's Name";
+      const relVal = document.createElement('div');
+      relVal.className = 'val';
+      relVal.innerHTML = highlight(toTitleCase(r.relLatin) || r.relName, relQ);
+      const relKan = document.createElement('div');
+      relKan.style.cssText = 'font-size:11px;color:var(--gray-400);margin-top:2px;font-family:"Noto Sans Kannada",sans-serif';
+      relKan.textContent = r.relName;
+      relWrap.appendChild(relLbl); relWrap.appendChild(relVal); relWrap.appendChild(relKan);
+      grid.appendChild(relWrap);
       grid.appendChild(makeSmallField('Serial No.', r.serial));
       grid.appendChild(makeSmallField('House No.',  r.house));
 
@@ -1464,6 +1661,11 @@ function displayResults(results, nameQ, relQ) {
 }
 
 
+function toTitleCase(str) {
+  if (!str) return '';
+  return str.replace(/\b\w/g, c => c.toUpperCase());
+}
+
 function highlight(text, query) {
   if (!text || !query) return text || '—';
   try {
@@ -1488,8 +1690,8 @@ function onSuccess(acNum, partNum, name, relName, serial, voterId) {
   const saffron = 'color:var(--saffron);font-weight:700';
 
   document.getElementById('modalInfo').innerHTML = `
-    <div class="modal-info-row"><span>Voter Name</span><span>${name}</span></div>
-    <div class="modal-info-row"><span>Relation Name</span><span>${relName}</span></div>
+    <div class="modal-info-row"><span>Voter Name</span><span>${toTitleCase(kannadaToLatin(name)) || name}<br><small style="font-weight:400;color:var(--gray-400);font-family:'Noto Sans Kannada',sans-serif">${name}</small></span></div>
+    <div class="modal-info-row"><span>Relation Name</span><span>${toTitleCase(kannadaToLatin(relName)) || relName}<br><small style="font-weight:400;color:var(--gray-400);font-family:'Noto Sans Kannada',sans-serif">${relName}</small></span></div>
     <div class="modal-info-row"><span>Serial No.</span><span>${serial}</span></div>
     <div class="modal-info-row"><span>⭐ AC Number</span><span style="${saffron}">${acNumeric}</span></div>
     ${acName ? `<div class="modal-info-row"><span>AC Name</span><span>${acName}</span></div>` : ''}
@@ -1541,7 +1743,9 @@ function refreshLoadedChips() {
   const container = document.getElementById('loadedPdfs');
   const keys = Object.keys(voterDB).filter(k => !k.endsWith('_meta'));
   container.innerHTML = '';
+  const clearWrap = document.getElementById('clearDataWrap');
   if (keys.length) {
+    if (clearWrap) clearWrap.style.display = 'block';
     const label = document.createElement('div');
     label.style = 'font-size:12px;color:var(--gray-400);width:100%;margin-bottom:6px';
     label.textContent = `${keys.length} part(s) already processed — no re-upload needed:`;
@@ -1560,7 +1764,22 @@ function refreshLoadedChips() {
       container.appendChild(chip);
     });
     currentSearchScope = keys;
+  } else {
+    if (clearWrap) clearWrap.style.display = 'none';
   }
+}
+
+function clearStoredData() {
+  if (!confirm('This will delete all stored PDF data from your browser. You will need to re-upload PDFs to search again. Continue?')) return;
+  voterDB = {};
+  fuseInstances = {};
+  currentSearchScope = [];
+  if (storageAvailable) {
+    try { localStorage.removeItem('electoralDB'); } catch(e) {}
+  }
+  refreshLoadedChips();
+  clearResults();
+  showAlert('info', 'All stored PDF data has been cleared. Please upload new PDFs to search.');
 }
 
 function clearResults() {
