@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Karnataka Electoral Roll Search | ಮತದಾರರ ಪಟ್ಟಿ ಹುಡುಕಾಟ</title>
+<link rel="icon" type="image/x-icon" sizes="32x32" href="votersearch_favicon_32x32.ico">
+<link rel="icon" type="image/x-icon" sizes="16x16" href="votersearch_favicon_16x16.ico">
+<link rel="shortcut icon" href="votersearch_favicon_32x32.ico">
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Serif:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap');
@@ -541,6 +544,15 @@
 
   <!-- RESULTS -->
   <div id="resultsSection" style="display:none">
+    <!-- Accuracy & transliteration notes — always visible when results are shown -->
+    <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:13px 16px;margin-bottom:14px;font-size:13px;color:#78350F;line-height:1.6">
+      <div style="font-weight:700;margin-bottom:5px">📋 Please note before using results:</div>
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div>🔤 <strong>English names are transliterated from Kannada</strong> and may appear misspelled — use the Kannada name above as the reference.</div>
+        <div>📊 <strong>This tool extracts ~75–80% of voter records</strong> from the PDF via OCR. If your name is missing, please cross-check by opening the original PDF and verifying the part number searched.</div>
+        <div>✅ If you find your name, <strong>note down the AC number and Part number</strong> shown on the card — you will need these for enrollment.</div>
+      </div>
+    </div>
     <div class="results-header">
       <div class="results-count" id="resultsCount"></div>
       <button class="btn btn-outline btn-sm" onclick="clearResults()">✕ Clear</button>
@@ -1191,13 +1203,25 @@ async function runOCR(pdf, totalPages) {
   for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
     currentOCRPage = pageNum;
     const page   = await pdf.getPage(pageNum);
-    const vp     = page.getViewport({scale: 3.0}); // ~216 DPI — better than 2.5 for Kannada OCR
+    const vp     = page.getViewport({scale: 3.0}); // ~216 DPI — better Kannada OCR than 2.5
     const canvas = document.createElement('canvas');
     canvas.width  = vp.width;
     canvas.height = vp.height;
     await page.render({canvasContext: canvas.getContext('2d'), viewport: vp}).promise;
 
-    const {data} = await worker.recognize(canvas);
+    // Image preprocessing — boost contrast to help faded/degraded scans
+    let ocrTarget = canvas;
+    try {
+      const proc = document.createElement('canvas');
+      proc.width  = canvas.width;
+      proc.height = canvas.height;
+      const pctx = proc.getContext('2d');
+      pctx.filter = 'contrast(1.35) brightness(1.05) grayscale(1)';
+      pctx.drawImage(canvas, 0, 0);
+      ocrTarget = proc;
+    } catch(e) { /* use raw canvas if filter unsupported */ }
+
+    const {data} = await worker.recognize(ocrTarget);
 
     // Log first page raw output for debugging
     if (pageNum <= 2) {
@@ -1256,26 +1280,60 @@ function parseTextItems(items) {
 
 // ====================================================================
 // PARSER 2: For OCR text output (line by line)
-// Handles \u200C (ZWNJ) characters that Tesseract inserts in Kannada text
+// PRE-PROCESSOR: fixes known Tesseract misreads on CEO Karnataka PDFs
+//
+// Tesseract switches between Kannada/English OCR mid-row, causing:
+//  ತಂದೆ (father) → 'sod','god','wack','mortars','nod','tod'
+//  ಗಂ   (male)   → 'no','ro','Bo','fo','go'
+//  ಹೆಂ  (female)  → 'now','how','hew'
+//  ಗಣ / ಹೆಣ      → Kannada glyph confusion for ಗಂ / ಹೆಂ
+//  ತ೦ದೆ           → zero substituted for ಂ
 // ====================================================================
+function normaliseOCRLine(line) {
+  // 1. Strip ZWNJ / zero-width chars
+  line = line.replace(/[\u200C\u200D\uFEFF]/g, '');
+  // 2. Kannada digits → Arabic  (೦-೯ appear in voter IDs)
+  const KD = {'೦':'0','೧':'1','೨':'2','೩':'3','೪':'4','೫':'5','೬':'6','೭':'7','೮':'8','೯':'9'};
+  line = line.replace(/[೦-೯]/g, d => KD[d] || d);
+  // 3. Latin OCR aliases for relation keyword ತಂದೆ
+  line = line.replace(/\b(sod|god|wack|mortars|nod|tod|fod|bod|kod|pod|mod|wok)\b/gi, 'ತಂದೆ');
+  // 4. Gender column: short latin word immediately before 2-3 digit age
+  line = line.replace(/\b(no|ro|Bo|fo|go|co|ho|lo|po|do|qo)\b(?=\s+\d{2,3})/g, 'ಗಂ');
+  line = line.replace(/\b(now|hew|how|hex|bow|dew|few|sew)\b(?=\s+\d{2,3})/g, 'ಹೆಂ');
+  // 5. Kannada glyph near-misses
+  line = line.replace(/ಗಣ(?=\s+\d)/g, 'ಗಂ');
+  line = line.replace(/ಹೆಣ(?=\s+\d)/g, 'ಹೆಂ');
+  line = line.replace(/ತ[o0೦]ದೆ/g, 'ತಂದೆ');
+  line = line.replace(/ಗ[o0೦]ಡ/g, 'ಗಂಡ');
+  // 6. Strip trailing dots/commas after relation word
+  line = line.replace(/(ತಂದೆ|ತಾಯಿ|ಗಂಡ|ಇತರೆ)[.,]+/g, '$1 ');
+  // 7. Strip leading border/pipe artifacts from degraded scans
+  line = line.replace(/^[|l\[\]{}]+\s*/, '');
+  // 8. Clean trailing noise on voter ID
+  line = line.replace(/(\s[A-Z0-9]{5,15})[.|ನ\s]+$/, '$1');
+  return line.replace(/\s+/g, ' ').trim();
+}
+
 function parseOCRText(text) {
   const records = [];
-  // Strip zero-width chars that confuse regex, then split into lines
-  const lines = text
-    .replace(/\u200C|\u200D|\uFEFF/g, '') // strip ZWNJ — Tesseract inserts these between every Kannada char
-    .split('\n');
-
-  for (let i = 0; i < lines.length; i++) {
-    let line = lines[i].replace(/\s+/g, ' ').trim();
-    if (!line) continue;
-
+  const rawLines = text.split('\n');
+  for (let i = 0; i < rawLines.length; i++) {
+    let line = normaliseOCRLine(rawLines[i]);
+    if (!line || line.length < 8) continue;
     let r = matchVoterLine(line);
-
-    // If no match, try merging with next line (OCR sometimes wraps rows)
-    if (!r && i + 1 < lines.length) {
-      const merged = (line + ' ' + lines[i+1].trim()).replace(/\s+/g,' ').trim();
+    // 2-line merge for wrapped names
+    if (!r && i + 1 < rawLines.length) {
+      const next = normaliseOCRLine(rawLines[i + 1]);
+      const merged = (line + ' ' + next).replace(/\s+/g, ' ').trim();
       r = matchVoterLine(merged);
-      if (r) i++;
+      if (r) { i++; }
+      // 3-line merge for very long wrapped names
+      else if (i + 2 < rawLines.length) {
+        const next2 = normaliseOCRLine(rawLines[i + 2]);
+        const merged2 = (line + ' ' + next + ' ' + next2).replace(/\s+/g, ' ').trim();
+        r = matchVoterLine(merged2);
+        if (r) i += 2;
+      }
     }
     if (r) records.push(r);
   }
@@ -1557,32 +1615,36 @@ function displayResults(results, nameQ, relQ) {
       const grid = document.createElement('div');
       grid.className = 'result-grid';
 
-      // Name field: English transliteration (large) + Kannada original (small below)
+      // Name field: Kannada (prominent, large) + English transliteration below (readable but secondary)
       const nameWrap = document.createElement('div');
       nameWrap.className = 'result-field';
       const nameLbl = document.createElement('label');
-      nameLbl.textContent = 'Name';
-      const nameVal = document.createElement('div');
-      nameVal.className = 'val';
-      nameVal.innerHTML = highlight(toTitleCase(r.nameLatin) || r.name, nameQ);
+      nameLbl.textContent = 'Name | ಹೆಸರು';
       const nameKan = document.createElement('div');
-      nameKan.style.cssText = 'font-size:11px;color:var(--gray-400);margin-top:2px;font-family:"Noto Sans Kannada",sans-serif';
-      nameKan.textContent = r.name;
-      nameWrap.appendChild(nameLbl); nameWrap.appendChild(nameVal); nameWrap.appendChild(nameKan);
+      nameKan.className = 'val';
+      nameKan.style.cssText = 'font-family:"Noto Sans Kannada",sans-serif;font-size:16px;font-weight:700';
+      nameKan.innerHTML = highlight(r.name, nameQ);
+      const nameVal = document.createElement('div');
+      nameVal.style.cssText = 'font-size:14px;font-weight:600;color:var(--gray-600);margin-top:3px;font-family:"Noto Serif",serif;letter-spacing:0.01em';
+      nameVal.textContent = toTitleCase(r.nameLatin) || '';
+      nameWrap.appendChild(nameLbl); nameWrap.appendChild(nameKan);
+      if (r.nameLatin) nameWrap.appendChild(nameVal);
       grid.appendChild(nameWrap);
 
-      // Relative name field
+      // Relative name field: same pattern
       const relWrap = document.createElement('div');
       relWrap.className = 'result-field';
       const relLbl = document.createElement('label');
       relLbl.textContent = "Father's / Husband's Name";
-      const relVal = document.createElement('div');
-      relVal.className = 'val';
-      relVal.innerHTML = highlight(toTitleCase(r.relLatin) || r.relName, relQ);
       const relKan = document.createElement('div');
-      relKan.style.cssText = 'font-size:11px;color:var(--gray-400);margin-top:2px;font-family:"Noto Sans Kannada",sans-serif';
-      relKan.textContent = r.relName;
-      relWrap.appendChild(relLbl); relWrap.appendChild(relVal); relWrap.appendChild(relKan);
+      relKan.className = 'val';
+      relKan.style.cssText = 'font-family:"Noto Sans Kannada",sans-serif;font-size:16px;font-weight:700';
+      relKan.innerHTML = highlight(r.relName, relQ);
+      const relVal = document.createElement('div');
+      relVal.style.cssText = 'font-size:14px;font-weight:600;color:var(--gray-600);margin-top:3px;font-family:"Noto Serif",serif;letter-spacing:0.01em';
+      relVal.textContent = toTitleCase(r.relLatin) || '';
+      relWrap.appendChild(relLbl); relWrap.appendChild(relKan);
+      if (r.relLatin) relWrap.appendChild(relVal);
       grid.appendChild(relWrap);
       grid.appendChild(makeSmallField('Serial No.', r.serial));
       grid.appendChild(makeSmallField('House No.',  r.house));
@@ -1690,8 +1752,8 @@ function onSuccess(acNum, partNum, name, relName, serial, voterId) {
   const saffron = 'color:var(--saffron);font-weight:700';
 
   document.getElementById('modalInfo').innerHTML = `
-    <div class="modal-info-row"><span>Voter Name</span><span>${toTitleCase(kannadaToLatin(name)) || name}<br><small style="font-weight:400;color:var(--gray-400);font-family:'Noto Sans Kannada',sans-serif">${name}</small></span></div>
-    <div class="modal-info-row"><span>Relation Name</span><span>${toTitleCase(kannadaToLatin(relName)) || relName}<br><small style="font-weight:400;color:var(--gray-400);font-family:'Noto Sans Kannada',sans-serif">${relName}</small></span></div>
+    <div class="modal-info-row"><span>Voter Name</span><span style="text-align:right"><span style="font-family:'Noto Sans Kannada',sans-serif;font-size:15px;font-weight:700">${name}</span><br><small style="font-weight:600;color:var(--gray-600);font-family:'Noto Serif',serif;font-size:13px">${toTitleCase(kannadaToLatin(name))}</small></span></div>
+    <div class="modal-info-row"><span>Relation Name</span><span style="text-align:right"><span style="font-family:'Noto Sans Kannada',sans-serif;font-size:15px;font-weight:700">${relName}</span><br><small style="font-weight:600;color:var(--gray-600);font-family:'Noto Serif',serif;font-size:13px">${toTitleCase(kannadaToLatin(relName))}</small></span></div>
     <div class="modal-info-row"><span>Serial No.</span><span>${serial}</span></div>
     <div class="modal-info-row"><span>⭐ AC Number</span><span style="${saffron}">${acNumeric}</span></div>
     ${acName ? `<div class="modal-info-row"><span>AC Name</span><span>${acName}</span></div>` : ''}
