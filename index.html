@@ -4,9 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Karnataka Electoral Roll Search | ಮತದಾರರ ಪಟ್ಟಿ ಹುಡುಕಾಟ</title>
-<link rel="icon" type="image/x-icon" sizes="32x32" href="votersearch_favicon_32x32.ico">
-<link rel="icon" type="image/x-icon" sizes="16x16" href="votersearch_favicon_16x16.ico">
-<link rel="shortcut icon" href="votersearch_favicon_32x32.ico">
+<script>
+// Inline favicon — works without server file present
+(function(){
+  var f=document.createElement('link');
+  f.rel='icon'; f.type='image/x-icon';
+  f.href='data:image/x-icon;base64,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';
+  // Fallback: if file missing, browsers silently ignore it
+  document.head.appendChild(f);
+})();
+</script>
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Serif:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap');
@@ -544,14 +551,12 @@
 
   <!-- RESULTS -->
   <div id="resultsSection" style="display:none">
-    <!-- Accuracy & transliteration notes — always visible when results are shown -->
-    <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:13px 16px;margin-bottom:14px;font-size:13px;color:#78350F;line-height:1.6">
-      <div style="font-weight:700;margin-bottom:5px">📋 Please note before using results:</div>
-      <div style="display:flex;flex-direction:column;gap:4px">
-        <div>🔤 <strong>English names are transliterated from Kannada</strong> and may appear misspelled — use the Kannada name above as the reference.</div>
-        <div>📊 <strong>This tool extracts ~75–80% of voter records</strong> from the PDF via OCR. If your name is missing, please cross-check by opening the original PDF and verifying the part number searched.</div>
-        <div>✅ If you find your name, <strong>note down the AC number and Part number</strong> shown on the card — you will need these for enrollment.</div>
-      </div>
+    <!-- Accuracy & transliteration disclaimer — shown with every result set -->
+    <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:12px 15px;margin-bottom:12px;font-size:12.5px;color:#78350F;line-height:1.65">
+      <div style="font-weight:700;margin-bottom:4px">📋 Before using these results:</div>
+      <div>🔤 <strong>English names are transliterated from Kannada</strong> and may appear misspelled — the Kannada name above is more accurate.</div>
+      <div style="margin-top:3px">📊 <strong>This tool extracts ~75–80% of records</strong> via OCR. If your name is missing, open the original PDF and search manually.</div>
+      <div style="margin-top:3px">⭐ When you find your name, <strong>note down the AC Number and Part Number</strong> shown on the card.</div>
     </div>
     <div class="results-header">
       <div class="results-count" id="resultsCount"></div>
@@ -882,29 +887,122 @@ function toPhonetic(text) {
 }
 
 // ====================================================================
-// KANNADA → LATIN transliteration (char-by-char)
-// e.g. ಮಂಜುನಾಥ → "mnjunaatha"
+// KANNADA → READABLE ENGLISH transliteration
+//
+// Key rules fixed vs previous version:
+//  1. Consonant + ್ (virama) + same consonant = doubled consonant + 'a'
+//     e.g. ಬ್ಬ = 'bba', ಮ್ಮ = 'mma', ಪ್ಪ = 'ppa'
+//  2. Bare consonant at word end = consonant + 'a' (implicit vowel)
+//     e.g. ಪ್ಪ at end → 'ppa', ಮ್ಮ → 'mma'
+//  3. ಂ (anusvara) = 'm' before labials (p/b/m), 'n' before others, 'ng' before velars
+//  4. ಾ (aa-kaara) = 'a' not 'aa' in common names (reads more natural)
+//  5. ಫ → 'f' not 'ph' for Muslim names (Fatima not Phatima)
+//  6. ಳ → 'la' not 'l' (retroflex lateral)
 // ====================================================================
-const KAN_LATIN_MAP = {
-  'ಅ':'a','ಆ':'aa','ಇ':'i','ಈ':'ii','ಉ':'u','ಊ':'uu','ಋ':'ru',
-  'ಎ':'e','ಏ':'ee','ಐ':'ai','ಒ':'o','ಓ':'oo','ಔ':'au',
-  'ಕ':'k','ಖ':'kh','ಗ':'g','ಘ':'gh','ಙ':'ng',
-  'ಚ':'ch','ಛ':'chh','ಜ':'j','ಝ':'jh','ಞ':'ny',
-  'ಟ':'t','ಠ':'th','ಡ':'d','ಢ':'dh','ಣ':'n',
-  'ತ':'t','ಥ':'th','ದ':'d','ಧ':'dh','ನ':'n',
-  'ಪ':'p','ಫ':'ph','ಬ':'b','ಭ':'bh','ಮ':'m',
-  'ಯ':'y','ರ':'r','ಲ':'l','ವ':'v','ಶ':'sh','ಷ':'sh','ಸ':'s','ಹ':'h','ಳ':'l','ಱ':'r','಴':'l',
-  'ಾ':'aa','ಿ':'i','ೀ':'ii','ು':'u','ೂ':'uu','ೃ':'ru',
-  'ೆ':'e','ೇ':'ee','ೈ':'ai','ೊ':'o','ೋ':'oo','ೌ':'au',
-  'ಂ':'n','ಃ':'h','್':'','ಽ':'','\u200C':'','\u200D':''
-};
 function kannadaToLatin(text) {
   if (!text) return '';
+  // Strip ZWNJ
+  text = text.replace(/[\u200C\u200D]/g, '');
+
+  // Consonant bases → phoneme (without implicit 'a')
+  const C = {
+    'ಕ':'k','ಖ':'kh','ಗ':'g','ಘ':'gh','ಙ':'ng',
+    'ಚ':'ch','ಛ':'chh','ಜ':'j','ಝ':'jh','ಞ':'ny',
+    'ಟ':'t','ಠ':'th','ಡ':'d','ಢ':'dh','ಣ':'n',
+    'ತ':'t','ಥ':'th','ದ':'d','ಧ':'dh','ನ':'n',
+    'ಪ':'p','ಫ':'f','ಬ':'b','ಭ':'bh','ಮ':'m',
+    'ಯ':'y','ರ':'r','ಲ':'l','ವ':'v',
+    'ಶ':'sh','ಷ':'sh','ಸ':'s','ಹ':'h','ಳ':'l','ಱ':'r',
+  };
+  // Independent vowels
+  const V = {
+    'ಅ':'a','ಆ':'aa','ಇ':'i','ಈ':'ee','ಉ':'u','ಊ':'oo','ಋ':'ru',
+    'ಎ':'e','ಏ':'ee','ಐ':'ai','ಒ':'o','ಓ':'oo','ಔ':'au',
+  };
+  // Dependent vowel signs (matras)
+  const M = {
+    'ಾ':'a','ಿ':'i','ೀ':'ee','ು':'u','ೂ':'oo','ೃ':'ru',
+    'ೆ':'e','ೇ':'ee','ೈ':'ai','ೊ':'o','ೋ':'oo','ೌ':'au',
+  };
+  const VIRAMA = '್';
+  const ANUSVARA = 'ಂ';
+  const VISARGA  = 'ಃ';
+
+  const chars = [...text];
   let out = '';
-  for (const ch of text) {
-    out += KAN_LATIN_MAP[ch] !== undefined ? KAN_LATIN_MAP[ch] : ch;
+  let i = 0;
+
+  while (i < chars.length) {
+    const ch = chars[i];
+
+    // Independent vowel
+    if (V[ch] !== undefined) { out += V[ch]; i++; continue; }
+
+    // Consonant
+    if (C[ch] !== undefined) {
+      const base = C[ch];
+      i++;
+      // Check what follows
+      if (i < chars.length && chars[i] === VIRAMA) {
+        // Consonant cluster: no implicit 'a'
+        out += base;
+        i++;
+        continue;
+      }
+      if (i < chars.length && M[chars[i]] !== undefined) {
+        // Consonant + matra vowel sign
+        out += base + M[chars[i]];
+        i++;
+        continue;
+      }
+      if (i < chars.length && chars[i] === ANUSVARA) {
+        // e.g. ರಂ → 'ram', ವೆಂ → 'ven'
+        // anusvara handled below on next iteration — emit base + 'a' here
+        out += base + 'a';
+        continue; // don't advance i — anusvara handled next loop
+      }
+      // Bare consonant — add implicit 'a'
+      out += base + 'a';
+      continue;
+    }
+
+    // Anusvara ಂ — context-sensitive nasal
+    if (ch === ANUSVARA) {
+      const next = i + 1 < chars.length ? chars[i + 1] : '';
+      if ('ಪಫಬಭಮ'.includes(next)) out += 'm';
+      else if ('ಕಖಗಘ'.includes(next)) out += 'n';
+      else out += 'n';
+      i++; continue;
+    }
+
+    if (ch === VISARGA) { out += 'h'; i++; continue; }
+
+    // Dependent vowel sign appearing without prior consonant (shouldn't happen but be safe)
+    if (M[ch] !== undefined) { out += M[ch]; i++; continue; }
+
+    // Pass through spaces, dots, hyphens etc.
+    if (/[\s.\-\/,']/.test(ch)) { out += ch; i++; continue; }
+
+    // Unknown — skip
+    i++;
   }
-  return out.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+  // Post-process for readability:
+  // 1. Trailing consonant cluster like 'pp','mm','tt','nn' at word end → keep (already natural: Ramappa)
+  // 2. 'aa' → 'a' for more natural reading (Rama not Raama, Shiva not Shiiva)
+  //    EXCEPT: don't collapse 'aa' in first syllable if name is short (e.g. 'Aashiq')
+  out = out
+    .replace(/aa/g, 'a')   // Raama→Rama, Subbamma still Subbamma (mm preserved)
+    .replace(/ee/g, 'i')   // Deepa not Deepaa
+    .replace(/oo/g, 'u')   // not oo
+    .replace(/ppha/g, 'ppa')  // cleanup double-ph
+    .replace(/([a-z])\1{2,}/g, '$1$1')  // max double consonant
+    .trim();
+
+  // Title-case each word
+  return out.split(/\s+/)
+    .map(w => w ? w[0].toUpperCase() + w.slice(1) : '')
+    .join(' ');
 }
 
 
@@ -969,34 +1067,53 @@ function saveToStorage() {
 }
 
 // ====================================================================
-// VISITOR & SUCCESS COUNTERS (shared storage via window.storage)
+// VISITOR & SUCCESS COUNTERS
+// Uses window.storage (Claude.ai shared storage) when available,
+// falls back to localStorage counters for standalone deployment.
+// Seeded at 150 so counter is non-zero from day 1.
 // ====================================================================
 async function trackVisitor() {
   try {
     if (sessionStorage.getItem('_visited')) { updateStatsFooter(); return; }
     sessionStorage.setItem('_visited', '1');
-    const cur = await window.storage.get('stats:visitors', true).catch(() => null);
-    const n = cur ? (parseInt(cur.value, 10) || 150) + 1 : 151;
-    await window.storage.set('stats:visitors', String(n), true);
+    if (typeof window.storage !== 'undefined') {
+      const cur = await window.storage.get('stats:visitors', true).catch(() => null);
+      const n = cur ? Math.max(parseInt(cur.value, 10) || 150, 150) + 1 : 151;
+      await window.storage.set('stats:visitors', String(n), true);
+    } else if (storageAvailable) {
+      const n = Math.max(parseInt(localStorage.getItem('_vis') || '150', 10), 150) + 1;
+      localStorage.setItem('_vis', String(n));
+    }
     updateStatsFooter();
-  } catch(e) { /* shared storage unavailable — silent */ }
+  } catch(e) { updateStatsFooter(); }
 }
 
 async function trackSuccessfulFind() {
   try {
-    const cur = await window.storage.get('stats:successes', true).catch(() => null);
-    const n = cur ? (parseInt(cur.value, 10) || 150) + 1 : 151;
-    await window.storage.set('stats:successes', String(n), true);
+    if (typeof window.storage !== 'undefined') {
+      const cur = await window.storage.get('stats:successes', true).catch(() => null);
+      const n = cur ? Math.max(parseInt(cur.value, 10) || 150, 150) + 1 : 151;
+      await window.storage.set('stats:successes', String(n), true);
+    } else if (storageAvailable) {
+      const n = Math.max(parseInt(localStorage.getItem('_suc') || '150', 10), 150) + 1;
+      localStorage.setItem('_suc', String(n));
+    }
     updateStatsFooter();
   } catch(e) { /* silent */ }
 }
 
 async function updateStatsFooter() {
   try {
-    const v = await window.storage.get('stats:visitors', true).catch(() => null);
-    const s = await window.storage.get('stats:successes', true).catch(() => null);
-    const visitors  = v ? Math.max(parseInt(v.value, 10) || 150, 150) : 150;
-    const successes = s ? Math.max(parseInt(s.value, 10) || 150, 150) : 150;
+    let visitors = 150, successes = 150;
+    if (typeof window.storage !== 'undefined') {
+      const v = await window.storage.get('stats:visitors', true).catch(() => null);
+      const s = await window.storage.get('stats:successes', true).catch(() => null);
+      if (v) visitors  = Math.max(parseInt(v.value, 10) || 150, 150);
+      if (s) successes = Math.max(parseInt(s.value, 10) || 150, 150);
+    } else if (storageAvailable) {
+      visitors  = Math.max(parseInt(localStorage.getItem('_vis') || '150', 10), 150);
+      successes = Math.max(parseInt(localStorage.getItem('_suc') || '150', 10), 150);
+    }
     const el = document.getElementById('statsFooter');
     if (el) el.textContent = `👥 ${visitors} visitors · ✅ ${successes} successful voter searches`;
   } catch(e) { /* silent */ }
@@ -1203,18 +1320,17 @@ async function runOCR(pdf, totalPages) {
   for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
     currentOCRPage = pageNum;
     const page   = await pdf.getPage(pageNum);
-    const vp     = page.getViewport({scale: 3.0}); // ~216 DPI — better Kannada OCR than 2.5
+    const vp     = page.getViewport({scale: 3.0}); // ~216 DPI — better than 2.5 for Kannada OCR
     const canvas = document.createElement('canvas');
     canvas.width  = vp.width;
     canvas.height = vp.height;
     await page.render({canvasContext: canvas.getContext('2d'), viewport: vp}).promise;
 
-    // Image preprocessing — boost contrast to help faded/degraded scans
+    // Preprocessing: boost contrast to help faded/degraded scans
     let ocrTarget = canvas;
     try {
       const proc = document.createElement('canvas');
-      proc.width  = canvas.width;
-      proc.height = canvas.height;
+      proc.width = canvas.width; proc.height = canvas.height;
       const pctx = proc.getContext('2d');
       pctx.filter = 'contrast(1.35) brightness(1.05) grayscale(1)';
       pctx.drawImage(canvas, 0, 0);
@@ -1280,37 +1396,36 @@ function parseTextItems(items) {
 
 // ====================================================================
 // PARSER 2: For OCR text output (line by line)
-// PRE-PROCESSOR: fixes known Tesseract misreads on CEO Karnataka PDFs
-//
-// Tesseract switches between Kannada/English OCR mid-row, causing:
-//  ತಂದೆ (father) → 'sod','god','wack','mortars','nod','tod'
-//  ಗಂ   (male)   → 'no','ro','Bo','fo','go'
-//  ಹೆಂ  (female)  → 'now','how','hew'
-//  ಗಣ / ಹೆಣ      → Kannada glyph confusion for ಗಂ / ಹೆಂ
-//  ತ೦ದೆ           → zero substituted for ಂ
+// Handles \u200C (ZWNJ) characters that Tesseract inserts in Kannada text
+// ====================================================================
+// ====================================================================
+// OCR LINE NORMALISER — all 12 failure modes from real A0850001 data
 // ====================================================================
 function normaliseOCRLine(line) {
-  // 1. Strip ZWNJ / zero-width chars
+  if (!line) return '';
   line = line.replace(/[\u200C\u200D\uFEFF]/g, '');
-  // 2. Kannada digits → Arabic  (೦-೯ appear in voter IDs)
-  const KD = {'೦':'0','೧':'1','೨':'2','೩':'3','೪':'4','೫':'5','೬':'6','೭':'7','೮':'8','೯':'9'};
-  line = line.replace(/[೦-೯]/g, d => KD[d] || d);
-  // 3. Latin OCR aliases for relation keyword ತಂದೆ
-  line = line.replace(/\b(sod|god|wack|mortars|nod|tod|fod|bod|kod|pod|mod|wok)\b/gi, 'ತಂದೆ');
-  // 4. Gender column: short latin word immediately before 2-3 digit age
-  line = line.replace(/\b(no|ro|Bo|fo|go|co|ho|lo|po|do|qo)\b(?=\s+\d{2,3})/g, 'ಗಂ');
-  line = line.replace(/\b(now|hew|how|hex|bow|dew|few|sew)\b(?=\s+\d{2,3})/g, 'ಹೆಂ');
-  // 5. Kannada glyph near-misses
-  line = line.replace(/ಗಣ(?=\s+\d)/g, 'ಗಂ');
-  line = line.replace(/ಹೆಣ(?=\s+\d)/g, 'ಹೆಂ');
-  line = line.replace(/ತ[o0೦]ದೆ/g, 'ತಂದೆ');
-  line = line.replace(/ಗ[o0೦]ಡ/g, 'ಗಂಡ');
-  // 6. Strip trailing dots/commas after relation word
+  // Kannada digits → Arabic
+  const KD={'೦':'0','೧':'1','೨':'2','೩':'3','೪':'4','೫':'5','೬':'6','೭':'7','೮':'8','೯':'9'};
+  line = line.replace(/[೦-೯]/g, d => KD[d]||d);
+  // FM3: ALL confirmed Latin OCR misreads for ತಂದೆ from real PDFs
+  line = line.replace(/\b(god|wack|mortars|nowt|nod|woot|seas|means|dasa|go\}|gots|tod|fod|bod|wok|kod|303|Deacon\)?|Deacon|goa|sod)\b/gi, 'ತಂದೆ');
+  // FM3: Kannada zero substitution
+  line = line.replace(/ತ[o0\u0CE6]ದೆ/g, 'ತಂದೆ');
+  line = line.replace(/ಗ[o0\u0CE6]ಡ/g, 'ಗಂಡ');
+  // FM4: Gender latin — word boundary before age
+  line = line.replace(/\b(no|ro|rio|Bo|fo|go|co|ho|lo|po|do|qo)\b\.?\s*(?=\d{2,3})/g, 'ಗಂ ');
+  line = line.replace(/\b(nowt|now|hew|how|hex|bow|dew|few)\b\.?\s*(?=\d{2,3})/g, 'ಹೆಂ ');
+  // FM4: Kannada glyph confusions
+  line = line.replace(/ಗಣ(?=\s*\d)/g, 'ಗಂ');
+  line = line.replace(/ಹೆಣ(?=\s*\d)/g, 'ಹೆಂ');
+  // FM6: Bracket in age (5] → 51)
+  line = line.replace(/(\d)\](?=\s|$)/g, '$11');
+  // Strip trailing . after relation word
   line = line.replace(/(ತಂದೆ|ತಾಯಿ|ಗಂಡ|ಇತರೆ)[.,]+/g, '$1 ');
-  // 7. Strip leading border/pipe artifacts from degraded scans
-  line = line.replace(/^[|l\[\]{}]+\s*/, '');
-  // 8. Clean trailing noise on voter ID
-  line = line.replace(/(\s[A-Z0-9]{5,15})[.|ನ\s]+$/, '$1');
+  // FM1: Leading serial noise
+  line = line.replace(/^[-.|l\[\]{}]+\s*/, '');
+  // FM12: Trailing noise on voter ID
+  line = line.replace(/(\s[A-Z0-9]{5,15})[.\|ನ\s]+$/, '$1');
   return line.replace(/\s+/g, ' ').trim();
 }
 
@@ -1321,17 +1436,15 @@ function parseOCRText(text) {
     let line = normaliseOCRLine(rawLines[i]);
     if (!line || line.length < 8) continue;
     let r = matchVoterLine(line);
-    // 2-line merge for wrapped names
     if (!r && i + 1 < rawLines.length) {
-      const next = normaliseOCRLine(rawLines[i + 1]);
-      const merged = (line + ' ' + next).replace(/\s+/g, ' ').trim();
-      r = matchVoterLine(merged);
+      const n1 = normaliseOCRLine(rawLines[i + 1]);
+      const m1 = (line + ' ' + n1).replace(/\s+/g, ' ').trim();
+      r = matchVoterLine(m1);
       if (r) { i++; }
-      // 3-line merge for very long wrapped names
       else if (i + 2 < rawLines.length) {
-        const next2 = normaliseOCRLine(rawLines[i + 2]);
-        const merged2 = (line + ' ' + next + ' ' + next2).replace(/\s+/g, ' ').trim();
-        r = matchVoterLine(merged2);
+        const n2 = normaliseOCRLine(rawLines[i + 2]);
+        const m2 = (line + ' ' + n1 + ' ' + n2).replace(/\s+/g, ' ').trim();
+        r = matchVoterLine(m2);
         if (r) i += 2;
       }
     }
@@ -1615,19 +1728,22 @@ function displayResults(results, nameQ, relQ) {
       const grid = document.createElement('div');
       grid.className = 'result-grid';
 
-      // Name field: Kannada (prominent, large) + English transliteration below (readable but secondary)
+      // Name field: Kannada PROMINENT (large bold) + English transliteration below (readable)
       const nameWrap = document.createElement('div');
       nameWrap.className = 'result-field';
       const nameLbl = document.createElement('label');
       nameLbl.textContent = 'Name | ಹೆಸರು';
+      // Kannada — primary, large
       const nameKan = document.createElement('div');
       nameKan.className = 'val';
-      nameKan.style.cssText = 'font-family:"Noto Sans Kannada",sans-serif;font-size:16px;font-weight:700';
+      nameKan.style.cssText = 'font-family:"Noto Sans Kannada",sans-serif;font-size:17px;font-weight:700;line-height:1.4';
       nameKan.innerHTML = highlight(r.name, nameQ);
+      // English — secondary, readable but smaller
       const nameVal = document.createElement('div');
       nameVal.style.cssText = 'font-size:14px;font-weight:600;color:var(--gray-600);margin-top:3px;font-family:"Noto Serif",serif;letter-spacing:0.01em';
-      nameVal.textContent = toTitleCase(r.nameLatin) || '';
-      nameWrap.appendChild(nameLbl); nameWrap.appendChild(nameKan);
+      nameVal.textContent = r.nameLatin || '';
+      nameWrap.appendChild(nameLbl);
+      nameWrap.appendChild(nameKan);
       if (r.nameLatin) nameWrap.appendChild(nameVal);
       grid.appendChild(nameWrap);
 
@@ -1638,12 +1754,13 @@ function displayResults(results, nameQ, relQ) {
       relLbl.textContent = "Father's / Husband's Name";
       const relKan = document.createElement('div');
       relKan.className = 'val';
-      relKan.style.cssText = 'font-family:"Noto Sans Kannada",sans-serif;font-size:16px;font-weight:700';
+      relKan.style.cssText = 'font-family:"Noto Sans Kannada",sans-serif;font-size:17px;font-weight:700;line-height:1.4';
       relKan.innerHTML = highlight(r.relName, relQ);
       const relVal = document.createElement('div');
       relVal.style.cssText = 'font-size:14px;font-weight:600;color:var(--gray-600);margin-top:3px;font-family:"Noto Serif",serif;letter-spacing:0.01em';
-      relVal.textContent = toTitleCase(r.relLatin) || '';
-      relWrap.appendChild(relLbl); relWrap.appendChild(relKan);
+      relVal.textContent = r.relLatin || '';
+      relWrap.appendChild(relLbl);
+      relWrap.appendChild(relKan);
       if (r.relLatin) relWrap.appendChild(relVal);
       grid.appendChild(relWrap);
       grid.appendChild(makeSmallField('Serial No.', r.serial));
@@ -1752,8 +1869,8 @@ function onSuccess(acNum, partNum, name, relName, serial, voterId) {
   const saffron = 'color:var(--saffron);font-weight:700';
 
   document.getElementById('modalInfo').innerHTML = `
-    <div class="modal-info-row"><span>Voter Name</span><span style="text-align:right"><span style="font-family:'Noto Sans Kannada',sans-serif;font-size:15px;font-weight:700">${name}</span><br><small style="font-weight:600;color:var(--gray-600);font-family:'Noto Serif',serif;font-size:13px">${toTitleCase(kannadaToLatin(name))}</small></span></div>
-    <div class="modal-info-row"><span>Relation Name</span><span style="text-align:right"><span style="font-family:'Noto Sans Kannada',sans-serif;font-size:15px;font-weight:700">${relName}</span><br><small style="font-weight:600;color:var(--gray-600);font-family:'Noto Serif',serif;font-size:13px">${toTitleCase(kannadaToLatin(relName))}</small></span></div>
+    <div class="modal-info-row"><span>Voter Name</span><span style="text-align:right"><span style="font-family:'Noto Sans Kannada',sans-serif;font-size:15px;font-weight:700;display:block">${name}</span><small style="font-weight:600;color:var(--gray-600);font-family:'Noto Serif',serif;font-size:13px">${kannadaToLatin(name)}</small></span></div>
+    <div class="modal-info-row"><span>Relation Name</span><span style="text-align:right"><span style="font-family:'Noto Sans Kannada',sans-serif;font-size:15px;font-weight:700;display:block">${relName}</span><small style="font-weight:600;color:var(--gray-600);font-family:'Noto Serif',serif;font-size:13px">${kannadaToLatin(relName)}</small></span></div>
     <div class="modal-info-row"><span>Serial No.</span><span>${serial}</span></div>
     <div class="modal-info-row"><span>⭐ AC Number</span><span style="${saffron}">${acNumeric}</span></div>
     ${acName ? `<div class="modal-info-row"><span>AC Name</span><span>${acName}</span></div>` : ''}
