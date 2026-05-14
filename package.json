@@ -1,0 +1,18 @@
+{
+  "name": "sir-rolls-check",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "ingest": "py .\\packages\\data-pipeline\\scripts\\ingest_rolls.py --root .\\data --db .\\data\\rolls.sqlite --min-age-seconds 30 --dpi 300",
+    "ocr:tesseract:single": "node .\\packages\\data-pipeline\\scripts\\tesseract_ocr.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "tesseract.js": "^7.0.0"
+  }
+}

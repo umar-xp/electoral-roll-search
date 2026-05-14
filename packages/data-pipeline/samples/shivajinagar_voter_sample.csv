@@ -1,0 +1,203 @@
+serial_num,part_num,voter_name_kn,voter_name_en_expected,relative_name_kn,relative_name_en_expected,relative_type,gender,is_muslim,notes
+1,1,ದೀಪಕ್,Deepak,ಲಕ್ಷ್ಮಣ್ ರಾವ್,Lakshmana Rao,F,M,FALSE,
+2,1,ಶೆರಿನ್ ಭಾಯಿ,Sherin Bhayi,ನಿಸನ್ ಹುಸೇನ್,Nisan Husain,H,F,TRUE,Muslim - husband name
+3,1,ಮೆರಜ್ ಹುಸೇನ್,Meraj Husain,ನಿಸನ್ ಹುಸೇನ್,Nisan Husain,F,M,TRUE,Muslim - ಜ not Z here
+4,1,ಶಹನಾಜ್,Shahnaz,ಮನೋಜ್ ಹುಸೇನ್,Manoj Husain,H,F,TRUE,Muslim
+5,1,ಹುಸೇನ್ ಆಲಿದಾಮಿನಿ,Husain Alidamini,ನಿಸನ್ ಹುಸೇನ್,Nisan Husain,F,M,TRUE,Muslim compound name
+6,1,ಗುಲ್ನಾರ್ ದಾಮಿನಿ,Gulnar Damini,ಹುಸೇನ್ ಆಲಿದಾಮಿನಿ,Husain Alidamini,H,F,TRUE,Muslim
+7,1,ಮೊಯಿಬೂಬಾ ದಾಮಿನಿ,Moyibooba Damini,ನಿಸನ್ ಹುಸೇನ್,Nisan Husain,F,M,TRUE,Muslim
+8,1,ಮರಿಯಮ್ ದಾಮಿನಿ,Mariyam Damini,ಮೊಹಬೂಬ್ ದಾಮಿನಿ,Mohboob Damini,H,F,TRUE,Muslim
+9,1,ಹನ್ನದಾಮಿನಿ,Hannadamini,ಹುಸ್ಯೆನ್ ಅಲಿ ದಮಾನಿ,Husain Ali Damani,F,F,TRUE,Muslim
+10,1,ಎಸ್.ವಜೂರ್ ಖಾನ್,S. Vajur Khan,ಸೈಫುಲ್ಲಾ ಖಾನ್,Saifullah Khan,F,M,TRUE,Muslim - initial + Khan
+11,1,ಖುಷೀದ್ ಬೇಗಂ,Khushid Begum,ಎಸ್.ವಜೂರ್ ಖಾನ್,S. Vajur Khan,H,F,TRUE,Muslim - Begum suffix
+12,1,ಯನೂಸ್ ಖಾನ್,Yanus Khan,ಎಸ್.ವಜೂರ್ ಖಾನ್,S. Vajur Khan,F,M,TRUE,Muslim
+17,1,ಜಫೂರ್ ಖಾನ್,Jafur Khan,ಸಯಿಫುಲ್ಲಾ ಖಾನ್,Saifullah Khan,F,M,TRUE,Muslim - ಜ as J here
+18,1,ರಬೀಯಾ ಬೇಗಂ,Rabiya Begum,ಜಫೂರ್ ಖಾನ್,Jafur Khan,H,F,TRUE,Muslim
+19,1,ಶಬೀರ್ ಖಾನ್,Shabir Khan,ಜಫೂರ್ ಖಾನ್,Jafur Khan,F,M,TRUE,Muslim
+20,1,ಶಬಾನಾ ಬೇಗಂ,Shabana Begum,ಜಫೂರ್ ಖಾನ್,Jafur Khan,F,F,TRUE,Muslim
+22,1,ಮೆಹಬೂಬ್ ಬೇ,Mehboob Bi,ಅಬ್ಬುಲ್ ಖಾದರ್,Abdul Khadar,H,F,TRUE,Muslim - Bi suffix not Bi transliteration error
+23,1,ಮೆಹಬೂಬ್ ಪಾಷಾ,Mehboob Pasha,ಅಬ್ಬುಲ್ ಖಾದರ್,Abdul Khadar,F,M,TRUE,Muslim - Pasha suffix
+25,1,ಇಕ್ಬಾಲ್ ಅಹಮದ್,Iqbal Ahmad,ಅಬ್ಬುಲ್ ಖಾದರ್,Abdul Khadar,F,M,TRUE,Muslim - Iqbal NOT Ikbal
+26,1,ಶಾಹವರ್ ಬೇಗಂ,Shahwar Begum,ಇಕ್ಬಾಲ್ ಅಹಮದ್,Iqbal Ahmad,H,F,TRUE,Muslim
+27,1,ಆಸಿಫಾ ಬೇಗಂ,Asifa Begum,ಅಬ್ಬುಲ್ ಖಾದರ್,Abdul Khadar,F,F,TRUE,Muslim
+29,1,ಸಿ.ಅಬ್ಬುಲ್ ರೆಹಮಾನ್,C. Abdul Rehman,ಸಿ.ಅಬ್ಬುಲ್ ಕುದಾಸ್,C. Abdul Quddas,F,M,TRUE,Muslim - initial C. preserved; Abbuul->Abdul critical fix
+30,1,ಎ.ಚೋಟಿಬಿ,A. Chotibi,ಸಿ.ಅಬ್ಬುಲ್ ರೆಹಮಾನ್,C. Abdul Rehman,H,F,TRUE,Muslim - initial A. preserved
+31,1,ಮೊಹಮದ್ ಯಾಕುಬ್,Mohammad Yakub,ಸಿ.ಅಬ್ಬುಲ್ ರೆಹಮಾನ್,C. Abdul Rehman,F,M,TRUE,Muslim - Mohammad not Mohamad
+38,1,ಎಸ್.ಅಲ್ಲಾ ಬಕಾಷ್,S. Alla Bakash,ಮಹಮದ್ ಬಾಷಾ,Mahamed Basha,F,M,TRUE,Muslim
+39,1,ಎಸ್.ಖುರ್ಶೀದ್ ಬೇಗಂ,S. Khurshid Begum,ಎಸ್.ಅಲ್ಲಾ ಬಕಾಷ್,S. Alla Bakash,H,F,TRUE,Muslim
+40,1,ಹಜೀರಾ ಸುಲ್ತಾನ್,Hajira Sultan,ಎಸ್.ಅಲ್ಲಾ ಬಕಾಷ್,S. Alla Bakash,F,F,TRUE,Muslim - Sultan suffix
+41,1,ಇಂತಿಯಾಜ್ ಅಹಮದ್,Imtiyaz Ahmad,ಎಸ್.ಅಲ್ಲಾ ಬಕಾಷ್,S. Alla Bakash,F,M,TRUE,Muslim - Imtiyaz not Intiyaz
+42,1,ಇರ್ಷದ್ ಅಹಮದ್,Irshad Ahmad,ಎಸ್.ಅಲ್ಲಾ ಬಕಾಷ್,S. Alla Bakash,F,M,TRUE,Muslim
+43,1,ಫೇಸುನ್ನಿಸಾ,Feesunnisa,ಎಸ್. ಆರ್ ಇಂಡಿ ಸೈಯದ್ ಬಾಷ,S. R. Indi Sayyad Basha,H,F,TRUE,Muslim - ಫ->F not Ph
+46,1,ಎಸ್.ಎಂ. ಮುಬಾರಕ್ ಭಾಷ,S.M. Mubarak Basha,ಎಸ್.ಆರ್.ಮಹಮದ್ ಇಲಾಷ್,S.R. Mohammad Ilash,F,M,TRUE,Muslim - double initial preserved
+52,1,ಡಿ.ಟಿ.ಶ್ರೀನಿವಾಸನ್,D.T. Srinivasan,ತಿಮ್ಮಯ್ಯ,Thimmayya,F,M,FALSE,Hindu - double initial
+53,1,ಎನ್.ಕೆ.ಲೀಲಾವತಿ,N.K. Leelawathi,ಡಿ.ಟಿ.ಶ್ರೀನಿವಾಸನ್,D.T. Srinivasan,H,F,FALSE,Hindu
+57,1,ಆರ್.ವಿ.ಸುಬಾನ್,R.V. Suban,ಅಬ್ಬುಲ್ ರಜಾಕ,Abdul Rajak,F,M,TRUE,Muslim - initials R.V. preserved
+72,1,ಕೆ.ಎಂ.ಯೂಸೊಫ್,K.M. Yusuf,ಮಹಮದ್ ಕ್ಯೂಸಿನ್,Mahamed Cousin,F,M,TRUE,Muslim - double initial K.M.
+73,1,ಜುಲೇಖು ಬೀ,Zulekha Bi,ಕೆ.ಎಂ.ಯೂಸೊಫ್,K.M. Yusuf,H,F,TRUE,Muslim - Zulekha NOT Julekha
+80,1,ಮಹಮದ್ ಖಾಸಿಂ,Mohammad Qasim,ಯೂಸೇಫ್,Yusef,F,M,TRUE,Muslim - Qasim not Kasim
+90,1,ಜ್ಯೈನೆಬ್,Zainab,ಅಮೀರುಲ್ಲಾ,Amirullah,H,F,TRUE,Muslim - Zainab NOT Jainab critical
+91,1,ರೆಹನಾ ಬೇಗಂ,Rehana Begum,ಮಹಬೂಬ್ ಪಾಷಾ,Mehboob Pasha,H,F,TRUE,Muslim
+92,1,ತಹೀರಾ ಬೇಗಂ,Tahira Begum,ಅಬ್ಬುಲ್ ಜಾಬರ್,Abdul Jabir,H,F,TRUE,Muslim
+97,1,ಅಬ್ಬುಲ್ ಗಫಾರ್,Abdul Ghaffar,ಕೆ.ಎಂ.ಮಸ್ತಾನ್,K.M. Masthan,F,M,TRUE,Muslim - Ghaffar not Gaffar
+99,1,ಅಬ್ಬುಲ್ ಬಾರಿ,Abdul Bari,ಕೆ.ಎಂ.ಮಸ್ತಾನ್,K.M. Masthan,F,M,TRUE,Muslim
+105,1,ಮೊಹಮ್ಮದ್ ಇಸ್ಮಾಯೇಲ್,Mohammad Ismail,ಅಬ್ಬುಲ್ ಜಬ್ಬಾರ್,Abdul Jabbar,F,M,TRUE,Muslim - Ismail not Ismayel
+107,1,ಕೆ.ಎಂ.ಷರೀಫ್,K.M. Shareef,ಕೆ.ಎಂ.ಮಸ್ತಾನ್,K.M. Masthan,F,M,TRUE,Muslim - Shareef not Sharif
+115,1,ಅಸ್ಮಾಮ್ ಪಾಶ,Asmam Pasha,ಮೊಹಮದ್ ಗೌಸ್,Mohammad Ghouse,F,M,TRUE,Muslim
+119,1,ಎ.ಜಿ.ಜಗದೀಶ್ರನ್,A.G. Jagadhishran,ವಿ.ಕೆ.ಜನಾಧನ ಮುದಲಿಯರ್,V.K. Janadhan Mudaliyar,F,M,FALSE,Hindu - double initial A.G.
+133,1,ಫರೀದ್ ಉನ್ನಿಸಾ,Fareed Unnisa,ರಫೀಕ,Rafeek,H,F,TRUE,Muslim - Fareed NOT Phareed
+134,1,ಸಲೀಮ್ ಅಹಮದ್,Saleem Ahmad,ರಫೀಕ,Rafeek,F,M,TRUE,Muslim
+135,1,ನಹೀದಾ ಪ್ರವೀನ್,Naheeda Praveen,ರಫೀಕ,Rafeek,F,F,TRUE,Muslim
+138,1,ಮುದ್ದಸಿರ್ ಅಹಮದ್,Muddasir Ahmad,ರಫೀಕ,Rafeek,F,M,TRUE,Muslim
+143,1,ಸಲ್ಲಾ ಬೀ,Salla Bi,ಸಲಮಾನ್,Salman,H,F,TRUE,Muslim
+144,1,ಜಲಾನಿಶ,Jalanish,ಸಲ್ಲಾನ್,Sallan,F,F,TRUE,Muslim
+147,2,ಶಂಸದ್ ಬೇಗಂ,Shamshad Begum,ಶಫಿಉಲ್ಲಾ ಖಾನ್,Shafiullah Khan,H,F,TRUE,Muslim - Shamshad not Shamsad
+173,2,ಶ್ರೀನಿವಾಸಮೂರ್ತಿ,Srinivasamurthy,ಬಿ ಎಸ್ ಚೈನ್ನ ಇಅಹ,B.S. Chinna Iah,F,M,FALSE,Hindu
+176,2,ಪುರುಷೋತ್ತಮ್,Purushottam,ಬಿ ಎಸ್ ಚನ್ನಯ್ಯ,B.S. Channayya,F,M,FALSE,Hindu
+183,3,ನಜೀಯಾ ಕುರಾನ್,Nazeya Quran,ಅಬ್ಬುಲ್ ಅಜೀಜ್,Abdul Azeez,F,F,TRUE,Muslim - Nazeya not Naziya
+185,3,ಅಬ್ಬುಲ್ ಅಜೀಜ್,Abdul Azeez,ಅಬ್ಬುಲ್ ಮಹಮದ್,Abdul Mohammad,F,M,TRUE,Muslim - Abbuul->Abdul critical
+218,3,ಶೇಕ್ ಅಬ್ಬುಲ್ ಅಜೀಜ್,Sheik Abdul Azeez,ಶೇಕ್ ಅಬ್ಬುಲ್ ಗಫಾರ್,Sheik Abdul Ghaffar,F,M,TRUE,Muslim - Sheik prefix
+219,3,ಅಬ್ಬುಲ್ ರಹೀಂಭಾಷ,Abdul Raheem Basha,ಶೇಕ್ ಅಬ್ಬುಲ್ ಅಜೀಜ್,Sheik Abdul Azeez,F,M,TRUE,Muslim - Raheem not Rahim
+220,3,ಶೇಕ್ ಅಬ್ಬುಲ್ ರೆಹಮಾನ್,Sheik Abdul Rehman,ಶೇಕ್ ಅಬ್ಬುಲ್ ಅಜೀಜ್,Sheik Abdul Azeez,F,M,TRUE,Muslim
+221,3,ಶಹನಾಜ್ ಬೇಗಂ,Shahnaz Begum,ಶೇಕ್ ಅಬ್ಬುಲ್ ಖಾದರ್,Sheik Abdul Khadar,H,F,TRUE,Muslim
+222,3,ಜರೀನಾಬೇಗಂ,Zareenabegum,ಶೇಕ್ ಅಬ್ಬುಲ್ ಖಾದರ್,Sheik Abdul Khadar,H,F,TRUE,Muslim - Zareena NOT Jareena
+223,3,ಶೇಕ್ ಅಬ್ಬುಲ್ ಜಮಾಲ್,Sheik Abdul Jamal,ಶೇಕ್ ಅಬ್ಬುಲ್ ಅಜೀಜ್,Sheik Abdul Azeez,F,M,TRUE,Muslim
+226,3,ರಶೀದಾ ಬೇಗಂ,Rasheeda Begum,ಯಾಕೋಬಾಷರೀಫ್,Yakob Shareef,H,F,TRUE,Muslim - Rasheeda not Rashida
+240,4,ರೆಹಮನ್ ಖಾನ್,Rehman Khan,ಹಮೀದ್ ಖಾನ್,Hameed Khan,F,M,TRUE,Muslim
+241,4,ಜೀನತ್ ಖಾನುಮ್,Zeenat Khanum,ರೆಹಮನ್ ಖಾನ್,Rehman Khan,H,F,TRUE,Muslim - Zeenat NOT Jeenat critical
+242,4,ಮಜೀದ್ ಖಾನ್,Majeed Khan,ಹಮೀದ್ ಖಾನ್,Hameed Khan,F,M,TRUE,Muslim
+244,4,ಮೊಹಮ್ಮದ್ ಜಮದ್ ಉಲ್ಲಾ,Mohammad Jamad Ulla,ಮೊಹಮ್ಮದ್ ಇಸ್ಮಾಯೇಲ್,Mohammad Ismail,F,M,TRUE,Muslim
+245,4,ಇಬ್ರಾಹಿಂ ಖಲೀಲುಲ್ಲಾ ಖಾನ್,Ibrahim Khaleelullah Khan,ರೆಹಮಾನ್ ಖಾನ್,Rehman Khan,F,M,TRUE,Muslim - Khaleelullah compound
+247,4,ಶಂಸುನ್ನಿಸ,Shamsunnisa,ಮೊಹಮ್ಮದ್ ಇಸ್ಮಾಯೇಲ್,Mohammad Ismail,H,F,TRUE,Muslim
+250,4,ಡಿ.ಸಿ.ಗೋವಿಂದರಾಜು,D.C. Govindaraju,ಚಂದ್ರಯ್ಯ ಶೆಟ್ಟಿ,Chandraiah Shetty,F,M,FALSE,Hindu - double initial D.C.
+254,4,ಬಿ.ಕೆ.ವಾಸುದೇವ ಶೆಟ್ಟಿ,B.K. Vasudeva Shetty,ಕೃಷ್ಣಯ್ಯಶೆಟ್ಟಿ,Krishnaiah Shetty,F,M,FALSE,Hindu - Shetty surname
+275,4,ನೂರುಲಾಭಾಷ,Nurulabasha,ಅಬ್ಬುಲ್ ಜಬ್ಬಾರ್,Abdul Jabbar,F,M,TRUE,Muslim - compound Nurulabasha
+276,4,ಸಿ.ರಹೀಮುನ್ನಿಸಾ,C. Rahimunnisa,ನೂರುಲ್ಲಾ ಭಾಷ,Nurullah Basha,H,F,TRUE,Muslim - Rahimunnisa compound
+277,4,ಸಿ.ಶಾಹೀನ್ ಬೇಗಂ,C. Shaheen Begum,ನೂರುಲ್ಲಾ ಭಾಷ,Nurullah Basha,F,F,TRUE,Muslim
+298,5,ಅಸ್ಮತ್ ಜನ್,Asmath Jan,ಸೈಯ್ಯದ್ ಕಾಸಿಮ್,Saiyyad Qasim,F,F,TRUE,Muslim - Asmath not Asmat
+299,5,ಸೈಯದ್ ರೈಯಜ್,Sayyad Raiyyaz,ಸೈಯ್ಯದ್ ಕಾಸಿಮ್,Saiyyad Qasim,F,M,TRUE,Muslim - Sayyad prefix
+300,5,ಫಜಾನ ಬೇಗಂ,Fazan Begum,ಸೈಯ್ಯದ್ ರೈಯಜ್,Sayyad Raiyyaz,H,F,TRUE,Muslim - Fazan NOT Phazan
+301,5,ಸೈಯ್ಯದ್ ತಹೀರ್,Saiyyad Tahir,ಸೈಯ್ಯದ್ ಕಾಸಿಮ್,Saiyyad Qasim,F,M,TRUE,Muslim
+302,5,ಫಾರಾನಬೇಗಂ,Farana Begum,ಸೈಯ್ಯದ್ ತಹೀರ್,Saiyyad Tahir,H,F,TRUE,Muslim - Farana NOT Pharana
+310,5,ಗುಲಾಮ್ ಮೊಹಮದ್ ಶವಕಥ,Gulam Mohammad Shawkath,ಉಮೇರ್ ಆದಿಲ್ ಖಾದ್ರಿ,Umair Adil Khadri,F,M,TRUE,Muslim
+313,5,ಅಬ್ಬುಲ್ ರಶೀದ್,Abdul Rasheed,ಉಮೇರ್ ಆದಿಲ್ ಖಾದ್ರಿ,Umair Adil Khadri,F,M,TRUE,Muslim - Rasheed not Rashid
+320,5,ಅಬ್ಬುಲ್ ಅಫೀಜ್,Abdul Afeez,ಅಬ್ಬುಲ್ ರವೂಫ್,Abdul Rauf,F,M,TRUE,Muslim
+321,5,ಅಬ್ಬುಲ್ ಅಮೀದ್,Abdul Ameed,ಅಬ್ಬುಲ್ ರವೂಫ್,Abdul Rauf,F,M,TRUE,Muslim
+328,6,ಟಿ.ಅಬ್ಬುಲ್ ರೆಹಮಾನ್,T. Abdul Rehman,ಟಿ ಮೊಹಮದ್ ಹಶಿಮ,T. Mohammad Hashim,F,M,TRUE,Muslim - initial T. preserved
+329,6,ಕೆ.ಎಚ್.ಮಮ್ಮಾಜ್ ಬೇಗಂ,K.H. Mammaj Begum,ಅಬ್ಬುಲ್ ರೆಹಮಾನ್,Abdul Rehman,H,F,TRUE,Muslim - Mammaj unusual name preserved
+330,6,ಟಿ ಅಮೀನಾ ಜಿಹಾನ್,T. Amina Jihan,ಅಬ್ಬಿರ್ ರೆಹ್ನಾನ್ ಟಿ,Abbir Rehnan T.,F,F,TRUE,Muslim - Amina not Ameena
+334,7,ನಾಗಲಕ್ಷ್ಮಿ,Nagalakshmi,ಶಾಂತಕುಮಾರ್,Shanthakumar,H,F,FALSE,Hindu
+335,7,ಫಯಾಜ್,Fayaz,ಸಯೀದ್ ಫಿರ್,Sayyad Fir,F,M,TRUE,Muslim - Fayaz NOT Phayaz critical
+337,7,ಜರೀನ,Zarina,ನೂರ ಮೊಹಮದ್,Noor Mohammad,F,F,TRUE,Muslim - Zarina NOT Jarina
+338,7,ನೂರ್ ಮೊಹಮದ್,Noor Mohammad,ಸಯೀದ್ ಫಿನ್,Sayyad Fin,F,M,TRUE,Muslim
+345,7,ಷಫಿಉಲ್ಲಾ,Shafiullah,ಅಮೀರ್ ಖಾನ್,Amir Khan,F,M,TRUE,Muslim - Shafiullah compound NOT Shafi Ulla
+346,7,ಈಶಾತುನ್ನಿಸಾ,Eshatunnisa,ಷಫಿಉಲ್ಲಾ,Shafiullah,H,F,TRUE,Muslim
+347,7,ಸಜೀದುಲ್ಲಾ,Sajeedullah,ಷಫಿಉಲ್ಲಾ,Shafiullah,F,M,TRUE,Muslim - compound preserved
+348,7,ಮನಸೂರ್ ಉಲ್ಲಾ,Mansoor Ulla,ಷಫಿಉಲ್ಲಾ,Shafiullah,F,M,TRUE,Muslim
+356,7,ಜಿ.ಜಮೀಲ್ ಅಹ್ಮದ್,G. Jameel Ahmad,ಮೊಹಮ್ಮದ್ ಇಸ್ಮಾಯೇಲ್,Mohammad Ismail,F,M,TRUE,Muslim - initial G. preserved
+362,7,ವಿ ಅಕ್ಬರ್ ಭಾಷ,V. Akbar Basha,ವಿ ಮೊಹದ್ ಜ್ಯಾನದಿ,V. Mohad Jyanadi,F,M,TRUE,Muslim - Akbar not Akubar
+371,7,ಸತ್ಯಭಾಮ,Sathyabhama,ಹಚ್.ಕೆ.ಗೋಪಾಲಕೃಷ್ಣ ಶೆಟ್ಟಿ,H.K. Gopalakrishna Shetty,H,F,FALSE,Hindu
+380,7,ಕೆ.ಎಸ್.ರಾಮಕೃಷ್ಣ,K.S. Ramakrishna,ಕೆ ಆರ್ ಶ್ರೀನಿವಾಸ ಸತ್ಯ,K.R. Srinivasa Sathya,F,M,FALSE,Hindu
+391,7,ಬಿ.ವಿ. ರತ್ನಮ್ಮ,B.V. Ratnamma,ಬಿ.ಕೆ.ಅಕ್ಷಯಶೆಟ್ಟಿ,B.K. Akshayashetty,H,F,FALSE,Hindu
+404,7,ಸಿ.ಎಂ.ಬಾಲಕೃಷ್ಣ,C.M. Balakrishna,ಸಿ.ವಿ.ಮಂಗಯ್ಯ ಶೆಟ್ಟಿ,C.V. Mangayya Shetty,F,M,FALSE,Hindu - double initial
+449,7,ವಾಸವಾಂಬ,Vasavamba,ಅಂಜನೇಯ ಶೆಟ್ಟಿ,Anjaneya Shetty,H,F,FALSE,Hindu
+489,7,ಅಜಮಾಥುಲ್ಲಾ,Ajamathulla,ಮುನವರ್ ಉಲ್ಲಾ,Munawar Ulla,F,M,TRUE,Muslim - Ajamathulla compound
+490,7,ಸಮೀನೆಭಾನು,Sameena Banu,ಅಜಮತ್ಲ್ಲಾ,Ajamathulla,H,F,TRUE,Muslim - Banu suffix
+491,7,ಒಬೇದುಲ್ಲಾ,Obaidullah,ಮುನಾಪುರುಲ್ಲಾ ಮ,Muna Purulla M,F,M,TRUE,Muslim - Obaidullah compound
+492,7,ಉಮೇರಾ ಬೇಗಂ,Umeera Begum,ಅಮೀರ್ ಜಾನ್,Amir Jan,H,F,TRUE,Muslim
+493,7,ನಜೀಮ ಬಾನು,Nazeema Banu,ಒಬೇದಲ್ಲ,Obaidullah,H,F,TRUE,Muslim
+494,7,ಎಲ್ಮಹ್ಯದ್ ಫಜುಲ್ಲಾ ರೆಹಮಾನ,L. Mahyad Fazullah Rehman,ಹಚ್ ಎಲ್ ಅಬ್ಬುಲ್ ಫಾನಿ,H.L. Abdul Fani,F,M,TRUE,Muslim - Mahyad=Mohd abbreviation; Fazullah compound
+496,7,ಹಲೀಲು ರೆಹಮಾನ್,Haleelu Rehman,ಎಲ್ ಮಹ್ಯದ್ ಫಜಾಲ್ ರೆಹಮಾನ,L. Mahyad Fazal Rehman,F,M,TRUE,Muslim
+499,7,ಮರಿಯಂ ಬೀಶ್ರಿ,Mariyam Bishri,ಅಬ್ಬುಲ್ ಫಹಾನಿ,Abdul Fahani,H,F,TRUE,Muslim
+500,8,ಬಿ.ಕೆ.ಸುರೇಶ್ ಬಾಬು,B.K. Suresh Babu,ಕಮಲರಾಜ ಭತ್ತ,Kamalaraja Bhatta,F,M,FALSE,Hindu
+510,9,ಅನಿತಾ ಅರ್ಜುನ್,Anita Arjun,ಅರ್ಜುನ್ ಕುಮಾರ್,Arjun Kumar,H,F,FALSE,Hindu
+513,9,ತನ್ವೀರ್ ಪಾಷ.ವಿ.ಎಸ್,Tanveer Pasha V.S.,ಅತ್ನೀ ಅಬ್ಬುಲ್ ಸತ್ರ,Athni Abdul Sattar,F,M,TRUE,Muslim - Tanveer with initials
+519,10,ಮೊಹಮ್ಯಚ್ ಅಸಮತ್ಲ್,Mohammad Asmathulla,ಮೊಹಮದ್ ಮುನಾವರ್ ಉಲ್ಲಾ,Mohammad Munawar Ulla,F,M,TRUE,Muslim - Asmathulla compound
+521,10,ಅಬ್ಬುಲ್ ಸತ್ರ್,Abdul Sattar,ಎಸ್.ಮೊಹಮದ್ ಇಬ್ರಾಹಿಂ,S. Mohammad Ibrahim,F,M,TRUE,Muslim - Sattar not Sathr
+522,10,ಮೊಹಮದ್ ಇಬ್ರಾಹಿಂ,Mohammad Ibrahim,ಅಬ್ಬುಲ್ ಸತ್ರ್,Abdul Sattar,F,M,TRUE,Muslim - Ibrahim not Ibrahiim
+525,11,ಎಂ.ಮೊಹಮದ್ ಯಾಕೂಬ್,M. Mohammad Yaqub,ಅಬ್ಬುಲ್ ಗನಿ,Abdul Ghani,F,M,TRUE,Muslim - Yaqub not Yakub
+527,11,ಎಂ. ಅಬ್ಬುಲ್ ಕಾದೀರ್,M. Abdul Kadir,ಅಬ್ಬುಲ್ ಗನಿ,Abdul Ghani,F,M,TRUE,Muslim - Kadir not Kaadir
+528,11,ಎಂ.ಶನೀಮಾ ಉನೀಸಾ,M. Shaneema Unisa,ಎಂ. ಅಬ್ಬುಲ್ ಕಾದೀರ್,M. Abdul Kadir,H,F,TRUE,Muslim
+529,11,ಕೆ.ರಶೀದಾ ಬಾನು,K. Rasheeda Banu,ಕೆ.ಅಮೀರ್ ಅಹಮದ್,K. Amir Ahmad,H,F,TRUE,Muslim
+530,11,ಕೆ.ಶಮೀಲ್ ಅಹಮದ್,K. Shameel Ahmad,ಕೆ.ಅಮೀರ್ ಅಹಮದ,K. Amir Ahmad,F,M,TRUE,Muslim
+532,11,ಕೆ.ಶಬೀರ್ ಅಹಮದ್,K. Shabir Ahmad,ಅಬ್ಬುಲ್ ಸಲಾಂ,Abdul Salaam,F,M,TRUE,Muslim
+534,11,ಎಂ.ಶಾಹಬೀನಾಶಾಹೀನ್,M. Shahbeena Shaheen,ಅಬ್ಬುಲ್ ಕಾದರ್,Abdul Kadar,H,F,TRUE,Muslim - compound preserved
+538,12,ಮೊಹಮದ್ ರಫಿ,Mohammad Rafi,ಟಿ.ಡಬ್ಯು ಉಸ್ಮಾನ್,T.W. Usman,F,M,TRUE,Muslim
+539,12,ಪರ್ವೀನ್ ಬೇಗಂ.ಟಿ.ಒ,Parveen Begum T.O.,ಟಿ.ಡಬ್ಯು ಉಸ್ಮಾನ,T.W. Usmana,H,F,TRUE,Muslim - Parveen not Parvin
+542,12,ಜರೀನಾಬೇಗಂ,Zareenabegum,ಟಿ.ಡಬ್ಯು ಉಸ್ಮಾನ,T.W. Usmana,H,F,TRUE,Muslim - Zareena NOT Jareena
+543,12,ಸರೀಫ್ ಉನ್ನಿಸಾ ಬೇಗಂ,Shareef Unnisa Begum,ಇಬ್ರಾಹಿಂ,Ibrahim,H,F,TRUE,Muslim
+544,12,ಟಿ.ಡಬ್ಯು ಇಬ್ರಾಹಿಂ,T.W. Ibrahim,ಪಿ.ಜಿ.ಅಬ್ಬುಲ್ ವಾಹಾಬ್,P.G. Abdul Wahab,F,M,TRUE,Muslim - Ibrahim not Ibrahiim
+549,12,ಮೊಹಮದ್ ಸಿದ್ಧೀಖ್.ಟಿ.ಒ.,Mohammad Siddeeq T.O.,ಟಿ.ಡಬ್ಯು ಉಸ್ಮಾನ್,T.W. Usman,F,M,TRUE,Muslim - Siddeeq not Siddiq
+1,1,ಪಾಂಡು ರಂಗ ಕೆ.ಸಿ,Pandu Ranga K.C.,ಚೆನ್ನಾರೆಡ್ಡಿ,Chennareddy,F,M,FALSE,Hindu Part2
+16,1,ಲಕ್ಷ್ಮೀನಾರಾಯಣಶೆಟ್ಟಿ,Lakshminarayana Shetty,ಹೆನ್ನ ಪ್ರಶೆಟ್ಟಿ,Henna Prashetty,F,M,FALSE,Hindu - Shetty
+21,1,ಸುರೇಶ್ ಬಾಬು,Suresh Babu,ಲಕ್ಷ್ಮೀಕಾಂತ,Lakshmikantha,F,M,FALSE,Hindu Part2
+41,2,ಕೆ ನಾಗರಾಜು,K. Nagaraju,ವಿ ಕೃಷ್ಣಪ್ಪ,V. Krishnappa,F,M,FALSE,Hindu Part2
+52,2,ರಾಜಣ್ಣ,Rajanna,ಜಿ ಚನ್ನಪ್ಪ,G. Channappa,F,M,FALSE,Hindu Part2
+58,3,ಬಿ ಎನ್ ಸಂಪತ್ ಕುಮಾರ್,B.N. Sampat Kumar,ಬಿ ವಿ ನಾಗರಾಜುಶೆಟ್ಟಿ,B.V. Nagarajushetty,F,M,FALSE,Hindu Part2
+62,3,ಬಿ ಎಸ್ ಗಿರೀಶ್,B.S. Girish,ಸಂಪತ್ ಕುಮಾರ,Sampat Kumara,F,M,FALSE,Hindu Part2
+66,3,ರಾಧಾಕೃಷ್ಣಶೆಟ್ಟಿ,Radhakrishna Shetty,ವೆಂಕಟಚಲಪತಿ,Venkatacha lapathi,F,M,FALSE,Hindu Part2
+71,3,ಎನ್. ವಿ ಕೃಷ್ಣಮೂರ್ತಿ,N.V. Krishnamurthy,ಆದಿನಾರಾಯಣ,Adinarayana,F,M,FALSE,Hindu Part2
+80,3,ಸಿ.ಎನ್. ಗೋಪಾಲ್,C.N. Gopal,ಸಿ ಎಸ್ ನಾರಾಯಣಶೆಟ್ಟಿ,C.S. Narayanashetty,F,M,FALSE,Hindu Part2
+139,4,ಕೆ ಯಾಕೋಬ್ ಷರೀಫ್,K. Yakob Shareef,ಅಬ್ಬುಲ್ ಖುದಾಸ್,Abdul Quddas,F,M,TRUE,Muslim Part2 - Yakob Shareef
+141,4,ವ್ಯೆ. ಇಬ್ರಾಹಿಂ ಶ್ರೀಫ್,Y. Ibrahim Shareef,ಯಾಕ್ ಶ್ರೀಫ್,Yak Shareef,F,M,TRUE,Muslim Part2 - Ibrahim Shareef
+208,6,ಬಿ ಪಿ ಚಂದ್ರಶೇಖರ್,B.P. Chandrashekar,ಟಿ ಎಂ ಪುಕಾರಿ ಅಚಾರಿ,T.M. Pukari Achari,F,M,FALSE,Hindu Part2
+218,6,ಶೇಕ್ ಅಬ್ಬುಲ್ ಅಜೀಜ್,Sheik Abdul Azeez,ಶೇಕ್ ಅಬ್ಬುಲ್ ಗಫಾರ್,Sheik Abdul Ghaffar,F,M,TRUE,Muslim Part2
+219,6,ಅಬ್ಬುಲ್ ರಹೀಂಭಾಷ,Abdul Raheem Basha,ಶೇಕ್ ಅಬ್ಬುಲ್ ಅಜೀಜ್,Sheik Abdul Azeez,F,M,TRUE,Muslim Part2
+221,6,ಶಹನಾಜ್ ಬೇಗಂ,Shahnaz Begum,ಶೇಕ್ ಅಬ್ಬುಲ್ ಖಾದರ್,Sheik Abdul Khadar,H,F,TRUE,Muslim Part2
+222,6,ಜರೀನಾಬೇಗಂ,Zareenabegum,ಶೇಕ್ ಅಬ್ಬುಲ್ ಖಾದರ,Sheik Abdul Khadar,H,F,TRUE,Muslim Part2 - Z critical
+242,8,ಎನ್.ನಿಸಾರ್ ಅಹಮದ್,N. Nisar Ahmad,ಮುಸ್ತಫಾರುಕಮ್,Mustafa Rukam,F,M,TRUE,Muslim Part2
+243,8,ಜಹೀರ ಅಹಮದ್,Zaheer Ahmad,ನಿಸಾರ್ ಅಹಮದ್ ಖಾನ್,Nisar Ahmad Khan,F,M,TRUE,Muslim Part2 - Zaheer NOT Jaheer critical
+340,9,ಸಾದಿಕ್ ಪಾಷಾ,Sadiq Pasha,ಅಬ್ಬುಲ್ ಸತ್ರ,Abdul Sattar,F,M,TRUE,Muslim Part2 - Sadiq not Sadik
+342,9,ಅನ್ಯರ್ ಪಾಷಾ,Anwar Pasha,ಅಬ್ಬುಲ್ ಗೋಯಿಲ್,Abdul Goyil,F,M,TRUE,Muslim Part2 - Anwar not Anvar
+343,9,ಶಬಾಜ್ ಅಲಿ,Shabaj Ali,ಅನ್ಯರ್ ಪಾಷ,Anwar Pasha,F,M,TRUE,Muslim Part2
+348,9,ಯೂಸೊಫ್ ಜಫರ್,Yusuf Jafar,ಜಫರ್ ಅಲಿ,Jafar Ali,F,M,TRUE,Muslim Part2 - Jafar as J here context
+349,9,ಹುಸೇನ್ ಖಾಜಿ,Husain Khazi,ಜಫರ್ ಅಲಿ,Jafar Ali,F,M,TRUE,Muslim Part2
+371,9,ಎಲ್ ಎ ಜಲೀಲ್,L.A. Jaleel,ಅಬ್ಬುಲ್ ಲತೀಫ್,Abdul Lateef,F,M,TRUE,Muslim Part2 - Jaleel not Zaleel
+372,9,ಅಯಿಶಾ ಬಾನು,Ayisha Banu,ಎಲ್ ಎ ಜಲೀಲ್,L.A. Jaleel,H,F,TRUE,Muslim Part2 - Ayisha not Aisha
+379,9,ಅಮೀನಾಬಿ,Aminabi,ಟಿ.ರಂಗರಾಜ,T. Rangaraja,H,F,TRUE,Muslim Part2
+380,9,ಕೆ ಎಲ್ ಅಬ್ಬುಲ್,K.L. Abdul,ಕೆ ಎಲ್ ಅಬ್ಬುಲ್ ಜಾಬರ್,K.L. Abdul Jabbar,F,M,TRUE,Muslim Part2
+381,9,ಪರ್ವೀನ್ ತಾಜ್,Parveen Taj,ಕೆ ಎಲ್ ಅಬ್ಬುಲ್ ರಹೀಂ,K.L. Abdul Raheem,H,F,TRUE,Muslim Part2
+382,9,ಕೆ ಎಲ್ ಬಷೀರ್ ಅಬ್ಬುಲ್,K.L. Basheer Abdul,ಕೆ ಎಲ್ ಅಬ್ಬುಲ್ ಜಾಬರ್,K.L. Abdul Jabbar,F,M,TRUE,Muslim Part2
+1,1,ಈಶ್ರ್ ಲಾಲ್,Ishwar Lal,ಮುನಿಯಲ್ಲಪ್ಪ,Muniyallappa,F,M,FALSE,Hindu Part3
+5,1,ಜಿ.ಚಂದ್ರಶೇಖರ್,G. Chandrashekar,ವಿ.ಗುರುಮೂರ್ತಿ,V. Gurumurthy,F,M,FALSE,Hindu Part3
+94,2,ಭಾರತಿ,Bharathi,ದಂಡಪಾಣಿ,Dandapani,H,F,FALSE,Hindu Part3
+96,2,ಬಿ.ಕೆ.ನಾರಾಯಣಮೋ ತಿ,B.K. Narayanamurthy,ಬಿ.ಕೆ.ಕೃಷ್ಣಯ್ಯ ಶೆಟ್ಟಿ,B.K. Krishnayya Shetty,F,M,FALSE,Hindu Part3
+130,2,ಬಿ.ಎನ್.ರಾಜಗೋಪಾಲ ಶೆಟ್ಟಿ,B.N. Rajagopal Shetty,ಬಿ.ಎನ್.ನಂಜುಂಡಯ್ಯ,B.N. Nanjundayya,F,M,FALSE,Hindu Part3
+158,2,ದಾಳೆಗೌಡ,Dalegowda,ದೇಶೇಗೌಡ,Deshegowda,F,M,FALSE,Hindu Part3
+184,2,ರಹಮತ್ ಅಲೀ,Rahmat Ali,ಅಶ್ರಫ್ ಅಬ್ಬಾ,Ashraf Abba,F,M,TRUE,Muslim Part3 - Rahmat Ali
+186,2,ಶಬೀರ್ ಅಹಮದ್,Shabir Ahmad,ರಹಮತ್ ಅಲೀ,Rahmat Ali,F,M,TRUE,Muslim Part3
+187,2,ಸ್ಯೆಯದ್ಮ್ ಅಹಮದ್,Sayyad Ahmad,ಸ್ಯೆಯದ್ ಧ್ಯೂಷಿರ್ ಅಹಮದ್,Sayyad Dhyushir Ahmad,F,M,TRUE,Muslim Part3
+191,2,ಸ್ಯೆಯದ್ ಖಾನ್,Sayyad Khan,ರಶೀದ್ ಕಾನ್,Rasheed Kan,F,M,TRUE,Muslim Part3
+198,2,ನೀತಾಬಜಾಜ್,Neeta Bajaj,ಹೀರಿಲಾಲ್ ಬಜಾಜ್,Heerilal Bajaj,H,F,FALSE,Hindu Part3 - Bajaj surname
+202,3,ಗಾಂಧಿಮತಿ,Gandhimathi,ಭೋಪಾಲನ್,Bhopaalan,H,F,FALSE,Hindu Part3
+203,3,ಮೋಹನ್ಲಾಲ್ ಎಂ.ಶರ್ಮ,Mohanlal M. Sharma,ಹರಿರಾಮ್ಮ,Hariramma,F,M,FALSE,Hindu Part3
+217,3,ಲಕ್ಷ್ಮೀಭಾಯಿ,Lakshmibhai,ಲಕ್ಷ್ಣರಾವ್,Lakshmana Rao,H,F,FALSE,Hindu Part3
+234,3,ಕಮಲಬಾಯಿ,Kamalabai,ಮುನ್ನಿದೇವರಾವ್,Munnidevarao,H,F,FALSE,Hindu Part3
+271,3,ಕೆ.ಗೋವಿಂದಸ್ವಾಮಿ,K. Govindaswami,ಕಣ್ಣಿಪಿಳ್ಳೆ,Kannipille,F,M,FALSE,Hindu Part3
+289,4,ಸನತ್ಮೂಮಾರ್,Sanathumar,ರಾಜಯ್ಯ ಶೆಟ್ಟಿ,Rajayya Shetty,F,M,FALSE,Hindu Part3
+295,4,ಷಣ್ಮುಗಂ,Shanmugam,ಆರ್.ದೊರೆವೇಲಾಚಾರಿ,R. Dorevalachari,F,M,FALSE,Hindu Part3 - Tamil name
+329,4,ಬಿ.ಶ್ರೀನಿವಾಸಮೂರ್ತಿ,B. Srinivasamurthy,ಕೆ.ಬಂಗಾರಶೆಟ್ಟಿ,K. Bangarashetty,F,M,FALSE,Hindu Part3
+362,4,ಜ್ಯಿಬುನೇಸಿಯ,Jyibunesiya,ಸ್ಯೆಯದ್ ಇಬ್ರಾಹಿಂ,Sayyad Ibrahim,H,F,TRUE,Muslim Part3
+363,4,ಸ್ಯೆಯದ್ ಇಬ್ರಾಹಿಂ,Sayyad Ibrahim,ಸ್ಯೆಯದ್ ಭಾಷ,Sayyad Basha,F,M,TRUE,Muslim Part3
+364,4,ರಾಹಿಂ ಉನ್ನಿಸಾ,Raheem Unnisa,ಸ್ಯೆಯದ್ ಇಬ್ರಾಹಿಂ,Sayyad Ibrahim,H,F,TRUE,Muslim Part3
+406,5,ತಿಲಕ್ ಕುಮಾರ್,Tilak Kumar,ಎಸ್.ಶ್ರೀನಿವಾಸನ್,S. Srinivasan,F,M,FALSE,Hindu Part3
+407,5,ಮಲ್ಲಿಕಬೇಗಂ,Mallikabegum,ಸ್ಯೆಯದ್ ಅಬ್ಬಾಸ್,Sayyad Abbas,H,F,TRUE,Muslim Part3
+408,5,ಸ್ಯೆಯದ್ ನೂರುಲ್ಲಾ ಹುಸೇನ್ ಡಿ,Sayyad Nurullah Husain D.,ಸ್ಯೆಯದ್ ನೂರುಲ್ಲಾ ಅಬ್ಬಾಸ್,Sayyad Nurullah Abbas,F,M,TRUE,Muslim Part3 - Nurullah compound
+419,5,ಎ.ಕೆ.ಜಯಪ್ರಕಾಶ್,A.K. Jayaprakash,ಕೃಷ್ಣಸ್ವಾಮಿ,Krishnaswami,F,M,FALSE,Hindu Part3
+421,5,ಎಸ್.ಶಕುಂತಲಾ,S. Shakuntala,ಬಿ.ಎನ್.ಶ್ರೀನಿವಾಸ ರಾವ್,B.N. Srinivasa Rao,H,F,FALSE,Hindu Part3
+425,6,ಎಸ್.ಆರ್.ಮೊಹಮದ್ ಇಲ್ಲಾಸ್,S.R. Mohammad Illass,ಎಸ್.ರಹಮತ್ ವುಲ್ಲಾ,S. Rahmat Ulla,F,M,TRUE,Muslim Part3
+428,6,ಎಸ್.ಜೀನತ್ ಬೇಗಂ,S. Zeenat Begum,ಎಸ್.ಆರ್.ಮೊಹಮದ್ ಇಲ್ಲಾಸ್,S.R. Mohammad Illass,H,F,TRUE,Muslim Part3 - Zeenat NOT Jeenat
+429,6,ಎಸ್.ಮೊಹಮದ್ ಸಾದುಲ್ಲಾಭಾಷ,S. Mohammad Sadullabasha,ಎಸ್.ಆರ್.ಮೊಹಮದ್ ಇಲ್ಲಾಸ್,S.R. Mohammad Illass,F,M,TRUE,Muslim Part3 - Sadullabasha compound
+431,6,ಎಸ್.ಶಕೀಲ್ ಅಹಮದ್,S. Shakeel Ahmad,ಎಸ್.ಮೊಹಮದ್ ಸಾದುಲ್ಲಾಭಾಷ,S. Mohammad Sadullabasha,F,M,TRUE,Muslim Part3
+460,6,ಸಯದ್ ಅಬ್ಬುಲ್ ಸತ್ರ್,Sayyad Abdul Sattar,ಸಯದ ಮಹೀದೀನ್,Sayyad Mahideen,F,M,TRUE,Muslim Part3
+473,7,ಜಿ.ಎಚ್.ಶ್ಯೆಲಜ,G.H. Shailaja,ಜಿ.ಬಿ.ಹರಿನಾಥ,G.B. Harinath,H,F,FALSE,Hindu Part3
+484,7,ವೇಣುಗೋಪಾಲಚಾರಿ,Venugopalachari,ಫಕೀರಿಅಚಾರಿ,Fakiri Achari,F,M,FALSE,Hindu Part3
+499,7,ರವಿಶಂಕರ್,Ravishankar,ಡಿ.ಎಸ್.ಸುಬ್ರಮಣ್ಯ ಶೆಟ್ಟಿ,D.S. Subramanya Shetty,F,M,FALSE,Hindu Part3
+507,7,ಸಿ.ವಿ.ರಘುಪತಿ,C.V. Raghupathi,ಸಿ.ವಿ.ವೆಂಕಟರತ್ನ ಶೆಟ್ಟಿ,C.V. Venkataratna Shetty,F,M,FALSE,Hindu Part3
+564,8,ಕೃಷ್ಣವೇಣಿ,Krishnaveni,ಗೋವಿಂದರಾಜು,Govindaraju,H,F,FALSE,Hindu Part3
+570,8,ಎಸ್.ಕೀರ್ತಿಕುಮಾರ್,S. Keerthikumar,ಸುಬ್ರಮಣ್ಯ,Subramanya,F,M,FALSE,Hindu Part3
+593,8,ಜನಾರ್ಧನ ದೇವಕರ್,Janardhan Devakar,ವಿಟಲ್ ರಾವ್,Vithal Rao,F,M,FALSE,Hindu Part3
+614,8,ಸಿ.ಕೆ.ರವೀಂದ್ರನ್,C.K. Raveendran,ಸಿ.ಕೆ.ಕೃಷ್ಣಿಜರಾವ್,C.K. Krishnajirav,F,M,FALSE,Hindu Part3
+658,8,ಸಕೂಬಾಯಿ ಅಮ್ಮಾಳ್,Sakubai Ammal,ಸಾಂಬಶಿವಂಚಟ್ಟಿಯಾ ರ್,Sambashivam Chattiyar,H,F,FALSE,Hindu Part3 - Ammal suffix Tamil
+671,9,ಸುಮಿತ್ರ,Sumithra,ಕುಮಾರ್.ಆರ್,Kumar R.,H,F,FALSE,Hindu Part3
+685,10,ಉರ್ಮಿಳ,Urmila,ಕೇದರ್ ನಾಥಯಾದವ್,Kedar Nathyadav,H,F,FALSE,Hindu Part3

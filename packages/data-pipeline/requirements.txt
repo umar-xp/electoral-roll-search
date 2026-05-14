@@ -1,0 +1,5 @@
+duckdb==1.5.2
+pyarrow==24.0.0
+indic-transliteration==2.3.82
+pandas==3.0.2
+pytest==9.0.3

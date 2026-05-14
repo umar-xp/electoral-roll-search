@@ -1,0 +1,118 @@
+{
+  "districts": {
+    "BAGALKOT": {
+      "ac_nums": [
+        210,
+        211,
+        213,
+        214,
+        215,
+        216
+      ],
+      "checksum_md5": "3634b7dec202880632ecceee97072e78",
+      "file": "BAGALKOT.parquet",
+      "file_size_mb": 28.899,
+      "parts_per_ac": {
+        "210": 227,
+        "211": 179,
+        "213": 148,
+        "214": 173,
+        "215": 175,
+        "216": 177
+      },
+      "source_hash": "40e52f06db26b65977f6f53d39c077c9",
+      "status": "complete",
+      "total_voters": 591968,
+      "transliteration_stats": {
+        "correction_applied": 7151,
+        "failed_transliteration": 1,
+        "muslim_names_detected": 54400,
+        "total_names": 1069735
+      }
+    },
+    "BBMP": {
+      "ac_nums": [
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87
+      ],
+      "checksum_md5": "bf40c79dc2dc497a13a9e1662b0457bf",
+      "file": "BBMP.parquet",
+      "file_size_mb": 64.972,
+      "parts_per_ac": {
+        "76": 196,
+        "77": 313,
+        "78": 115,
+        "79": 109,
+        "80": 352,
+        "81": 123,
+        "82": 196,
+        "83": 293,
+        "84": 182,
+        "85": 104,
+        "86": 134,
+        "87": 197
+      },
+      "source_hash": "786351606a28f3d6ccb71924700206a0",
+      "status": "complete",
+      "total_voters": 1188681,
+      "transliteration_stats": {
+        "correction_applied": 52441,
+        "failed_transliteration": 2,
+        "muslim_names_detected": 87234,
+        "total_names": 2253037
+      }
+    },
+    "MYSORE": {
+      "ac_nums": [
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        122,
+        123,
+        124,
+        125
+      ],
+      "checksum_md5": "222a6a31b3d1d21371e28258b3d2fb16",
+      "file": "MYSORE.parquet",
+      "file_size_mb": 65.268,
+      "parts_per_ac": {
+        "112": 158,
+        "113": 171,
+        "114": 147,
+        "115": 204,
+        "116": 243,
+        "117": 286,
+        "118": 160,
+        "122": 196,
+        "123": 210,
+        "124": 179,
+        "125": 208
+      },
+      "source_hash": "2b69ca86aa1c2dcb30656e689b33ed6d",
+      "status": "complete",
+      "total_voters": 1421982,
+      "transliteration_stats": {
+        "correction_applied": 43473,
+        "failed_transliteration": 4,
+        "muslim_names_detected": 67592,
+        "total_names": 2654262
+      }
+    }
+  },
+  "generated_at": "2026-05-13T17:58:32.388426+00:00",
+  "source_db": "rolls.sqlite"
+}

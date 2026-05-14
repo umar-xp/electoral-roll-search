@@ -1,0 +1,18 @@
+/data/master_index.json
+  Cache-Control: public, max-age=3600
+  Content-Type: application/json
+  Access-Control-Allow-Origin: *
+
+/data/districts/*_index.json
+  Cache-Control: public, max-age=86400
+  Content-Type: application/json
+  Access-Control-Allow-Origin: *
+
+/data/districts/*/*/part_*.json
+  Cache-Control: public, max-age=86400
+  Content-Type: application/json
+  Access-Control-Allow-Origin: *
+
+/pipeline_state.json
+  Cache-Control: no-store
+  X-Robots-Tag: noindex

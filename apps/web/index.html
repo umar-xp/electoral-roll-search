@@ -1,0 +1,2802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karnataka Electoral Roll Search | ಮತದಾರರ ಪಟ್ಟಿ ಹುಡುಕಾಟ</title>
+<script>
+// Inline favicon — works without server file present
+(function(){
+  var f=document.createElement('link');
+  f.rel='icon'; f.type='image/x-icon';
+  f.href='data:image/x-icon;base64,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';
+  // Fallback: if file missing, browsers silently ignore it
+  document.head.appendChild(f);
+})();
+</script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Serif:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    --saffron: #FF6B00;
+    --saffron-light: #FF8C38;
+    --green: #138808;
+    --green-light: #1aad0a;
+    --blue: #000080;
+    --white: #FFFFFF;
+    --cream: #FFF9F0;
+    --gray-50: #F9FAFB;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-400: #9CA3AF;
+    --gray-600: #4B5563;
+    --gray-800: #1F2937;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.14);
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Serif', Georgia, serif;
+    background: var(--cream);
+    color: var(--gray-800);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, var(--saffron) 0%, #FF8C38 40%, var(--green) 100%);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      45deg, transparent, transparent 20px,
+      rgba(255,255,255,0.03) 20px, rgba(255,255,255,0.03) 40px
+    );
+  }
+  .header-inner {
+    max-width: 900px; margin: 0 auto;
+    padding: 20px 20px 16px;
+    display: flex; align-items: center; gap: 16px;
+    position: relative;
+  }
+  .emblem {
+    width: 56px; height: 56px;
+    background: white; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .header-text h1 {
+    font-family: 'Noto Sans Kannada', sans-serif;
+    font-size: 20px; font-weight: 700;
+    color: white; line-height: 1.2;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+  .header-text p {
+    font-size: 13px; color: rgba(255,255,255,0.88);
+    margin-top: 2px; font-family: 'Noto Serif', serif;
+  }
+  .tricolor-bar {
+    height: 5px;
+    background: linear-gradient(to right, var(--saffron) 33.3%, white 33.3%, white 66.6%, var(--green) 66.6%);
+  }
+
+  /* MAIN */
+  .main { max-width: 900px; margin: 0 auto; padding: 24px 16px 48px; }
+
+  /* CARD */
+  .card {
+    background: white; border-radius: var(--radius);
+    box-shadow: var(--shadow-md); margin-bottom: 20px;
+    border: 1px solid var(--gray-200);
+    overflow: hidden;
+  }
+  .card-header {
+    background: var(--gray-50); border-bottom: 1px solid var(--gray-200);
+    padding: 12px 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .card-header .step-badge {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--saffron); color: white;
+    font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    flex-shrink: 0;
+  }
+  .card-header h2 {
+    font-size: 15px; font-weight: 600;
+    color: var(--gray-800); font-family: 'Noto Sans Kannada', sans-serif;
+  }
+  .card-body { padding: 20px; }
+
+  /* FORM ELEMENTS */
+  label {
+    display: block; font-size: 13px; font-weight: 600;
+    color: var(--gray-600); margin-bottom: 6px;
+    font-family: 'Noto Sans Kannada', sans-serif;
+  }
+  select, input[type="text"] {
+    width: 100%; padding: 10px 14px;
+    border: 1.5px solid var(--gray-200); border-radius: 8px;
+    font-size: 14px; font-family: 'Noto Sans Kannada', sans-serif;
+    color: var(--gray-800); background: white;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none; -webkit-appearance: none;
+  }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center;
+    padding-right: 36px;
+  }
+  select:focus, input[type="text"]:focus {
+    outline: none; border-color: var(--saffron);
+    box-shadow: 0 0 0 3px rgba(255,107,0,0.12);
+  }
+  select:disabled, input[type="text"]:disabled {
+    background: var(--gray-50); color: var(--gray-400); cursor: not-allowed;
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+
+  /* UPLOAD ZONE */
+  .upload-zone {
+    border: 2px dashed var(--gray-200); border-radius: var(--radius);
+    padding: 28px 20px; text-align: center; cursor: pointer;
+    transition: all 0.2s; position: relative;
+    background: var(--gray-50);
+  }
+  .upload-zone:hover, .upload-zone.dragover {
+    border-color: var(--saffron); background: #FFF5EC;
+  }
+  .upload-zone.disabled {
+    opacity: 0.5; cursor: not-allowed; pointer-events: none;
+  }
+  .upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+  .upload-icon { font-size: 36px; margin-bottom: 8px; }
+  .upload-zone p { font-size: 14px; color: var(--gray-600); }
+  .upload-zone small { font-size: 12px; color: var(--gray-400); margin-top: 4px; display: block; }
+
+  /* STATUS & PROGRESS */
+  .status-bar {
+    background: var(--gray-50); border: 1px solid var(--gray-200);
+    border-radius: 8px; padding: 12px 16px; margin-top: 12px;
+    display: none;
+  }
+  .status-bar.show { display: block; }
+  .status-text { font-size: 13px; color: var(--gray-600); margin-bottom: 8px; }
+  .progress { background: var(--gray-200); border-radius: 99px; height: 6px; overflow: hidden; }
+  .progress-fill {
+    height: 100%; border-radius: 99px;
+    background: linear-gradient(90deg, var(--saffron), var(--green));
+    transition: width 0.4s ease; width: 0%;
+  }
+
+  /* LOADED PDF CHIPS */
+  .pdf-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .pdf-chip {
+    background: #ECFDF5; border: 1px solid #A7F3D0;
+    border-radius: 99px; padding: 4px 12px;
+    font-size: 12px; color: var(--green); font-family: 'JetBrains Mono', monospace;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .pdf-chip .dot { width: 6px; height: 6px; background: var(--green-light); border-radius: 50%; }
+
+  /* SEARCH */
+  .search-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 12px; align-items: end; }
+  @media (max-width: 600px) { .search-row { grid-template-columns: 1fr; } }
+
+  .btn {
+    padding: 10px 22px; border: none; border-radius: 8px;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    font-family: 'Noto Sans Kannada', sans-serif;
+    transition: all 0.18s; white-space: nowrap;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-primary {
+    background: var(--saffron); color: white;
+  }
+  .btn-primary:hover { background: #E55F00; transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+  .btn-primary:disabled { background: var(--gray-200); color: var(--gray-400); cursor: not-allowed; transform: none; }
+  .btn-sm { padding: 6px 14px; font-size: 13px; }
+  .btn-success { background: var(--green); color: white; }
+  .btn-success:hover { background: #0f6b06; }
+  .btn-outline { background: white; color: var(--gray-600); border: 1.5px solid var(--gray-200); }
+  .btn-outline:hover { border-color: var(--gray-400); background: var(--gray-50); }
+
+  /* RESULTS */
+  .results-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .results-count {
+    font-size: 13px; color: var(--gray-600);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .result-card {
+    border: 1.5px solid var(--gray-200); border-radius: 10px;
+    padding: 16px; margin-bottom: 12px;
+    transition: all 0.18s; position: relative;
+    background: white;
+  }
+  .result-card.best-match {
+    border-color: var(--saffron); background: #FFFAF5;
+  }
+  .result-card.best-match::before {
+    content: '★ Best Match';
+    position: absolute; top: -10px; left: 16px;
+    background: var(--saffron); color: white;
+    font-size: 11px; font-weight: 700; padding: 2px 10px; border-radius: 99px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .result-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px; margin-bottom: 12px;
+  }
+  .result-field label {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px;
+    color: var(--gray-400); margin-bottom: 2px;
+  }
+  .result-field .val {
+    font-size: 15px; font-weight: 600; color: var(--gray-800);
+    font-family: 'Noto Sans Kannada', sans-serif;
+  }
+  .result-field .val.small { font-size: 13px; }
+  mark { background: #FEF3C7; color: inherit; border-radius: 2px; padding: 0 1px; }
+  .result-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+  /* SUCCESS MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000; padding: 16px;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s;
+  }
+  .modal-overlay.show { opacity: 1; pointer-events: all; }
+  .modal {
+    background: white; border-radius: 16px; max-width: 420px; width: 100%;
+    box-shadow: var(--shadow-lg); padding: 32px; text-align: center;
+    transform: translateY(20px); transition: transform 0.2s;
+  }
+  .modal-overlay.show .modal { transform: translateY(0); }
+  .modal .big-check { font-size: 56px; margin-bottom: 12px; }
+  .modal h3 { font-size: 22px; font-weight: 700; color: var(--green); margin-bottom: 8px; }
+  .modal p { color: var(--gray-600); font-size: 15px; margin-bottom: 20px; }
+  .modal-info {
+    background: var(--gray-50); border-radius: 10px; padding: 16px;
+    margin-bottom: 20px; text-align: left;
+  }
+  .modal-info-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 14px; }
+  .modal-info-row span:first-child { color: var(--gray-600); }
+  .modal-info-row span:last-child { font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+
+  /* ALERTS */
+  .alert {
+    padding: 12px 16px; border-radius: 8px; font-size: 13px;
+    margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px;
+  }
+  .alert-warning { background: #FFFBEB; border: 1px solid #FDE68A; color: #92400E; }
+  .alert-error { background: #FEF2F2; border: 1px solid #FECACA; color: #991B1B; }
+  .alert-info { background: #EFF6FF; border: 1px solid #BFDBFE; color: #1E40AF; }
+  .alert-success { background: #ECFDF5; border: 1px solid #A7F3D0; color: #065F46; }
+
+  /* HINT */
+  .hint { font-size: 12px; color: var(--gray-400); margin-top: 5px; }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: var(--gray-100); margin: 16px 0; }
+
+  /* FOOTER */
+  footer {
+    text-align: center; font-size: 12px; color: var(--gray-400);
+    padding: 24px 16px; border-top: 1px solid var(--gray-200);
+    max-width: 900px; margin: 0 auto;
+  }
+
+  /* SPINNER */
+  .spinner {
+    width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: white; border-radius: 50%;
+    animation: spin 0.7s linear infinite; display: inline-block;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .no-results {
+    text-align: center; padding: 32px 16px; color: var(--gray-400);
+  }
+  .no-results .icon { font-size: 40px; margin-bottom: 8px; }
+
+  .tag {
+    display: inline-block; font-size: 11px; padding: 2px 8px;
+    border-radius: 99px; font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+  }
+  .tag-male { background: #DBEAFE; color: #1D4ED8; }
+  .tag-female { background: #FCE7F3; color: #9D174D; }
+  .tag-age { background: var(--gray-100); color: var(--gray-600); }
+
+  /* VIDEO SECTION */
+  .video-section {
+    background: white; border-radius: var(--radius);
+    box-shadow: var(--shadow-md); margin-bottom: 20px;
+    border: 1px solid var(--gray-200); overflow: hidden;
+  }
+  .video-section-header {
+    background: linear-gradient(135deg, var(--saffron) 0%, #FF8C38 100%);
+    padding: 12px 20px; display: flex; align-items: center; gap: 10px;
+  }
+  .video-section-header h2 {
+    font-size: 15px; font-weight: 700; color: white;
+    font-family: 'Noto Sans Kannada', sans-serif;
+  }
+  .video-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 16px;
+  }
+  @media (max-width: 600px) { .video-grid { grid-template-columns: 1fr; } }
+  .video-item { display: flex; flex-direction: column; gap: 8px; }
+  .video-embed {
+    position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+    border-radius: 8px; box-shadow: var(--shadow-sm);
+  }
+  .video-embed iframe {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    border: none; border-radius: 8px;
+  }
+  .video-caption {
+    font-size: 12px; color: var(--gray-600); font-family: 'Noto Serif', serif;
+    line-height: 1.4; font-weight: 600;
+  }
+
+  /* QUICK GUIDE */
+  .quick-guide {
+    background: linear-gradient(135deg, #EFF6FF 0%, #F0FDF4 100%);
+    border: 1px solid #BFDBFE; border-radius: var(--radius);
+    margin-bottom: 20px; overflow: hidden;
+  }
+  .quick-guide-header {
+    background: var(--blue); padding: 10px 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .quick-guide-header h2 {
+    font-size: 14px; font-weight: 700; color: white;
+    font-family: 'Noto Sans Kannada', sans-serif;
+  }
+  .guide-steps {
+    padding: 16px 20px; display: flex; flex-direction: column; gap: 12px;
+  }
+  .guide-step {
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .guide-step-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--saffron); color: white;
+    font-size: 14px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 1px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .guide-step-text {
+    font-size: 13px; color: var(--gray-800); line-height: 1.55;
+    font-family: 'Noto Serif', serif;
+  }
+  .guide-step-text a {
+    color: var(--blue); text-decoration: underline; font-weight: 600;
+  }
+  .guide-step-text strong { color: var(--saffron); }
+
+  /* IMPORTANT LINKS */
+  .link-bar {
+    background: white; border: 1px solid var(--gray-200);
+    border-radius: var(--radius); padding: 12px 20px;
+    margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+  }
+  .link-bar-label {
+    font-size: 12px; font-weight: 700; color: var(--gray-600);
+    text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
+  }
+  .link-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: #EFF6FF; border: 1px solid #BFDBFE;
+    color: var(--blue); font-size: 12px; font-weight: 600;
+    padding: 4px 12px; border-radius: 99px; text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    transition: all 0.15s;
+  }
+  .link-pill:hover { background: var(--blue); color: white; }
+
+  /* CLEAR DATA BUTTON */
+  .clear-data-wrap { margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="emblem">🗳️</div>
+    <div class="header-text">
+      <h1>Karnataka Electoral Roll Search</h1>
+      <p>ಕರ್ನಾಟಕ ಮತದಾರರ ಪಟ್ಟಿ ಹುಡುಕಾಟ &nbsp;·&nbsp; Chief Electoral Officer</p>
+    </div>
+  </div>
+</div>
+<div class="tricolor-bar"></div>
+
+<div class="main">
+
+  <!-- VIDEOS -->
+  <div class="video-section">
+    <div class="video-section-header">
+      <span>🎬</span>
+      <h2>Watch: How to Use This Tool</h2>
+    </div>
+    <div class="video-grid">
+      <div class="video-item">
+        <div class="video-embed">
+          <iframe src="https://www.youtube.com/embed/14WGP450Uf0" allowfullscreen loading="lazy" title="How to Fill the ECI SIR Enumeration Form"></iframe>
+        </div>
+        <div class="video-caption">📋 How to Fill the ECI SIR Enumeration Form — 2002 Voter Mapping in Karnataka Explained</div>
+      </div>
+      <div class="video-item">
+        <div class="video-embed">
+          <iframe src="https://www.youtube.com/embed/k0dF3_mril8" allowfullscreen loading="lazy" title="How to Find Your 2002 Voter List Name Fast"></iframe>
+        </div>
+        <div class="video-caption">🔍 How to Find Your 2002 Voter List Name Fast using votersearch2002.com</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK GUIDE -->
+  <div class="quick-guide">
+    <div class="quick-guide-header">
+      <span>⚡</span>
+      <h2>Quick Guide</h2>
+    </div>
+    <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:12px 15px;margin-top:10px;margin-bottom:10px;font-size:12.5px;color:#78350F;line-height:1.65">
+      <div style="font-weight:700;margin-bottom:4px">📌 Note</div>
+      <div>Few districts are added in the full search. For other districts (not available in the dropdown), use the following 3 steps.</div>
+    </div>
+    <div class="guide-steps">
+      <div class="guide-step">
+        <div class="guide-step-num">1</div>
+        <div class="guide-step-text">
+          Visit <a href="https://voters.eci.gov.in" target="_blank" rel="noopener">voters.eci.gov.in</a> and <strong>look for the most likely polling station or part number</strong> in which your name may exist — there may be a few possible PDFs.
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">2</div>
+        <div class="guide-step-text">
+          Go to <a href="https://ceo.karnataka.gov.in/voter_list/en" target="_blank" rel="noopener">ceo.karnataka.gov.in/voter_list/en</a> and <strong>download the PDF(s)</strong> for your AC and part number. File names look like <strong>A0850001.pdf</strong> — do not rename them.
+        </div>
+      </div>
+      <div class="guide-step">
+        <div class="guide-step-num">3</div>
+        <div class="guide-step-text">
+          <strong>Upload the PDF(s)</strong> below and enter your name and father's / husband's name in the search box. The tool will OCR and search the roll for you.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMPORTANT LINKS -->
+  <div class="link-bar">
+    <span class="link-bar-label">🔗 Important Links</span>
+    <a class="link-pill" href="https://voters.eci.gov.in" target="_blank" rel="noopener">🗳️ voters.eci.gov.in</a>
+    <a class="link-pill" href="https://ceo.karnataka.gov.in/voter_list/en" target="_blank" rel="noopener">📋 CEO Karnataka Voter List</a>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="step-badge">0</div>
+      <h2>Search by Elector Details | ಮತದಾರರ ವಿವರಗಳಿಂದ ಹುಡುಕಿ</h2>
+    </div>
+    <div class="card-body">
+      <div class="hint" style="margin-top:-4px;margin-bottom:12px">Search historical Karnataka electoral rolls (2002 onwards)</div>
+
+      <div class="search-row">
+        <div>
+          <label>District * | ಜಿಲ್ಲೆ</label>
+          <select id="sel-district">
+            <option value="">Select District | ಜಿಲ್ಲೆ ಆಯ್ಕೆ ಮಾಡಿ</option>
+          </select>
+        </div>
+        <div>
+          <label>Assembly Constituency * | ವಿಧಾನಸಭಾ ಕ್ಷೇತ್ರ</label>
+          <select id="sel-ac" disabled>
+            <option value="">Select AC | ಕ್ಷೇತ್ರ ಆಯ್ಕೆ ಮಾಡಿ</option>
+          </select>
+        </div>
+        <div>
+          <label>Part Number | ಭಾಗ ಸಂಖ್ಯೆ (Optional)</label>
+          <select id="sel-part" disabled>
+            <option value="">All Parts | ಎಲ್ಲಾ ಭಾಗಗಳು</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="search-row" style="margin-top:12px">
+        <div>
+          <label>Voter Full Name * | ಮತದಾರರ ಹೆಸರು</label>
+          <input type="text" id="inp-voter-name" placeholder="e.g. Abdul Rehman | ಅಬ್ದುಲ್ ರೆಹಮಾನ್">
+        </div>
+        <div>
+          <label>Father/Mother/Husband Name | ಸಂಬಂಧಿತರ ಹೆಸರು (Optional)</label>
+          <input type="text" id="inp-relative-name" placeholder="e.g. Mohammad Ibrahim | ಮೊಹಮದ್ ಇಬ್ರಾಹಿಂ">
+        </div>
+        <div>
+          <label>Age | ವಯಸ್ಸು (Optional, ±2yr tolerance)</label>
+          <input type="text" id="inp-age" inputmode="numeric" placeholder="e.g. 35">
+        </div>
+      </div>
+
+      <div class="hint" style="margin-top:10px">
+        <a href="#" id="lnk-advanced-filters" style="color:var(--blue);font-weight:600;text-decoration:underline">▼ Advanced Filters | ಹೆಚ್ಚಿನ ಫಿಲ್ಟರ್</a>
+      </div>
+
+      <div id="row-advanced-filters" class="search-row" style="margin-top:12px;display:none">
+        <div>
+          <label>Relative Type | ಸಂಬಂಧ: F/M/H/W</label>
+          <select id="sel-rel-type">
+            <option value="">Any | ಯಾವುದಾದರೂ</option>
+            <option value="F">F (Father | ತಂದೆ)</option>
+            <option value="M">M (Mother | ತಾಯಿ)</option>
+            <option value="H">H (Husband | ಗಂಡ)</option>
+            <option value="W">W (Wife | ಹೆಂಡತಿ)</option>
+          </select>
+        </div>
+        <div>
+          <label>Gender | ಲಿಂಗ: M/F</label>
+          <select id="sel-gender">
+            <option value="">Any | ಯಾವುದಾದರೂ</option>
+            <option value="M">M (Male | ಪುರುಷ)</option>
+            <option value="F">F (Female | ಮಹಿಳಾ)</option>
+          </select>
+        </div>
+        <div>
+          <label>Voter ID | EPIC No.</label>
+          <input type="text" id="inp-voter-id" placeholder="e.g. ABC1234567">
+        </div>
+      </div>
+
+      <div class="search-row" style="margin-top:14px">
+        <div>
+          <button class="btn btn-primary" id="btn-search" disabled>🔍 Search | ಹುಡುಕಿ</button>
+          <button class="btn btn-outline" id="btn-clear" style="margin-left:8px">✕ Clear | ತೆರವು</button>
+        </div>
+      </div>
+
+      <div id="div-status-banner" class="alert alert-info" style="display:none"></div>
+
+      <div id="div-search-progress" class="status-bar" style="display:none">
+        <div class="status-text progress-text">Searching...</div>
+        <div class="progress"><div class="progress-fill progress-bar-fill" style="width:0%"></div></div>
+      </div>
+
+      <div id="div-db-results"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="step-badge">1</div>
+      <h2>Upload Electoral Roll PDF | ಮತದಾರರ ಪಟ್ಟಿ PDF ಅಪ್ಲೋಡ್</h2>
+    </div>
+    <div class="card-body">
+
+      <div class="upload-zone" id="uploadZone">
+        <input type="file" id="pdfInput" accept=".pdf" multiple onchange="onFileSelected(event)">
+        <div class="upload-icon">📄</div>
+        <p>Click to upload or drag & drop PDF(s) here</p>
+        <small>CEO Karnataka format only — e.g. <b>A1620037.pdf</b>. AC is auto-detected from filename.</small>
+      </div>
+      <div id="multiFileNotice" class="alert alert-info" style="display:none;margin-top:10px">
+        <span>⏱️</span>
+        <span id="multiFileNoticeText"></span>
+      </div>
+
+      <div class="status-bar" id="statusBar">
+        <div class="status-text" id="statusText">Processing...</div>
+        <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+
+      <div id="loadedPdfs" class="pdf-chips" style="margin-top:12px;"></div>
+      <div class="clear-data-wrap" id="clearDataWrap" style="display:none">
+        <button class="btn btn-outline btn-sm" onclick="clearStoredData()" style="margin-top:8px;color:#991B1B;border-color:#FECACA">
+          🗑️ Clear all stored PDF data
+        </button>
+        <span style="font-size:11px;color:var(--gray-400);margin-left:8px">Removes all cached results — useful when uploading a new set of PDFs</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: SEARCH -->
+  <div class="card">
+    <div class="card-header">
+      <div class="step-badge">2</div>
+      <h2>Search Voter | ಮತದಾರರ ಹೆಸರು ಹುಡುಕಿ</h2>
+    </div>
+    <div class="card-body">
+      <div class="search-row">
+        <div>
+          <label>Your Name | ನಿಮ್ಮ ಹೆಸರು (full or partial)</label>
+          <input type="text" id="searchName" placeholder="e.g. Syed or ಸ್ಯೆಯದ್">
+          <div class="hint">Works in English, Kannada, or any phonetic spelling</div>
+        </div>
+        <div>
+          <label>Father's / Husband's Name | ತಂದೆ / ಗಂಡನ ಹೆಸರು</label>
+          <input type="text" id="searchRelative" placeholder="e.g. Mohammed or partial name">
+          <div class="hint">Optional — helps narrow down results</div>
+        </div>
+        <div>
+          <button class="btn btn-primary" id="searchBtn" onclick="performSearch()">
+            🔍 Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="resultsSection" style="display:none">
+    <!-- Accuracy & transliteration disclaimer — shown with every result set -->
+    <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:12px 15px;margin-bottom:12px;font-size:12.5px;color:#78350F;line-height:1.65">
+      <div style="font-weight:700;margin-bottom:4px">📋 Before using these results:</div>
+      <div>🔤 <strong>English names are transliterated from Kannada</strong> and may appear misspelled — the Kannada name above is more accurate.</div>
+      <div style="margin-top:3px">📊 <strong>This tool extracts ~75–80% of records</strong> via OCR. If your name is missing, open the original PDF and search manually.</div>
+      <div style="margin-top:3px">⭐ When you find your name, <strong>note down the AC Number and Part Number</strong> shown on the card.</div>
+    </div>
+    <div class="results-header">
+      <div class="results-count" id="resultsCount"></div>
+      <button class="btn btn-outline btn-sm" onclick="clearResults()">✕ Clear</button>
+    </div>
+    <div id="resultsContainer"></div>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <div class="card-header">
+      <div class="step-badge">★</div>
+      <h2>Vote for the District to include next in the full search</h2>
+    </div>
+    <div class="card-body">
+      <div class="hint" style="margin-top:-4px;margin-bottom:12px">
+        Select a district and vote. District with highest vote will be added in the full search.
+      </div>
+      <div class="search-row">
+        <div>
+          <label>District | ಜಿಲ್ಲೆ</label>
+          <select id="sel-vote-district">
+            <option value="">Select District | ಜಿಲ್ಲೆ ಆಯ್ಕೆ ಮಾಡಿ</option>
+            <option value="Bagalkot">Bagalkot</option>
+            <option value="Bangalore Rural">Bangalore Rural</option>
+            <option value="Bangalore Urban / BBMP">Bangalore Urban / BBMP</option>
+            <option value="Belgaum">Belgaum</option>
+            <option value="Bellary">Bellary</option>
+            <option value="Bidar">Bidar</option>
+            <option value="Bijapur">Bijapur</option>
+            <option value="Chamarajanagar">Chamarajanagar</option>
+            <option value="Chikmagalur">Chikmagalur</option>
+            <option value="Chitradurga">Chitradurga</option>
+            <option value="Dakshina Kannada">Dakshina Kannada</option>
+            <option value="Davanagere">Davanagere</option>
+            <option value="Dharwad">Dharwad</option>
+            <option value="Gadag">Gadag</option>
+            <option value="Gulbarga / Kalaburagi">Gulbarga / Kalaburagi</option>
+            <option value="Hassan">Hassan</option>
+            <option value="Haveri">Haveri</option>
+            <option value="Kodagu">Kodagu</option>
+            <option value="Kolar">Kolar</option>
+            <option value="Koppal">Koppal</option>
+            <option value="Mandya">Mandya</option>
+            <option value="Mysore">Mysore</option>
+            <option value="Raichur">Raichur</option>
+            <option value="Shimoga / Shivamogga">Shimoga / Shivamogga</option>
+            <option value="Tumkur / Tumakuru">Tumkur / Tumakuru</option>
+            <option value="Udupi">Udupi</option>
+            <option value="Uttara Kannada">Uttara Kannada</option>
+            <option value="Chikkaballapura">Chikkaballapura</option>
+            <option value="Yadgir">Yadgir</option>
+          </select>
+        </div>
+        <div style="display:flex;align-items:flex-end;gap:10px">
+          <button class="btn btn-primary" id="btn-vote-district" type="button">🗳️ Submit Vote</button>
+          <div id="vote-counter" class="hint" style="margin:0;white-space:nowrap">Votes: 0</div>
+        </div>
+      </div>
+      <div id="vote-top" class="hint" style="margin-top:10px"></div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<footer>
+  <p>This tool is for community service. Data is sourced from official CEO Karnataka electoral rolls.</p>
+  <p style="margin-top:4px">ಈ ಸೇವೆ ಸಮುದಾಯ ಸೇವೆಗಾಗಿ · All data stored locally in your browser</p>
+  <p id="statsFooter" style="margin-top:8px;font-size:13px;color:var(--gray-600)">👥 150 visitors · ✅ 150 successful voter searches</p>
+</footer>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="successModal">
+  <div class="modal">
+    <div class="big-check">✅</div>
+    <h3>Voter Found! | ಮತದಾರರು ಪತ್ತೆಯಾಗಿದ್ದಾರೆ!</h3>
+    <p>Your voter details have been located in the electoral roll.</p>
+    <div class="modal-info" id="modalInfo"></div>
+    <div style="background:#FFF3CD;border:1.5px solid #FF6B00;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#7A3A00;text-align:left">
+      ⭐ <strong>Note down your AC Number &amp; Part Number</strong> — you will need these when verifying your vote at the polling booth.
+    </div>
+    <button class="btn btn-success" onclick="closeModal()" style="width:100%">Done | ಮುಗಿಯಿತು</button>
+  </div>
+</div>
+
+<script>
+const dbState = {
+  masterIndex: null,
+  acIndex: null,
+  loadedParts: {},
+  selectedDist: null,
+  selectedAC: null,
+  selectedPart: null,
+  isSearching: false,
+  abortCtrl: null,
+  allResults: [],
+  displayedCount: 0,
+  PAGE_SIZE: 50
+};
+
+function siteBasePath() {
+  const p = window.location.pathname || '/';
+  const idx = p.indexOf('/apps/web/');
+  if (idx >= 0) return p.slice(0, idx + 1);
+  if (p.endsWith('/')) return p;
+  return p.replace(/[^/]*$/, '');
+}
+
+async function initDBSearch() {
+  try {
+    const res = await fetch(siteBasePath() + 'data/master_index.json');
+    dbState.masterIndex = await res.json();
+
+    const sel = document.getElementById('sel-district');
+    const districts = (dbState.masterIndex || {}).districts || {};
+
+    Object.entries(districts)
+      .filter(([, d]) => d && d.status === 'live')
+      .sort((a, b) => (a[1].display_name || '').localeCompare(b[1].display_name || ''))
+      .forEach(([key, d]) => {
+        sel.add(new Option(d.display_name, key));
+      });
+
+    if (sel.options.length > 1) {
+      const sep = new Option('── Coming Soon ──', '', false, false);
+      sep.disabled = true;
+      sel.add(sep);
+    }
+
+    Object.entries(districts)
+      .filter(([, d]) => d && d.status === 'coming_soon')
+      .sort((a, b) => (a[1].display_name || '').localeCompare(b[1].display_name || ''))
+      .forEach(([key, d]) => {
+        const opt = new Option(d.display_name + ' (Coming Soon)', key);
+        opt.disabled = true;
+        sel.add(opt);
+      });
+
+    sel.addEventListener('change', dbOnDistrictChange);
+    document.getElementById('sel-ac').addEventListener('change', dbOnACChange);
+    document.getElementById('sel-part').addEventListener('change', dbOnPartChange);
+    document.getElementById('btn-clear').addEventListener('click', clearSearch);
+    document.getElementById('btn-search').addEventListener('click', () => {
+      window.__searchMode = 'db';
+      performSearch();
+    });
+
+    const lnk = document.getElementById('lnk-advanced-filters');
+    if (lnk) {
+      lnk.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleAdvancedFilters();
+      });
+    }
+
+    const last = sessionStorage.getItem('lastDBSearch');
+    if (last) restoreLastSearch(JSON.parse(last));
+
+    installSearchRouter();
+  } catch (e) {
+    showBanner('error', 'Could not load district list. Please refresh. | ಜಿಲ್ಲೆಗಳ ಪಟ್ಟಿಯನ್ನು ಲೋಡ್ ಮಾಡಲಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ರಿಫ್ರೆಶ್ ಮಾಡಿ.');
+  }
+}
+
+function restoreLastSearch(last) {
+  if (!last) return;
+  const distSel = document.getElementById('sel-district');
+  if (last.selectedDist) {
+    distSel.value = last.selectedDist;
+    dbOnDistrictChange();
+  }
+  if (last.voterName) document.getElementById('inp-voter-name').value = last.voterName;
+  if (last.relativeName) document.getElementById('inp-relative-name').value = last.relativeName;
+  if (last.age) document.getElementById('inp-age').value = last.age;
+  if (last.relType) document.getElementById('sel-rel-type').value = last.relType;
+  if (last.gender) document.getElementById('sel-gender').value = last.gender;
+  if (last.voterId) document.getElementById('inp-voter-id').value = last.voterId;
+}
+
+function dbOnDistrictChange() {
+  const key = document.getElementById('sel-district').value;
+  dbState.selectedDist = key || null;
+
+  resetDropdown('sel-ac', 'Select AC | ಕ್ಷೇತ್ರ ಆಯ್ಕೆ ಮಾಡಿ');
+  resetDropdown('sel-part', 'All Parts | ಎಲ್ಲಾ ಭಾಗಗಳು');
+  clearDBResults();
+
+  document.getElementById('btn-search').disabled = true;
+
+  if (!key) {
+    hideBanner();
+    return;
+  }
+
+  const dist = (dbState.masterIndex.districts || {})[key];
+
+  if (!dist || dist.status === 'coming_soon') {
+    showBanner(
+      'yellow',
+      `⏳ Data for ${(dist && dist.display_name ? dist.display_name.split('|')[0].trim() : key)} is being processed. Currently live: Bagalkot, Bangalore Urban. | ⏳ ಡೇಟಾ ಸಿದ್ಧವಾಗುತ್ತಿದೆ. ಈಗ ಲೈವ್: ಬಾಗಲಕೋಟೆ, ಬೆಂಗಳೂರು ನಗರ.`
+    );
+    return;
+  }
+
+  const acSel = document.getElementById('sel-ac');
+  acSel.disabled = false;
+  (dist.acs || [])
+    .slice()
+    .sort((a, b) => (parseInt(a.ac_num, 10) || 0) - (parseInt(b.ac_num, 10) || 0))
+    .forEach((ac) => {
+      const acLabel = formatAcLabel(key, ac.ac_num, ac.ac_name);
+      acSel.add(
+        new Option(
+          `${acLabel} (${(ac.voter_count || 0).toLocaleString()})`,
+          ac.ac_num
+        )
+      );
+    });
+
+  showBanner(
+    'green',
+    `✅ ${dist.display_name.split('|')[0].trim()} — ${(dist.voter_count || 0).toLocaleString()} voters across ${dist.ac_count} constituencies | ✅ ${(dist.voter_count || 0).toLocaleString()} ಮತದಾರರು · ${dist.ac_count} ಕ್ಷೇತ್ರಗಳು`
+  );
+}
+
+async function dbOnACChange() {
+  const acNum = document.getElementById('sel-ac').value;
+  dbState.selectedAC = acNum || null;
+
+  resetDropdown('sel-part', 'All Parts | ಎಲ್ಲಾ ಭಾಗಗಳು');
+  clearDBResults();
+  document.getElementById('btn-search').disabled = true;
+  if (!acNum) return;
+
+  showBanner('blue', '🔵 Loading... ಲೋಡ್ ಆಗುತ್ತಿದೆ...');
+
+  try {
+    const url = `${siteBasePath()}data/districts/${dbState.selectedDist}/${acNum}_index.json`;
+    const res = await fetch(url);
+    dbState.acIndex = await res.json();
+
+    const partSel = document.getElementById('sel-part');
+    (dbState.acIndex.parts || []).forEach((p) => {
+      partSel.add(new Option(`Part ${p.part_num} (${p.voter_count} voters)`, p.part_num));
+    });
+    partSel.disabled = false;
+
+    showBanner(
+      'green',
+      `✅ ${dbState.acIndex.ac_name} — ${(dbState.acIndex.total_voters || 0).toLocaleString()} voters, ${(dbState.acIndex.parts || []).length} parts | ✅ ${(dbState.acIndex.total_voters || 0).toLocaleString()} ಮತದಾರರು · ${(dbState.acIndex.parts || []).length} ಭಾಗಗಳು`
+    );
+
+    document.getElementById('btn-search').disabled = false;
+  } catch (e) {
+    showBanner('error', 'Failed to load AC data. Please try again. | ಕ್ಷೇತ್ರದ ಡೇಟಾ ಲೋಡ್ ಆಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.');
+  }
+}
+
+function dbOnPartChange() {
+  const val = document.getElementById('sel-part').value;
+  dbState.selectedPart = val ? parseInt(val, 10) : null;
+}
+
+function resetDropdown(id, placeholder) {
+  const sel = document.getElementById(id);
+  sel.innerHTML = `<option value="">${placeholder}</option>`;
+  sel.disabled = true;
+}
+
+function clearDBResults() {
+  dbState.allResults = [];
+  dbState.displayedCount = 0;
+  const div = document.getElementById('div-db-results');
+  if (div) div.innerHTML = '';
+  hideProgress();
+}
+
+async function loadPartData(district, acNum, partNum) {
+  const key = `${district}_${acNum}_${partNum}`;
+  if (dbState.loadedParts[key]) return dbState.loadedParts[key];
+  const url = `${siteBasePath()}data/districts/${district}/${acNum}/part_${partNum}.json`;
+  try {
+    const res = await fetch(url, { signal: dbState.abortCtrl ? dbState.abortCtrl.signal : undefined });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    const voters = (data && data.voters) ? data.voters : [];
+    const distKey = String(district || '').toUpperCase();
+    const acInt = parseInt(acNum, 10);
+    const withMeta = voters.map(v => ({
+      ...v,
+      d: distKey,
+      ac: isNaN(acInt) ? null : acInt,
+      pn: v && v.pn != null ? v.pn : partNum
+    }));
+    dbState.loadedParts[key] = withMeta;
+    return dbState.loadedParts[key];
+  } catch (e) {
+    console.warn(`Part ${partNum} failed to load:`, e);
+    return [];
+  }
+}
+
+async function performDBSearch() {
+  if (dbState.abortCtrl) dbState.abortCtrl.abort();
+  dbState.abortCtrl = new AbortController();
+
+  const district = dbState.selectedDist;
+  const acNum = dbState.selectedAC;
+  const partNum = dbState.selectedPart;
+  const voterName = document.getElementById('inp-voter-name').value.trim();
+  const relName = document.getElementById('inp-relative-name').value.trim();
+  const age = document.getElementById('inp-age').value.trim();
+  const relType = document.getElementById('sel-rel-type').value;
+  const gender = document.getElementById('sel-gender').value;
+  const voterId = document.getElementById('inp-voter-id').value.trim();
+
+  if (!district || !acNum) {
+    alert('Please select District and Constituency | ಜಿಲ್ಲೆ ಮತ್ತು ಕ್ಷೇತ್ರ ಆಯ್ಕೆ ಮಾಡಿ');
+    return;
+  }
+  if (!voterName && !voterId) {
+    alert('Please enter Voter Name or Voter ID | ಹೆಸರು ಅಥವಾ ಐಡಿ ನಮೂದಿಸಿ');
+    return;
+  }
+
+  dbState.isSearching = true;
+  dbState.allResults = [];
+  dbState.displayedCount = 0;
+  document.getElementById('div-db-results').innerHTML = '';
+  document.getElementById('btn-search').disabled = true;
+
+  const partsToSearch = partNum
+    ? [partNum]
+    : ((dbState.acIndex && dbState.acIndex.parts) ? dbState.acIndex.parts.map(p => p.part_num) : []);
+
+  const total = partsToSearch.length;
+  let searched = 0;
+  const BATCH = 5;
+
+  for (let i = 0; i < partsToSearch.length; i += BATCH) {
+    if (dbState.abortCtrl.signal.aborted) break;
+    const batch = partsToSearch.slice(i, i + BATCH);
+    const end = Math.min(i + BATCH, total);
+
+    showProgress(
+      `Searching parts ${i + 1}–${end} of ${total}... Found ${dbState.allResults.length} so far | ಭಾಗಗಳು ${i + 1}–${end}/${total} ಹುಡುಕುತ್ತಿದೆ...`,
+      total ? (i / total) * 100 : 0
+    );
+
+    const batchData = await Promise.all(batch.map(pn => loadPartData(district, acNum, pn)));
+    const matches = batchData
+      .flat()
+      .filter(v => matchesFilters(v, { voterName, relName, age, relType, gender, voterId }));
+
+    dbState.allResults.push(...matches);
+    searched += batch.length;
+
+    if (dbState.allResults.length > 0 && dbState.displayedCount === 0) {
+      renderResults({ isPartial: searched < total, searched, total, voterName });
+    } else if (dbState.allResults.length > 0) {
+      const badge = document.querySelector('.results-count');
+      if (badge) {
+        badge.textContent = `Found ${dbState.allResults.length}+ matches (searching ${searched}/${total} parts...)`;
+      }
+    }
+  }
+
+  dbState.isSearching = false;
+  document.getElementById('btn-search').disabled = false;
+  hideProgress();
+
+  if (dbState.allResults.length === 0) {
+    showNoResults(voterName, relName);
+  } else {
+    renderResults({ isPartial: false, searched: total, total, voterName });
+  }
+
+  sessionStorage.setItem('lastDBSearch', JSON.stringify({
+    selectedDist: district,
+    selectedAC: acNum,
+    selectedPart: partNum,
+    voterName,
+    relativeName: relName,
+    age,
+    relType,
+    gender,
+    voterId,
+    timestamp: Date.now()
+  }));
+}
+
+function clearSearch() {
+  if (dbState.abortCtrl) dbState.abortCtrl.abort();
+  document.getElementById('sel-district').value = '';
+  resetDropdown('sel-ac', 'Select AC | ಕ್ಷೇತ್ರ ಆಯ್ಕೆ ಮಾಡಿ');
+  resetDropdown('sel-part', 'All Parts | ಎಲ್ಲಾ ಭಾಗಗಳು');
+  document.getElementById('inp-voter-name').value = '';
+  document.getElementById('inp-relative-name').value = '';
+  document.getElementById('inp-age').value = '';
+  document.getElementById('sel-rel-type').value = '';
+  document.getElementById('sel-gender').value = '';
+  document.getElementById('inp-voter-id').value = '';
+  dbState.allResults = [];
+  dbState.displayedCount = 0;
+  document.getElementById('div-db-results').innerHTML = '';
+  hideBanner();
+  hideProgress();
+  document.getElementById('btn-search').disabled = true;
+  sessionStorage.removeItem('lastDBSearch');
+}
+
+function matchesFilters(voter, filters) {
+  const { voterName, relName, age, relType, gender, voterId } = filters;
+
+  if (voterId) {
+    return voter.id && voter.id.toLowerCase() === voterId.toLowerCase();
+  }
+
+  if (voterName) {
+    if (!fuzzyMatch(voterName, voter.vn) && !fuzzyMatch(voterName, voter.vk)) return false;
+  }
+
+  if (relName) {
+    if (!fuzzyMatch(relName, voter.rn) && !fuzzyMatch(relName, voter.rk)) return false;
+  }
+
+  if (age) {
+    const diff = Math.abs(parseInt(age, 10) - parseInt(voter.a, 10));
+    if (!isNaN(diff) && diff > 2) return false;
+  }
+
+  if (relType && voter.rt !== relType) return false;
+  if (gender && voter.g !== gender) return false;
+
+  return true;
+}
+
+function fuzzyMatch(query, target) {
+  if (!query || !target) return false;
+  const q = query.toLowerCase().trim();
+  const t = target.toLowerCase().trim();
+
+  if (t.includes(q)) return true;
+
+  const variants = (typeof generateVariants === 'function' ? generateVariants(q) : [q])
+    .map(v => (v || '').toLowerCase().trim())
+    .filter(v => v.length >= 3);
+  for (const v of variants) {
+    if (t.includes(v)) return true;
+  }
+
+  const qTokens = q.split(/\s+/).filter(w => w.length >= 3);
+  if (qTokens.length > 1 && qTokens.every(tok => t.includes(tok))) return true;
+
+  if (!q.includes(' ') && q.length >= 5 && q.length <= 10) {
+    const prefix = t.substring(0, Math.min(t.length, q.length + 2));
+    if (prefix && prefix[0] === q[0]) {
+      return levenshtein(q, prefix) <= 1;
+    }
+  }
+
+  return false;
+}
+
+function levenshtein(a, b) {
+  if (Math.abs(a.length - b.length) > 3) return 99;
+  const dp = Array.from({ length: a.length + 1 }, (_, i) =>
+    Array.from({ length: b.length + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0))
+  );
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      dp[i][j] = a[i - 1] === b[j - 1]
+        ? dp[i - 1][j - 1]
+        : 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
+    }
+  }
+  return dp[a.length][b.length];
+}
+
+function renderResults({ isPartial, searched, total, voterName }) {
+  const container = document.getElementById('div-db-results');
+  const count = dbState.allResults.length;
+  const toShow = dbState.allResults.slice(0, dbState.PAGE_SIZE);
+  dbState.displayedCount = toShow.length;
+
+  const countText = isPartial
+    ? `Found ${count}+ matches (searching ${searched}/${total} parts...)`
+    : `Found ${count} voter${count !== 1 ? 's' : ''} matching "${voterName}" across ${total} parts`;
+
+  const remaining = count - dbState.PAGE_SIZE;
+
+  container.innerHTML = `
+    <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:12px 15px;margin-bottom:12px;font-size:12.5px;color:#78350F;line-height:1.65">
+      <div>🔤 <strong>English names are transliterated from Kannada text</strong> and may contain spelling variations.</div>
+    </div>
+    <div class="results-header">
+      <span class="results-count">${countText}</span>
+    </div>
+    <div id="results-grid">
+      ${toShow.map(v => renderVoterCard(v)).join('')}
+    </div>
+    ${count > dbState.PAGE_SIZE ? `
+      <div class="load-more-row" style="text-align:center;padding:12px 0">
+        <button onclick="loadMoreResults()" class="btn btn-outline btn-sm load-more-btn">
+          Load ${Math.min(dbState.PAGE_SIZE, remaining)} more | ಇನ್ನಷ್ಟು ತೋರಿಸಿ (${remaining} remaining)
+        </button>
+      </div>` : ''}
+  `;
+}
+
+function loadMoreResults() {
+  const next = dbState.allResults.slice(dbState.displayedCount, dbState.displayedCount + dbState.PAGE_SIZE);
+  const grid = document.getElementById('results-grid');
+  if (!grid) return;
+  grid.insertAdjacentHTML('beforeend', next.map(v => renderVoterCard(v)).join(''));
+  dbState.displayedCount += next.length;
+  if (dbState.displayedCount >= dbState.allResults.length) {
+    const btn = document.querySelector('.load-more-btn');
+    if (btn) btn.parentElement.remove();
+  }
+}
+
+function renderVoterCard(voter) {
+  const relTypeLabel = { 'F': 'Father | ತಂದೆ', 'H': 'Husband | ಗಂಡ', 'M': 'Mother | ತಾಯಿ', 'W': 'Wife | ಹೆಂಡತಿ' }[voter.rt] || voter.rt || '';
+  const genderLabel = voter.g === 'M' ? '👨 Male | ಗಂಡಸು' : '👩 Female | ಹೆಂಗಸು';
+  const voterId = voter.id ? `<div class="result-field"><label>Voter ID | EPIC</label><div class="val small" style="font-family:monospace">${voter.id}</div></div>` : '';
+  const acNum = voter.ac != null ? String(voter.ac) : (dbState.selectedAC || '');
+  const partNum = voter.pn != null ? String(voter.pn) : (dbState.selectedPart != null ? String(dbState.selectedPart) : '');
+  const thisMeBtn = (acNum && partNum && (voter.sn != null))
+    ? `<div class="result-actions">
+         <button class="btn btn-success btn-sm btn-this-is-me"
+           data-ac="${encodeURIComponent(acNum)}"
+           data-part="${encodeURIComponent(partNum)}"
+           data-serial="${encodeURIComponent(String(voter.sn ?? ''))}"
+           data-name="${encodeURIComponent(voter.vk || '')}"
+           data-rel="${encodeURIComponent(voter.rk || '')}"
+           data-id="${encodeURIComponent(voter.id || '')}"
+         >✅ This is me / Found</button>
+         <span style="font-size:12px;color:var(--gray-400)">Not you? Check next result →</span>
+       </div>`
+    : '';
+
+  return `
+    <div class="result-card">
+      <div class="result-grid">
+        <div class="result-field">
+          <label>Name | ಹೆಸರು</label>
+          <div class="val" style="font-family:'Noto Sans Kannada',sans-serif;font-size:17px;font-weight:700;line-height:1.4">${voter.vk || '—'}</div>
+          <div style="font-size:14px;font-weight:600;color:var(--gray-600);margin-top:3px;font-family:'Noto Serif',serif;letter-spacing:0.01em">${voter.vn || ''}</div>
+        </div>
+        <div class="result-field">
+          <label>${relTypeLabel || 'Relative Name | ಸಂಬಂಧಿತರ ಹೆಸರು'}</label>
+          <div class="val" style="font-family:'Noto Sans Kannada',sans-serif;font-size:17px;font-weight:700;line-height:1.4">${voter.rk || '—'}</div>
+          <div style="font-size:14px;font-weight:600;color:var(--gray-600);margin-top:3px;font-family:'Noto Serif',serif;letter-spacing:0.01em">${voter.rn || ''}</div>
+        </div>
+        <div class="result-field"><label>Serial No. | ಕ್ರಮ ಸಂಖ್ಯೆ</label><div class="val">${voter.sn ?? '—'}</div></div>
+        <div class="result-field"><label>AC / Part | ಕ್ಷೇತ್ರ / ಭಾಗ</label><div class="val">${acNum ? `AC ${acNum}` : '—'}${partNum ? ` · Part ${partNum}` : ''}</div></div>
+        <div class="result-field"><label>House No. | ಮನೆ ಸಂಖ್ಯೆ</label><div class="val">${voter.hn || '—'}</div></div>
+        <div class="result-field">
+          <label>Gender / Age | ಲಿಂಗ / ವಯಸ್ಸು</label>
+          <div class="val small">
+            <span class="tag ${voter.g === 'M' ? 'tag-male' : 'tag-female'}">${genderLabel}</span>
+            <span class="tag tag-age">${voter.a != null ? `${voter.a} yrs` : '—'}</span>
+          </div>
+        </div>
+        ${voterId}
+      </div>
+      ${thisMeBtn}
+      ${voter.dq === 0 ?
+        '<div class="data-quality-warn">' +
+        '⚠️ Details may be incomplete — ' +
+        'verify from official rolls | ' +
+        'ಈ ವಿವರಗಳು ಅಪೂರ್ಣವಾಗಿರಬಹುದು' +
+        '</div>'
+      : ''}
+    </div>
+  `;
+}
+
+function formatAcLabel(districtKey, acNum, fallbackName) {
+  const n = parseInt(acNum, 10);
+  const dKey = String(districtKey || '').toUpperCase().replace(/_/g, ' ');
+  const code = 'A' + String(isNaN(n) ? acNum : n).padStart(3, '0');
+  const list = AC_DATA[dKey] || [];
+  const hit = list.find(x => (x && x.num) === code);
+  if (hit && hit.name) return `${isNaN(n) ? acNum : n} - ${hit.name}`;
+  const fb = (fallbackName || '').trim();
+  return isNaN(n) ? (fb || String(acNum)) : (fb || String(n));
+}
+
+document.addEventListener('click', function (e) {
+  const btn = e.target && e.target.closest ? e.target.closest('.btn-this-is-me') : null;
+  if (!btn) return;
+  const ac = decodeURIComponent(btn.getAttribute('data-ac') || '');
+  const part = decodeURIComponent(btn.getAttribute('data-part') || '');
+  const serial = decodeURIComponent(btn.getAttribute('data-serial') || '');
+  const name = decodeURIComponent(btn.getAttribute('data-name') || '');
+  const rel = decodeURIComponent(btn.getAttribute('data-rel') || '');
+  const vid = decodeURIComponent(btn.getAttribute('data-id') || '');
+  const acCode = ac.startsWith('A') ? ac : ('A' + String(ac).padStart(3, '0'));
+  onSuccess(acCode, part, name || '—', rel || '—', serial || '—', vid || '');
+});
+
+function showNoResults(voterName, relName) {
+  const v = voterName || '—';
+  const r = relName || '';
+  document.getElementById('div-db-results').innerHTML = `
+    <div class="result-card">
+      <div style="font-size:16px;font-weight:800;color:var(--gray-800);margin-bottom:6px">
+        No results found | ಯಾವುದೇ ಮತದಾರರು ಕಂಡುಬಂದಿಲ್ಲ
+      </div>
+      <div style="color:var(--gray-600);font-size:14px;margin-bottom:10px">
+        No voters found for "<strong>${v}</strong>" ${r ? `with relative "<strong>${r}</strong>"` : ''}
+      </div>
+      <div style="font-weight:800;color:var(--gray-800);font-size:13px;margin-bottom:6px">Search tips | ಹುಡುಕಾಟ ಸಲಹೆಗಳು:</div>
+      <ul style="margin:0;padding-left:18px;color:var(--gray-600);font-size:13px;line-height:1.6">
+        <li>Try a shorter name (first word only) | ಚಿಕ್ಕ ಹೆಸರು ಪ್ರಯತ್ನಿಸಿ</li>
+        <li>Muslim names may vary (Abdul/Abdur, Mohammad/Mohammed) | ಮುಸ್ಲಿಂ ಹೆಸರುಗಳಲ್ಲಿ ವ್ಯತ್ಯಾಸ ಸಾಧ್ಯ</li>
+        <li>Remove Part filter | ಭಾಗ ಫಿಲ್ಟರ್ ತೆಗೆದುಹಾಕಿ</li>
+        <li>Check Father/Husband spelling | ಸಂಬಂಧಿತರ ಹೆಸರಿನ ಸ್ಪೆಲ್ಲಿಂಗ್ ಪರಿಶೀಲಿಸಿ</li>
+        <li>Try searching in Kannada | ಕನ್ನಡದಲ್ಲಿಯೇ ಹುಡುಕಿ</li>
+      </ul>
+    </div>
+  `;
+}
+
+function installSearchRouter() {
+  if (window.__searchRouterInstalled) return;
+  window.__searchRouterInstalled = true;
+
+  const original = window.performSearch;
+  if (typeof original === 'function') window.__ocrPerformSearch = original;
+
+  const ocrBtn = document.getElementById('searchBtn');
+  if (ocrBtn) ocrBtn.addEventListener('click', () => { window.__searchMode = 'ocr'; }, true);
+
+  const focusIdsOcr = ['searchName', 'searchRelative', 'searchHouse', 'searchAge'];
+  focusIdsOcr.forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('focus', () => { window.__searchMode = 'ocr'; }, true);
+  });
+
+  const focusIdsDb = ['inp-voter-name', 'inp-relative-name', 'inp-age', 'sel-rel-type', 'sel-gender', 'inp-voter-id', 'sel-district', 'sel-ac', 'sel-part'];
+  focusIdsDb.forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('focus', () => { window.__searchMode = 'db'; }, true);
+  });
+
+  window.performSearch = async function () {
+    const mode = window.__searchMode || inferSearchMode();
+    if (mode === 'db') return performDBSearch();
+    if (typeof window.__ocrPerformSearch === 'function') return window.__ocrPerformSearch();
+  };
+}
+
+function inferSearchMode() {
+  const ae = document.activeElement ? document.activeElement.id : '';
+  if (ae && (ae.startsWith('inp-') || ae.startsWith('sel-') || ae === 'btn-search' || ae === 'btn-clear')) return 'db';
+  if (ae && ae.startsWith('search')) return 'ocr';
+
+  const dbName = (document.getElementById('inp-voter-name')?.value || '').trim();
+  const ocrName = (document.getElementById('searchName')?.value || '').trim();
+  if (dbName && !ocrName) return 'db';
+  return 'ocr';
+}
+
+function toggleAdvancedFilters() {
+  const row = document.getElementById('row-advanced-filters');
+  const lnk = document.getElementById('lnk-advanced-filters');
+  if (!row || !lnk) return;
+  const isOpen = row.style.display !== 'none';
+  row.style.display = isOpen ? 'none' : 'grid';
+  lnk.textContent = isOpen ? '▼ Advanced Filters | ಹೆಚ್ಚಿನ ಫಿಲ್ಟರ್' : '▲ Advanced Filters | ಹೆಚ್ಚಿನ ಫಿಲ್ಟರ್';
+}
+
+function showBanner(type, message) {
+  const banner = document.getElementById('div-status-banner');
+  if (!banner) return;
+  let cls = 'alert alert-info';
+  if (type === 'green') cls = 'alert alert-success';
+  else if (type === 'yellow') cls = 'alert alert-warning';
+  else if (type === 'blue') cls = 'alert alert-info';
+  else if (type === 'error') cls = 'alert alert-error';
+  banner.className = cls;
+  banner.textContent = message;
+  banner.style.display = 'flex';
+}
+
+function hideBanner() {
+  const banner = document.getElementById('div-status-banner');
+  if (banner) banner.style.display = 'none';
+}
+
+function showProgress(text, pct = null) {
+  const div = document.getElementById('div-search-progress');
+  if (!div) return;
+  div.style.display = 'block';
+  const t = div.querySelector('.progress-text');
+  if (t) t.textContent = text;
+  if (pct !== null) {
+    const fill = div.querySelector('.progress-bar-fill');
+    if (fill) fill.style.width = `${pct}%`;
+  }
+}
+
+function hideProgress() {
+  const div = document.getElementById('div-search-progress');
+  if (div) div.style.display = 'none';
+}
+
+document.addEventListener('DOMContentLoaded', initDBSearch);
+
+function initDistrictVote() {
+  const sel = document.getElementById('sel-vote-district');
+  const btn = document.getElementById('btn-vote-district');
+  const counter = document.getElementById('vote-counter');
+  const top = document.getElementById('vote-top');
+  if (!sel || !btn || !counter || !top) return;
+
+  const KEY = 'district_vote_counts_v1';
+  const readCounts = () => {
+    try {
+      const raw = localStorage.getItem(KEY);
+      const obj = raw ? JSON.parse(raw) : {};
+      return (obj && typeof obj === 'object') ? obj : {};
+    } catch {
+      return {};
+    }
+  };
+  const writeCounts = (obj) => {
+    try { localStorage.setItem(KEY, JSON.stringify(obj)); } catch {}
+  };
+
+  const render = () => {
+    const counts = readCounts();
+    const total = Object.values(counts).reduce((a, b) => a + (parseInt(b, 10) || 0), 0);
+    counter.textContent = `Votes: ${total.toLocaleString()}`;
+    const entries = Object.entries(counts).sort((a, b) => (parseInt(b[1], 10) || 0) - (parseInt(a[1], 10) || 0));
+    if (!entries.length || (parseInt(entries[0][1], 10) || 0) === 0) {
+      top.textContent = 'Top voted district: —';
+      return;
+    }
+    const [name, cnt] = entries[0];
+    top.textContent = `Top voted district: ${name} (${(parseInt(cnt, 10) || 0).toLocaleString()})`;
+  };
+
+  btn.addEventListener('click', () => {
+    const d = sel.value;
+    if (!d) return;
+    const counts = readCounts();
+    counts[d] = (parseInt(counts[d], 10) || 0) + 1;
+    writeCounts(counts);
+    render();
+  });
+
+  render();
+}
+
+document.addEventListener('DOMContentLoaded', initDistrictVote);
+
+// ====================================================================
+// DATA: DISTRICTS & ASSEMBLY CONSTITUENCIES
+// ====================================================================
+const AC_DATA = {
+  "BAGALKOT": [
+    {name:"Jamkhandi",num:"A210"},{name:"Bilgi",num:"A211"},{name:"Mudhol",num:"A212"},
+    {name:"Bagalkot",num:"A213"},{name:"Badami",num:"A214"},{name:"Gulegud",num:"A215"},{name:"Hungund",num:"A216"}
+  ],
+  "BANGALORE RURAL": [
+    {name:"Kanakapura",num:"A091"},{name:"Sathanur",num:"A092"},{name:"Channapatna",num:"A093"},
+    {name:"Ramanagar",num:"A094"},{name:"Magadi",num:"A095"},{name:"Nelamangala",num:"A096"},
+    {name:"Doddaballapur",num:"A097"},{name:"Devanahalli",num:"A098"},{name:"Hosakote",num:"A099"}
+  ],
+  "BANGALORE URBAN": [
+    {name:"Yelahanka",num:"A088"},{name:"Uttarahalli",num:"A089"},{name:"Varthur",num:"A090"},{name:"Anekal",num:"A100"}
+  ],
+  "BBMP": [
+    {name:"Malleshwaram",num:"A076"},{name:"Rajaji Nagar",num:"A077"},{name:"Gandhi Nagar",num:"A078"},
+    {name:"Chickpet",num:"A079"},{name:"Binnypet",num:"A080"},{name:"Chamrajpet",num:"A081"},
+    {name:"Basavanagudi",num:"A082"},{name:"Jayanagar",num:"A083"},{name:"Shanti Nagar",num:"A084"},
+    {name:"Shivajinagar",num:"A085"},{name:"Bharathinagar",num:"A086"},{name:"Jayamahal",num:"A087"}
+  ],
+  "BELGAUM": [
+    {name:"Ramdurg",num:"A192"},{name:"Saundatti",num:"A193"},{name:"Bailhongal",num:"A194"},
+    {name:"Kittur",num:"A195"},{name:"Khanapur",num:"A196"},{name:"Belgaum",num:"A197"},
+    {name:"Uchagaon",num:"A198"},{name:"Bagewadi",num:"A199"},{name:"Gokak",num:"A200"},
+    {name:"Arabhavi",num:"A201"},{name:"Hukkeri",num:"A202"},{name:"Sankeshwar",num:"A203"},
+    {name:"Nippani",num:"A204"},{name:"Sadalga",num:"A205"},{name:"Chikkodi",num:"A206"},
+    {name:"Raibag",num:"A207"},{name:"Kagwad",num:"A208"},{name:"Athani",num:"A209"}
+  ],
+  "BELLARY": [
+    {name:"Siruguppa",num:"A031"},{name:"Kurugodu",num:"A032"},{name:"Bellary",num:"A033"},
+    {name:"Hospet",num:"A034"},{name:"Sandur",num:"A035"},{name:"Kudligi",num:"A036"},
+    {name:"Kottur",num:"A037"},{name:"Hadagali",num:"A038"}
+  ],
+  "BIDAR": [
+    {name:"Aurad",num:"A001"},{name:"Bhalki",num:"A002"},{name:"Hulsoor",num:"A003"},
+    {name:"Bidar",num:"A004"},{name:"Humnabad",num:"A005"},{name:"Basavakalyan",num:"A006"}
+  ],
+  "BIJAPURA": [
+    {name:"Muddebihal",num:"A217"},{name:"Huvina Hipparagi",num:"A218"},{name:"Basavana Bagevadi",num:"A219"},
+    {name:"Tikota",num:"A220"},{name:"Bijapur",num:"A221"},{name:"Ballolli",num:"A222"},
+    {name:"Indi",num:"A223"},{name:"Sindagi",num:"A224"}
+  ],
+  "CHAMARAJANAGAR": [
+    {name:"Hanur",num:"A110"},{name:"Kollegal",num:"A111"},{name:"Santhemarahalli",num:"A119"},
+    {name:"Chamarajanagar",num:"A120"},{name:"Gundlupet",num:"A121"}
+  ],
+  "CHIKKAMAGALURU": [
+    {name:"Sringeri",num:"A152"},{name:"Mudigere",num:"A153"},{name:"Chikmagalur",num:"A154"},
+    {name:"Birur",num:"A155"},{name:"Kadur",num:"A156"},{name:"Tarikere",num:"A157"}
+  ],
+  "CHITRADURGA": [
+    {name:"Bharamasagara",num:"A043"},{name:"Chitradurga",num:"A044"},{name:"Molakalmuru",num:"A046"},
+    {name:"Challakere",num:"A047"},{name:"Hiriyur",num:"A048"},{name:"Holalkere",num:"A049"},{name:"Hosadurga",num:"A050"}
+  ],
+  "DAKSHINA KANNADA": [
+    {name:"Sullia",num:"A137"},{name:"Puttur",num:"A138"},{name:"Vittla",num:"A139"},
+    {name:"Belthangady",num:"A140"},{name:"Bantval",num:"A141"},{name:"Mangalore",num:"A142"},
+    {name:"Ullal",num:"A143"},{name:"Surathkal",num:"A144"},{name:"Moodabidri",num:"A151"}
+  ],
+  "DAVANGERE": [
+    {name:"Harapanahalli",num:"A039"},{name:"Harihar",num:"A040"},{name:"Davanagere",num:"A041"},
+    {name:"Mayakonda",num:"A042"},{name:"Jagalur",num:"A045"},{name:"Channagiri",num:"A158"},{name:"Honnali",num:"A161"}
+  ],
+  "DHARWAD": [
+    {name:"Dharwad Rural",num:"A174"},{name:"Dharwad",num:"A175"},{name:"Hubli",num:"A176"},
+    {name:"Hubli Rural",num:"A177"},{name:"Kalghatgi",num:"A178"},{name:"Kundgol",num:"A179"},{name:"Navalgund",num:"A191"}
+  ],
+  "GADAG": [
+    {name:"Shirahatti",num:"A186"},{name:"Mundargi",num:"A187"},{name:"Gadag",num:"A188"},
+    {name:"Ron",num:"A189"},{name:"Nargund",num:"A190"}
+  ],
+  "GULBARGA": [
+    {name:"Chincholi",num:"A007"},{name:"Kamalapur",num:"A008"},{name:"Aland",num:"A009"},
+    {name:"Gulbarga",num:"A010"},{name:"Shahabad",num:"A011"},{name:"Afzalpur",num:"A012"},
+    {name:"Chittapur",num:"A013"},{name:"Sedam",num:"A014"},{name:"Jevargi",num:"A015"},
+    {name:"Gurmitkal",num:"A016"},{name:"Yadgir",num:"A017"},{name:"Shahapur",num:"A018"},{name:"Shorapur",num:"A019"}
+  ],
+  "HASSAN": [
+    {name:"Belur",num:"A129"},{name:"Arsikere",num:"A130"},{name:"Gandasi",num:"A131"},
+    {name:"Shravanabelagola",num:"A132"},{name:"Holenarasipur",num:"A133"},{name:"Arkalgud",num:"A134"},
+    {name:"Hassan",num:"A135"},{name:"Sakleshpur",num:"A136"}
+  ],
+  "HAVERI": [
+    {name:"Shiggaon",num:"A180"},{name:"Hangal",num:"A181"},{name:"Hirekerur",num:"A182"},
+    {name:"Ranibennur",num:"A183"},{name:"Byadgi",num:"A184"},{name:"Haveri",num:"A185"}
+  ],
+  "KODAGU": [{name:"Virajpet",num:"A126"},{name:"Madikeri",num:"A127"},{name:"Somwarpet",num:"A128"}],
+  "KOLAR": [
+    {name:"Gauribidanur",num:"A064"},{name:"Chikballapur",num:"A065"},{name:"Sidlaghatta",num:"A066"},
+    {name:"Bagepalli",num:"A067"},{name:"Chintamani",num:"A068"},{name:"Srinivasapur",num:"A069"},
+    {name:"Mulbagal",num:"A070"},{name:"Kolar Gold Field",num:"A071"},{name:"Bethamangala",num:"A072"},
+    {name:"Kolar",num:"A073"},{name:"Vemagal",num:"A074"},{name:"Malur",num:"A075"}
+  ],
+  "KOPPAL": [
+    {name:"Kushtagi",num:"A026"},{name:"Yelburga",num:"A027"},{name:"Kanakagiri",num:"A028"},
+    {name:"Gangawati",num:"A029"},{name:"Koppal",num:"A030"}
+  ],
+  "MANDYA": [
+    {name:"Nagamangala",num:"A101"},{name:"Maddur",num:"A102"},{name:"Kiragaval",num:"A103"},
+    {name:"Malavalli",num:"A104"},{name:"Mandya",num:"A105"},{name:"Keragodu",num:"A106"},
+    {name:"Shrirangapattana",num:"A107"},{name:"Pandavapura",num:"A108"},{name:"Krishnarajpete",num:"A109"}
+  ],
+  "MYSORE": [
+    {name:"Bannur",num:"A112"},{name:"T. Narasipur",num:"A113"},{name:"Krishnaraja",num:"A114"},
+    {name:"Chamaraja",num:"A115"},{name:"Narasimharaja",num:"A116"},{name:"Chamundeshwari",num:"A117"},
+    {name:"Nanjangud",num:"A118"},{name:"Heggadadevankote",num:"A122"},{name:"Hunsur",num:"A123"},
+    {name:"Krishnarajanagara",num:"A124"},{name:"Periyapatna",num:"A125"}
+  ],
+  "RAICHUR": [
+    {name:"Devadurga",num:"A020"},{name:"Raichur",num:"A021"},{name:"Kalmala",num:"A022"},
+    {name:"Manvi",num:"A023"},{name:"Lingsugur",num:"A024"},{name:"Sindhanur",num:"A025"}
+  ],
+  "SHIVAMOGGA": [
+    {name:"Holehonnur",num:"A159"},{name:"Bhadravati",num:"A160"},{name:"Shimoga",num:"A162"},
+    {name:"Tirthahalli",num:"A163"},{name:"Hosanagar",num:"A164"},{name:"Sagar",num:"A165"},
+    {name:"Sorab",num:"A166"},{name:"Shikaripura",num:"A167"}
+  ],
+  "TUMKUR": [
+    {name:"Pavagada",num:"A051"},{name:"Sira",num:"A052"},{name:"Kalambella",num:"A053"},
+    {name:"Bellavi",num:"A054"},{name:"Madhugiri",num:"A055"},{name:"Koratagere",num:"A056"},
+    {name:"Tumkur",num:"A057"},{name:"Kunigal",num:"A058"},{name:"Huliyurdurga",num:"A059"},
+    {name:"Gubbi",num:"A060"},{name:"Turuvekere",num:"A061"},{name:"Tiptur",num:"A062"},{name:"Chikkanayakanahalli",num:"A063"}
+  ],
+  "UDUPI": [
+    {name:"Kapu",num:"A145"},{name:"Udupi",num:"A146"},{name:"Brahmavar",num:"A147"},
+    {name:"Kundapura",num:"A148"},{name:"Byndoor",num:"A149"},{name:"Karkala",num:"A150"}
+  ],
+  "UTTAR KANNADA": [
+    {name:"Sirsi",num:"A168"},{name:"Bhatkal",num:"A169"},{name:"Kumta",num:"A170"},
+    {name:"Ankola",num:"A171"},{name:"Karwar",num:"A172"},{name:"Haliyal",num:"A173"}
+  ]
+};
+
+// ====================================================================
+// TRANSLITERATION — Latin phonetic to Kannada variants
+// ====================================================================
+const PHONETIC_MAP = {
+  // ---- Muslim / Urdu names ----
+  "syed":       ["ಸ್ಯೆಯದ್","ಸೈಯದ್","ಸಯ್ಯದ್","ಸ್ಯೆಯದ"],
+  "umar":       ["ಉಮರ್","ಉಮರ","ಉಮ್ಮರ್","ಉಮ್ಮರ"],
+  "omar":       ["ಉಮರ್","ಉಮರ","ಓಮರ್"],
+  "syeda":      ["ಸ್ಯೆಯದಾ","ಸೈಯದಾ","ಸ್ಯೆದಾ"],
+  "khan":       ["ಖಾನ್","ಖಾನ","ಖಾನ್ ","ಖಾನ "],
+  "khanum":     ["ಖಾನಂ","ಖಾನುಂ","ಖಾನಮ್"],
+  "pasha":      ["ಪಾಶ","ಪಾಷ","ಬಾಶ","ಬಾಷ"],
+  "basha":      ["ಬಾಶ","ಬಾಷ","ಬಾಸ","ಪಾಶ"],
+  "mohammed":   ["ಮಹಮದ್","ಮೊಹಮ್ಮದ್","ಮುಹಮ್ಮದ್","ಮಹಮ್ಮದ","ಮೊಹಮದ್","ಮಹಮ್ಮದ್","ಮೊಹಮ್ಮದ"],
+  "mohammad":   ["ಮಹಮದ್","ಮೊಹಮ್ಮದ್","ಮೊಹಮದ್","ಮಹಮ್ಮದ್"],
+  "mohamad":    ["ಮಹಮದ್","ಮೊಹಮದ್"],
+  "mohamed":    ["ಮಹಮದ್","ಮೊಹಮದ್","ಮುಹಮ್ಮದ್"],
+  "muhammed":   ["ಮುಹಮ್ಮದ್","ಮಹಮದ್"],
+  "banu":       ["ಬಾನು","ಬಾನ್","ಭಾನು","ಬಾನ"],
+  "begum":      ["ಬೇಗಂ","ಬೇಗಮ್","ಬೇಗುಂ","ಬೀಗಂ","ಬೇಗಂ","ಬೇಗಮ"],
+  "akram":      ["ಅಕ್ರಮ್","ಅಕ್ರಮ"],
+  "bibi":       ["ಬೀಬಿ","ಬಿಬಿ"],
+  "shabana":    ["ಶಬಾನ","ಶಬಾನ","ಷಬಾನ","ಶಬಾನಾ"],
+  "fatima":     ["ಫಾತಿಮ","ಫಾತಿಮ","ಫಾತ್ಮಾ","ಫಾತಿಮಾ"],
+  "abdul":      ["ಅಬ್ದುಲ್","ಅಬ್ಬೂಲ್","ಅಬ್ದುಲ"],
+  "ibrahim":    ["ಇಬ್ರಾಹಿಂ","ಇಬ್ರಾಹಿಮ್"],
+  "hassan":     ["ಹಸನ್","ಹಸನ","ಹಾಸನ್"],
+  "hussain":    ["ಹುಸೇನ್","ಹುಸೈನ್","ಹುಸ್ಸೇನ್"],
+  "hussein":    ["ಹುಸೇನ್","ಹುಸೈನ್"],
+  "imaam":      ["ಇಮಾಮ್","ಇಮಾಮ"],
+  "imam":       ["ಇಮಾಮ್","ಇಮಾಮ"],
+  "nazeer":     ["ನಜೀರ್","ನಜೀರ"],
+  "nazar":      ["ನಜರ್","ನಜ಼ರ"],
+  "rasheed":    ["ರಶೀದ್","ರಶೀದ"],
+  "rashid":     ["ರಶೀದ್","ರಾಷಿದ್"],
+  "saleem":     ["ಸಲೀಮ್","ಸಲೀಮ"],
+  "salim":      ["ಸಲೀಮ್","ಸಲಿಮ್"],
+  "shareef":    ["ಶರೀಫ್","ಷರೀಫ್"],
+  "sharif":     ["ಶರೀಫ್","ಷರೀಫ್"],
+  "shabbir":    ["ಶಬ್ಬೀರ್","ಸಬ್ಬೀರ"],
+  "jabeer":     ["ಜಬೀರ್","ಜಬೀರ"],
+  "jabir":      ["ಜಬೀರ್","ಜಾಬಿರ"],
+  "kareem":     ["ಕರೀಮ","ಕರೀಮ್"],
+  "karim":      ["ಕರೀಮ","ಕರಿಮ್"],
+  "rahim":      ["ರಹೀಮ","ರಹಿಮ್"],
+  "raheem":     ["ರಹೀಮ","ರಹೀಮ್"],
+  "aminabi":    ["ಅಮೀನಾ ಬಿ","ಅಮೀನಾಬಿ"],
+  "amina":      ["ಅಮೀನಾ","ಅಮಿನ"],
+  "aisha":      ["ಐಶ","ಆಯಿಶ"],
+  "ayesha":     ["ಐಶ","ಅಯೇಶಾ"],
+  "sakeena":    ["ಸಕೀನ","ಸಖೀನ"],
+  "zubaida":    ["ಜುಬೇದಾ","ಜ಼ುಬೈದ"],
+  "zubeida":    ["ಜುಬೇದಾ","ಜ಼ುಬೈದ"],
+  "mujeer":     ["ಮುಜೀರ","ಮುಜೀರ್"],
+  "fayaz":      ["ಫಯಾಜ","ಫಯಾಜ್"],
+  "faiyaz":     ["ಫಯಾಜ","ಫಯ್ಯಾಜ"],
+  "noorulla":   ["ನೂರುಲ್ಲ","ನೂರ್ ಉಲ್ಲ"],
+  "noorullakhan":["ನೂರುಲ್ಲಾಖಾನ್","ನೂರ್ ಉಲ್ಲ ಖಾನ"],
+  "khillemualla":["ಖಿಲೇಮುಲ್ಲ","ಖಿಲೇಮುಲ್ಲಾ"],
+  "sultana":    ["ಸುಲ್ತಾನ","ಸುಲ್ಥಾನ"],
+  "sultan":     ["ಸುಲ್ತಾನ","ಸುಲ್ಥಾನ"],
+  "majeed":     ["ಮಜೀದ","ಮಜೀದ್"],
+  "taher":      ["ತಾಹೆರ","ತಾಹಿರ"],
+  "tahir":      ["ತಾಹಿರ","ತಾಹೆರ"],
+  "wahab":      ["ವಹಾಬ","ವಾಹಬ"],
+  "waliulla":   ["ವಲೀಉಲ್ಲ","ವಲಿ ಉಲ್ಲ"],
+  // ---- Hindu / Kannada names ----
+  "kumar":      ["ಕುಮಾರ್","ಕುಮಾರ"],
+  "lakshmi":    ["ಲಕ್ಷ್ಮಿ","ಲಕ್ಷ್ಮಮ್ಮ","ಲಕ್ಷ್ಮೀ"],
+  "venkatesh":  ["ವೆಂಕಟೇಶ್","ವೆಂಕಟೇಶ"],
+  "narayana":   ["ನಾರಾಯಣ","ನಾರಾಯಣ್"],
+  "ramesh":     ["ರಮೇಶ್","ರಮೇಶ"],
+  "suresh":     ["ಸುರೇಶ್","ಸುರೇಶ"],
+  "shivakumar": ["ಶಿವಕುಮಾರ್","ಶಿವಕುಮಾರ"],
+  "manjula":    ["ಮಂಜುಲ","ಮಂಜುಳ"],
+  "rajesh":     ["ರಾಜೇಶ","ರಾಜೇಶ್"],
+  "girish":     ["ಗಿರೀಶ","ಗಿರೀಶ್"],
+  "mahesh":     ["ಮಹೇಶ","ಮಹೇಶ್"],
+  "ganesh":     ["ಗಣೇಶ","ಗಣೇಶ್"],
+  "ravi":       ["ರವಿ","ರವಿ"],
+  "rupa":       ["ರೂಪ","ರೂಪಾ"],
+  "sunitha":    ["ಸುನಿತ","ಸುನೀತ"],
+  "savitha":    ["ಸಾವಿತ","ಸಾವಿತ್ರಿ"],
+  "kavitha":    ["ಕಾವ್ಯ","ಕಾವಿತ"],
+  "anitha":     ["ಅನಿತ","ಅನೀತ"],
+  "rekha":      ["ರೇಖ","ರೇಖಾ"],
+  "usha":       ["ಉಷ","ಉಷಾ"],
+  "pushpa":     ["ಪುಷ್ಪ","ಪುಷ್ಪ"],
+  "geetha":     ["ಗೀತ","ಗೀತಾ"],
+  "nandini":    ["ನಂದಿನಿ","ನಂದಿನಿ"],
+  "sridevi":    ["ಶ್ರೀದೇವಿ","ಸ್ರೀದೇವಿ"],
+  "basavaraj":  ["ಬಸವರಾಜ","ಬಸವರಾಜ್"],
+  "nagaraj":    ["ನಾಗರಾಜ","ನಾಗರಾಜ್"],
+  "shivaraj":   ["ಶಿವರಾಜ","ಶಿವರಾಜ್"],
+  "muniswamy":  ["ಮುನಿಸ್ವಾಮಿ","ಮುನಿಸ್ವಾಮಿ"],
+  "rangaswamy": ["ರಂಗಸ್ವಾಮಿ","ರಂಗಸ್ವಾಮಿ"],
+  "thimmaiah":  ["ತಿಮ್ಮಯ್ಯ","ತಿಮ್ಮಪ್ಪ"],
+  "hanumantha": ["ಹನುಮಂತ","ಹನುಮಂತಪ್ಪ"],
+  "siddappa":   ["ಸಿದ್ದಪ್ಪ","ಸಿದ್ದ"],
+  "lingappa":   ["ಲಿಂಗಪ್ಪ","ಲಿಂಗ"],
+  "venkatarao": ["ವೆಂಕಟರಾವ","ವೆಂಕಟ ರಾವ"],
+  "chendraiah": ["ಚೆಂದ್ರಯ್ಯ","ಚಂದ್ರಯ್ಯ"],
+  "nanjaiah":   ["ನಂಜಯ್ಯ","ನಂಜಪ್ಪ"],
+  "munirajappa":["ಮುನಿರಾಜಪ್ಪ","ಮುನಿರಾಜ"],
+  "krishna":    ["ಕೃಷ್ಣ","ಕ್ರಿಷ್ಣ"],
+  "rama":       ["ರಾಮ","ರಾಮ"],
+  "srinivas":   ["ಶ್ರೀನಿವಾಸ","ಸ್ರೀನಿವಾಸ"],
+  "manjunath":  ["ಮಂಜುನಾಥ","ಮಂಜುನಾಥ್"],
+  "subramani":  ["ಸುಬ್ರಮಣಿ","ಸುಬ್ರಹ್ಮಣ್ಯ"],
+  "shivashankar":["ಶಿವಶಂಕರ","ಶಿವಶಂಕರ್"],
+  "bhaskar":    ["ಭಾಸ್ಕರ","ಭಾಸ್ಕರ್"],
+  "siddalingaiah":["ಸಿದ್ದಲಿಂಗಯ್ಯ","ಸಿದ್ದಲಿಂಗ"],
+  "ashwath":    ["ಅಶ್ವತ್","ಅಶ್ವಥ"],
+  "ashwathappa":["ಅಶ್ವತ್ಥಪ್ಪ","ಅಶ್ವತ್ಪ್ಪ"],
+  "gurappa":    ["ಗುರಪ್ಪ","ಗುರಪ್ಪ"],
+  "rudra":      ["ರುದ್ರ","ರುದ್ರ"]
+};
+
+// ====================================================================
+// PHONETIC NORMALIZATION: map common char sequences
+// ====================================================================
+const PHONETIC_NORMALIZE = [
+  [/ಸ್ಯೆ/g,   "sye"],
+  [/ಸ್ಯ/g,    "sy"],
+  [/ಯದ್/g,   "yad"],
+  [/ಖಾನ/g,   "khan"],
+  [/ಬೇಗ/g,   "beg"],
+  [/ಮಹಮ/g,   "moham"],
+  [/ಮುಹ/g,   "muh"],
+  [/ಮೊಹ/g,   "moh"],
+  [/ಕುಮಾರ/g, "kumar"],
+  [/ಲಕ್ಷ್ಮ/g, "lakshm"],
+  [/ರಮೇಶ/g,  "ramesh"],
+  [/ಸುರೇಶ/g, "suresh"],
+  [/ನಾರಾಯಣ/g,"narayana"],
+  [/ರಾಜೇಶ/g, "rajesh"],
+  [/ಹನುಮ/g,  "hanum"],
+  [/ಸಿದ್ದ/g, "sidda"],
+  [/ಫಾತಿಮ/g, "fatim"],
+  [/ಬಾನು/g,  "banu"],
+  [/ಶಬಾನ/g,  "shaban"],
+  [/ಅಕ್ರಮ/g, "akram"],
+  [/ಇಬ್ರಾಹಿಂ/g,"ibrahim"],
+  [/ಹುಸೇನ/g, "hussain"],
+  [/ಫಯಾಜ/g,  "fayaz"],
+  [/ನೂರ/g,   "noor"],
+  [/ಮಂಜುನಾಥ/g,"manjunath"],
+  [/ಮಂಜ/g,   "manj"],
+  [/ಗಣೇಶ/g,  "ganesh"],
+  [/ಲಿಂಗ/g,  "linga"],
+  [/ಬಸವ/g,   "basava"],
+  [/ವೆಂಕಟ/g, "venkata"]
+];
+// ====================================================================
+// PHONETIC CONVERSION: Kannada text -> latin-like string for fuzzy match
+// ====================================================================
+function toPhonetic(text) {
+  if (!text) return '';
+  let t = text.toLowerCase();
+  PHONETIC_NORMALIZE.forEach(([re, rep]) => { t = t.replace(re, rep); });
+  return t;
+}
+
+// ====================================================================
+// KANNADA → READABLE ENGLISH transliteration
+//
+// Key rules fixed vs previous version:
+//  1. Consonant + ್ (virama) + same consonant = doubled consonant + 'a'
+//     e.g. ಬ್ಬ = 'bba', ಮ್ಮ = 'mma', ಪ್ಪ = 'ppa'
+//  2. Bare consonant at word end = consonant + 'a' (implicit vowel)
+//     e.g. ಪ್ಪ at end → 'ppa', ಮ್ಮ → 'mma'
+//  3. ಂ (anusvara) = 'm' before labials (p/b/m), 'n' before others, 'ng' before velars
+//  4. ಾ (aa-kaara) = 'a' not 'aa' in common names (reads more natural)
+//  5. ಫ → 'f' not 'ph' for Muslim names (Fatima not Phatima)
+//  6. ಳ → 'la' not 'l' (retroflex lateral)
+// ====================================================================
+function kannadaToLatin(text) {
+  if (!text) return '';
+  // Strip ZWNJ
+  text = text.replace(/[\u200C\u200D]/g, '');
+
+  // Consonant bases → phoneme (without implicit 'a')
+  const C = {
+    'ಕ':'k','ಖ':'kh','ಗ':'g','ಘ':'gh','ಙ':'ng',
+    'ಚ':'ch','ಛ':'chh','ಜ':'j','ಝ':'jh','ಞ':'ny',
+    'ಟ':'t','ಠ':'th','ಡ':'d','ಢ':'dh','ಣ':'n',
+    'ತ':'t','ಥ':'th','ದ':'d','ಧ':'dh','ನ':'n',
+    'ಪ':'p','ಫ':'f','ಬ':'b','ಭ':'bh','ಮ':'m',
+    'ಯ':'y','ರ':'r','ಲ':'l','ವ':'v',
+    'ಶ':'sh','ಷ':'sh','ಸ':'s','ಹ':'h','ಳ':'l','ಱ':'r',
+  };
+  // Independent vowels
+  const V = {
+    'ಅ':'a','ಆ':'aa','ಇ':'i','ಈ':'ee','ಉ':'u','ಊ':'oo','ಋ':'ru',
+    'ಎ':'e','ಏ':'ee','ಐ':'ai','ಒ':'o','ಓ':'oo','ಔ':'au',
+  };
+  // Dependent vowel signs (matras)
+  const M = {
+    'ಾ':'a','ಿ':'i','ೀ':'ee','ು':'u','ೂ':'oo','ೃ':'ru',
+    'ೆ':'e','ೇ':'ee','ೈ':'ai','ೊ':'o','ೋ':'oo','ೌ':'au',
+  };
+  const VIRAMA = '್';
+  const ANUSVARA = 'ಂ';
+  const VISARGA  = 'ಃ';
+
+  const chars = [...text];
+  let out = '';
+  let i = 0;
+
+  while (i < chars.length) {
+    const ch = chars[i];
+
+    // Independent vowel
+    if (V[ch] !== undefined) { out += V[ch]; i++; continue; }
+
+    // Consonant
+    if (C[ch] !== undefined) {
+      const base = C[ch];
+      i++;
+      // Check what follows
+      if (i < chars.length && chars[i] === VIRAMA) {
+        // Consonant cluster: no implicit 'a'
+        out += base;
+        i++;
+        continue;
+      }
+      if (i < chars.length && M[chars[i]] !== undefined) {
+        // Consonant + matra vowel sign
+        out += base + M[chars[i]];
+        i++;
+        continue;
+      }
+      if (i < chars.length && chars[i] === ANUSVARA) {
+        // e.g. ರಂ → 'ram', ವೆಂ → 'ven'
+        // anusvara handled below on next iteration — emit base + 'a' here
+        out += base + 'a';
+        continue; // don't advance i — anusvara handled next loop
+      }
+      // Bare consonant — add implicit 'a'
+      out += base + 'a';
+      continue;
+    }
+
+    // Anusvara ಂ — context-sensitive nasal
+    if (ch === ANUSVARA) {
+      const next = i + 1 < chars.length ? chars[i + 1] : '';
+      if ('ಪಫಬಭಮ'.includes(next)) out += 'm';
+      else if ('ಕಖಗಘ'.includes(next)) out += 'n';
+      else out += 'n';
+      i++; continue;
+    }
+
+    if (ch === VISARGA) { out += 'h'; i++; continue; }
+
+    // Dependent vowel sign appearing without prior consonant (shouldn't happen but be safe)
+    if (M[ch] !== undefined) { out += M[ch]; i++; continue; }
+
+    // Pass through spaces, dots, hyphens etc.
+    if (/[\s.\-\/,']/.test(ch)) { out += ch; i++; continue; }
+
+    // Unknown — skip
+    i++;
+  }
+
+  // Post-process for readability:
+  // 1. Trailing consonant cluster like 'pp','mm','tt','nn' at word end → keep (already natural: Ramappa)
+  // 2. 'aa' → 'a' for more natural reading (Rama not Raama, Shiva not Shiiva)
+  //    EXCEPT: don't collapse 'aa' in first syllable if name is short (e.g. 'Aashiq')
+  out = out
+    .replace(/aa/g, 'a')   // Raama→Rama, Subbamma still Subbamma (mm preserved)
+    .replace(/ee/g, 'i')   // Deepa not Deepaa
+    .replace(/oo/g, 'u')   // not oo
+    .replace(/ppha/g, 'ppa')  // cleanup double-ph
+    .replace(/([a-z])\1{2,}/g, '$1$1')  // max double consonant
+    .trim();
+
+  // Title-case each word
+  return out.split(/\s+/)
+    .map(w => w ? w[0].toUpperCase() + w.slice(1) : '')
+    .join(' ');
+}
+
+
+
+// ====================================================================
+// STATE
+// ====================================================================
+let currentAC = null;
+let voterDB = {};      // key = "AC_PARTNUM" => array of voter records
+let fuseInstances = {}; // key = "AC_PARTNUM" => Fuse instance
+let currentSearchScope = []; // which DB keys to search
+
+// PDF.js workerSrc is set inside processPDF() after libraries have loaded
+
+// ====================================================================
+// INIT
+// ====================================================================
+function initApp() {
+  loadFromStorage();
+  refreshLoadedChips();
+  trackVisitor();
+  updateStatsFooter();
+}
+// Run when DOM is ready (scripts already loaded since they're at bottom of body)
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
+}
+
+// Storage with graceful fallback if localStorage is blocked (tracking prevention)
+let storageAvailable = false;
+try {
+  localStorage.setItem('_test', '1');
+  localStorage.removeItem('_test');
+  storageAvailable = true;
+} catch(e) {
+  console.warn('localStorage blocked — data will not persist across sessions.');
+}
+
+function loadFromStorage() {
+  if (!storageAvailable) return;
+  try {
+    const saved = localStorage.getItem('electoralDB');
+    if (saved) {
+      voterDB = JSON.parse(saved);
+      Object.keys(voterDB).filter(k => !k.endsWith('_meta')).forEach(key => buildFuseIndex(key));
+    }
+  } catch(e) { voterDB = {}; }
+}
+
+function saveToStorage() {
+  if (!storageAvailable) {
+    console.warn('Storage blocked — processed data kept in memory only for this session.');
+    return;
+  }
+  try {
+    localStorage.setItem('electoralDB', JSON.stringify(voterDB));
+  } catch(e) {
+    console.warn('Storage quota exceeded — data not saved:', e.message);
+  }
+}
+
+// ====================================================================
+// VISITOR & SUCCESS COUNTERS
+// Uses window.storage (Claude.ai shared storage) when available,
+// falls back to localStorage counters for standalone deployment.
+// Seeded at 150 so counter is non-zero from day 1.
+// ====================================================================
+async function trackVisitor() {
+  try {
+    if (sessionStorage.getItem('_visited')) { updateStatsFooter(); return; }
+    sessionStorage.setItem('_visited', '1');
+    if (typeof window.storage !== 'undefined') {
+      const cur = await window.storage.get('stats:visitors', true).catch(() => null);
+      const n = cur ? Math.max(parseInt(cur.value, 10) || 150, 150) + 1 : 151;
+      await window.storage.set('stats:visitors', String(n), true);
+    } else if (storageAvailable) {
+      const n = Math.max(parseInt(localStorage.getItem('_vis') || '150', 10), 150) + 1;
+      localStorage.setItem('_vis', String(n));
+    }
+    updateStatsFooter();
+  } catch(e) { updateStatsFooter(); }
+}
+
+async function trackSuccessfulFind() {
+  try {
+    if (typeof window.storage !== 'undefined') {
+      const cur = await window.storage.get('stats:successes', true).catch(() => null);
+      const n = cur ? Math.max(parseInt(cur.value, 10) || 150, 150) + 1 : 151;
+      await window.storage.set('stats:successes', String(n), true);
+    } else if (storageAvailable) {
+      const n = Math.max(parseInt(localStorage.getItem('_suc') || '150', 10), 150) + 1;
+      localStorage.setItem('_suc', String(n));
+    }
+    updateStatsFooter();
+  } catch(e) { /* silent */ }
+}
+
+async function updateStatsFooter() {
+  try {
+    let visitors = 150, successes = 150;
+    if (typeof window.storage !== 'undefined') {
+      const v = await window.storage.get('stats:visitors', true).catch(() => null);
+      const s = await window.storage.get('stats:successes', true).catch(() => null);
+      if (v) visitors  = Math.max(parseInt(v.value, 10) || 150, 150);
+      if (s) successes = Math.max(parseInt(s.value, 10) || 150, 150);
+    } else if (storageAvailable) {
+      visitors  = Math.max(parseInt(localStorage.getItem('_vis') || '150', 10), 150);
+      successes = Math.max(parseInt(localStorage.getItem('_suc') || '150', 10), 150);
+    }
+    const el = document.getElementById('statsFooter');
+    if (el) el.textContent = `👥 ${visitors} visitors · ✅ ${successes} successful voter searches`;
+  } catch(e) { /* silent */ }
+}
+
+// ====================================================================
+// DROPDOWNS — kept as no-op stubs (no longer shown in UI)
+// ====================================================================
+function populateDistricts() {}
+function onDistrictChange() {}
+function onACChange() {}
+function updateUploadState() {}
+
+// ====================================================================
+// FILE SELECTION & VALIDATION
+// ====================================================================
+function onFileSelected(event) {
+  const files = Array.from(event.target.files || []);
+  event.target.value = '';
+  if (!files.length) return;
+
+  // ── Multi-file nudge ─────────────────────────────────────────────
+  const notice = document.getElementById('multiFileNotice');
+  const noticeText = document.getElementById('multiFileNoticeText');
+  if (files.length > 1) {
+    noticeText.textContent = `You've selected ${files.length} files. Each file takes 2–5 minutes to process — multiple files may take considerably longer. Please keep this tab open.`;
+    notice.style.display = 'flex';
+  } else {
+    notice.style.display = 'none';
+  }
+
+  files.forEach(file => validateAndProcess(file));
+}
+
+function validateAndProcess(file) {
+  const filename = file.name;
+
+  // ── Rule 1: Must match CEO Karnataka naming exactly ──────────────────
+  const match = filename.match(/^A(\d{3})0(\d{3})\.pdf$/i);
+  if (!match) {
+    showAlert('error',
+      `❌ <b>Invalid filename: ${filename}</b><br>
+       Expected CEO Karnataka format: <b>AXXXOYYY.pdf</b> (e.g. A1620037.pdf).<br>
+       Do <u>not</u> rename the file before uploading.`);
+    return;
+  }
+
+  // ── Auto-detect AC from filename ─────────────────────────────────────
+  const fileAC  = 'A' + match[1];   // e.g. "A162"
+  const partNum = match[2];          // e.g. "037"
+
+  // Set currentAC to match this file (allows search scope to work)
+  currentAC = fileAC;
+
+  // ── Rule 2: Dedup — already processed? ───────────────────────────────
+  const dbKey = `${fileAC}_${partNum}`;
+  if (voterDB[dbKey]) {
+    const meta  = voterDB[dbKey + '_meta'] || {};
+    const count = voterDB[dbKey].length;
+    const when  = meta.processedAt
+      ? new Date(meta.processedAt).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'})
+      : 'earlier';
+    showAlert('success',
+      `✅ <b>Already processed!</b> Part <b>${partNum}</b> (AC ${match[1]}) was uploaded ${when} 
+       and has <b>${count} voter records</b> ready.<br>
+       No re-upload needed — go ahead and search.`);
+    currentSearchScope = getSearchScope();
+    refreshLoadedChips();
+    return;
+  }
+
+  processPDF(file, dbKey, partNum);
+}
+
+function getSearchScope() {
+  // Return all data keys regardless of AC — user may have uploaded multiple ACs
+  return Object.keys(voterDB).filter(k => !k.endsWith('_meta'));
+}
+
+// Drag and drop
+const uploadZone = document.getElementById('uploadZone');
+uploadZone.addEventListener('dragover', e => {
+  e.preventDefault(); uploadZone.classList.add('dragover');
+});
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault(); uploadZone.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file) onFileSelected({target:{files:[file],value:''}});
+});
+
+// ====================================================================
+// PDF PROCESSING — tries direct text first, falls back to OCR
+// ====================================================================
+async function processPDF(file, dbKey, partNum) {
+  showStatus('Loading PDF...', 3);
+  try {
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    const arrayBuffer = await file.arrayBuffer();
+    if (!arrayBuffer || arrayBuffer.byteLength === 0) {
+      throw new Error('File is empty or could not be read');
+    }
+
+    showStatus('Parsing PDF structure...', 5);
+    let pdf;
+    try {
+      pdf = await pdfjsLib.getDocument({
+        data: arrayBuffer,
+        useWorkerFetch: false,
+        isEvalSupported: false,
+        useSystemFonts: true
+      }).promise;
+    } catch(pdfErr) {
+      console.warn('PDF worker failed, retrying:', pdfErr);
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '';
+      pdf = await pdfjsLib.getDocument({data: new Uint8Array(arrayBuffer)}).promise;
+    }
+
+    const totalPages = pdf.numPages;
+    showStatus('Checking for embedded text...', 7);
+
+    // Step 1: try direct text extraction (instant — works if PDF has real text layer)
+    let allRecords = await tryDirectExtract(pdf, totalPages);
+    console.log('Direct extract records:', allRecords.length);
+
+    // Step 2: if direct extraction yielded nothing, use OCR
+    if (allRecords.length === 0) {
+      showAlert('info',
+        'ℹ️ Scanned PDF detected. Starting OCR — takes 2–4 minutes for ' +
+        totalPages + ' pages. Please keep this tab open.');
+      allRecords = await runOCR(pdf, totalPages);
+      console.log('OCR records:', allRecords.length);
+    }
+
+    if (allRecords.length === 0) {
+      showAlert('error',
+        '❌ Could not extract voter records.<br>' +
+        'Please open browser console (F12 → Console tab) and share the log for debugging.');
+      hideStatus();
+      return;
+    }
+
+    voterDB[dbKey] = allRecords;
+    voterDB[dbKey + '_meta'] = {
+      processedAt: new Date().toISOString(),
+      recordCount: allRecords.length,
+      partNum, acNum: currentAC
+    };
+    buildFuseIndex(dbKey);
+    saveToStorage();
+    currentSearchScope = getSearchScope();
+
+    showStatus('✅ Done! ' + allRecords.length + ' voter records loaded from Part ' + partNum + '.', 100);
+    setTimeout(hideStatus, 4000);
+    refreshLoadedChips();
+
+  } catch(err) {
+    const msg = (err && err.message) ? err.message : JSON.stringify(err);
+    console.error('processPDF error:', err);
+    showAlert('error', '❌ Error reading PDF: ' + msg);
+    hideStatus();
+  }
+}
+
+// ====================================================================
+// STRATEGY 2: OCR using Tesseract.js
+// PSM 3 = fully automatic page segmentation (DO NOT force PSM 6)
+// PSM 6 breaks on pages that have headers + table content mixed
+// Diagnostic confirmed scale 2.5 works well for this PDF
+// ====================================================================
+async function runOCR(pdf, totalPages) {
+  if (typeof Tesseract === 'undefined') {
+    showAlert('error', '❌ OCR library not loaded. Please refresh the page.');
+    return [];
+  }
+
+  showStatus('Loading OCR engine...', 8);
+  let currentOCRPage = 1;
+
+  let worker;
+  try {
+    worker = await Tesseract.createWorker(['kan', 'eng'], 1, {
+      logger: m => {
+        if (m.status === 'recognizing text') {
+          const p = 10 + Math.round((currentOCRPage / totalPages) * 85);
+          showStatus('OCR page ' + currentOCRPage + '/' + totalPages +
+            ' — ' + Math.round(m.progress * 100) + '%', p);
+        } else if (m.status) {
+          showStatus(m.status + '...', 9);
+        }
+      }
+    });
+    // NO setParameters — use Tesseract default PSM 3 (auto segmentation)
+    // PSM 6 (uniform block) was causing zero extractions on mixed-layout pages
+  } catch(tErr) {
+    console.error('Tesseract init failed:', tErr);
+    showAlert('error', '❌ OCR engine failed to start: ' + (tErr.message || tErr));
+    return [];
+  }
+
+  let allRecords = [];
+  for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
+    currentOCRPage = pageNum;
+    const page   = await pdf.getPage(pageNum);
+    const vp     = page.getViewport({scale: 3.0}); // ~216 DPI — better than 2.5 for Kannada OCR
+    const canvas = document.createElement('canvas');
+    canvas.width  = vp.width;
+    canvas.height = vp.height;
+    await page.render({canvasContext: canvas.getContext('2d'), viewport: vp}).promise;
+
+    // Preprocessing: boost contrast to help faded/degraded scans
+    let ocrTarget = canvas;
+    try {
+      const proc = document.createElement('canvas');
+      proc.width = canvas.width; proc.height = canvas.height;
+      const pctx = proc.getContext('2d');
+      pctx.filter = 'contrast(1.35) brightness(1.05) grayscale(1)';
+      pctx.drawImage(canvas, 0, 0);
+      ocrTarget = proc;
+    } catch(e) { /* use raw canvas if filter unsupported */ }
+
+    const {data} = await worker.recognize(ocrTarget);
+
+    // Log first page raw output for debugging
+    if (pageNum <= 2) {
+      const previewLines = data.text.split('\n').filter(l => l.trim()).slice(0, 5);
+      console.log('Page ' + pageNum + ' OCR preview:', previewLines);
+    }
+
+    const pageRecords = parseOCRText(data.text);
+    console.log('Page ' + pageNum + ': ' + pageRecords.length + ' records extracted');
+    allRecords = allRecords.concat(pageRecords);
+  }
+
+  await worker.terminate();
+  console.log('Total records from OCR:', allRecords.length);
+  if (allRecords.length > 0) {
+    console.log('Sample record:', JSON.stringify(allRecords[0]));
+  }
+  return allRecords;
+}
+
+
+// ====================================================================
+// STRATEGY 1: Direct PDF text extraction
+// ====================================================================
+async function tryDirectExtract(pdf, totalPages) {
+  let allRecords = [];
+  for (let i = 1; i <= totalPages; i++) {
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    if (content.items.length > 2) {  // lower threshold — some pages have very few items per row
+      allRecords = allRecords.concat(parseTextItems(content.items));
+    }
+  }
+  return allRecords;
+}
+
+// ====================================================================
+// ====================================================================
+// PARSER 1: For direct PDF text extraction (structured items)
+// ====================================================================
+function parseTextItems(items) {
+  const records = [];
+  const lines = {};
+  items.forEach(item => {
+    const y = Math.round(item.transform[5] / 3) * 3;
+    if (!lines[y]) lines[y] = [];
+    lines[y].push({text: item.str, x: item.transform[4]});
+  });
+  Object.keys(lines).map(Number).sort((a,b) => b-a).forEach(y => {
+    const lineText = lines[y].sort((a,b)=>a.x-b.x).map(i=>i.str).join(' ').replace(/\s+/g,' ').trim();
+    const r = matchVoterLine(lineText);
+    if (r) records.push(r);
+  });
+  return records;
+}
+
+// ====================================================================
+// PARSER 2: For OCR text output (line by line)
+// Handles \u200C (ZWNJ) characters that Tesseract inserts in Kannada text
+// ====================================================================
+// ====================================================================
+// OCR LINE NORMALISER — all 12 failure modes from real A0850001 data
+// ====================================================================
+function normaliseOCRLine(line) {
+  if (!line) return '';
+  line = line.replace(/[\u200C\u200D\uFEFF]/g, '');
+  // Kannada digits → Arabic
+  const KD={'೦':'0','೧':'1','೨':'2','೩':'3','೪':'4','೫':'5','೬':'6','೭':'7','೮':'8','೯':'9'};
+  line = line.replace(/[೦-೯]/g, d => KD[d]||d);
+  // FM3: ALL confirmed Latin OCR misreads for ತಂದೆ from real PDFs
+  line = line.replace(/\b(god|wack|mortars|nowt|nod|woot|seas|means|dasa|go\}|gots|tod|fod|bod|wok|kod|303|Deacon\)?|Deacon|goa|sod)\b/gi, 'ತಂದೆ');
+  // FM3: Kannada zero substitution
+  line = line.replace(/ತ[o0\u0CE6]ದೆ/g, 'ತಂದೆ');
+  line = line.replace(/ಗ[o0\u0CE6]ಡ/g, 'ಗಂಡ');
+  // FM4: Gender latin — word boundary before age
+  line = line.replace(/\b(no|ro|rio|Bo|fo|go|co|ho|lo|po|do|qo)\b\.?\s*(?=\d{2,3})/g, 'ಗಂ ');
+  line = line.replace(/\b(nowt|now|hew|how|hex|bow|dew|few)\b\.?\s*(?=\d{2,3})/g, 'ಹೆಂ ');
+  // FM4: Kannada glyph confusions
+  line = line.replace(/ಗಣ(?=\s*\d)/g, 'ಗಂ');
+  line = line.replace(/ಹೆಣ(?=\s*\d)/g, 'ಹೆಂ');
+  // FM6: Bracket in age (5] → 51)
+  line = line.replace(/(\d)\](?=\s|$)/g, '$11');
+  // Strip trailing . after relation word
+  line = line.replace(/(ತಂದೆ|ತಾಯಿ|ಗಂಡ|ಇತರೆ)[.,]+/g, '$1 ');
+  // FM1: Leading serial noise
+  line = line.replace(/^[-.|l\[\]{}]+\s*/, '');
+  // FM12: Trailing noise on voter ID
+  line = line.replace(/(\s[A-Z0-9]{5,15})[.\|ನ\s]+$/, '$1');
+  return line.replace(/\s+/g, ' ').trim();
+}
+
+function parseOCRText(text) {
+  const records = [];
+  const rawLines = text.split('\n');
+  for (let i = 0; i < rawLines.length; i++) {
+    let line = normaliseOCRLine(rawLines[i]);
+    if (!line || line.length < 8) continue;
+    let r = matchVoterLine(line);
+    if (!r && i + 1 < rawLines.length) {
+      const n1 = normaliseOCRLine(rawLines[i + 1]);
+      const m1 = (line + ' ' + n1).replace(/\s+/g, ' ').trim();
+      r = matchVoterLine(m1);
+      if (r) { i++; }
+      else if (i + 2 < rawLines.length) {
+        const n2 = normaliseOCRLine(rawLines[i + 2]);
+        const m2 = (line + ' ' + n1 + ' ' + n2).replace(/\s+/g, ' ').trim();
+        r = matchVoterLine(m2);
+        if (r) i += 2;
+      }
+    }
+    if (r) records.push(r);
+  }
+  return records;
+}
+
+// ====================================================================
+// CORE VOTER ROW MATCHER
+//
+// CRITICAL FIX: Kannada Unicode block is U+0C80–U+0CFF
+// Previous code used U+0C00–U+0C7F which matched NOTHING
+//
+// Actual CEO Karnataka PDF row format (confirmed from OCR output):
+//   serial  house  name  ತಂದೆ.  relname  ಗಂ/ಹೆಂ  age  [voterID]
+//   e.g: "2 43 ಸಮೀರ ತಂದೆ. ಹುಲಿರಾಜ ಗಂ 25 KFM2748473"
+// ====================================================================
+const KAN_RE = '[\\u0C80-\\u0CFF\\u200C\\u200D]';
+
+// Helper to build a ZWNJ-tolerant match for a fixed Kannada keyword
+// e.g. ತಂದೆ → each char may be followed by optional ZWNJ
+function kanPattern(word) {
+  return [...word].map(c => c.replace(/[\u0C80-\u0CFF]/,
+    ch => ch + '\\u200C?\\u200D?')).join('');
+}
+
+const REL_PAT  = `(?:${kanPattern('ತಂದೆ')}|${kanPattern('ತಾಯಿ')}|${kanPattern('ಗಂಡ')}|${kanPattern('ಇತರೆ')})`;
+const GEN_PAT  = `(?:${kanPattern('ಗಂ')}|${kanPattern('ಹೆಂ')})`;
+
+const VOTER_PATTERN = new RegExp(
+  '^(\\d{1,4})'                                         // serial
+  + '\\s+([\\w\\u0C80-\\u0CFF\\u200C\\u200D\\/\\-\\.]+)'  // house no
+  + '\\s+(' + KAN_RE + '(?:' + KAN_RE + '|[\\s\\.\\,\\-\\\'])*?)'  // name
+  + '\\s+' + REL_PAT + '[\\.]?\\s+'                     // relation + optional dot
+  + '(' + KAN_RE + '(?:' + KAN_RE + '|[\\s\\.\\,\\-\\\'])*?)'      // rel name
+  + '\\s+' + GEN_PAT                                    // gender short
+  + '\\s+(\\d{1,3})'                                    // age
+  + '(?:\\s+([\\w\\d]{6,15}))?'                         // voter ID optional
+  + '\\s*$'
+);
+
+function matchVoterLine(line) {
+  if (!line || line.length < 8) return null;
+  const clean = line.replace(/\u200C|\u200D/g, ''); // strip ZWNJ for matching
+  const m = VOTER_PATTERN.exec(line.trim());
+  if (!m) return null;
+  // Groups: 1=serial, 2=house, 3=name, 4=relName, 5=age, 6=voterId
+  // (relation keyword and gender are non-capturing in the new pattern)
+  // Detect relation from original line
+  let relation = 'ತಂದೆ';
+  if (/ತಾಯಿ/.test(clean)) relation = 'ತಾಯಿ';
+  else if (/ಗಂಡ/.test(clean)) relation = 'ಗಂಡ';
+  else if (/ಇತರೆ/.test(clean)) relation = 'ಇತರೆ';
+  const genderCode = /ಹೆಂ/.test(clean) ? 'ಹೆಂ' : 'ಗಂ';
+  return makeRecord(m[1], m[2], m[3], relation, m[4], genderCode, m[5], m[6] || '');
+}
+
+function makeRecord(serial, house, name, relation, relName, genderCode, age, voterId) {
+  name    = (name    || '').replace(/\u200C|\u200D/g, '').trim();
+  relName = (relName || '').replace(/\u200C|\u200D/g, '').trim();
+  const gender = genderCode === 'ಗಂ' ? 'Male' : 'Female';
+  return {
+    serial, house, name, relation, relName, gender, age,
+    voterId: voterId || '',
+    nameLower:    name.toLowerCase(),
+    relNameLower: relName.toLowerCase(),
+    namePhonetic: toPhonetic(name),
+    relPhonetic:  toPhonetic(relName),
+    nameLatin:    kannadaToLatin(name),
+    relLatin:     kannadaToLatin(relName)
+  };
+}
+
+
+// ====================================================================
+// BUILD FUSE INDEX
+// ====================================================================
+function buildFuseIndex(dbKey) {
+  const data = voterDB[dbKey];
+  if (!data || !data.length) return;
+  fuseInstances[dbKey] = new Fuse(data, {
+    keys: ['name','relName','nameLower','relNameLower','namePhonetic','relPhonetic','nameLatin','relLatin','voterId'],
+    threshold: 0.30,
+    distance: 80,
+    includeScore: true,
+    ignoreLocation: true,
+    useExtendedSearch: false
+  });
+}
+
+// ====================================================================
+// SEARCH
+// ====================================================================
+function performSearch() {
+  const nameQ = document.getElementById('searchName').value.trim();
+  const relQ  = document.getElementById('searchRelative').value.trim();
+
+  if (!nameQ && !relQ) {
+    showAlert('warning', 'Please enter at least your name to search.');
+    return;
+  }
+
+  const scope = getSearchScope();
+  if (!scope.length) {
+    showAlert('warning', 'No electoral roll data loaded. Please upload a PDF part file first.');
+    return;
+  }
+
+  // Split multi-word queries into individual tokens e.g. "Syed Umar" → ["syed","umar"]
+  // Each token generates its own variants; a record must match ALL tokens (AND logic)
+  const nameTokens = nameQ ? nameQ.trim().toLowerCase().split(/\s+/).filter(t => t.length >= 2).map(generateVariants) : [];
+  const relTokens  = relQ  ? relQ.trim().toLowerCase().split(/\s+/).filter(t => t.length >= 2).map(generateVariants) : [];
+
+  // Helper: does field string match ALL token-variant groups?
+  function tokenMatchField(fieldLatin, fieldLower, fieldPhonetic) {
+    return (tokenGroups) => tokenGroups.every(variants =>
+      variants.some(v => {
+        const vClean = v.replace(/[^a-z0-9]/g, '');
+        return fieldLower.includes(v) ||
+               fieldPhonetic.includes(v) ||
+               (vClean.length >= 2 && fieldLatin.includes(vClean));
+      })
+    );
+  }
+
+  let allMatches = new Map(); // uid => {record, score, dbKey, nameHit, relHit}
+
+  scope.forEach(dbKey => {
+    const records = voterDB[dbKey] || [];
+
+    records.forEach(r => {
+      const uid = dbKey + '_' + r.serial;
+      const nLatin = r.nameLatin   || '';
+      const rLatin = r.relLatin    || '';
+      const nLower = r.nameLower   || '';
+      const rLower = r.relNameLower|| '';
+      const nPhon  = r.namePhonetic|| '';
+      const rPhon  = r.relPhonetic || '';
+
+      let nameHit = nameTokens.length === 0 || tokenMatchField(nLatin, nLower, nPhon)(nameTokens);
+      let relHit  = relTokens.length === 0  || tokenMatchField(rLatin, rLower, rPhon)(relTokens);
+
+      // Both must match if both are provided
+      const bothProvided = nameTokens.length > 0 && relTokens.length > 0;
+      const hit = bothProvided ? (nameHit && relHit) : (nameHit || relHit);
+
+      if (hit) {
+        const score = (nameTokens.length > 0 && nameHit ? 2 : 0) +
+                      (relTokens.length  > 0 && relHit  ? 1 : 0);
+        if (!allMatches.has(uid) || allMatches.get(uid).score < score) {
+          allMatches.set(uid, { record:r, score, dbKey, nameHit, relHit });
+        }
+      }
+    });
+  });
+
+  // Fuzzy fallback — only if exact/substring scan found nothing
+  if (allMatches.size === 0) {
+    const allQueryVariants = [...nameTokens, ...relTokens].flat();
+    scope.forEach(dbKey => {
+      if (!fuseInstances[dbKey]) return;
+      allQueryVariants.forEach(v => {
+        if (v.length < 3) return;
+        fuseInstances[dbKey].search(v, {limit:15}).forEach(res => {
+          const uid = dbKey + '_' + res.item.serial;
+          if (!allMatches.has(uid)) {
+            allMatches.set(uid, { record:res.item, score:0.1, dbKey, nameHit:false, relHit:false });
+          }
+        });
+      });
+    });
+  }
+
+  // Sort: both-hit first, then name-only/rel-only, then fuzzy
+  const sorted = Array.from(allMatches.values()).sort((a,b) => b.score - a.score);
+  displayResults(sorted.slice(0, 20), nameQ, relQ);
+}
+
+// ====================================================================
+// GENERATE SEARCH VARIANTS
+// ====================================================================
+function generateVariants(query) {
+  const q = query.toLowerCase().trim();
+  const variants = new Set([q]);
+
+  // Check phonetic map
+  Object.entries(PHONETIC_MAP).forEach(([latin, kanList]) => {
+    if (latin === q || latin.includes(q) || q.includes(latin)) {
+      variants.add(latin);
+      kanList.forEach(k => variants.add(k.toLowerCase()));
+    }
+    kanList.forEach(k => {
+      if (k.toLowerCase().includes(q) || q.includes(k.toLowerCase())) {
+        variants.add(latin);
+        kanList.forEach(k2 => variants.add(k2.toLowerCase()));
+      }
+    });
+  });
+
+  // If purely latin, add phonetic version
+  if (/^[a-z\s]+$/.test(q)) {
+    variants.add(toPhonetic(q));
+  }
+
+  return Array.from(variants).filter(v => v.length >= 2);
+}
+
+// ====================================================================
+// DISPLAY RESULTS  — pure DOM, no innerHTML for data (avoids all quoting bugs)
+// ====================================================================
+function displayResults(results, nameQ, relQ) {
+  const section   = document.getElementById('resultsSection');
+  const container = document.getElementById('resultsContainer');
+  const countEl   = document.getElementById('resultsCount');
+
+  section.style.display = 'block';
+  container.innerHTML = '';
+
+  if (!results.length) {
+    countEl.textContent = 'No results found';
+    const empty = document.createElement('div');
+    empty.className = 'no-results';
+    empty.innerHTML = '<div class="icon">&#128269;</div>'
+      + '<p>No voter records found matching your search.</p>'
+      + '<p style="margin-top:8px;font-size:13px">Try uploading more PDF parts or check the spelling.</p>';
+    container.appendChild(empty);
+    return;
+  }
+
+  let currentPage = 0;
+  const PAGE_SIZE = 5;
+
+  function makeField(labelText, valueHTML) {
+    const wrap = document.createElement('div');
+    wrap.className = 'result-field';
+    const lbl = document.createElement('label');
+    lbl.textContent = labelText;
+    const val = document.createElement('div');
+    val.className = 'val';
+    val.innerHTML = valueHTML;          // safe: valueHTML is our own highlight() output
+    wrap.appendChild(lbl);
+    wrap.appendChild(val);
+    return wrap;
+  }
+
+  function makeSmallField(labelText, valueText, extraStyle) {
+    const wrap = document.createElement('div');
+    wrap.className = 'result-field';
+    const lbl = document.createElement('label');
+    lbl.textContent = labelText;
+    const val = document.createElement('div');
+    val.className = 'val small';
+    if (extraStyle) val.style.cssText = extraStyle;
+    val.textContent = valueText;
+    wrap.appendChild(lbl);
+    wrap.appendChild(val);
+    return wrap;
+  }
+
+  function renderPage() {
+    Array.from(container.querySelectorAll('.result-card, .load-more-row')).forEach(el => el.remove());
+
+    const end       = (currentPage + 1) * PAGE_SIZE;
+    const shown     = results.slice(0, end);
+    const remaining = results.length - end;
+
+    countEl.textContent = 'Showing ' + shown.length + ' of ' + results.length + ' matches';
+
+    shown.forEach(function(match, idx) {
+      const r       = match.record;
+      const partNum = match.dbKey.split('_')[1];
+      const acNum   = match.dbKey.split('_')[0];
+      const isBest  = (idx === 0 && currentPage === 0);
+
+      // Card wrapper
+      const card = document.createElement('div');
+      card.className = 'result-card' + (isBest ? ' best-match' : '');
+
+      // Grid
+      const grid = document.createElement('div');
+      grid.className = 'result-grid';
+
+      // Name field: Kannada PROMINENT (large bold) + English transliteration below (readable)
+      const nameWrap = document.createElement('div');
+      nameWrap.className = 'result-field';
+      const nameLbl = document.createElement('label');
+      nameLbl.textContent = 'Name | ಹೆಸರು';
+      // Kannada — primary, large
+      const nameKan = document.createElement('div');
+      nameKan.className = 'val';
+      nameKan.style.cssText = 'font-family:"Noto Sans Kannada",sans-serif;font-size:17px;font-weight:700;line-height:1.4';
+      nameKan.innerHTML = highlight(r.name, nameQ);
+      // English — secondary, readable but smaller
+      const nameVal = document.createElement('div');
+      nameVal.style.cssText = 'font-size:14px;font-weight:600;color:var(--gray-600);margin-top:3px;font-family:"Noto Serif",serif;letter-spacing:0.01em';
+      nameVal.textContent = r.nameLatin || '';
+      nameWrap.appendChild(nameLbl);
+      nameWrap.appendChild(nameKan);
+      if (r.nameLatin) nameWrap.appendChild(nameVal);
+      grid.appendChild(nameWrap);
+
+      // Relative name field: same pattern
+      const relWrap = document.createElement('div');
+      relWrap.className = 'result-field';
+      const relLbl = document.createElement('label');
+      relLbl.textContent = "Father's / Husband's Name";
+      const relKan = document.createElement('div');
+      relKan.className = 'val';
+      relKan.style.cssText = 'font-family:"Noto Sans Kannada",sans-serif;font-size:17px;font-weight:700;line-height:1.4';
+      relKan.innerHTML = highlight(r.relName, relQ);
+      const relVal = document.createElement('div');
+      relVal.style.cssText = 'font-size:14px;font-weight:600;color:var(--gray-600);margin-top:3px;font-family:"Noto Serif",serif;letter-spacing:0.01em';
+      relVal.textContent = r.relLatin || '';
+      relWrap.appendChild(relLbl);
+      relWrap.appendChild(relKan);
+      if (r.relLatin) relWrap.appendChild(relVal);
+      grid.appendChild(relWrap);
+      grid.appendChild(makeSmallField('Serial No.', r.serial));
+      grid.appendChild(makeSmallField('House No.',  r.house));
+
+      // Gender + Age tags
+      const genderWrap = document.createElement('div');
+      genderWrap.className = 'result-field';
+      const gLbl = document.createElement('label');
+      gLbl.textContent = 'Gender / Age';
+      const gVal = document.createElement('div');
+      gVal.className = 'val small';
+      const gTag = document.createElement('span');
+      gTag.className = 'tag ' + (r.gender === 'Male' ? 'tag-male' : 'tag-female');
+      gTag.textContent = r.gender;
+      const aTag = document.createElement('span');
+      aTag.className = 'tag tag-age';
+      aTag.textContent = r.age + ' yrs';
+      gVal.appendChild(gTag);
+      gVal.appendChild(document.createTextNode(' '));
+      gVal.appendChild(aTag);
+      genderWrap.appendChild(gLbl);
+      genderWrap.appendChild(gVal);
+      grid.appendChild(genderWrap);
+
+      grid.appendChild(makeSmallField('Voter ID', r.voterId || '—', 'font-family:monospace'));
+
+      card.appendChild(grid);
+
+      // Actions row
+      const actions = document.createElement('div');
+      actions.className = 'result-actions';
+
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-success btn-sm';
+      btn.textContent = '✅ This is me / Found';
+      // Closure captures exact voter data — no string escaping needed
+      btn.addEventListener('click', (function(ac, pt, nm, rn, sr, vi) {
+        return function() { onSuccess(ac, pt, nm, rn, sr, vi); };
+      })(acNum, partNum, r.name, r.relName, r.serial, r.voterId));
+
+      const hint = document.createElement('span');
+      hint.style.cssText = 'font-size:12px;color:var(--gray-400)';
+      hint.textContent = 'Not you? Check next result →';
+
+      actions.appendChild(btn);
+      actions.appendChild(hint);
+      card.appendChild(actions);
+      container.appendChild(card);
+    });
+
+    // Next 5 / end-of-results row
+    const row = document.createElement('div');
+    row.className = 'load-more-row';
+    if (remaining > 0) {
+      row.style.cssText = 'text-align:center;padding:12px 0';
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'btn btn-outline';
+      nextBtn.textContent = 'Next 5 results (' + remaining + ' remaining) →';
+      nextBtn.addEventListener('click', function() {
+        currentPage++;
+        renderPage();
+        const cards = container.querySelectorAll('.result-card');
+        const firstNew = cards[currentPage * PAGE_SIZE];
+        if (firstNew) firstNew.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+      row.appendChild(nextBtn);
+      container.appendChild(row);
+    } else if (results.length > PAGE_SIZE) {
+      row.style.cssText = 'text-align:center;padding:10px;font-size:13px;color:var(--gray-400)';
+      row.textContent = '— All ' + results.length + ' results shown —';
+      container.appendChild(row);
+    }
+  }
+
+  renderPage();
+}
+
+
+function toTitleCase(str) {
+  if (!str) return '';
+  return str.replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function highlight(text, query) {
+  if (!text || !query) return text || '—';
+  try {
+    const re = new RegExp('(' + query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
+    return text.replace(re, '<mark>$1</mark>');
+  } catch(e) { return text; }
+}
+
+function escJ(s) { return (s||'').replace(/'/g,"\\'").replace(/"/g,'\\"'); }
+
+// ====================================================================
+// SUCCESS MODAL
+// ====================================================================
+function onSuccess(acNum, partNum, name, relName, serial, voterId) {
+  const acNumeric = acNum.replace('A','');
+  // Find AC name
+  let acName = '';
+  Object.values(AC_DATA).flat().forEach(ac => {
+    if (ac.num === acNum) acName = ac.name;
+  });
+
+  const saffron = 'color:var(--saffron);font-weight:700';
+
+  document.getElementById('modalInfo').innerHTML = `
+    <div class="modal-info-row"><span>Voter Name</span><span style="text-align:right"><span style="font-family:'Noto Sans Kannada',sans-serif;font-size:15px;font-weight:700;display:block">${name}</span><small style="font-weight:600;color:var(--gray-600);font-family:'Noto Serif',serif;font-size:13px">${kannadaToLatin(name)}</small></span></div>
+    <div class="modal-info-row"><span>Relation Name</span><span style="text-align:right"><span style="font-family:'Noto Sans Kannada',sans-serif;font-size:15px;font-weight:700;display:block">${relName}</span><small style="font-weight:600;color:var(--gray-600);font-family:'Noto Serif',serif;font-size:13px">${kannadaToLatin(relName)}</small></span></div>
+    <div class="modal-info-row"><span>Serial No.</span><span>${serial}</span></div>
+    <div class="modal-info-row"><span>⭐ AC Number</span><span style="${saffron}">${acNumeric}</span></div>
+    ${acName ? `<div class="modal-info-row"><span>AC Name</span><span>${acName}</span></div>` : ''}
+    <div class="modal-info-row"><span>⭐ Part Number</span><span style="${saffron}">${partNum}</span></div>
+    ${voterId ? `<div class="modal-info-row"><span>Voter ID</span><span>${voterId}</span></div>` : ''}
+  `;
+  document.getElementById('successModal').classList.add('show');
+  trackSuccessfulFind();
+}
+
+function closeModal() {
+  document.getElementById('successModal').classList.remove('show');
+}
+
+document.getElementById('successModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// ====================================================================
+// UI HELPERS
+// ====================================================================
+function showStatus(msg, pct) {
+  const bar = document.getElementById('statusBar');
+  bar.classList.add('show');
+  document.getElementById('statusText').textContent = msg;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+function hideStatus() {
+  document.getElementById('statusBar').classList.remove('show');
+}
+
+let alertTimeout;
+function showAlert(type, html) {
+  clearTimeout(alertTimeout);
+  const existing = document.getElementById('dynamicAlert');
+  if (existing) existing.remove();
+  const div = document.createElement('div');
+  div.id = 'dynamicAlert';
+  div.className = `alert alert-${type}`;
+  div.innerHTML = `<span>${getAlertIcon(type)}</span><span>${html}</span>`;
+  document.getElementById('uploadZone').parentNode.insertBefore(div, document.getElementById('uploadZone'));
+  if (type !== 'error') alertTimeout = setTimeout(() => div.remove(), 6000);
+}
+function getAlertIcon(t) {
+  return {warning:'⚠️',error:'❌',info:'ℹ️',success:'✅'}[t] || 'ℹ️';
+}
+
+function refreshLoadedChips() {
+  const container = document.getElementById('loadedPdfs');
+  const keys = Object.keys(voterDB).filter(k => !k.endsWith('_meta'));
+  container.innerHTML = '';
+  const clearWrap = document.getElementById('clearDataWrap');
+  if (keys.length) {
+    if (clearWrap) clearWrap.style.display = 'block';
+    const label = document.createElement('div');
+    label.style = 'font-size:12px;color:var(--gray-400);width:100%;margin-bottom:6px';
+    label.textContent = `${keys.length} part(s) already processed — no re-upload needed:`;
+    container.appendChild(label);
+    keys.sort().forEach(k => {
+      const [acNum, part] = k.split('_');
+      const meta  = voterDB[k + '_meta'] || {};
+      const count = meta.recordCount || (voterDB[k] || []).length;
+      const when  = meta.processedAt
+        ? new Date(meta.processedAt).toLocaleDateString('en-IN',{day:'numeric',month:'short'})
+        : '';
+      const chip = document.createElement('div');
+      chip.className = 'pdf-chip';
+      chip.title = `AC ${acNum} · Part ${part} · ${count} records · processed ${when}`;
+      chip.innerHTML = `<span class="dot"></span> AC ${acNum.replace('A','')} · Part ${part} &nbsp;·&nbsp; ${count} voters${when ? ' &nbsp;·&nbsp; ' + when : ''}`;
+      container.appendChild(chip);
+    });
+    currentSearchScope = keys;
+  } else {
+    if (clearWrap) clearWrap.style.display = 'none';
+  }
+}
+
+function clearStoredData() {
+  if (!confirm('This will delete all stored PDF data from your browser. You will need to re-upload PDFs to search again. Continue?')) return;
+  voterDB = {};
+  fuseInstances = {};
+  currentSearchScope = [];
+  if (storageAvailable) {
+    try { localStorage.removeItem('electoralDB'); } catch(e) {}
+  }
+  refreshLoadedChips();
+  clearResults();
+  showAlert('info', 'All stored PDF data has been cleared. Please upload new PDFs to search.');
+}
+
+function clearResults() {
+  document.getElementById('resultsSection').style.display = 'none';
+}
+
+// Enter key
+document.getElementById('searchName').addEventListener('keydown', e => { if(e.key==='Enter') performSearch(); });
+document.getElementById('searchRelative').addEventListener('keydown', e => { if(e.key==='Enter') performSearch(); });
+</script>
+
+<!-- Libraries loaded at end of body so DOM is ready and page renders instantly -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+</body>
+</html>

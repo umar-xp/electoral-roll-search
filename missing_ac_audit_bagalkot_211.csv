@@ -1,0 +1,2 @@
+district,ac_num,local_pdf_count_before,local_pdf_count_after,downloaded_new,expected_pdf_count,still_missing_vs_expected,status,notes
+BAGALKOT,211,179,209,30,209,0,DOWNLOADED,govt_audit
