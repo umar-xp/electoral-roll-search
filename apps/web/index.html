@@ -741,6 +741,7 @@
 const dbState = {
   masterIndex: null,
   acIndex: null,
+  cacheBuster: null,
   loadedParts: {},
   selectedDist: null,
   selectedAC: null,
@@ -760,10 +761,19 @@ function siteBasePath() {
   return p.replace(/[^/]*$/, '');
 }
 
+function withCacheBuster(url) {
+  const v =
+    (dbState.masterIndex && dbState.masterIndex.generated_at)
+      ? dbState.masterIndex.generated_at
+      : (dbState.cacheBuster || '1');
+  return `${url}${url.includes('?') ? '&' : '?'}v=${encodeURIComponent(String(v))}`;
+}
+
 async function initDBSearch() {
   try {
     const res = await fetch(siteBasePath() + 'data/master_index.json');
     dbState.masterIndex = await res.json();
+    dbState.cacheBuster = (dbState.masterIndex && dbState.masterIndex.generated_at) ? dbState.masterIndex.generated_at : String(Date.now());
 
     const sel = document.getElementById('sel-district');
     const districts = (dbState.masterIndex || {}).districts || {};
@@ -889,7 +899,7 @@ async function dbOnACChange() {
   showBanner('blue', '🔵 Loading... ಲೋಡ್ ಆಗುತ್ತಿದೆ...');
 
   try {
-    const url = `${siteBasePath()}data/districts/${dbState.selectedDist}/${acNum}_index.json`;
+    const url = withCacheBuster(`${siteBasePath()}data/districts/${dbState.selectedDist}/${acNum}_index.json`);
     const res = await fetch(url);
     dbState.acIndex = await res.json();
 
@@ -932,7 +942,7 @@ function clearDBResults() {
 async function loadPartData(district, acNum, partNum) {
   const key = `${district}_${acNum}_${partNum}`;
   if (dbState.loadedParts[key]) return dbState.loadedParts[key];
-  const url = `${siteBasePath()}data/districts/${district}/${acNum}/part_${partNum}.json`;
+  const url = withCacheBuster(`${siteBasePath()}data/districts/${district}/${acNum}/part_${partNum}.json`);
   try {
     const res = await fetch(url, { signal: dbState.abortCtrl ? dbState.abortCtrl.signal : undefined });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
