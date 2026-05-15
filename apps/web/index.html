@@ -2700,15 +2700,28 @@ function generateVariants(query) {
   Object.entries(PHONETIC_MAP).forEach(([latin, kanList]) => {
     if (latin === q || latin.includes(q) || q.includes(latin)) {
       variants.add(latin);
-      kanList.forEach(k => variants.add(k.toLowerCase()));
+      kanList.forEach(k => {
+        const s = k.toLowerCase();
+        variants.add(s);
+        variants.add(s.replace(/್$/u, ''));
+      });
     }
     kanList.forEach(k => {
       if (k.toLowerCase().includes(q) || q.includes(k.toLowerCase())) {
         variants.add(latin);
-        kanList.forEach(k2 => variants.add(k2.toLowerCase()));
+        kanList.forEach(k2 => {
+          const s2 = k2.toLowerCase();
+          variants.add(s2);
+          variants.add(s2.replace(/್$/u, ''));
+        });
       }
     });
   });
+
+  const qClean = q.replace(/[^a-z0-9]/g, '');
+  if (qClean === 'syed' || qClean === 'sayyed' || qClean === 'sayed' || qClean === 'saiyed' || qClean === 'sayyad' || qClean === 'saiyad' || qClean === 'saiyyad' || qClean === 'sayyid' || qClean === 'saiyyid') {
+    ['syed', 'sayed', 'sayyed', 'sayyad', 'sayyid', 'saiyed', 'saiyad', 'saiyyad', 'saiyyid'].forEach(v => variants.add(v));
+  }
 
   // If purely latin, add phonetic version
   if (/^[a-z\s]+$/.test(q)) {
