@@ -416,6 +416,188 @@
 
   /* CLEAR DATA BUTTON */
   .clear-data-wrap { margin-top: 10px; }
+
+  /* ── SEARCH MODE TABS ── */
+  .search-tabs {
+    display: flex; background: white;
+    border: 1px solid var(--gray-200); border-radius: var(--radius);
+    overflow: hidden; margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+  }
+  .search-tab {
+    flex: 1; padding: 14px 16px; border: none; background: none;
+    cursor: pointer; font-family: 'Noto Sans Kannada', sans-serif;
+    font-size: 14px; font-weight: 600; color: var(--gray-600);
+    transition: all 0.2s; position: relative;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    border-bottom: 3px solid transparent;
+  }
+  .search-tab .tab-icon { font-size: 20px; }
+  .search-tab .tab-label { line-height: 1.2; text-align: center; }
+  .search-tab .tab-badge {
+    font-size: 10px; background: #FEF3C7; color: #92400E;
+    border: 1px solid #FDE68A; border-radius: 99px;
+    padding: 1px 7px; font-family: 'JetBrains Mono', monospace;
+    font-weight: 700; margin-top: 2px;
+  }
+  .search-tab.active {
+    color: var(--saffron); border-bottom-color: var(--saffron);
+    background: #FFF5EC;
+  }
+  .search-tab:not(.active):hover { background: var(--gray-50); }
+  @media (max-width: 500px) {
+    .search-tab { padding: 10px 8px; font-size: 12px; }
+  }
+
+  /* ── VOTE BANNER (prominent) ── */
+  .vote-banner {
+    background: linear-gradient(135deg, #1a1a6e 0%, #2d2d9e 50%, #1a1a6e 100%);
+    border-radius: var(--radius); margin-bottom: 20px;
+    padding: 20px 24px; color: white; position: relative; overflow: hidden;
+  }
+  .vote-banner::before {
+    content: '🗳️';
+    position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+    font-size: 64px; opacity: 0.12;
+  }
+  .vote-banner-title {
+    font-size: 17px; font-weight: 700;
+    font-family: 'Noto Sans Kannada', sans-serif;
+    margin-bottom: 4px;
+  }
+  .vote-banner-sub {
+    font-size: 12.5px; opacity: 0.82;
+    font-family: 'Noto Serif', serif;
+    margin-bottom: 14px; line-height: 1.5;
+  }
+  .vote-banner-inner {
+    display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;
+  }
+  .vote-banner select {
+    flex: 1; min-width: 180px;
+    background: rgba(255,255,255,0.15);
+    border: 1.5px solid rgba(255,255,255,0.35);
+    color: white; border-radius: 8px; padding: 9px 14px;
+    font-family: 'Noto Sans Kannada', sans-serif; font-size: 13px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23ffffff' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center;
+    padding-right: 36px;
+  }
+  .vote-banner select option { background: #1a1a6e; color: white; }
+  .vote-banner select:focus { outline: none; border-color: rgba(255,255,255,0.7); box-shadow: none; }
+  .btn-vote {
+    background: var(--saffron); color: white;
+    border: none; padding: 9px 20px; border-radius: 8px;
+    font-family: 'Noto Sans Kannada', sans-serif;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+    white-space: nowrap; transition: background 0.2s;
+  }
+  .btn-vote:hover { background: #E55F00; }
+  .vote-results-bar {
+    margin-top: 14px; display: none;
+  }
+  .vote-results-bar.show { display: block; }
+  .vote-result-row {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 6px; font-size: 12.5px;
+  }
+  .vote-result-name { min-width: 130px; color: rgba(255,255,255,0.9); font-weight: 600; }
+  .vote-result-track {
+    flex: 1; height: 8px; background: rgba(255,255,255,0.15);
+    border-radius: 99px; overflow: hidden;
+  }
+  .vote-result-fill {
+    height: 100%; border-radius: 99px;
+    background: linear-gradient(90deg, var(--saffron), #FFD700);
+    transition: width 0.6s ease;
+  }
+  .vote-result-count { font-size: 11px; opacity: 0.75; font-family: 'JetBrains Mono', monospace; }
+
+  /* ── FEEDBACK BUTTON & MODAL ── */
+  .feedback-fab {
+    position: fixed; bottom: 24px; right: 20px; z-index: 800;
+    background: var(--blue); color: white;
+    border: none; border-radius: 50px; padding: 10px 18px;
+    font-family: 'Noto Sans Kannada', sans-serif;
+    font-size: 13px; font-weight: 700; cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,80,0.35);
+    display: flex; align-items: center; gap: 7px;
+    transition: all 0.2s;
+  }
+  .feedback-fab:hover { background: #0000a8; transform: translateY(-2px); }
+  .feedback-modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1100; padding: 16px;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s;
+  }
+  .feedback-modal-overlay.show { opacity: 1; pointer-events: all; }
+  .feedback-modal {
+    background: white; border-radius: 16px; max-width: 480px; width: 100%;
+    box-shadow: var(--shadow-lg); padding: 28px;
+    transform: translateY(20px); transition: transform 0.2s;
+    max-height: 90vh; overflow-y: auto;
+  }
+  .feedback-modal-overlay.show .feedback-modal { transform: translateY(0); }
+  .feedback-modal h3 {
+    font-size: 18px; font-weight: 700; color: var(--gray-800);
+    margin-bottom: 6px; font-family: 'Noto Sans Kannada', sans-serif;
+  }
+  .feedback-modal p { font-size: 13px; color: var(--gray-600); margin-bottom: 18px; }
+  .feedback-modal label { margin-bottom: 6px; }
+  .feedback-modal textarea {
+    width: 100%; padding: 10px 14px; border: 1.5px solid var(--gray-200);
+    border-radius: 8px; font-size: 13px; font-family: 'Noto Serif', serif;
+    color: var(--gray-800); resize: vertical; min-height: 90px;
+    transition: border-color 0.2s;
+  }
+  .feedback-modal textarea:focus { outline: none; border-color: var(--saffron); }
+  .feedback-screenshot-area {
+    border: 2px dashed var(--gray-200); border-radius: 8px;
+    padding: 18px; text-align: center; cursor: pointer;
+    background: var(--gray-50); transition: all 0.2s;
+    margin-bottom: 14px; position: relative;
+  }
+  .feedback-screenshot-area:hover { border-color: var(--saffron); background: #FFF5EC; }
+  .feedback-screenshot-area input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+  .feedback-screenshot-area .ss-icon { font-size: 28px; margin-bottom: 5px; }
+  .feedback-screenshot-area p { font-size: 13px; color: var(--gray-600); margin: 0; }
+  #feedback-preview { max-width: 100%; border-radius: 6px; margin-top: 8px; display: none; }
+  .feedback-actions { display: flex; gap: 10px; margin-top: 18px; }
+  .feedback-sending { text-align: center; padding: 12px; display: none; }
+
+  /* ── WHATSAPP SHARE BAR ── */
+  .share-bar {
+    background: white; border: 1px solid var(--gray-200);
+    border-radius: var(--radius); padding: 12px 20px;
+    margin-bottom: 20px; display: flex; align-items: center;
+    gap: 12px; flex-wrap: wrap;
+  }
+  .share-bar-label {
+    font-size: 13px; font-weight: 700; color: var(--gray-600);
+    font-family: 'Noto Sans Kannada', sans-serif; flex: 1;
+    min-width: 160px;
+  }
+  .btn-whatsapp {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: #25D366; color: white;
+    border: none; border-radius: 8px; padding: 9px 18px;
+    font-family: 'Noto Sans Kannada', sans-serif;
+    font-size: 13px; font-weight: 700; cursor: pointer;
+    transition: background 0.18s; text-decoration: none;
+    white-space: nowrap;
+  }
+  .btn-whatsapp:hover { background: #1ebe5d; }
+  .btn-copy-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--gray-100); color: var(--gray-700);
+    border: 1.5px solid var(--gray-200); border-radius: 8px;
+    padding: 9px 16px; font-family: 'Noto Sans Kannada', sans-serif;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    transition: all 0.18s; white-space: nowrap;
+  }
+  .btn-copy-link:hover { background: var(--gray-200); }
+  .btn-copy-link.copied { background: #ECFDF5; color: var(--green); border-color: #A7F3D0; }
 </style>
 </head>
 <body>
@@ -492,6 +674,72 @@
     <span class="link-bar-label">🔗 Important Links</span>
     <a class="link-pill" href="https://voters.eci.gov.in" target="_blank" rel="noopener">🗳️ voters.eci.gov.in</a>
     <a class="link-pill" href="https://ceo.karnataka.gov.in/voter_list/en" target="_blank" rel="noopener">📋 CEO Karnataka Voter List</a>
+  </div>
+
+  <!-- WHATSAPP SHARE BAR -->
+  <div class="share-bar">
+    <div class="share-bar-label">📣 Know someone searching the 2002 voter list? Share this tool:</div>
+    <a class="btn-whatsapp" id="btn-whatsapp-share" href="#" target="_blank" rel="noopener">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Share on WhatsApp
+    </a>
+    <button class="btn-copy-link" id="btn-copy-link" onclick="copyPageLink()">🔗 Copy Link</button>
+  </div>
+
+  <!-- VOTE BANNER – prominent -->
+  <div class="vote-banner">
+    <div class="vote-banner-title">🗳️ Help us expand — vote for the next district!</div>
+    <div class="vote-banner-sub">
+      Currently searchable by name: <strong style="color:#FFD700">Bagalkot · BBMP / Bangalore Urban · Mysore</strong>.<br>
+      Vote below and the district with the most votes gets processed next.
+    </div>
+    <div class="vote-banner-inner">
+      <select id="sel-vote-district-new">
+        <option value="">Select a district to vote for…</option>
+        <option value="Bangalore Rural">Bangalore Rural</option>
+        <option value="Belgaum">Belgaum / Belagavi</option>
+        <option value="Bellary">Bellary / Ballari</option>
+        <option value="Bidar">Bidar</option>
+        <option value="Bijapur">Bijapur / Vijayapura</option>
+        <option value="Chamarajanagar">Chamarajanagar</option>
+        <option value="Chikmagalur">Chikmagalur</option>
+        <option value="Chitradurga">Chitradurga</option>
+        <option value="Dakshina Kannada">Dakshina Kannada</option>
+        <option value="Davanagere">Davanagere</option>
+        <option value="Dharwad">Dharwad</option>
+        <option value="Gadag">Gadag</option>
+        <option value="Gulbarga / Kalaburagi">Gulbarga / Kalaburagi</option>
+        <option value="Hassan">Hassan</option>
+        <option value="Haveri">Haveri</option>
+        <option value="Kodagu">Kodagu</option>
+        <option value="Kolar">Kolar</option>
+        <option value="Koppal">Koppal</option>
+        <option value="Mandya">Mandya</option>
+        <option value="Raichur">Raichur</option>
+        <option value="Shimoga / Shivamogga">Shimoga / Shivamogga</option>
+        <option value="Tumkur / Tumakuru">Tumkur / Tumakuru</option>
+        <option value="Udupi">Udupi</option>
+        <option value="Uttara Kannada">Uttara Kannada</option>
+        <option value="Chikkaballapura">Chikkaballapura</option>
+        <option value="Yadgir">Yadgir</option>
+      </select>
+      <button class="btn-vote" id="btn-vote-new" onclick="submitVoteNew()">🗳️ Cast My Vote</button>
+    </div>
+    <div class="vote-results-bar" id="vote-results-bar-new"></div>
+  </div>
+
+  <!-- SEARCH MODE TABS -->
+  <div class="search-tabs" id="search-tabs" role="tablist">
+    <button class="search-tab active" id="tab-btn-db" role="tab" aria-selected="true" onclick="switchTab('db')">
+      <span class="tab-icon">🔍</span>
+      <span class="tab-label">Search by Name<br><span style="font-size:11px;font-weight:400;opacity:0.8">(no upload needed)</span></span>
+      <span class="tab-badge">⚠️ 3 districts only</span>
+    </button>
+    <button class="search-tab" id="tab-btn-upload" role="tab" aria-selected="false" onclick="switchTab('upload')">
+      <span class="tab-icon">📄</span>
+      <span class="tab-label">Upload PDF &amp; Search<br><span style="font-size:11px;font-weight:400;opacity:0.8">(any district)</span></span>
+      <span class="tab-badge">✅ All Karnataka</span>
+    </button>
   </div>
 
   <div class="card">
@@ -583,7 +831,11 @@
 
       <div id="div-db-results"></div>
     </div>
-  </div>
+  </div><!-- /tab-panel-db -->
+
+  <!-- ── TAB PANEL: UPLOAD & SEARCH ── -->
+  <div id="tab-panel-upload" style="display:none">
+  <!-- Quick guide is relevant only for upload tab -->
 
   <div class="card">
     <div class="card-header">
@@ -661,61 +913,40 @@
     <div id="resultsContainer"></div>
   </div>
 
-  <div class="card" style="margin-top:14px">
-    <div class="card-header">
-      <div class="step-badge">★</div>
-      <h2>Vote for the District to include next in the full search</h2>
-    </div>
-    <div class="card-body">
-      <div class="hint" style="margin-top:-4px;margin-bottom:12px">
-        Select a district and vote. District with highest vote will be added in the full search.
-      </div>
-      <div class="search-row">
-        <div>
-          <label>District | ಜಿಲ್ಲೆ</label>
-          <select id="sel-vote-district">
-            <option value="">Select District | ಜಿಲ್ಲೆ ಆಯ್ಕೆ ಮಾಡಿ</option>
-            <option value="Bagalkot">Bagalkot</option>
-            <option value="Bangalore Rural">Bangalore Rural</option>
-            <option value="Bangalore Urban / BBMP">Bangalore Urban / BBMP</option>
-            <option value="Belgaum">Belgaum</option>
-            <option value="Bellary">Bellary</option>
-            <option value="Bidar">Bidar</option>
-            <option value="Bijapur">Bijapur</option>
-            <option value="Chamarajanagar">Chamarajanagar</option>
-            <option value="Chikmagalur">Chikmagalur</option>
-            <option value="Chitradurga">Chitradurga</option>
-            <option value="Dakshina Kannada">Dakshina Kannada</option>
-            <option value="Davanagere">Davanagere</option>
-            <option value="Dharwad">Dharwad</option>
-            <option value="Gadag">Gadag</option>
-            <option value="Gulbarga / Kalaburagi">Gulbarga / Kalaburagi</option>
-            <option value="Hassan">Hassan</option>
-            <option value="Haveri">Haveri</option>
-            <option value="Kodagu">Kodagu</option>
-            <option value="Kolar">Kolar</option>
-            <option value="Koppal">Koppal</option>
-            <option value="Mandya">Mandya</option>
-            <option value="Mysore">Mysore</option>
-            <option value="Raichur">Raichur</option>
-            <option value="Shimoga / Shivamogga">Shimoga / Shivamogga</option>
-            <option value="Tumkur / Tumakuru">Tumkur / Tumakuru</option>
-            <option value="Udupi">Udupi</option>
-            <option value="Uttara Kannada">Uttara Kannada</option>
-            <option value="Chikkaballapura">Chikkaballapura</option>
-            <option value="Yadgir">Yadgir</option>
-          </select>
-        </div>
-        <div style="display:flex;align-items:flex-end;gap:10px">
-          <button class="btn btn-primary" id="btn-vote-district" type="button">🗳️ Submit Vote</button>
-          <div id="vote-counter" class="hint" style="margin:0;white-space:nowrap">Votes: 0</div>
-        </div>
-      </div>
-      <div id="vote-top" class="hint" style="margin-top:10px"></div>
-    </div>
-  </div>
+  </div><!-- /tab-panel-upload -->
 
 </div><!-- /main -->
+
+<!-- FEEDBACK FLOATING BUTTON -->
+<button class="feedback-fab" onclick="openFeedback()">
+  💬 Feedback
+</button>
+
+<!-- FEEDBACK MODAL -->
+<div class="feedback-modal-overlay" id="feedbackModalOverlay" onclick="closeFeedbackIfBg(event)">
+  <div class="feedback-modal">
+    <h3>💬 Send Feedback</h3>
+    <p>Found a bug or have a suggestion? Take a screenshot of the issue and describe it below. Your feedback goes directly to the developer.</p>
+    <label style="font-size:13px;font-weight:700;color:var(--gray-600);display:block;margin-bottom:6px">📸 Screenshot (optional)</label>
+    <div class="feedback-screenshot-area" id="feedbackSSArea">
+      <input type="file" id="feedbackSSInput" accept="image/*" onchange="previewScreenshot(event)">
+      <div class="ss-icon">📷</div>
+      <p>Click to attach a screenshot</p>
+      <img id="feedback-preview" src="" alt="screenshot preview">
+    </div>
+    <label style="font-size:13px;font-weight:700;color:var(--gray-600);display:block;margin-bottom:6px">📝 Describe the issue or suggestion *</label>
+    <textarea id="feedbackText" placeholder="e.g. When I search for 'Syed Banu' in Bagalkot I get no results, but the name appears in the PDF as 'Syedabanu'…"></textarea>
+    <div class="feedback-sending" id="feedbackSending">
+      <div class="spinner" style="border-color:var(--saffron);border-top-color:transparent;width:24px;height:24px;margin:0 auto 8px"></div>
+      <div style="font-size:13px;color:var(--gray-600)">Sending feedback…</div>
+    </div>
+    <div class="feedback-actions">
+      <button class="btn btn-primary" style="flex:1" onclick="submitFeedback()">📨 Send Feedback</button>
+      <button class="btn btn-outline" onclick="closeFeedback()">Cancel</button>
+    </div>
+    <div style="font-size:11px;color:var(--gray-400);margin-top:10px;text-align:center">Feedback sent to: umar.xperiments@gmail.com · Subject: votershare2002</div>
+  </div>
+</div>
 
 <footer>
   <p>This tool is for community service. Data is sourced from official CEO Karnataka electoral rolls.</p>
@@ -2578,7 +2809,18 @@ function displayResults(results, nameQ, relQ) {
       nameVal.textContent = r.nameLatin || '';
       nameWrap.appendChild(nameLbl);
       nameWrap.appendChild(nameKan);
-      if (r.nameLatin) nameWrap.appendChild(nameVal);
+      if (r.nameLatin) {
+        nameWrap.appendChild(nameVal);
+        // Name split hint for concatenated names (e.g. syedabanu → syeda banu)
+        const splitSuggestion = maybeSplitName(r.nameLatin);
+        if (splitSuggestion) {
+          const splitHint = document.createElement('div');
+          splitHint.style.cssText = 'font-size:11px;color:var(--saffron);margin-top:3px;font-family:"JetBrains Mono",monospace';
+          splitHint.title = 'This may be a compound name written as one word in Kannada';
+          splitHint.textContent = '💡 Possible split: ' + splitSuggestion;
+          nameWrap.appendChild(splitHint);
+        }
+      }
       grid.appendChild(nameWrap);
 
       // Relative name field: same pattern
@@ -2802,6 +3044,238 @@ function clearResults() {
 // Enter key
 document.getElementById('searchName').addEventListener('keydown', e => { if(e.key==='Enter') performSearch(); });
 document.getElementById('searchRelative').addEventListener('keydown', e => { if(e.key==='Enter') performSearch(); });
+
+// ====================================================================
+// SEARCH MODE TABS
+// ====================================================================
+function switchTab(mode) {
+  const dbPanel   = document.getElementById('tab-panel-upload');
+  const dbCard    = document.querySelector('.card'); // Step 0 card
+  const tabDb     = document.getElementById('tab-btn-db');
+  const tabUpload = document.getElementById('tab-btn-upload');
+
+  // The Step 0 "db" card is always the first .card after tabs
+  // We identify it by its step-badge content
+  const allCards = document.querySelectorAll('.main > .card');
+  const step0Card = Array.from(allCards).find(c => {
+    const badge = c.querySelector('.step-badge');
+    return badge && badge.textContent.trim() === '0';
+  });
+
+  if (mode === 'db') {
+    tabDb.classList.add('active');
+    tabDb.setAttribute('aria-selected','true');
+    tabUpload.classList.remove('active');
+    tabUpload.setAttribute('aria-selected','false');
+    if (step0Card) step0Card.style.display = '';
+    document.getElementById('tab-panel-upload').style.display = 'none';
+  } else {
+    tabUpload.classList.add('active');
+    tabUpload.setAttribute('aria-selected','true');
+    tabDb.classList.remove('active');
+    tabDb.setAttribute('aria-selected','false');
+    if (step0Card) step0Card.style.display = 'none';
+    document.getElementById('tab-panel-upload').style.display = '';
+  }
+}
+
+// ====================================================================
+// WHATSAPP SHARE
+// ====================================================================
+(function initShare() {
+  const url  = encodeURIComponent(window.location.href);
+  const text = encodeURIComponent(
+    '🗳️ Find your name in the 2002 Karnataka voter list!\n' +
+    'Search Bagalkot, BBMP & Mysore by name — no login needed.\n' +
+    window.location.href
+  );
+  const btn = document.getElementById('btn-whatsapp-share');
+  if (btn) {
+    btn.href = 'https://wa.me/?text=' + text;
+  }
+})();
+
+function copyPageLink() {
+  const btn = document.getElementById('btn-copy-link');
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    btn.textContent = '✅ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = '🔗 Copy Link';
+      btn.classList.remove('copied');
+    }, 2000);
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = window.location.href;
+    document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = '✅ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '🔗 Copy Link'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// ====================================================================
+// PROMINENT DISTRICT VOTE BANNER
+// ====================================================================
+const VOTE_STORAGE_KEY = 'districtVotes_v2';
+
+function loadVotes() {
+  try {
+    const raw = localStorage.getItem(VOTE_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch(e) { return {}; }
+}
+function saveVotes(v) {
+  try { localStorage.setItem(VOTE_STORAGE_KEY, JSON.stringify(v)); } catch(e) {}
+}
+
+function submitVoteNew() {
+  const sel = document.getElementById('sel-vote-district-new');
+  const district = sel.value;
+  if (!district) { sel.style.borderColor = 'var(--saffron)'; setTimeout(()=>{sel.style.borderColor='';},1500); return; }
+
+  const myVoteKey = 'myDistrictVote_v2';
+  // Allow one vote per session, but show results always
+  const votes = loadVotes();
+  votes[district] = (votes[district] || 0) + 1;
+  saveVotes(votes);
+  sessionStorage.setItem(myVoteKey, district);
+
+  const btn = document.getElementById('btn-vote-new');
+  btn.textContent = '✅ Voted!';
+  btn.disabled = true;
+  setTimeout(() => { btn.textContent = '🗳️ Cast My Vote'; btn.disabled = false; }, 3000);
+
+  renderVoteResults();
+}
+
+function renderVoteResults() {
+  const bar = document.getElementById('vote-results-bar-new');
+  const votes = loadVotes();
+  const entries = Object.entries(votes).sort((a,b) => b[1]-a[1]).slice(0, 5);
+  if (!entries.length) return;
+  const max = entries[0][1] || 1;
+  bar.innerHTML = '<div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.7);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">Top votes so far:</div>';
+  entries.forEach(([name, count]) => {
+    const pct = Math.round((count / max) * 100);
+    bar.innerHTML += `
+      <div class="vote-result-row">
+        <div class="vote-result-name">${name}</div>
+        <div class="vote-result-track"><div class="vote-result-fill" style="width:${pct}%"></div></div>
+        <div class="vote-result-count">${count} vote${count!==1?'s':''}</div>
+      </div>`;
+  });
+  bar.classList.add('show');
+}
+
+// Render on load if votes exist
+(function() {
+  const v = loadVotes();
+  if (Object.keys(v).length > 0) renderVoteResults();
+})();
+
+// ====================================================================
+// FEEDBACK MODAL
+// ====================================================================
+function openFeedback() {
+  document.getElementById('feedbackModalOverlay').classList.add('show');
+}
+function closeFeedback() {
+  document.getElementById('feedbackModalOverlay').classList.remove('show');
+}
+function closeFeedbackIfBg(e) {
+  if (e.target === document.getElementById('feedbackModalOverlay')) closeFeedback();
+}
+
+let feedbackScreenshotBase64 = null;
+
+function previewScreenshot(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    feedbackScreenshotBase64 = ev.target.result;
+    const img = document.getElementById('feedback-preview');
+    img.src = ev.target.result;
+    img.style.display = 'block';
+    document.querySelector('#feedbackSSArea p').textContent = '✅ Screenshot attached';
+  };
+  reader.readAsDataURL(file);
+}
+
+function submitFeedback() {
+  const text = document.getElementById('feedbackText').value.trim();
+  if (!text) {
+    document.getElementById('feedbackText').style.borderColor = 'var(--saffron)';
+    document.getElementById('feedbackText').placeholder = '⚠️ Please describe the issue before sending.';
+    return;
+  }
+  document.getElementById('feedbackText').style.borderColor = '';
+
+  // Use mailto: as a reliable, zero-backend approach
+  const subject = encodeURIComponent('votershare2002 Feedback');
+  const body = encodeURIComponent(
+    'Feedback from VoterSearch2002\n' +
+    '================================\n\n' +
+    text +
+    '\n\n--- Page URL ---\n' + window.location.href +
+    (feedbackScreenshotBase64
+      ? '\n\n[Screenshot attached — please reply to this email if not visible]'
+      : '')
+  );
+
+  // Open mail client
+  window.location.href = `mailto:umar.xperiments@gmail.com?subject=${subject}&body=${body}`;
+
+  // Show confirmation and close after delay
+  const sending = document.getElementById('feedbackSending');
+  sending.style.display = 'block';
+  sending.innerHTML = '<div style="font-size:15px;color:var(--green);font-weight:700;text-align:center">✅ Opening your email client…<br><span style="font-size:12px;color:var(--gray-600);font-weight:400">If it doesn\'t open, email umar.xperiments@gmail.com<br>with subject: <b>votershare2002</b></span></div>';
+  document.querySelector('.feedback-actions').style.display = 'none';
+
+  setTimeout(() => {
+    closeFeedback();
+    sending.style.display = 'none';
+    document.querySelector('.feedback-actions').style.display = '';
+    document.getElementById('feedbackText').value = '';
+    feedbackScreenshotBase64 = null;
+    const img = document.getElementById('feedback-preview');
+    img.src = ''; img.style.display = 'none';
+    document.querySelector('#feedbackSSArea p').textContent = 'Click to attach a screenshot';
+  }, 3500);
+}
+
+// ====================================================================
+// NAME SPLIT HINT for concatenated Kannada names in upload search
+// ====================================================================
+// This is a non-breaking display hint only — shows in result cards.
+// We inject a small note if the returned name looks like a compound
+// (e.g. "syedabanu" — no space, length > 8, common Muslim name patterns).
+function maybeSplitName(latinName) {
+  if (!latinName) return null;
+  const n = latinName.toLowerCase().replace(/\s/g,'');
+  if (n.length < 7) return null;
+  // Common compound Muslim name patterns
+  const splits = [
+    [/^(syeda|syeda)(banu|begum|parween|parveen|khanam|sultana|bibi)/, '$1 $2'],
+    [/^(fathima|fatima|fatheema)(bi|banu|begum|unnisa)/, '$1 $2'],
+    [/^(noor|nur)(jahan|unnisa|banu|basha|nisa)/, '$1 $2'],
+    [/^(abdul|abdulla|abu)(rehman|rahman|rahim|karim|aziz|hamid|latif|majid|wahab|kalam|razak|razzak|sattar|jabbar|qadir|hakim|hafeez|rashid|ghani)/, '$1 $2'],
+    [/^(mohammed|mohammad|mohd|md|muhammed)(ali|hussain|hussein|rafi|rafiq|sajid|imran|iqbal|arif|farooq|moin|shafi|aslam|akram|ibrahim|ismail|yusuf|yunus|kaleem|saleem|nazir|tahir|bashir|munir|aamir|amir|hasan|haneef|hanif)/, '$1 $2'],
+    [/^(shaikh|shaik|syed|sayyad)(ali|hussain|mohd|mohammed|ahmad|ahmed|moin|ghouse|sadiq|razvi|jalal)/, '$1 $2'],
+  ];
+  const cleaned = latinName.toLowerCase().replace(/[^a-z]/g,'');
+  for (const [re, rep] of splits) {
+    if (re.test(cleaned)) {
+      const suggested = cleaned.replace(re, rep);
+      if (suggested !== cleaned) return suggested;
+    }
+  }
+  return null;
+}
 </script>
 
 <!-- Libraries loaded at end of body so DOM is ready and page renders instantly -->
