@@ -992,6 +992,10 @@ function siteBasePath() {
   return p.replace(/[^/]*$/, '');
 }
 
+function noCacheUrl(url) {
+  return `${url}${url.includes('?') ? '&' : '?'}t=${Date.now()}`;
+}
+
 function withCacheBuster(url) {
   const v =
     (dbState.masterIndex && dbState.masterIndex.generated_at)
@@ -1002,7 +1006,7 @@ function withCacheBuster(url) {
 
 async function initDBSearch() {
   try {
-    const res = await fetch(siteBasePath() + 'data/master_index.json');
+    const res = await fetch(noCacheUrl(siteBasePath() + 'data/master_index.json'), { cache: 'no-store' });
     dbState.masterIndex = await res.json();
     dbState.cacheBuster = (dbState.masterIndex && dbState.masterIndex.generated_at) ? dbState.masterIndex.generated_at : String(Date.now());
 
