@@ -139,9 +139,28 @@ def detect_row_type(row: dict) -> str:
     return "B" if (has_rel or has_type) else "C"
 
 
+def extract_part_serial(source_line: str | None) -> str | None:
+    if not (source_line or "").strip():
+        return None
+    line = str(source_line).strip()
+    tokens = line.split()
+    if not tokens:
+        return None
+    first_token = tokens[0]
+    if "/" in first_token:
+        return None
+    if len(tokens) >= 2 and not re.search(r"\d", tokens[1]):
+        return None
+    m = re.match(r"^(\d+)", first_token)
+    if not m:
+        return None
+    return m.group(1)
+
+
 def parse_source_line(source_line: str | None) -> dict:
     result = {
         "serial_num": None,
+        "part_serial_num": None,
         "house_num": None,
         "voter_name_kn": None,
         "relative_type": None,
@@ -162,10 +181,16 @@ def parse_source_line(source_line: str | None) -> dict:
         result["voter_id"] = vid_m.group(1)
         text = text[: vid_m.start()].strip()
 
-    sn_m = re.match(r"^(\d+)\s+", text)
-    if sn_m:
-        result["serial_num"] = int(sn_m.group(1))
-        text = text[sn_m.end() :]
+    tokens = text.split(maxsplit=1)
+    if tokens:
+        psn = extract_part_serial(text)
+        if psn:
+            try:
+                result["serial_num"] = int(psn)
+            except Exception:
+                result["serial_num"] = None
+            result["part_serial_num"] = psn
+            text = tokens[1] if len(tokens) > 1 else ""
 
     text = text.lstrip("|").strip()
     hn_m = re.match(
@@ -258,6 +283,7 @@ def repair_district(db_path: str, district: str, dry_run: bool = False) -> None:
         ("gender", "TEXT"),
         ("voter_id", "TEXT"),
         ("serial_num", "INTEGER"),
+        ("part_serial_num", "TEXT"),
         ("repair_type", "TEXT"),
         ("parse_method", "TEXT"),
         ("repair_confidence", "REAL"),
@@ -359,6 +385,7 @@ def repair_district(db_path: str, district: str, dry_run: bool = False) -> None:
 
             row["voter_id"] = sl.get("voter_id")
             row["serial_num"] = sl.get("serial_num")
+            row["part_serial_num"] = sl.get("part_serial_num")
             row["repair_type"] = row_type
             row["parse_method"] = sl.get("parse_method")
             row["repair_confidence"] = float(sl.get("confidence") or 0.0)

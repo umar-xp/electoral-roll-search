@@ -27,6 +27,8 @@ __pycache__/
 .env
 .env.*
 
+trae_instructions/
+
 Lib/
 Scripts/
 pyvenv.cfg

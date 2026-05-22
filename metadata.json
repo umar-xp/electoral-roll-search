@@ -9,9 +9,9 @@
         215,
         216
       ],
-      "checksum_md5": "3634b7dec202880632ecceee97072e78",
+      "checksum_md5": "5b5e984f00e2124a74f319cdbe1bc0c4",
       "file": "BAGALKOT.parquet",
-      "file_size_mb": 28.899,
+      "file_size_mb": 29.69,
       "parts_per_ac": {
         "210": 227,
         "211": 179,
@@ -20,14 +20,76 @@
         "215": 175,
         "216": 177
       },
-      "source_hash": "40e52f06db26b65977f6f53d39c077c9",
+      "source_hash": "8788de8063df3be9a8cd9796acd9b7a5",
       "status": "complete",
       "total_voters": 591968,
       "transliteration_stats": {
-        "correction_applied": 7151,
+        "correction_applied": 16848,
         "failed_transliteration": 1,
         "muslim_names_detected": 54400,
         "total_names": 1069735
+      }
+    },
+    "BANGALORE RURAL": {
+      "ac_nums": [
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99
+      ],
+      "checksum_md5": "7568a5eabc7374fce3d5ae42acec8128",
+      "file": "BANGALORE RURAL.parquet",
+      "file_size_mb": 63.788,
+      "parts_per_ac": {
+        "91": 199,
+        "92": 199,
+        "93": 174,
+        "94": 231,
+        "95": 210,
+        "96": 193,
+        "97": 194,
+        "98": 218,
+        "99": 247
+      },
+      "source_hash": "21485b22d7db93510f76f190292f3707",
+      "status": "complete",
+      "total_voters": 1336626,
+      "transliteration_stats": {
+        "correction_applied": 61690,
+        "failed_transliteration": 6,
+        "muslim_names_detected": 55269,
+        "total_names": 2466012
+      }
+    },
+    "BANGALORE URBAN": {
+      "ac_nums": [
+        88,
+        89,
+        90,
+        100
+      ],
+      "checksum_md5": "71ec50ca27f00041a4d8bb112625ae9e",
+      "file": "BANGALORE URBAN.parquet",
+      "file_size_mb": 59.194,
+      "parts_per_ac": {
+        "100": 249,
+        "88": 526,
+        "89": 1104,
+        "90": 415
+      },
+      "source_hash": "3acf2c85db39cb16fe5228f02996d99e",
+      "status": "complete",
+      "total_voters": 1072082,
+      "transliteration_stats": {
+        "correction_applied": 55728,
+        "failed_transliteration": 5,
+        "muslim_names_detected": 56639,
+        "total_names": 1922919
       }
     },
     "BBMP": {
@@ -45,9 +107,9 @@
         86,
         87
       ],
-      "checksum_md5": "bf40c79dc2dc497a13a9e1662b0457bf",
+      "checksum_md5": "92220de686c772249515d00d995e45bd",
       "file": "BBMP.parquet",
-      "file_size_mb": 64.972,
+      "file_size_mb": 66.446,
       "parts_per_ac": {
         "76": 196,
         "77": 313,
@@ -62,11 +124,11 @@
         "86": 134,
         "87": 197
       },
-      "source_hash": "786351606a28f3d6ccb71924700206a0",
+      "source_hash": "c6bbe221958e19e647072357fd9da33e",
       "status": "complete",
       "total_voters": 1188681,
       "transliteration_stats": {
-        "correction_applied": 52441,
+        "correction_applied": 88534,
         "failed_transliteration": 2,
         "muslim_names_detected": 87234,
         "total_names": 2253037
@@ -86,9 +148,9 @@
         124,
         125
       ],
-      "checksum_md5": "222a6a31b3d1d21371e28258b3d2fb16",
+      "checksum_md5": "da80b4e1de8add62a358e168f66bb153",
       "file": "MYSORE.parquet",
-      "file_size_mb": 65.268,
+      "file_size_mb": 67.812,
       "parts_per_ac": {
         "112": 158,
         "113": 171,
@@ -102,17 +164,51 @@
         "124": 179,
         "125": 208
       },
-      "source_hash": "2b69ca86aa1c2dcb30656e689b33ed6d",
+      "source_hash": "c6e9508c60a2e1520ed8876280b336b8",
       "status": "complete",
       "total_voters": 1421982,
       "transliteration_stats": {
-        "correction_applied": 43473,
+        "correction_applied": 52793,
         "failed_transliteration": 4,
         "muslim_names_detected": 67592,
         "total_names": 2654262
       }
+    },
+    "SHIVAMOGGA": {
+      "ac_nums": [
+        159,
+        160,
+        162,
+        163,
+        164,
+        165,
+        166,
+        167
+      ],
+      "checksum_md5": "e1f7572e9fa1715beb9987e7ba555f07",
+      "file": "SHIVAMOGGA.parquet",
+      "file_size_mb": 53.332,
+      "parts_per_ac": {
+        "159": 188,
+        "160": 203,
+        "162": 257,
+        "163": 176,
+        "164": 196,
+        "165": 184,
+        "166": 152,
+        "167": 177
+      },
+      "source_hash": "34770329d1bc713825792b24664368a4",
+      "status": "complete",
+      "total_voters": 1040429,
+      "transliteration_stats": {
+        "correction_applied": 35162,
+        "failed_transliteration": 1,
+        "muslim_names_detected": 71239,
+        "total_names": 1881188
+      }
     }
   },
-  "generated_at": "2026-05-13T17:58:32.388426+00:00",
+  "generated_at": "2026-05-22T09:17:23.940369+00:00",
   "source_db": "rolls.sqlite"
 }

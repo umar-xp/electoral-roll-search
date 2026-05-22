@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Karnataka Electoral Roll Search | ಮತದಾರರ ಪಟ್ಟಿ ಹುಡುಕಾಟ</title>
+<title>Karnataka 2002 Voter List Search | ಮತದಾರರ ಪಟ್ಟಿ ಹುಡುಕಾಟ</title>
 <script>
 // Inline favicon — works without server file present
 (function(){
@@ -598,6 +598,33 @@
   }
   .btn-copy-link:hover { background: var(--gray-200); }
   .btn-copy-link.copied { background: #ECFDF5; color: var(--green); border-color: #A7F3D0; }
+
+  @keyframes votePulse {
+    0%   { box-shadow: 0 0 0 0 rgba(255,107,0,0.75); transform: scale(1); }
+    50%  { box-shadow: 0 0 0 12px rgba(255,107,0,0); transform: scale(1.05); }
+    100% { box-shadow: 0 0 0 0 rgba(255,107,0,0); transform: scale(1); }
+  }
+  @keyframes bannerShimmer {
+    0%,100% { opacity: 1; }
+    50%     { opacity: 0.78; }
+  }
+  #btn-vote-new { animation: votePulse 1.8s ease-in-out infinite; }
+  .vote-banner-title { animation: bannerShimmer 2.8s ease-in-out infinite; }
+
+  #admin-panel {
+    position: fixed; bottom: 80px; right: 16px; z-index: 9999;
+    background: white; border: 2px solid var(--blue);
+    border-radius: 12px; padding: 16px 18px; width: 310px;
+    box-shadow: var(--shadow-lg); font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; display: none;
+  }
+  #admin-panel h4 { font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--blue); }
+  #admin-panel table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+  #admin-panel td, #admin-panel th { padding: 4px 8px; border: 1px solid var(--gray-200); }
+  #admin-panel th { background: var(--gray-100); font-weight: 700; }
+  .admin-btn { padding: 5px 10px; border: none; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 700; margin-right: 6px; }
+  .admin-btn-json { background: var(--saffron); color: white; }
+  .admin-btn-csv  { background: var(--green); color: white; }
 </style>
 </head>
 <body>
@@ -606,8 +633,14 @@
   <div class="header-inner">
     <div class="emblem">🗳️</div>
     <div class="header-text">
-      <h1>Karnataka Electoral Roll Search</h1>
-      <p>ಕರ್ನಾಟಕ ಮತದಾರರ ಪಟ್ಟಿ ಹುಡುಕಾಟ &nbsp;·&nbsp; Chief Electoral Officer</p>
+      <h1>Karnataka 2002 Voter List Search</h1>
+      <p>ಕರ್ನಾಟಕ 2002 ಮತದಾರರ ಪಟ್ಟಿ ಹುಡುಕಾಟ</p>
+      <div style="margin-top:8px;display:inline-block;background:#FEF3C7;border:1px solid #FDE68A;border-radius:6px;padding:5px 12px;font-size:11.5px;color:#92400E;line-height:1.5;font-family:'Noto Serif',serif;max-width:680px">
+        ⚠️ <strong>This is NOT an official Election Commission of India website.</strong>
+        This is an independent community tool to make historical voter rolls searchable.
+        For official records, visit <a href="https://ceokarnataka.kar.nic.in" target="_blank" rel="noopener" style="color:#92400E;font-weight:700">ceokarnataka.kar.nic.in</a>
+        &nbsp;·&nbsp; ಇದು ಅಧಿಕೃತ ECI ವೆಬ್‌ಸೈಟ್ ಅಲ್ಲ — ಸ್ವತಂತ್ರ ಸಮುದಾಯ ಸಾಧನ.
+      </div>
     </div>
   </div>
 </div>
@@ -771,6 +804,20 @@
         </div>
       </div>
 
+      <div class="hint" style="margin-top:10px">
+        <div style="font-weight:700;color:var(--gray-700);margin-bottom:6px">Search Scope | ಹುಡುಕಾಟ ವ್ಯಾಪ್ತಿ</div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--gray-600);cursor:pointer">
+            <input type="radio" name="db-search-scope" id="rdo-part-only" value="part" checked>
+            Search selected part only (fast) | ಆಯ್ದ ಭಾಗ ಮಾತ್ರ (ವೇಗ)
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--gray-600);cursor:pointer">
+            <input type="radio" name="db-search-scope" id="rdo-all-parts" value="ac">
+            Search all parts in this AC (slower) | ಈ ಕ್ಷೇತ್ರದ ಎಲ್ಲಾ ಭಾಗಗಳು (ಮಂದ)
+          </label>
+        </div>
+      </div>
+
       <div class="search-row" style="margin-top:12px">
         <div>
           <label>Voter Full Name * | ಮತದಾರರ ಹೆಸರು</label>
@@ -825,7 +872,10 @@
       <div id="div-status-banner" class="alert alert-info" style="display:none"></div>
 
       <div id="div-search-progress" class="status-bar" style="display:none">
-        <div class="status-text progress-text">Searching...</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+          <div class="status-text progress-text">Searching...</div>
+          <button class="btn btn-outline btn-sm" id="btn-cancel-db-search" type="button">Cancel</button>
+        </div>
         <div class="progress"><div class="progress-fill progress-bar-fill" style="width:0%"></div></div>
       </div>
 
@@ -917,6 +967,16 @@
 
 </div><!-- /main -->
 
+<!-- ADMIN PANEL (activate via URL #admin) -->
+<div id="admin-panel">
+  <h4>🔐 Admin: District Votes (this browser)</h4>
+  <div id="admin-vote-table"></div>
+  <div style="color:#888;font-size:10px;margin-bottom:8px">These are votes stored in THIS browser's localStorage only.<br>For cross-user tracking, integrate Cloudflare KV (see code comments).</div>
+  <button class="admin-btn admin-btn-json" onclick="adminCopyJSON()">Copy JSON</button>
+  <button class="admin-btn admin-btn-csv" onclick="adminCopyCSV()">Copy CSV</button>
+  <button class="admin-btn" style="background:var(--gray-200)" onclick="document.getElementById('admin-panel').style.display='none'">✕ Close</button>
+</div>
+
 <!-- FEEDBACK FLOATING BUTTON -->
 <button class="feedback-fab" onclick="openFeedback()">
   💬 Feedback
@@ -977,6 +1037,7 @@ const dbState = {
   selectedDist: null,
   selectedAC: null,
   selectedPart: null,
+  searchScope: 'part',
   isSearching: false,
   abortCtrl: null,
   allResults: [],
@@ -1043,6 +1104,13 @@ async function initDBSearch() {
       window.__searchMode = 'db';
       performSearch();
     });
+    const btnCancel = document.getElementById('btn-cancel-db-search');
+    if (btnCancel) btnCancel.addEventListener('click', cancelDBSearch);
+
+    const r1 = document.getElementById('rdo-part-only');
+    const r2 = document.getElementById('rdo-all-parts');
+    if (r1) r1.addEventListener('change', applyDBSearchScopeToUI);
+    if (r2) r2.addEventListener('change', applyDBSearchScopeToUI);
 
     const lnk = document.getElementById('lnk-advanced-filters');
     if (lnk) {
@@ -1056,6 +1124,7 @@ async function initDBSearch() {
     if (last) restoreLastSearch(JSON.parse(last));
 
     installSearchRouter();
+    applyDBSearchScopeToUI();
   } catch (e) {
     showBanner('error', 'Could not load district list. Please refresh. | ಜಿಲ್ಲೆಗಳ ಪಟ್ಟಿಯನ್ನು ಲೋಡ್ ಮಾಡಲಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ರಿಫ್ರೆಶ್ ಮಾಡಿ.');
   }
@@ -1064,6 +1133,13 @@ async function initDBSearch() {
 function restoreLastSearch(last) {
   if (!last) return;
   const distSel = document.getElementById('sel-district');
+  if (last.searchScope === 'ac') {
+    const r2 = document.getElementById('rdo-all-parts');
+    if (r2) r2.checked = true;
+  } else {
+    const r1 = document.getElementById('rdo-part-only');
+    if (r1) r1.checked = true;
+  }
   if (last.selectedDist) {
     distSel.value = last.selectedDist;
     dbOnDistrictChange();
@@ -1074,6 +1150,27 @@ function restoreLastSearch(last) {
   if (last.relType) document.getElementById('sel-rel-type').value = last.relType;
   if (last.gender) document.getElementById('sel-gender').value = last.gender;
   if (last.voterId) document.getElementById('inp-voter-id').value = last.voterId;
+  applyDBSearchScopeToUI();
+}
+
+function getDBSearchScope() {
+  const r2 = document.getElementById('rdo-all-parts');
+  return (r2 && r2.checked) ? 'ac' : 'part';
+}
+
+function applyDBSearchScopeToUI() {
+  dbState.searchScope = getDBSearchScope();
+  const partSel = document.getElementById('sel-part');
+  if (!partSel) return;
+  if (dbState.searchScope === 'ac') {
+    partSel.value = '';
+    dbState.selectedPart = null;
+    partSel.disabled = true;
+    if (partSel.options && partSel.options.length) partSel.options[0].textContent = 'All parts will be searched | ಎಲ್ಲಾ ಭಾಗಗಳು';
+  } else {
+    if (partSel.options && partSel.options.length) partSel.options[0].textContent = 'Select Part | ಭಾಗ ಆಯ್ಕೆ ಮಾಡಿ';
+    if (dbState.selectedAC) partSel.disabled = false;
+  }
 }
 
 function dbOnDistrictChange() {
@@ -1120,6 +1217,7 @@ function dbOnDistrictChange() {
     'green',
     `✅ ${dist.display_name.split('|')[0].trim()} — ${(dist.voter_count || 0).toLocaleString()} voters across ${dist.ac_count} constituencies | ✅ ${(dist.voter_count || 0).toLocaleString()} ಮತದಾರರು · ${dist.ac_count} ಕ್ಷೇತ್ರಗಳು`
   );
+  applyDBSearchScopeToUI();
 }
 
 async function dbOnACChange() {
@@ -1143,6 +1241,7 @@ async function dbOnACChange() {
       partSel.add(new Option(`Part ${p.part_num} (${p.voter_count} voters)`, p.part_num));
     });
     partSel.disabled = false;
+    applyDBSearchScopeToUI();
 
     showBanner(
       'green',
@@ -1212,9 +1311,14 @@ async function performDBSearch() {
   const relType = document.getElementById('sel-rel-type').value;
   const gender = document.getElementById('sel-gender').value;
   const voterId = document.getElementById('inp-voter-id').value.trim();
+  const scopeMode = getDBSearchScope();
 
   if (!district || !acNum) {
     alert('Please select District and Constituency | ಜಿಲ್ಲೆ ಮತ್ತು ಕ್ಷೇತ್ರ ಆಯ್ಕೆ ಮಾಡಿ');
+    return;
+  }
+  if (scopeMode === 'part' && !partNum && !voterId) {
+    alert('Please select a Part Number (or switch to "Search all parts") | ಭಾಗ ಸಂಖ್ಯೆ ಆಯ್ಕೆ ಮಾಡಿ (ಅಥವಾ ಎಲ್ಲಾ ಭಾಗಗಳಲ್ಲಿ ಹುಡುಕಿ)');
     return;
   }
   if (!voterName && !voterId) {
@@ -1228,13 +1332,23 @@ async function performDBSearch() {
   document.getElementById('div-db-results').innerHTML = '';
   document.getElementById('btn-search').disabled = true;
 
-  const partsToSearch = partNum
-    ? [partNum]
+  let partsToSearch = (scopeMode === 'part')
+    ? (partNum ? [partNum] : [])
     : ((dbState.acIndex && dbState.acIndex.parts) ? dbState.acIndex.parts.map(p => p.part_num) : []);
+
+  const BATCH = (scopeMode === 'ac') ? 10 : 5;
+  const MAX_PARTS_TO_SEARCH = 150;
+
+  if (scopeMode === 'ac' && partsToSearch.length > MAX_PARTS_TO_SEARCH) {
+    showBanner(
+      'yellow',
+      `⚠️ This AC has ${partsToSearch.length} parts. Searching first ${MAX_PARTS_TO_SEARCH} parts to avoid browser slowdown. | ⚠️ ಈ ಕ್ಷೇತ್ರದಲ್ಲಿ ${partsToSearch.length} ಭಾಗಗಳಿವೆ. ವೇಗಕ್ಕಾಗಿ ಮೊದಲ ${MAX_PARTS_TO_SEARCH} ಭಾಗಗಳು ಮಾತ್ರ.`
+    );
+    partsToSearch = partsToSearch.slice(0, MAX_PARTS_TO_SEARCH);
+  }
 
   const total = partsToSearch.length;
   let searched = 0;
-  const BATCH = 5;
 
   for (let i = 0; i < partsToSearch.length; i += BATCH) {
     if (dbState.abortCtrl.signal.aborted) break;
@@ -1249,10 +1363,19 @@ async function performDBSearch() {
     const batchData = await Promise.all(batch.map(pn => loadPartData(district, acNum, pn)));
     const matches = batchData
       .flat()
-      .filter(v => matchesFilters(v, { voterName, relName, age, relType, gender, voterId }));
+      .map(v => {
+        const scored = scoreVoterRecord(v, { voterName, relName, age, relType, gender, voterId });
+        if (scored <= 0) return null;
+        return { ...v, _score: scored };
+      })
+      .filter(Boolean);
 
     dbState.allResults.push(...matches);
     searched += batch.length;
+
+    if (dbState.allResults.length > 0 && dbState.allResults.length <= 2000) {
+      dbState.allResults.sort((a, b) => (b._score || 0) - (a._score || 0));
+    }
 
     if (dbState.allResults.length > 0 && dbState.displayedCount === 0) {
       renderResults({ isPartial: searched < total, searched, total, voterName });
@@ -1271,6 +1394,7 @@ async function performDBSearch() {
   if (dbState.allResults.length === 0) {
     showNoResults(voterName, relName);
   } else {
+    dbState.allResults.sort((a, b) => (b._score || 0) - (a._score || 0));
     renderResults({ isPartial: false, searched: total, total, voterName });
   }
 
@@ -1278,6 +1402,7 @@ async function performDBSearch() {
     selectedDist: district,
     selectedAC: acNum,
     selectedPart: partNum,
+    searchScope: scopeMode,
     voterName,
     relativeName: relName,
     age,
@@ -1286,6 +1411,14 @@ async function performDBSearch() {
     voterId,
     timestamp: Date.now()
   }));
+}
+
+function cancelDBSearch() {
+  if (dbState.abortCtrl) dbState.abortCtrl.abort();
+  dbState.isSearching = false;
+  document.getElementById('btn-search').disabled = false;
+  hideProgress();
+  showBanner('yellow', 'Search cancelled. | ಹುಡುಕಾಟ ರದ್ದುಪಡಿಸಲಾಗಿದೆ.');
 }
 
 function clearSearch() {
@@ -1332,6 +1465,241 @@ function matchesFilters(voter, filters) {
   if (gender && voter.g !== gender) return false;
 
   return true;
+}
+
+function tokenizeForScoring(text) {
+  if (!text) return [];
+  return String(text)
+    .trim()
+    .split(/[\s\.\-,/]+/g)
+    .map(t => String(t || '').trim())
+    .filter(Boolean);
+}
+
+function isKannadaToken(tok) {
+  return /[\u0C80-\u0CFF]/.test(tok || '');
+}
+
+function isSyedSurnameToken(tok) {
+  const t = String(tok || '').toLowerCase().trim();
+  const tClean = t.replace(/[^a-z]/g, '');
+  if (tClean === 'syed' || tClean === 'sayed' || tClean === 'sayyed' || tClean === 'sayyad' || tClean === 'saiyad' || tClean === 'saiyyad' || tClean === 'sayyid' || tClean === 'saiyyid') return true;
+  if (tClean === 'syeda' || tClean === 'saiyada' || tClean === 'sayyada' || tClean === 'saiyda' || tClean === 'sayyida') return true;
+  if (t.includes('ಸಯ್ಯದ') || t.includes('ಸ್ಯಯದ') || t.includes('ಸಯ್ಯ')) return true;
+  return false;
+}
+
+const TOKEN_SYNONYMS = {
+  syed: ['syed','steyad','stayad','staiyad','saiyad','syayed','sayyad','sayyed','sayyid','saiyyad','saiyyid','syeda','sayyada','saiyada'],
+  mohammed: ['mohammed','mohammad','mohd','md','muhamad','muhammed','mohamad','mahomad','mehammed'],
+  farooq: ['farooq','farooque','faruq','faruk','paruk','paruq','parooq','pharuk','parooq'],
+  faisal: ['faisal','paisal','phtaiesal','phtaisal','faesal','phaisal','phtaisel','phtaesal'],
+  zaher: ['zaher','zaheer','jaher','jaheer','jahera','zahera','jaheera','jahira'],
+  sait: ['sait','seth','sett','saeth','sayt','saite','saitt','saab','sahib','saib'],
+  kaniz: ['kaniz','kaneez','khaniz','kaneej','khanij','kanij','kaaniz','kaneeze','kanaij'],
+  salahuddin: ['salahuddin','salauddin','salahudin','salaudin','salaoodeen','salaoodin'],
+  fazal: ['fazal','fasal','fajal','pajal','pasal','phasal','fazalulla','fasalulla'],
+  iqbal: ['iqbal','ikbal','iqbaal','ikbaal'],
+  suleiman: ['suleiman','suleman','sulyman','sulaiman','suliman'],
+  kitore: ['kitore','kitoore','kittore','kitoor'],
+  azeez: ['azeez','aziz','ajeej','ajij','ajees','ajeez'],
+  fatima: ['fatima','fathima','fatheema','patima','pathima','phatima'],
+  gowda: ['gowda','gauda','gouda','goud'],
+  girish: ['girish','gireesh','giriesh'],
+  swamy: ['swamy','swami'],
+  murthy: ['murthy','murthi','moorthy','murti'],
+  tippesami: ['tippesami','tippeswami','tippeyswami','tippeswamy','tipeswami'],
+  annamma: ['annamma','anamma','annama'],
+  louisa: ['louisa','lovisa','louise'],
+  anthony: ['anthony','anthoni','antony'],
+  george: ['george','jarj'],
+  michael: ['michael','michel','micheal','maikal','michal'],
+  mary: ['mary','meri','mery'],
+  francis: ['francis','pransis','prancis','pransis'],
+  peris: ['peris','perris','paris'],
+  palanisamy: ['palanisamy','palani','palaniswami','palaniswamy'],
+  subramani: ['subramani','subrahmani','subramony','subramaniam'],
+  karthikeyan: ['karthikeyan','kartikeyan','karthik'],
+};
+
+function expandQueryToken(token) {
+  const raw = String(token || '').toLowerCase().trim();
+  if (!raw) return [];
+  if (isKannadaToken(raw)) {
+    const s = raw.replace(/\s+/g,'').trim();
+    return s ? [s] : [];
+  }
+  const base = raw.replace(/[^a-z]/g, '');
+  if (!base) return [];
+  const out = new Set([base]);
+  const syn = TOKEN_SYNONYMS[base];
+  if (syn) syn.forEach(v => out.add(String(v || '').toLowerCase()));
+
+  if (base === 'md' || base === 'mohd') (TOKEN_SYNONYMS.mohammed || []).forEach(v => out.add(v));
+
+  if (base.startsWith('f') && base.length > 3) {
+    out.add(base.replace(/^f/, 'p'));
+    out.add(base.replace(/^f/, 'ph'));
+  }
+  if (base.startsWith('ph') && base.length > 3) out.add(base.replace(/^ph/, 'f'));
+  if (base.startsWith('p') && base.length > 3) out.add(base.replace(/^p/, 'f'));
+
+  if (base.includes('z')) {
+    out.add(base.replace(/z/g, 'j'));
+    out.add(base.replace(/z/g, 'j') + 'a');
+  }
+  if (base.includes('j')) out.add(base.replace(/j/g, 'z'));
+
+  if (base.includes('q')) out.add(base.replace(/q/g, 'k'));
+  if (base.includes('k') && base.length > 3) out.add(base.replace(/k/g, 'q'));
+
+  return Array.from(out).filter(v => v.length >= 2);
+}
+
+function getThreshold(len) {
+  if (len <= 4) return 0.85;
+  if (len <= 7) return 0.78;
+  return 0.72;
+}
+
+function editDistanceLimited(a, b, maxDist) {
+  const s = String(a || '');
+  const t = String(b || '');
+  if (!s || !t) return maxDist + 1;
+  if (Math.abs(s.length - t.length) > maxDist) return maxDist + 1;
+  const rows = s.length + 1;
+  const cols = t.length + 1;
+  const dp = new Array(cols);
+  for (let j = 0; j < cols; j++) dp[j] = j;
+  for (let i = 1; i < rows; i++) {
+    let prev = dp[0];
+    dp[0] = i;
+    let minRow = dp[0];
+    for (let j = 1; j < cols; j++) {
+      const temp = dp[j];
+      const cost = s[i - 1] === t[j - 1] ? 0 : 1;
+      dp[j] = Math.min(
+        dp[j] + 1,
+        dp[j - 1] + 1,
+        prev + cost
+      );
+      prev = temp;
+      if (dp[j] < minRow) minRow = dp[j];
+    }
+    if (minRow > maxDist) return maxDist + 1;
+  }
+  return dp[cols - 1];
+}
+
+function stringSimilarity(a, b) {
+  const x = String(a || '').toLowerCase().trim();
+  const y = String(b || '').toLowerCase().trim();
+  if (!x || !y) return 0;
+  if (x === y) return 1;
+  if (x.includes(y) || y.includes(x)) return 1;
+  if (isKannadaToken(x) || isKannadaToken(y)) return 0;
+  const maxLen = Math.max(x.length, y.length);
+  const dist = editDistanceLimited(x, y, 3);
+  if (dist > 3) return 0;
+  return Math.max(0, 1 - (dist / maxLen));
+}
+
+function bestTokenSimilarity(queryTok, recordTokens) {
+  const qt = String(queryTok || '').trim();
+  if (!qt) return 0;
+  const variants = expandQueryToken(qt).slice(0, 20);
+  let best = 0;
+  for (const v of variants) {
+    const vv = String(v || '').trim();
+    if (!vv) continue;
+    for (const rt of recordTokens) {
+      const sim = stringSimilarity(vv, rt);
+      if (sim > best) best = sim;
+      if (best >= 1) return 1;
+    }
+  }
+  return best;
+}
+
+function scoreNameAgainstRecord(query, recordTokens) {
+  const qTokens = tokenizeForScoring(query)
+    .map(t => String(t || '').toLowerCase().trim())
+    .filter(t => t.length >= 2 && !/^\d+$/.test(t));
+  if (!qTokens.length) return -1;
+
+  let primaryIdx = 0;
+  let primaryRequired = true;
+  if (qTokens.length >= 2 && isSyedSurnameToken(qTokens[0])) primaryIdx = 1;
+  if (qTokens.length === 1 && isSyedSurnameToken(qTokens[0])) primaryRequired = false;
+
+  let score = 0;
+  let possible = 0;
+  for (let i = 0; i < qTokens.length; i++) {
+    const qt = qTokens[i];
+    const weight = (i === primaryIdx) ? 2.0 : 1.0;
+    possible += weight;
+    const thresh = getThreshold(qt.length);
+    const bestSim = bestTokenSimilarity(qt, recordTokens);
+    if (bestSim >= thresh) {
+      score += bestSim * weight;
+    } else {
+      if (i === primaryIdx && primaryRequired) return -1;
+      if (bestSim > 0.5) score += bestSim * weight * 0.5;
+    }
+  }
+  const norm = possible > 0 ? (score / possible) : 0;
+  if (primaryRequired) {
+    const primaryTok = qTokens[primaryIdx];
+    const primaryThresh = getThreshold(primaryTok.length);
+    const primaryBest = bestTokenSimilarity(primaryTok, recordTokens);
+    if (primaryBest < primaryThresh) return -1;
+  }
+  return norm;
+}
+
+function scoreVoterRecord(voter, filters) {
+  const { voterName, relName, age, relType, gender, voterId } = filters;
+
+  if (voterId) {
+    return voter.id && voter.id.toLowerCase() === voterId.toLowerCase() ? 1.0 : -1;
+  }
+
+  if (age) {
+    const diff = Math.abs(parseInt(age, 10) - parseInt(voter.a, 10));
+    if (!isNaN(diff) && diff > 2) return -1;
+  }
+  if (relType && voter.rt !== relType) return -1;
+  if (gender && voter.g !== gender) return -1;
+
+  const voterTokens = Array.isArray(voter.vt) && voter.vt.length
+    ? voter.vt.map(x => String(x || '').toLowerCase())
+    : tokenizeForScoring(voter.vn).map(x => x.toLowerCase());
+
+  const relTokens = Array.isArray(voter.rnt) && voter.rnt.length
+    ? voter.rnt.map(x => String(x || '').toLowerCase())
+    : tokenizeForScoring(voter.rn).map(x => x.toLowerCase());
+
+  let vScore = voterName ? scoreNameAgainstRecord(voterName, voterTokens) : 0;
+  if (voterName && vScore < 0) {
+    const legacy = matchesFilters(voter, { voterName, relName: '', age: '', relType: '', gender: '', voterId: '' });
+    if (!legacy) return -1;
+    vScore = 0.55;
+  }
+
+  let rScore = 1.0;
+  if (relName) {
+    const relS = scoreNameAgainstRecord(relName, relTokens);
+    if (relS < 0) {
+      const legacyRel = fuzzyMatch(relName, voter.rn) || fuzzyMatch(relName, voter.rk);
+      if (!legacyRel) return -1;
+      rScore = 0.55;
+    } else {
+      rScore = relS;
+    }
+  }
+
+  const combined = relName ? (vScore * 0.7) + (rScore * 0.3) : vScore;
+  return combined >= 0.55 ? combined : -1;
 }
 
 function fuzzyMatch(query, target) {
@@ -1431,6 +1799,7 @@ function renderVoterCard(voter) {
            data-ac="${encodeURIComponent(acNum)}"
            data-part="${encodeURIComponent(partNum)}"
            data-serial="${encodeURIComponent(String(voter.sn ?? ''))}"
+           data-psn="${encodeURIComponent(String(voter.psn ?? ''))}"
            data-name="${encodeURIComponent(voter.vk || '')}"
            data-rel="${encodeURIComponent(voter.rk || '')}"
            data-id="${encodeURIComponent(voter.id || '')}"
@@ -1453,6 +1822,7 @@ function renderVoterCard(voter) {
           <div style="font-size:14px;font-weight:600;color:var(--gray-600);margin-top:3px;font-family:'Noto Serif',serif;letter-spacing:0.01em">${voter.rn || ''}</div>
         </div>
         <div class="result-field"><label>Serial No. | ಕ್ರಮ ಸಂಖ್ಯೆ</label><div class="val">${voter.sn ?? '—'}</div></div>
+        <div class="result-field"><label>Part Serial No. | ಭಾಗ ಕ್ರಮ ಸಂಖ್ಯೆ</label><div class="val" style="font-family:'JetBrains Mono',monospace;font-weight:800;color:var(--blue)">${voter.psn || '—'}</div></div>
         <div class="result-field"><label>AC / Part | ಕ್ಷೇತ್ರ / ಭಾಗ</label><div class="val">${acNum ? `AC ${acNum}` : '—'}${partNum ? ` · Part ${partNum}` : ''}</div></div>
         <div class="result-field"><label>House No. | ಮನೆ ಸಂಖ್ಯೆ</label><div class="val">${voter.hn || '—'}</div></div>
         <div class="result-field">
@@ -1493,16 +1863,19 @@ document.addEventListener('click', function (e) {
   const ac = decodeURIComponent(btn.getAttribute('data-ac') || '');
   const part = decodeURIComponent(btn.getAttribute('data-part') || '');
   const serial = decodeURIComponent(btn.getAttribute('data-serial') || '');
+  const psn = decodeURIComponent(btn.getAttribute('data-psn') || '');
   const name = decodeURIComponent(btn.getAttribute('data-name') || '');
   const rel = decodeURIComponent(btn.getAttribute('data-rel') || '');
   const vid = decodeURIComponent(btn.getAttribute('data-id') || '');
   const acCode = ac.startsWith('A') ? ac : ('A' + String(ac).padStart(3, '0'));
-  onSuccess(acCode, part, name || '—', rel || '—', serial || '—', vid || '');
+  onSuccess(acCode, part, name || '—', rel || '—', serial || '—', vid || '', psn || '');
 });
 
 function showNoResults(voterName, relName) {
   const v = voterName || '—';
   const r = relName || '';
+  const tokens = tokenizeForScoring(voterName || '').map(t => t.toLowerCase()).filter(t => t.length >= 2);
+  const expanded = tokens.slice(0, 6).map(t => expandQueryToken(t).slice(0, 8).join('/'));
   document.getElementById('div-db-results').innerHTML = `
     <div class="result-card">
       <div style="font-size:16px;font-weight:800;color:var(--gray-800);margin-bottom:6px">
@@ -1511,6 +1884,11 @@ function showNoResults(voterName, relName) {
       <div style="color:var(--gray-600);font-size:14px;margin-bottom:10px">
         No voters found for "<strong>${v}</strong>" ${r ? `with relative "<strong>${r}</strong>"` : ''}
       </div>
+      ${expanded.length ? `
+        <div style="font-size:12px;color:var(--gray-600);margin-bottom:10px">
+          Searched tokens: <span style="font-family:'JetBrains Mono',monospace">${expanded.join(', ')}</span>
+        </div>` : ''
+      }
       <div style="font-weight:800;color:var(--gray-800);font-size:13px;margin-bottom:6px">Search tips | ಹುಡುಕಾಟ ಸಲಹೆಗಳು:</div>
       <ul style="margin:0;padding-left:18px;color:var(--gray-600);font-size:13px;line-height:1.6">
         <li>Try a shorter name (first word only) | ಚಿಕ್ಕ ಹೆಸರು ಪ್ರಯತ್ನಿಸಿ</li>
@@ -2700,6 +3078,10 @@ function generateVariants(query) {
   const q = query.toLowerCase().trim();
   const variants = new Set([q]);
 
+  if (typeof expandQueryToken === 'function') {
+    expandQueryToken(q).forEach(v => variants.add(String(v || '').toLowerCase()));
+  }
+
   // Check phonetic map
   Object.entries(PHONETIC_MAP).forEach(([latin, kanList]) => {
     if (latin === q || latin.includes(q) || q.includes(latin)) {
@@ -2892,7 +3274,7 @@ function displayResults(results, nameQ, relQ) {
       btn.textContent = '✅ This is me / Found';
       // Closure captures exact voter data — no string escaping needed
       btn.addEventListener('click', (function(ac, pt, nm, rn, sr, vi) {
-        return function() { onSuccess(ac, pt, nm, rn, sr, vi); };
+        return function() { onSuccess(ac, pt, nm, rn, sr, vi, sr); };
       })(acNum, partNum, r.name, r.relName, r.serial, r.voterId));
 
       const hint = document.createElement('span');
@@ -2951,7 +3333,7 @@ function escJ(s) { return (s||'').replace(/'/g,"\\'").replace(/"/g,'\\"'); }
 // ====================================================================
 // SUCCESS MODAL
 // ====================================================================
-function onSuccess(acNum, partNum, name, relName, serial, voterId) {
+function onSuccess(acNum, partNum, name, relName, serial, voterId, partSerialNum) {
   const acNumeric = acNum.replace('A','');
   // Find AC name
   let acName = '';
@@ -2960,6 +3342,7 @@ function onSuccess(acNum, partNum, name, relName, serial, voterId) {
   });
 
   const saffron = 'color:var(--saffron);font-weight:700';
+  const psnVal = (partSerialNum || serial || '').toString().trim();
 
   document.getElementById('modalInfo').innerHTML = `
     <div class="modal-info-row"><span>Voter Name</span><span style="text-align:right"><span style="font-family:'Noto Sans Kannada',sans-serif;font-size:15px;font-weight:700;display:block">${name}</span><small style="font-weight:600;color:var(--gray-600);font-family:'Noto Serif',serif;font-size:13px">${kannadaToLatin(name)}</small></span></div>
@@ -2968,6 +3351,7 @@ function onSuccess(acNum, partNum, name, relName, serial, voterId) {
     <div class="modal-info-row"><span>⭐ AC Number</span><span style="${saffron}">${acNumeric}</span></div>
     ${acName ? `<div class="modal-info-row"><span>AC Name</span><span>${acName}</span></div>` : ''}
     <div class="modal-info-row"><span>⭐ Part Number</span><span style="${saffron}">${partNum}</span></div>
+    <div class="modal-info-row"><span>⭐ Part Serial No.</span><span style="${saffron}">${psnVal || '—'}</span></div>
     ${voterId ? `<div class="modal-info-row"><span>Voter ID</span><span>${voterId}</span></div>` : ''}
   `;
   document.getElementById('successModal').classList.add('show');
@@ -3138,11 +3522,20 @@ function copyPageLink() {
 // PROMINENT DISTRICT VOTE BANNER
 // ====================================================================
 const VOTE_STORAGE_KEY = 'districtVotes_v2';
+const VOTE_STORAGE_KEY_LEGACY = 'district_vote_counts_v1';
 
 function loadVotes() {
   try {
     const raw = localStorage.getItem(VOTE_STORAGE_KEY);
-    return raw ? JSON.parse(raw) : {};
+    if (raw) return JSON.parse(raw);
+    const legacy = localStorage.getItem(VOTE_STORAGE_KEY_LEGACY);
+    if (!legacy) return {};
+    const obj = JSON.parse(legacy);
+    if (obj && typeof obj === 'object') {
+      localStorage.setItem(VOTE_STORAGE_KEY, JSON.stringify(obj));
+      return obj;
+    }
+    return {};
   } catch(e) { return {}; }
 }
 function saveVotes(v) {
@@ -3154,33 +3547,50 @@ function submitVoteNew() {
   const district = sel.value;
   if (!district) { sel.style.borderColor = 'var(--saffron)'; setTimeout(()=>{sel.style.borderColor='';},1500); return; }
 
-  const myVoteKey = 'myDistrictVote_v2';
-  // Allow one vote per session, but show results always
   const votes = loadVotes();
   votes[district] = (votes[district] || 0) + 1;
   saveVotes(votes);
-  sessionStorage.setItem(myVoteKey, district);
 
   const btn = document.getElementById('btn-vote-new');
+  btn.style.animation = 'none';
   btn.textContent = '✅ Voted!';
   btn.disabled = true;
   setTimeout(() => { btn.textContent = '🗳️ Cast My Vote'; btn.disabled = false; }, 3000);
+
+  /*
+   * TO TRACK VOTES ACROSS ALL USERS — deploy a Cloudflare Worker, then uncomment:
+   * fetch('https://your-worker.workers.dev/vote', {
+   *   method: 'POST',
+   *   headers: { 'Content-Type': 'application/json' },
+   *   body: JSON.stringify({ district: district })
+   * }).catch(e => console.log('Vote sync failed:', e));
+   */
 
   renderVoteResults();
 }
 
 function renderVoteResults() {
   const bar = document.getElementById('vote-results-bar-new');
+  if (!bar) return;
   const votes = loadVotes();
   const entries = Object.entries(votes).sort((a,b) => b[1]-a[1]).slice(0, 5);
-  if (!entries.length) return;
+  if (!entries.length) {
+    bar.classList.remove('show');
+    return;
+  }
   const max = entries[0][1] || 1;
-  bar.innerHTML = '<div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.7);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px">Top votes so far:</div>';
+  const total = Object.values(votes).reduce((s,v)=>s+(parseInt(v,10)||0), 0);
+  bar.innerHTML = `<div style="font-size:12.5px;font-weight:800;color:#FFD700;margin-bottom:8px;font-family:'JetBrains Mono',monospace">
+    🏆 Leading: <span style="text-decoration:underline">${entries[0][0]}</span>
+    &nbsp;·&nbsp; <span style="font-weight:400;opacity:0.8">Total community votes: ${total}</span>
+  </div>`;
+  bar.innerHTML += '<div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.55);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px">Top districts:</div>';
   entries.forEach(([name, count]) => {
     const pct = Math.round((count / max) * 100);
+    const isLeader = (name === entries[0][0]);
     bar.innerHTML += `
       <div class="vote-result-row">
-        <div class="vote-result-name">${name}</div>
+        <div class="vote-result-name" style="${isLeader?'color:#FFD700;font-weight:800':''}">${isLeader?'🏆 ':''}${name}</div>
         <div class="vote-result-track"><div class="vote-result-fill" style="width:${pct}%"></div></div>
         <div class="vote-result-count">${count} vote${count!==1?'s':''}</div>
       </div>`;
@@ -3193,6 +3603,49 @@ function renderVoteResults() {
   const v = loadVotes();
   if (Object.keys(v).length > 0) renderVoteResults();
 })();
+
+// ====================================================================
+// ADMIN PANEL — activated by URL hash #admin
+// ====================================================================
+function renderAdminPanel() {
+  const panel = document.getElementById('admin-panel');
+  if (!panel) return;
+  const votes = loadVotes();
+  const entries = Object.entries(votes).sort((a,b) => b[1]-a[1]);
+  const tableEl = document.getElementById('admin-vote-table');
+  if (!tableEl) return;
+  if (!entries.length) {
+    tableEl.innerHTML = '<div style="color:#888;padding:6px">No votes recorded in this browser yet.</div>';
+  } else {
+    let html = '<table><tr><th>District</th><th>Votes</th></tr>';
+    entries.forEach(([d,v]) => { html += `<tr><td>${d}</td><td><b>${v}</b></td></tr>`; });
+    html += `</table><div style="color:#888;margin-top:4px;font-size:10px">Total: ${entries.reduce((s,[,v])=>s+v,0)} votes</div>`;
+    tableEl.innerHTML = html;
+  }
+  panel.style.display = 'block';
+}
+
+function adminCopyJSON() {
+  const data = loadVotes();
+  const txt = JSON.stringify(data, null, 2);
+  navigator.clipboard.writeText(txt).then(()=>alert('✅ JSON copied to clipboard!')).catch(()=>prompt('Copy this JSON:', txt));
+}
+
+function adminCopyCSV() {
+  const data = loadVotes();
+  const rows = ['District,Votes', ...Object.entries(data).sort((a,b)=>b[1]-a[1]).map(([d,v])=>`\"${d}\",${v}`)];
+  const csv = rows.join('\n');
+  navigator.clipboard.writeText(csv).then(()=>alert('✅ CSV copied to clipboard!')).catch(()=>prompt('Copy this CSV:', csv));
+}
+
+function checkAdminHash() {
+  const panel = document.getElementById('admin-panel');
+  if (!panel) return;
+  if (window.location.hash === '#admin') renderAdminPanel();
+  else panel.style.display = 'none';
+}
+window.addEventListener('hashchange', checkAdminHash);
+checkAdminHash();
 
 // ====================================================================
 // FEEDBACK MODAL
@@ -3275,17 +3728,36 @@ function maybeSplitName(latinName) {
   if (!latinName) return null;
   const n = latinName.toLowerCase().replace(/\s/g,'');
   if (n.length < 7) return null;
-  // Common compound Muslim name patterns
   const splits = [
-    [/^(syeda|syeda)(banu|begum|parween|parveen|khanam|sultana|bibi)/, '$1 $2'],
-    [/^(fathima|fatima|fatheema)(bi|banu|begum|unnisa)/, '$1 $2'],
-    [/^(noor|nur)(jahan|unnisa|banu|basha|nisa)/, '$1 $2'],
-    [/^(abdul|abdulla|abu)(rehman|rahman|rahim|karim|aziz|hamid|latif|majid|wahab|kalam|razak|razzak|sattar|jabbar|qadir|hakim|hafeez|rashid|ghani)/, '$1 $2'],
-    [/^(mohammed|mohammad|mohd|md|muhammed)(ali|hussain|hussein|rafi|rafiq|sajid|imran|iqbal|arif|farooq|moin|shafi|aslam|akram|ibrahim|ismail|yusuf|yunus|kaleem|saleem|nazir|tahir|bashir|munir|aamir|amir|hasan|haneef|hanif)/, '$1 $2'],
-    [/^(shaikh|shaik|syed|sayyad)(ali|hussain|mohd|mohammed|ahmad|ahmed|moin|ghouse|sadiq|razvi|jalal)/, '$1 $2'],
+    [/^(syeda)(banu|begum|parween|parveen|khanam|sultana|bibi|tabassum)/, '$1 $2'],
+    [/^(fathima|fatima|fatheema|patima|pathima)(bi|banu|begum|unnisa|sulthana)/, '$1 $2'],
+    [/^(noor|nur)(jahan|unnisa|banu|basha|nisa|sultana)/, '$1 $2'],
+    [/^(kamar|rahat|fasal|pasal|anjum|tajun|halim|rahimann?)(unnisa|nissa|unnissa)/, '$1 unnisa'],
+    [/^(aisha|ayesha|amina|aminaa?)(banu|begum|bi)/, '$1 $2'],
+    [/^(abdul|abdull?a?)(rehman|rahman|rahim|karim|aziz|azeez|hamid|latif|majid|wahab|razak|razzak|sattar|jabbar|qadir|hakim|hafeez|rashid|ghani|khader|kader|baseer|basheer|matin|mateen|wajid|wajeed|hameed|haseeb)/, '$1 $2'],
+    [/^(mohammed|mohammad|mohd|md|muhammed|mohamad)(ali|hussain|hussein|rafi|rafiq|sajid|imran|iqbal|arif|farooq|parooq|moin|shafi|aslam|akram|ibrahim|ismail|yusuf|yunus|kaleem|saleem|nazir|tahir|bashir|munir|aamir|amir|hasan|haneef|hanif|kasim|khader|gouse|ghaus|yousuf|sharif|shareef|jaleel|jameel)/, '$1 $2'],
+    [/^(syed|syayed|sayyad|sayyed|shaikh|shaik)(ali|hussain|mohd|mohammed|ahmad|ahmed|moin|ghouse|sadiq|razvi|jalal|kasim|yasin|ibrahim|mujeeb|mohinuddin|najaruddin|inayath|mujeebu?r?)/, '$1 $2'],
+    [/^([a-z]{4,})(begum|begam)$/, '$1 $2'],
+    [/^([a-z]{4,})(banu)$/, '$1 banu'],
+    [/^([a-z]{4,})(khan)$/, '$1 khan'],
+    [/^([a-z]{4,})(bi)$/, '$1 bi'],
+    [/^([a-z]{4,})(unnisa)$/, '$1 $2'],
+    [/^(balaram)(bhovi|bovi|bhavi)/, '$1 $2'],
+    [/^(shivabasappa|shivabasavappa)/, 'shiva basappa'],
+    [/^(narayanakutti|narayanakutty)/, 'narayana kutti'],
+    [/^(muniswami|muneeswami|munniswamy)/, 'muni swami'],
+    [/^(pattabirama|pattabhirama)/, 'pattabhi rama'],
+    [/^(siddharama|siddharamappa)/, 'siddha rama'],
+    [/^(musthafa|mustafa)(kitore|kitoore|kittore|kitoor)/, '$1 $2'],
+    [/^(mohamad|mohammed)(kitore|kitoore|kittore|kitoor)/, '$1 $2'],
+    [/^(rama?)(krishna)/, '$1 $2'],
+    [/^(lakshmi)(narayana|devi|pathi)/, '$1 $2'],
+    [/^(venkata)(ramana|chala|krishna|raman)/, '$1 $2'],
+    [/^(putta|ramaa?)(swamy|swami)/, '$1 $2'],
   ];
   const cleaned = latinName.toLowerCase().replace(/[^a-z]/g,'');
   for (const [re, rep] of splits) {
+    if (!rep) continue;
     if (re.test(cleaned)) {
       const suggested = cleaned.replace(re, rep);
       if (suggested !== cleaned) return suggested;
