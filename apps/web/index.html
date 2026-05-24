@@ -870,6 +870,7 @@
       </div>
 
       <div id="div-status-banner" class="alert alert-info" style="display:none"></div>
+      <div id="div-ac-search-more" style="display:none"></div>
 
       <div id="div-search-progress" class="status-bar" style="display:none">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
@@ -1042,7 +1043,11 @@ const dbState = {
   abortCtrl: null,
   allResults: [],
   displayedCount: 0,
-  PAGE_SIZE: 50
+  PAGE_SIZE: 50,
+  acAllParts: null,
+  acAllPartsIndex: 0,
+  acAllPartsChunk: 150,
+  lastDBParams: null
 };
 
 function siteBasePath() {
@@ -1268,9 +1273,82 @@ function resetDropdown(id, placeholder) {
 function clearDBResults() {
   dbState.allResults = [];
   dbState.displayedCount = 0;
+  dbState.acAllParts = null;
+  dbState.acAllPartsIndex = 0;
+  dbState.lastDBParams = null;
+  hideMorePartsControl();
   const div = document.getElementById('div-db-results');
   if (div) div.innerHTML = '';
   hideProgress();
+}
+
+function hideMorePartsControl() {
+  const div = document.getElementById('div-ac-search-more');
+  if (!div) return;
+  div.style.display = 'none';
+  div.innerHTML = '';
+}
+
+function renderMorePartsControl() {
+  const div = document.getElementById('div-ac-search-more');
+  if (!div) return;
+
+  const total = (dbState.acAllParts && Array.isArray(dbState.acAllParts)) ? dbState.acAllParts.length : 0;
+  const searched = parseInt(dbState.acAllPartsIndex, 10) || 0;
+  const remaining = Math.max(0, total - searched);
+  if (!total || remaining <= 0) {
+    hideMorePartsControl();
+    return;
+  }
+
+  const nextCount = Math.min(dbState.acAllPartsChunk || 150, remaining);
+  div.style.display = 'block';
+  div.innerHTML = `
+    <div class="alert alert-warning" style="margin-top:10px;align-items:center">
+      <span>⚠️</span>
+      <span style="flex:1">
+        Searched ${searched}/${total} parts. Load remaining parts? | ${searched}/${total} ಭಾಗಗಳು ಹುಡುಕಲಾಗಿದೆ. ಉಳಿದ ಭಾಗಗಳನ್ನು ಹುಡುಕಬೇಕೇ?
+      </span>
+      <button class="btn btn-primary btn-sm" id="btn-search-next-parts" type="button">Search next ${nextCount}</button>
+      <button class="btn btn-outline btn-sm" id="btn-search-all-remaining" type="button" style="margin-left:6px">Search all remaining</button>
+    </div>
+  `;
+
+  const b1 = document.getElementById('btn-search-next-parts');
+  const b2 = document.getElementById('btn-search-all-remaining');
+  if (b1) b1.addEventListener('click', () => continueDBAllPartsSearch('next'));
+  if (b2) b2.addEventListener('click', () => continueDBAllPartsSearch('all'));
+}
+
+async function continueDBAllPartsSearch(mode = 'next') {
+  if (dbState.isSearching) return;
+  const params = dbState.lastDBParams;
+  if (!params || params.scopeMode !== 'ac') return;
+
+  const allParts = (dbState.acAllParts && Array.isArray(dbState.acAllParts)) ? dbState.acAllParts : [];
+  const totalAll = allParts.length;
+  const startIndex = parseInt(dbState.acAllPartsIndex, 10) || 0;
+  if (!totalAll || startIndex >= totalAll) {
+    hideMorePartsControl();
+    showBanner('green', '✅ All parts already searched. | ✅ ಎಲ್ಲಾ ಭಾಗಗಳು ಈಗಾಗಲೇ ಹುಡುಕಲಾಗಿದೆ.');
+    return;
+  }
+
+  const remaining = totalAll - startIndex;
+  const count = (mode === 'all')
+    ? remaining
+    : Math.min(dbState.acAllPartsChunk || 150, remaining);
+
+  const partsToSearch = allParts.slice(startIndex, startIndex + count);
+  await runDBSearchOverParts({
+    district: params.district,
+    acNum: params.acNum,
+    partsToSearch,
+    chunkStartIndex: startIndex,
+    totalAllParts: totalAll,
+    filters: params.filters,
+    voterName: params.voterName
+  });
 }
 
 async function loadPartData(district, acNum, partNum) {
@@ -1298,9 +1376,94 @@ async function loadPartData(district, acNum, partNum) {
   }
 }
 
-async function performDBSearch() {
+async function runDBSearchOverParts({ district, acNum, partsToSearch, chunkStartIndex, totalAllParts, filters, voterName }) {
   if (dbState.abortCtrl) dbState.abortCtrl.abort();
   dbState.abortCtrl = new AbortController();
+  dbState.isSearching = true;
+  document.getElementById('btn-search').disabled = true;
+  hideMorePartsControl();
+
+  const BATCH = 10;
+  const totalChunk = partsToSearch.length;
+  let searchedInChunk = 0;
+
+  for (let i = 0; i < partsToSearch.length; i += BATCH) {
+    if (dbState.abortCtrl.signal.aborted) break;
+    const batch = partsToSearch.slice(i, i + BATCH);
+    const end = Math.min(i + BATCH, totalChunk);
+    const searchedOverall = Math.min(totalAllParts, chunkStartIndex + i);
+    const endOverall = Math.min(totalAllParts, chunkStartIndex + end);
+
+    showProgress(
+      `Searching parts ${searchedOverall + 1}–${endOverall} of ${totalAllParts}... Found ${dbState.allResults.length} so far | ಭಾಗಗಳು ${searchedOverall + 1}–${endOverall}/${totalAllParts} ಹುಡುಕುತ್ತಿದೆ...`,
+      totalAllParts ? (searchedOverall / totalAllParts) * 100 : 0
+    );
+
+    const batchData = await Promise.all(batch.map(pn => loadPartData(district, acNum, pn)));
+    const matches = batchData
+      .flat()
+      .map(v => {
+        const scored = scoreVoterRecord(v, filters);
+        if (scored <= 0) return null;
+        return { ...v, _score: scored };
+      })
+      .filter(Boolean);
+
+    dbState.allResults.push(...matches);
+    searchedInChunk += batch.length;
+
+    if (dbState.allResults.length > 0 && dbState.allResults.length <= 2000) {
+      dbState.allResults.sort((a, b) => (b._score || 0) - (a._score || 0));
+    }
+
+    const searchedNowOverall = Math.min(totalAllParts, chunkStartIndex + searchedInChunk);
+    if (dbState.allResults.length > 0 && dbState.displayedCount === 0) {
+      renderResults({ isPartial: searchedNowOverall < totalAllParts, searched: searchedNowOverall, total: totalAllParts, voterName });
+    } else if (dbState.allResults.length > 0) {
+      const badge = document.querySelector('.results-count');
+      if (badge) {
+        badge.textContent = `Found ${dbState.allResults.length}+ matches (searching ${searchedNowOverall}/${totalAllParts} parts...)`;
+      }
+    }
+  }
+
+  if (dbState.abortCtrl.signal.aborted) {
+    dbState.acAllPartsIndex = Math.min(totalAllParts, chunkStartIndex + searchedInChunk);
+    dbState.isSearching = false;
+    document.getElementById('btn-search').disabled = false;
+    hideProgress();
+    if (dbState.lastDBParams && dbState.lastDBParams.scopeMode === 'ac') renderMorePartsControl();
+    return;
+  }
+
+  dbState.acAllPartsIndex = Math.min(totalAllParts, chunkStartIndex + searchedInChunk);
+  dbState.isSearching = false;
+  document.getElementById('btn-search').disabled = false;
+  hideProgress();
+
+  const searchedOverallFinal = parseInt(dbState.acAllPartsIndex, 10) || 0;
+  const isPartialFinal = searchedOverallFinal < totalAllParts;
+
+  if (dbState.allResults.length === 0) {
+    if (isPartialFinal) {
+      showBanner(
+        'yellow',
+        `⚠️ No matches found yet. Only searched ${searchedOverallFinal}/${totalAllParts} parts. Load remaining parts to continue. | ⚠️ ಇನ್ನೂ ಫಲಿತಾಂಶಗಳಿಲ್ಲ. ${searchedOverallFinal}/${totalAllParts} ಭಾಗಗಳು ಮಾತ್ರ ಹುಡುಕಲಾಗಿದೆ. ಉಳಿದ ಭಾಗಗಳನ್ನು ಹುಡುಕಿ.`
+      );
+      renderMorePartsControl();
+      return;
+    }
+    showNoResults(filters.voterName || voterName, filters.relName || '');
+    return;
+  }
+
+  dbState.allResults.sort((a, b) => (b._score || 0) - (a._score || 0));
+  renderResults({ isPartial: isPartialFinal, searched: searchedOverallFinal, total: totalAllParts, voterName });
+  if (isPartialFinal) renderMorePartsControl();
+}
+
+async function performDBSearch() {
+  hideMorePartsControl();
 
   const district = dbState.selectedDist;
   const acNum = dbState.selectedAC;
@@ -1332,70 +1495,47 @@ async function performDBSearch() {
   document.getElementById('div-db-results').innerHTML = '';
   document.getElementById('btn-search').disabled = true;
 
-  let partsToSearch = (scopeMode === 'part')
+  const allParts = (scopeMode === 'part')
     ? (partNum ? [partNum] : [])
     : ((dbState.acIndex && dbState.acIndex.parts) ? dbState.acIndex.parts.map(p => p.part_num) : []);
 
-  const BATCH = (scopeMode === 'ac') ? 10 : 5;
-  const MAX_PARTS_TO_SEARCH = 150;
+  const filters = { voterName, relName, age, relType, gender, voterId };
 
-  if (scopeMode === 'ac' && partsToSearch.length > MAX_PARTS_TO_SEARCH) {
-    showBanner(
-      'yellow',
-      `⚠️ This AC has ${partsToSearch.length} parts. Searching first ${MAX_PARTS_TO_SEARCH} parts to avoid browser slowdown. | ⚠️ ಈ ಕ್ಷೇತ್ರದಲ್ಲಿ ${partsToSearch.length} ಭಾಗಗಳಿವೆ. ವೇಗಕ್ಕಾಗಿ ಮೊದಲ ${MAX_PARTS_TO_SEARCH} ಭಾಗಗಳು ಮಾತ್ರ.`
-    );
-    partsToSearch = partsToSearch.slice(0, MAX_PARTS_TO_SEARCH);
-  }
+  if (scopeMode === 'ac') {
+    dbState.acAllParts = allParts.slice();
+    dbState.acAllPartsIndex = 0;
+    dbState.lastDBParams = { district, acNum, voterName, filters, scopeMode };
 
-  const total = partsToSearch.length;
-  let searched = 0;
-
-  for (let i = 0; i < partsToSearch.length; i += BATCH) {
-    if (dbState.abortCtrl.signal.aborted) break;
-    const batch = partsToSearch.slice(i, i + BATCH);
-    const end = Math.min(i + BATCH, total);
-
-    showProgress(
-      `Searching parts ${i + 1}–${end} of ${total}... Found ${dbState.allResults.length} so far | ಭಾಗಗಳು ${i + 1}–${end}/${total} ಹುಡುಕುತ್ತಿದೆ...`,
-      total ? (i / total) * 100 : 0
-    );
-
-    const batchData = await Promise.all(batch.map(pn => loadPartData(district, acNum, pn)));
-    const matches = batchData
-      .flat()
-      .map(v => {
-        const scored = scoreVoterRecord(v, { voterName, relName, age, relType, gender, voterId });
-        if (scored <= 0) return null;
-        return { ...v, _score: scored };
-      })
-      .filter(Boolean);
-
-    dbState.allResults.push(...matches);
-    searched += batch.length;
-
-    if (dbState.allResults.length > 0 && dbState.allResults.length <= 2000) {
-      dbState.allResults.sort((a, b) => (b._score || 0) - (a._score || 0));
+    let firstChunk = dbState.acAllParts.slice(0, dbState.acAllPartsChunk || 150);
+    if (dbState.acAllParts.length > firstChunk.length) {
+      showBanner(
+        'yellow',
+        `⚠️ This AC has ${dbState.acAllParts.length} parts. Searching first ${firstChunk.length} parts. Use "Search next" to load remaining parts. | ⚠️ ಈ ಕ್ಷೇತ್ರದಲ್ಲಿ ${dbState.acAllParts.length} ಭಾಗಗಳಿವೆ. ಮೊದಲ ${firstChunk.length} ಭಾಗಗಳನ್ನು ಹುಡುಕುತ್ತಿದೆ. ಉಳಿದ ಭಾಗಗಳಿಗಾಗಿ "Search next" ಒತ್ತಿರಿ.`
+      );
     }
 
-    if (dbState.allResults.length > 0 && dbState.displayedCount === 0) {
-      renderResults({ isPartial: searched < total, searched, total, voterName });
-    } else if (dbState.allResults.length > 0) {
-      const badge = document.querySelector('.results-count');
-      if (badge) {
-        badge.textContent = `Found ${dbState.allResults.length}+ matches (searching ${searched}/${total} parts...)`;
-      }
-    }
-  }
-
-  dbState.isSearching = false;
-  document.getElementById('btn-search').disabled = false;
-  hideProgress();
-
-  if (dbState.allResults.length === 0) {
-    showNoResults(voterName, relName);
+    await runDBSearchOverParts({
+      district,
+      acNum,
+      partsToSearch: firstChunk,
+      chunkStartIndex: 0,
+      totalAllParts: dbState.acAllParts.length,
+      filters,
+      voterName
+    });
   } else {
-    dbState.allResults.sort((a, b) => (b._score || 0) - (a._score || 0));
-    renderResults({ isPartial: false, searched: total, total, voterName });
+    dbState.acAllParts = null;
+    dbState.acAllPartsIndex = 0;
+    dbState.lastDBParams = null;
+    await runDBSearchOverParts({
+      district,
+      acNum,
+      partsToSearch: allParts,
+      chunkStartIndex: 0,
+      totalAllParts: allParts.length,
+      filters,
+      voterName
+    });
   }
 
   sessionStorage.setItem('lastDBSearch', JSON.stringify({
@@ -1434,7 +1574,11 @@ function clearSearch() {
   document.getElementById('inp-voter-id').value = '';
   dbState.allResults = [];
   dbState.displayedCount = 0;
+  dbState.acAllParts = null;
+  dbState.acAllPartsIndex = 0;
+  dbState.lastDBParams = null;
   document.getElementById('div-db-results').innerHTML = '';
+  hideMorePartsControl();
   hideBanner();
   hideProgress();
   document.getElementById('btn-search').disabled = true;
