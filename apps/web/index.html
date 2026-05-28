@@ -766,7 +766,7 @@
     <button class="search-tab active" id="tab-btn-db" role="tab" aria-selected="true" onclick="switchTab('db')">
       <span class="tab-icon">🔍</span>
       <span class="tab-label">Search by Name<br><span style="font-size:11px;font-weight:400;opacity:0.8">(no upload needed)</span></span>
-      <span class="tab-badge">⚠️ 3 districts only</span>
+      <span class="tab-badge" id="badge-live-districts">⚠️ Loading…</span>
     </button>
     <button class="search-tab" id="tab-btn-upload" role="tab" aria-selected="false" onclick="switchTab('upload')">
       <span class="tab-icon">📄</span>
@@ -1078,6 +1078,13 @@ async function initDBSearch() {
 
     const sel = document.getElementById('sel-district');
     const districts = (dbState.masterIndex || {}).districts || {};
+
+    const liveCount =
+      (dbState.masterIndex && dbState.masterIndex.stats && typeof dbState.masterIndex.stats.total_districts_live === 'number')
+        ? dbState.masterIndex.stats.total_districts_live
+        : Object.values(districts).filter(d => d && d.status === 'live').length;
+    const badge = document.getElementById('badge-live-districts');
+    if (badge) badge.textContent = `⚠️ ${liveCount} districts only`;
 
     Object.entries(districts)
       .filter(([, d]) => d && d.status === 'live')

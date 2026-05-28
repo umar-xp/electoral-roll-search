@@ -149,6 +149,10 @@ def extract_part_serial(source_line: str | None) -> str | None:
     first_token = tokens[0]
     if "/" in first_token:
         return None
+    if re.fullmatch(r"\d{6,}", first_token or ""):
+        return None
+    if len(tokens) >= 2 and re.fullmatch(r"\d{5,}", tokens[1] or ""):
+        return None
     if len(tokens) >= 2 and not re.search(r"\d", tokens[1]):
         return None
     m = re.match(r"^(\d+)", first_token)
