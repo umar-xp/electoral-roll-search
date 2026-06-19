@@ -17,8 +17,10 @@ const DataFetcher = (function() {
 
   function _basePath() {
     const p = window.location.pathname || '/';
-    const idx = p.indexOf('/apps/web/');
-    if (idx >= 0) return p.slice(0, idx + 1);
+    const appIdx = p.indexOf('/apps/web/');
+    if (appIdx >= 0) return p.slice(0, appIdx + 1);
+    const distIdx = p.indexOf('/dist/');
+    if (distIdx >= 0) return p.slice(0, distIdx + 1);
     if (p.endsWith('/')) return p;
     return p.replace(/[^/]*$/, '');
   }

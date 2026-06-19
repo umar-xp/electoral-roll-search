@@ -108,8 +108,10 @@ class VoterSearchEngine {
    */
   _detectBasePath() {
     const path = window.location.pathname || '/';
-    const idx = path.indexOf('/apps/web/');
-    if (idx >= 0) return path.slice(0, idx + 1);
+    const appIdx = path.indexOf('/apps/web/');
+    if (appIdx >= 0) return path.slice(0, appIdx + 1);
+    const distIdx = path.indexOf('/dist/');
+    if (distIdx >= 0) return path.slice(0, distIdx + 1);
     if (path.endsWith('/')) return path;
     return path.replace(/[^/]*$/, '');
   }

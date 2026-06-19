@@ -2,11 +2,10 @@
  * Build script — bundles, minifies, and optimizes frontend assets.
  * 
  * Strategy:
- *   - search-utils.js: standalone (shared between main thread and worker)
- *   - indexed-search.js: standalone (depends on search-utils.js + LRUCache)
- *   - search-worker.js: standalone (imports search-utils via importScripts)
- *   - app-bundle.js: bundled (state + data-fetcher + ui-renderer + search-engine + monitor + app)
- *   - styles.css: minified
+ *   - All browser scripts referenced by index.html are emitted into dist/
+ *   - Runtime asset references are rewritten to hashed output filenames
+ *   - dist/ is rebuilt from scratch each run to avoid stale files
+ *   - styles.css is minified
  *
  * Usage:
  *   npm run build         — one-shot build
@@ -32,61 +31,38 @@ const commonOptions = {
 };
 
 const builds = [
-  // Standalone: search-utils (loaded by both main thread and worker)
-  {
-    ...commonOptions,
-    bundle: false,
-    entryPoints: [path.join(webDir, 'search-utils.js')],
-    outfile: path.join(distDir, 'search-utils.min.js'),
-  },
-  // Standalone: indexed search engine
-  {
-    ...commonOptions,
-    bundle: false,
-    entryPoints: [path.join(webDir, 'indexed-search.js')],
-    outfile: path.join(distDir, 'indexed-search.min.js'),
-  },
-  // Standalone: Web Worker (cannot be bundled — uses importScripts)
-  {
-    ...commonOptions,
-    bundle: false,
-    entryPoints: [path.join(webDir, 'search-worker.js')],
-    outfile: path.join(distDir, 'search-worker.min.js'),
-  },
-  // Bundle: main application (state + fetcher + UI + search-engine + monitor + app)
-  {
-    ...commonOptions,
-    bundle: true,
-    entryPoints: [path.join(webDir, 'app.js')],
-    outfile: path.join(distDir, 'app.bundle.min.js'),
-    external: [],
-    // These are loaded as separate scripts, so treat their globals as external
-    banner: {
-      js: '/* Electoral Roll Search - bundled app */',
-    },
-  },
-  // CSS minification
-  {
-    ...commonOptions,
-    bundle: false,
-    entryPoints: [path.join(webDir, 'styles.css')],
-    outfile: path.join(distDir, 'styles.min.css'),
-  },
-  // Service Worker (standalone)
-  {
-    ...commonOptions,
-    bundle: false,
-    entryPoints: [path.join(webDir, 'sw.js')],
-    outfile: path.join(distDir, 'sw.min.js'),
-  },
-];
+  ['search-utils.js', 'search-utils.min.js'],
+  ['indexed-search.js', 'indexed-search.min.js'],
+  ['search-engine.js', 'search-engine.min.js'],
+  ['state.js', 'state.min.js'],
+  ['data-fetcher.js', 'data-fetcher.min.js'],
+  ['ui-renderer.js', 'ui-renderer.min.js'],
+  ['i18n.js', 'i18n.min.js'],
+  ['monitor.js', 'monitor.min.js'],
+  ['app.js', 'app.min.js'],
+  ['search-worker.js', 'search-worker.min.js'],
+  ['styles.css', 'styles.min.css'],
+  ['sw.js', 'sw.min.js'],
+].map(([src, out]) => ({
+  ...commonOptions,
+  bundle: false,
+  entryPoints: [path.join(webDir, src)],
+  outfile: path.join(distDir, out),
+}));
+
+function rewriteContent(content, fileMap) {
+  const replacements = Object.entries(fileMap).sort((a, b) => b[0].length - a[0].length);
+  let rewritten = content;
+  for (const [src, hashed] of replacements) {
+    rewritten = rewritten.split(src).join(hashed);
+  }
+  return rewritten;
+}
 
 async function build() {
-  // Ensure dist/ exists
-  const distDir = path.join(__dirname, '..', 'dist');
-  if (!fs.existsSync(distDir)) {
-    fs.mkdirSync(distDir, { recursive: true });
-  }
+  // Recreate dist/ from scratch to avoid stale hashed files.
+  fs.rmSync(distDir, { recursive: true, force: true });
+  fs.mkdirSync(distDir, { recursive: true });
 
   // Track filename mappings for HTML rewriting
   const fileMap = {};
@@ -129,18 +105,23 @@ async function build() {
   }
 
   if (!isWatch) {
-    // Copy index.html to dist with cache-busted references
+    // Copy index.html to dist with cache-busted references.
     const htmlSrc = path.join(__dirname, '..', 'apps', 'web', 'index.html');
     const htmlDst = path.join(distDir, 'index.html');
-    let html = fs.readFileSync(htmlSrc, 'utf8');
-
-    // Replace each source file reference with its hashed equivalent
-    for (const [src, hashed] of Object.entries(fileMap)) {
-      html = html.replace(src, hashed);
-    }
+    const html = rewriteContent(fs.readFileSync(htmlSrc, 'utf8'), fileMap);
 
     fs.writeFileSync(htmlDst, html, 'utf8');
     console.log('  index.html: copied with cache-busted references');
+
+    // Rewrite runtime asset references inside generated JS/CSS too
+    for (const hashed of Object.values(fileMap)) {
+      const builtPath = path.join(distDir, hashed);
+      if (!fs.existsSync(builtPath)) continue;
+      const ext = path.extname(builtPath);
+      if (!['.js', '.css', '.html'].includes(ext)) continue;
+      const rewritten = rewriteContent(fs.readFileSync(builtPath, 'utf8'), fileMap);
+      fs.writeFileSync(builtPath, rewritten, 'utf8');
+    }
 
     // Write manifest for deployment verification
     const manifestPath = path.join(distDir, 'manifest.json');

@@ -108,8 +108,10 @@ const dbState = {
 
 function siteBasePath() {
   const p = window.location.pathname || '/';
-  const idx = p.indexOf('/apps/web/');
-  if (idx >= 0) return p.slice(0, idx + 1);
+  const appIdx = p.indexOf('/apps/web/');
+  if (appIdx >= 0) return p.slice(0, appIdx + 1);
+  const distIdx = p.indexOf('/dist/');
+  if (distIdx >= 0) return p.slice(0, distIdx + 1);
   if (p.endsWith('/')) return p;
   return p.replace(/[^/]*$/, '');
 }
@@ -2256,21 +2258,52 @@ function saveToStorage() {
 
 // ====================================================================
 // VISITOR & SUCCESS COUNTERS
-// Uses window.storage (Claude.ai shared storage) when available,
-// falls back to localStorage counters for standalone deployment.
-// Honest counter — starts from actual usage.
+// Uses a shared remote counter first so all visitors see the same total.
+// Falls back to shared runtime storage/localStorage if the remote counter fails.
 // ====================================================================
+const GLOBAL_VISITOR_COUNT = Object.freeze({
+  endpoint: 'https://api.countapi.xyz',
+  namespace: 'votersearch2002',
+  key: 'site-visitors',
+  displayOffset: 109
+});
+
+function formatDisplayedVisitorCount(rawCount) {
+  return Math.max(0, parseInt(rawCount || '0', 10) || 0) + GLOBAL_VISITOR_COUNT.displayOffset;
+}
+
+async function getRemoteVisitorCount() {
+  const url = `${GLOBAL_VISITOR_COUNT.endpoint}/get/${GLOBAL_VISITOR_COUNT.namespace}/${GLOBAL_VISITOR_COUNT.key}`;
+  const res = await fetch(noCacheUrl(url), { cache: 'no-store' });
+  if (!res.ok) throw new Error(`visitor counter HTTP ${res.status}`);
+  const data = await res.json();
+  return parseInt(data && data.value, 10) || 0;
+}
+
+async function hitRemoteVisitorCount() {
+  const url = `${GLOBAL_VISITOR_COUNT.endpoint}/hit/${GLOBAL_VISITOR_COUNT.namespace}/${GLOBAL_VISITOR_COUNT.key}`;
+  const res = await fetch(noCacheUrl(url), { cache: 'no-store' });
+  if (!res.ok) throw new Error(`visitor counter HTTP ${res.status}`);
+  const data = await res.json();
+  return parseInt(data && data.value, 10) || 0;
+}
+
 async function trackVisitor() {
   try {
     if (sessionStorage.getItem('_visited')) { updateStatsFooter(); return; }
     sessionStorage.setItem('_visited', '1');
-    if (typeof window.storage !== 'undefined') {
-      const cur = await window.storage.get('stats:visitors', true).catch(() => null);
-      const n = cur ? (parseInt(cur.value, 10) || 0) + 1 : 1;
-      await window.storage.set('stats:visitors', String(n), true);
-    } else if (storageAvailable) {
-      const n = (parseInt(localStorage.getItem('_vis') || '0', 10)) + 1;
-      localStorage.setItem('_vis', String(n));
+    try {
+      await hitRemoteVisitorCount();
+    } catch (remoteErr) {
+      if (typeof window.storage !== 'undefined') {
+        const cur = await window.storage.get('stats:visitors', true).catch(() => null);
+        const n = cur ? (parseInt(cur.value, 10) || 0) + 1 : 1;
+        await window.storage.set('stats:visitors', String(n), true);
+      } else if (storageAvailable) {
+        const n = (parseInt(localStorage.getItem('_vis') || '0', 10)) + 1;
+        localStorage.setItem('_vis', String(n));
+      }
+      console.warn('Global visitor counter unavailable, using fallback counter.', remoteErr);
     }
     updateStatsFooter();
   } catch(e) { updateStatsFooter(); }
@@ -2293,17 +2326,25 @@ async function trackSuccessfulFind() {
 async function updateStatsFooter() {
   try {
     let visitors = 0, successes = 0;
+    try {
+      visitors = await getRemoteVisitorCount();
+    } catch (remoteErr) {
+      if (typeof window.storage !== 'undefined') {
+        const v = await window.storage.get('stats:visitors', true).catch(() => null);
+        if (v) visitors = parseInt(v.value, 10) || 0;
+      } else if (storageAvailable) {
+        visitors = parseInt(localStorage.getItem('_vis') || '0', 10);
+      }
+      console.warn('Global visitor counter read failed, using fallback counter.', remoteErr);
+    }
     if (typeof window.storage !== 'undefined') {
-      const v = await window.storage.get('stats:visitors', true).catch(() => null);
       const s = await window.storage.get('stats:successes', true).catch(() => null);
-      if (v) visitors = parseInt(v.value, 10) || 0;
       if (s) successes = parseInt(s.value, 10) || 0;
     } else if (storageAvailable) {
-      visitors = parseInt(localStorage.getItem('_vis') || '0', 10);
       successes = parseInt(localStorage.getItem('_suc') || '0', 10);
     }
     const el = document.getElementById('statsFooter');
-    if (el) el.textContent = `👥 ${visitors} visitors · ✅ ${successes} successful voter searches`;
+    if (el) el.textContent = `👥 ${formatDisplayedVisitorCount(visitors)} visitors · ✅ ${successes} successful voter searches`;
   } catch(e) { /* silent */ }
 }
 
