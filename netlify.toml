@@ -1,0 +1,56 @@
+[build]
+  publish = "."
+  command = "npm install && npm run build"
+
+# Serve pre-compressed files
+[build.processing]
+  skip_processing = false
+
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = false
+  minify = false
+
+# Rate limiting + anti-scraping for data endpoints
+[[edge_functions]]
+  path = "/data/*"
+  function = "rate-limit"
+
+# Health check endpoint for uptime monitoring
+[[edge_functions]]
+  path = "/health"
+  function = "health"
+
+# Redirect robots away from raw data
+[[headers]]
+  for = "/data/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+
+# Block pipeline_state from public access
+[[headers]]
+  for = "/pipeline_state.json"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
+# Block programmatic bulk downloads (additional layer)
+[[redirects]]
+  from = "/data/districts/*/part_*.json"
+  to = "/data/districts/*/part_*.json"
+  status = 200
+  conditions = {Language = ["en"]}
+
+# Redirect root to app
+[[redirects]]
+  from = "/"
+  to = "/apps/web/"
+  status = 302
+
+# 404 fallback
+[[redirects]]
+  from = "/*"
+  to = "/apps/web/index.html"
+  status = 404

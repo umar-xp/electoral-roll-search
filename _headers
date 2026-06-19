@@ -1,18 +1,51 @@
+# Security & Cache Headers
+# Applied by Netlify for votersearch2002.com
+
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: credentialless
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com/ajax/libs/pdf.js/ https://cdnjs.cloudflare.com/ajax/libs/fuse.js/ https://cdn.jsdelivr.net/npm/tesseract.js@5/; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://i.ytimg.com; connect-src 'self' https://cdn.jsdelivr.net/npm/tesseract.js@5/; frame-src https://www.youtube.com https://youtube.com; media-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:; upgrade-insecure-requests
+
 /data/master_index.json
-  Cache-Control: public, max-age=3600
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
   Content-Type: application/json
-  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Origin: https://votersearch2002.com
+
+/data/search_index/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Content-Type: application/json
+  Access-Control-Allow-Origin: https://votersearch2002.com
 
 /data/districts/*_index.json
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
   Content-Type: application/json
-  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Origin: https://votersearch2002.com
+
+/data/districts/*/part_*.json
+  Cache-Control: public, max-age=86400, immutable
+  Content-Type: application/json
+  Access-Control-Allow-Origin: https://votersearch2002.com
 
 /data/districts/*/*/part_*.json
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=86400, immutable
   Content-Type: application/json
-  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Origin: https://votersearch2002.com
+
+/apps/web/styles.css
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+  Content-Type: text/css
+
+/apps/web/*.js
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Content-Type: application/javascript
 
 /pipeline_state.json
   Cache-Control: no-store
   X-Robots-Tag: noindex
+  X-Content-Type-Options: nosniff
+  Access-Control-Allow-Origin: https://votersearch2002.com

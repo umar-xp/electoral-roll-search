@@ -1,6 +1,6 @@
-serial_num,part_num,voter_name_kn,voter_name_en_expected,relative_name_kn,relative_name_en_expected,relative_type,gender,is_muslim,notes
+serial_num,part_num,voter_name_kn,voter_name_en_expected,relative_name_kn,relative_name_en_expected,relative_type,gender,urdu_origin,notes
 1,1,ದೀಪಕ್,Deepak,ಲಕ್ಷ್ಮಣ್ ರಾವ್,Lakshmana Rao,F,M,FALSE,
-2,1,ಶೆರಿನ್ ಭಾಯಿ,Sherin Bhayi,ನಿಸನ್ ಹುಸೇನ್,Nisan Husain,H,F,TRUE,Muslim - husband name
+2,1,ಶೆರಿನ್ ಭಾಯಿ,Sherin Bhayi,ನಿಸನ್ ಹುಸೇನ್,Nisan Husain,H,F,TRUE,Urdu-origin name - husband name
 3,1,ಮೆರಜ್ ಹುಸೇನ್,Meraj Husain,ನಿಸನ್ ಹುಸೇನ್,Nisan Husain,F,M,TRUE,Muslim - ಜ not Z here
 4,1,ಶಹನಾಜ್,Shahnaz,ಮನೋಜ್ ಹುಸೇನ್,Manoj Husain,H,F,TRUE,Muslim
 5,1,ಹುಸೇನ್ ಆಲಿದಾಮಿನಿ,Husain Alidamini,ನಿಸನ್ ಹುಸೇನ್,Nisan Husain,F,M,TRUE,Muslim compound name

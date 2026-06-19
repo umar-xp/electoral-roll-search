@@ -3,3924 +3,473 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Search Karnataka 2002 electoral rolls — 7M+ voter records searchable by name in English or Kannada.">
+<meta name="theme-color" content="#0F172A">
 <title>Karnataka 2002 Voter List Search | ಮತದಾರರ ಪಟ್ಟಿ ಹುಡುಕಾಟ</title>
-<script>
-// Inline favicon — works without server file present
-(function(){
-  var f=document.createElement('link');
-  f.rel='icon'; f.type='image/x-icon';
-  f.href='data:image/x-icon;base64,AAABAAMAEBAAAAAAIAAZAwAANgAAABgYAAAAACAAiQUAAE8DAAAgIAAAAAAgAG4HAADYCAAAiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAC4ElEQVR4nE2Su28cZRTFf/fONzv7sHfx7trxS5YcySAkIFS8EgRUdPwDBGhQRIHSREARoSBXCNFZSEhQESToIiQkWgqoKNKBQEFRgLUdvLvOeL2enZ35vkuxJPFpbnPP0Tn3XLl2DX1/svKRIZez0pqlIRWBihgG5CZ4IOIBrBrJWCP7/HZl76qkH6xsN5x+eDgxwGhpYBAidr3igHXnmZNAGhQ5JdKuqYyntiODK8snAakqgCCfHdb5dpiwP1HAONswLnUyXp/POLGZhAECQUBcQGrMyLy92+TGIKHTVTpbjkrpuHUn49Jfjj+WI7a7x4y8oDMdDYArDOs6k48HDW70E849lfDc08uTjXKu+O1MWn9iHKKbP/zLp7s1nqkWvDaXc88LkYAAWhFk4JVvhgnLbcejL7XDmVHda88l9YNoGrdjnnylSy0Wrt+rEmZmH0ATNfZKZX8iLK1XcElE6U0kIcojb1leMt9JaHdj/swi0qA4md0BQM2Y2REwD1MCm9U53lrZsq07zfHCgcvSkFvwsx3hIRlAcxPWnGezEdj9e8JomGOxyMm0sOfrS/Grh6v5+s3kuD/I7dk5z7wGylMxtATmxXinPWEw8vR+PGaxTAyFW0dHeStUwtmsKcW0CC82Cupq+FMWnAPSILzRmvBLJ7An63rOteX26GjywsbqI1VVfh2PrJa4aPsgZsMVXKgXDEohFnCACchxED5ZGvH7wgmNZrP2eNVZFEVSdRVeXm7SUc9uWeXNXovraynnawUDL+j9OMGEKcpjllKWU1AnZTBSL2wWfb5aPaQTeYZBudhr8XMW03UB6V9ZyQPE/z+jBDOktgAuAQsgQjk+pCsTfsoSLvZaDIOyqCF8sZKilYiddk3lfrUqgpz0kfQfZLSHpD3iMKXvHedrBV+vpSyqD0MX67t3W9/rfrZ3dTK1nTjCP6g4isFVHk4RYjEGXrhQn/Ll6iisU3x31+t7/wGfIkRmECcilAAAAABJRU5ErkJggolQTkcNChoKAAAADUlIRFIAAAAYAAAAGAgGAAAA4Hc9+AAABVBJREFUeJx1lUtsXFcZx3/fOfcx157xjCd27InHIW2akJAEAiILXkIoYlEJJDYliA1SBAsQD4lCWXWfFagQFkUIddfHIl1AJFhXoG5AaquC26iKIxwrjj2e8WMe995zzsdiXNfY7pHO5vuk/+/8v8e9IsDdn5B+ZbL1Qw38uPA8oWAABAh7VxkHDccfBRUgMTwU5MV+8L9p/XqtL689086efir8dtLK93sjxQcFAb8nmgKpKCLgFXIVnILIMTBFjRGZrhgGzt9Z2sxuytZzcz+tpvELnYEvCVgxGAdURYkFHjvDijMMgjBtA6fjQN0o/SDkgD3MCIQg+LmqiXtDvSWdZ1v3xcgnCqdEBnFA0wTeyWP+0J3gjTxhwwulChWBRev4RnXEzcaIpg1sBSHec3uwrAaCwEDWf95SZJwMQMMoL/Uynt+YpOMtldITBd3P+8gwsoYrqeP23Dafz0p6XojkSE8QgehDcQc0rfJSN+NHa1PUCMx4x9SZjNrphGoc0++WbDwYMNosWJKY76w2uNPucjlx7ATBHoAIoIpGH76sapR384jn16vUCGRWOXd9llOnJkaz23G+Pltklck4yfuOpTe7yNtbrGvMr9Zq3Gn3iGSsc9CIgBiAoJAAL3YzOsGQ+MDFr51k/kJWfHH5xOhbw3PJp+5NDTo7IxfHls9cn2H2k1NMuZJ/5Al3dxNqRgnKkWMUSAXWnOGNYULqPFOtCouXqrgN5yo2Sl7I/53N2cwap955xRfKU9fqJBVL8Mrf+ulHXT4MCHtz/tAbNoIh8oET7QxjBESkFDTkgRLFptbaRHClMlmPqc0mWBf4oIzYUY40et+BCAzCeBRFhLhiMQK597STCW6dvcaEjVhf7e/mu66MI4OIEGUGFEYqFCoco48xjDd02gQqe40abpf7YxmLcKk+w6CXFz/rXHKXVuvDh27XK0q+7VEjNGwgE8V/HCBXoR0H2tbhIsP68oBipMSpQQO4UJIGq5dbzYm5fuo/+259o//PUb/XzSmN4WLsqNrxQw+7MAKUOl6wb1ZzcmsZdQv+8+YmIzwIGBVQKCM0GVn3y8XPNRZWs7A5KEIrhhu1EaMwFjvca6OAFegH4WZjyKeTkp61rL7V4/xSlWaUqIkMRgxv/fdxf304cI/Lgd+mDGoMkybQjAKRjJf1iAP2giOFpg38fn6bhvXktsIPFi6mg9y5vy590FucriVXT52sf/38meajrUE+X5tM6rE1j7zhuw/r3C8t01YpjgPAeMS2g3AtK3l9sceXKgUksbnSmp06OTmRXp6fqbUbtXS+NpleP396+okT01mvCExb5b084sZKneXC0jBKoccAACKg4wxXU8efFrZp4FAR8+R0NROC7A5HeFfweFjwhWTE1YpjzRlaceD9IubbK3UeHHAihwG652RHDeodqRFKm7EbLMFWMOkENs4o4ipnY8fL7S7nEscjZ5iLAveKaB/StEquqKw/21I93BwR1Jfo7EV0/gqoPzAdBvE5fvnvNIsOyy7hmZUG90rLnFXWvHAudrzS3uJs4pHOL1qrAnNlQKwgHwkJ+GK85mJAdR9O8IgIhYmZNoH7peXGSp33i4hWpKw60QuJ5+WF3tDEwu1GZgxCGXT8494vWJSAiccAY8dXDEQJamJilM0gnIk9r7W3OJ84Vp1hRnz5QBJ5bq32qnn7veJ3/dy/fnLCJiIiQQ9UQ5WjqyP/F0+Arh9DXlnY4kJSaj+Ok4ywcXc3vm2+/OfOzspG+b3d0t1KLD0Zl+ljPr5wXCoV6HrRJxPPq4tbO1/N8j8Odv3T5i/v/Ot/a3SD+s0A0QgAAAAASUVORK5CYIKJUE5HDQoaCgAAAA1JSERSAAAAIAAAACAIBgAAAHN6evQAAAc1SURBVHicrZddbKRVGcd/zznnfWfezkynLW2n7bLLx8IaXUOyaCIGTBZUwq3GVUTC6g0mcqGumhASw5V6Q4JBjJogCQRi1EsJiQFC8DMxMUsQlq+wgGzdbYe205nOx/txzuPFzHbb/WghepKTN5l3znN+8z//53nOiIIIKMDKD+a/6kTu8YFDQTVREP4/Q62QWSOv+BAemXrgzC8Bvf9+jOj9mDMbjaRszCNlJ7cXAdJCh0TnR9kyz5KZD0FRskLJCYNcnxloflfjgeYZAThzbP53jXF7pNn2BWBEtsf1o2cMxKLYkWSFQqZCoWBkd7lUCQphtmpcs+v/1sqqt8jy9xpfrsX2txuZ5kC0dUEYPWtGEWCpMLxXWNa84IA5F7g88kxYpR+gHwT7AQ5NIZ8sm2i1F+51qDlWBFQVK1sWe6AsSizwbDfmyfWE4wNH0xsyFQSoiLI38txcyTha73Mg9rTCMMguHK6bhWAM35blY/OpEeKtZ+6BqiinC8t9zSpPdUoEYMyCE8Xo8AgCQqbQ88KM83xnqsc9kz0GKoRdIBSwAu5Sm7+WOe5YrPN2ZrksUjRAOghkipqRViEEIivMxEIWhHuXa5xIHQ/Ndch0u1nPHwJ4Rd3WzQNQFjhdWO5YrHMqt8xESj9TjBX2Hawxe/WYlMuWLPV01nKW3uqxenqAiwxzUeCx9YTEKD9tdGgFwe6ggoC48z+MRblvucrJzDIbKb00MDFb4tCts5gKxaCZde0EycJENdZC2X+oznsnOpz4yyqZV+Zc4NethJuSjC+Np7T8zsbcTDfP0O3PdmOe2igx7Ya/fKJR4qYjC5CE7KPHq6s/yT9lPvPyzHpzsdv3heLzwNWH6lx/2yyoEHSo4oOrFdpBcLu48Vy+j8rek+sJAVAF64TrDk+rq1jyt4vu7XPXjv8svFn73MK+yfqS6xWRIiL0OwXz11TYf/04aRqoWOXl1PFcN6ZqFH+xqrYVQIHYDPP8+CBizEKaBRpXjTHZKDEYFFSd41TRk98svqmvD9rUjCOEYWRjhDwN7DtYo1yxBD+M+edevGulPAeAcqqwNL0QMbTwzN5k5ORhWlkEK0acDKWWLXU5eCWpOeqzJXwRcAJvZI7BqEruCmAF1rxsFhmxQrlmUVWMQBYCc3HC0cY17C/VyKyKL4HE56Kb0Zqgw3gtLwxG8XYEOAvhttZzBfXnvqgoToQfXfEJpstlaa30U/f3Yrl3ctAWK8PipLptjZPdm5VhqCCFQsMFxkTxIoSgdFYyzBb9FEi9ZyBeJk+57i+uPDz1+dU92fJGNy9iBRU6KxnWDhvUnPMkops95ZIABkhVuNx59kaeNIC1wpmTPXyx3cJGhBDQyaTkknHnKmXnOF4051+Mlt89sZ5utAqcFXKF60oFsYGwWxYwUmDCKLdUMvoBSrGwenrAv1/pkFQduiWIACGoBtB2Kx0cLR+If3zNp6eXX9ho5yEQgETgs5WM9IOYEIam6atwtN5nxipZABcJr/51lbdfaxNbAwphRFKEoEm5JM4aicvOURJTi2MDgXYwHKkNuCHJ6XjZ0Qeb7wToBzgQe7471WXVG0pW6KQ5yT8NX0yvIBUvtVJM7KwpAvr0v95ce2ulNVBV3Rhkfm2QBiOGSJTT3rAehLI5d6HZEeCsCq0gfGuyx131PkuFRSXIF668khvnFpJ/nDrTendlvffCyfdW7vrkwblGbax09w3XLRRB9Y+vvdO88aqF8dQHqgae6cbcuVgnVyjJpSEuaEYAAxUemmtTs/DwkmWjCCxM1MrXX96QlxaXuwemJyvXzkwmIoIPyuH9+6YmShHvvNineKNAI8e0VZ7vDSGe2LNOSSBVLuiOFwAIw7acqfBgo8NBK0y7QDcvuGJyvPSR2alS4QP9LN9cczZRiqIgUzPKKj4QxEX9IQxzfjUYvl7vc0slo6uGPM9p91LtZzkisjmdKG0vfGNiwG3VlGZhiAWy8yAudhyXNKiMXq57IVMz3AzFiIqgoGE0FdGAF0vdwuN7WtxcyXjfyyUhylsgdqmUijUGs/I6+BziCkTJ9unKEFexWYfB+yeJreOJhRY3j10aIlNIRPGKSvPYfI5c3IybWoQcrTbQ6iyEcJGLnkE6/0F6K3gTUZZApsKdi3We78VMWyVTiAXe98LhsYxHF9qMW0WWj82/VI74+CBHz/9Dcj4EYYeMNm44UTzDs86Vi0IsFaK31nJ5fG5tzYjwcMkaQXaqFwomulD+rXO0OQxdnipEAk/sWd92HLnClNFwPIv156uVR0SPYJf3zj87WzWHmxshR7Z35f9lbFXia4t1nuvGepkJQa2xAjQH/mOG3xO08Lev98OfJsomiozIDs3rQ42zSpREeXShza3VXCSyVkQyDfpDefqVV0WH90r91d1EX5mY/74g3yyC7vPDS+r/RwlFEwsKyw+vjT320FLyZPMPL7+kIP8FpdegB0qGvy8AAAAASUVORK5CYII=';
-  // Fallback: if file missing, browsers silently ignore it
-  document.head.appendChild(f);
-})();
-</script>
-
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@400;600;700&family=Noto+Serif:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap');
-
-  :root {
-    --saffron: #FF6B00;
-    --saffron-light: #FF8C38;
-    --green: #138808;
-    --green-light: #1aad0a;
-    --blue: #000080;
-    --white: #FFFFFF;
-    --cream: #FFF9F0;
-    --gray-50: #F9FAFB;
-    --gray-100: #F3F4F6;
-    --gray-200: #E5E7EB;
-    --gray-400: #9CA3AF;
-    --gray-600: #4B5563;
-    --gray-800: #1F2937;
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-    --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
-    --shadow-lg: 0 8px 32px rgba(0,0,0,0.14);
-    --radius: 10px;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Noto Serif', Georgia, serif;
-    background: var(--cream);
-    color: var(--gray-800);
-    min-height: 100vh;
-  }
-
-  /* HEADER */
-  .header {
-    background: linear-gradient(135deg, var(--saffron) 0%, #FF8C38 40%, var(--green) 100%);
-    padding: 0;
-    position: relative;
-    overflow: hidden;
-  }
-  .header::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: repeating-linear-gradient(
-      45deg, transparent, transparent 20px,
-      rgba(255,255,255,0.03) 20px, rgba(255,255,255,0.03) 40px
-    );
-  }
-  .header-inner {
-    max-width: 900px; margin: 0 auto;
-    padding: 20px 20px 16px;
-    display: flex; align-items: center; gap: 16px;
-    position: relative;
-  }
-  .emblem {
-    width: 56px; height: 56px;
-    background: white; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 28px; flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  }
-  .header-text h1 {
-    font-family: 'Noto Sans Kannada', sans-serif;
-    font-size: 20px; font-weight: 700;
-    color: white; line-height: 1.2;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-  }
-  .header-text p {
-    font-size: 13px; color: rgba(255,255,255,0.88);
-    margin-top: 2px; font-family: 'Noto Serif', serif;
-  }
-  .tricolor-bar {
-    height: 5px;
-    background: linear-gradient(to right, var(--saffron) 33.3%, white 33.3%, white 66.6%, var(--green) 66.6%);
-  }
-
-  /* MAIN */
-  .main { max-width: 900px; margin: 0 auto; padding: 24px 16px 48px; }
-
-  /* CARD */
-  .card {
-    background: white; border-radius: var(--radius);
-    box-shadow: var(--shadow-md); margin-bottom: 20px;
-    border: 1px solid var(--gray-200);
-    overflow: hidden;
-  }
-  .card-header {
-    background: var(--gray-50); border-bottom: 1px solid var(--gray-200);
-    padding: 12px 20px;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .card-header .step-badge {
-    width: 26px; height: 26px; border-radius: 50%;
-    background: var(--saffron); color: white;
-    font-size: 13px; font-weight: 700;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'JetBrains Mono', monospace;
-    flex-shrink: 0;
-  }
-  .card-header h2 {
-    font-size: 15px; font-weight: 600;
-    color: var(--gray-800); font-family: 'Noto Sans Kannada', sans-serif;
-  }
-  .card-body { padding: 20px; }
-
-  /* FORM ELEMENTS */
-  label {
-    display: block; font-size: 13px; font-weight: 600;
-    color: var(--gray-600); margin-bottom: 6px;
-    font-family: 'Noto Sans Kannada', sans-serif;
-  }
-  select, input[type="text"] {
-    width: 100%; padding: 10px 14px;
-    border: 1.5px solid var(--gray-200); border-radius: 8px;
-    font-size: 14px; font-family: 'Noto Sans Kannada', sans-serif;
-    color: var(--gray-800); background: white;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    appearance: none; -webkit-appearance: none;
-  }
-  select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat; background-position: right 12px center;
-    padding-right: 36px;
-  }
-  select:focus, input[type="text"]:focus {
-    outline: none; border-color: var(--saffron);
-    box-shadow: 0 0 0 3px rgba(255,107,0,0.12);
-  }
-  select:disabled, input[type="text"]:disabled {
-    background: var(--gray-50); color: var(--gray-400); cursor: not-allowed;
-  }
-
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
-
-  /* UPLOAD ZONE */
-  .upload-zone {
-    border: 2px dashed var(--gray-200); border-radius: var(--radius);
-    padding: 28px 20px; text-align: center; cursor: pointer;
-    transition: all 0.2s; position: relative;
-    background: var(--gray-50);
-  }
-  .upload-zone:hover, .upload-zone.dragover {
-    border-color: var(--saffron); background: #FFF5EC;
-  }
-  .upload-zone.disabled {
-    opacity: 0.5; cursor: not-allowed; pointer-events: none;
-  }
-  .upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
-  .upload-icon { font-size: 36px; margin-bottom: 8px; }
-  .upload-zone p { font-size: 14px; color: var(--gray-600); }
-  .upload-zone small { font-size: 12px; color: var(--gray-400); margin-top: 4px; display: block; }
-
-  /* STATUS & PROGRESS */
-  .status-bar {
-    background: var(--gray-50); border: 1px solid var(--gray-200);
-    border-radius: 8px; padding: 12px 16px; margin-top: 12px;
-    display: none;
-  }
-  .status-bar.show { display: block; }
-  .status-text { font-size: 13px; color: var(--gray-600); margin-bottom: 8px; }
-  .progress { background: var(--gray-200); border-radius: 99px; height: 6px; overflow: hidden; }
-  .progress-fill {
-    height: 100%; border-radius: 99px;
-    background: linear-gradient(90deg, var(--saffron), var(--green));
-    transition: width 0.4s ease; width: 0%;
-  }
-
-  /* LOADED PDF CHIPS */
-  .pdf-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-  .pdf-chip {
-    background: #ECFDF5; border: 1px solid #A7F3D0;
-    border-radius: 99px; padding: 4px 12px;
-    font-size: 12px; color: var(--green); font-family: 'JetBrains Mono', monospace;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .pdf-chip .dot { width: 6px; height: 6px; background: var(--green-light); border-radius: 50%; }
-
-  /* SEARCH */
-  .search-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 12px; align-items: end; }
-  @media (max-width: 600px) { .search-row { grid-template-columns: 1fr; } }
-
-  .btn {
-    padding: 10px 22px; border: none; border-radius: 8px;
-    font-size: 14px; font-weight: 600; cursor: pointer;
-    font-family: 'Noto Sans Kannada', sans-serif;
-    transition: all 0.18s; white-space: nowrap;
-    display: inline-flex; align-items: center; gap: 6px;
-  }
-  .btn-primary {
-    background: var(--saffron); color: white;
-  }
-  .btn-primary:hover { background: #E55F00; transform: translateY(-1px); box-shadow: var(--shadow-sm); }
-  .btn-primary:disabled { background: var(--gray-200); color: var(--gray-400); cursor: not-allowed; transform: none; }
-  .btn-sm { padding: 6px 14px; font-size: 13px; }
-  .btn-success { background: var(--green); color: white; }
-  .btn-success:hover { background: #0f6b06; }
-  .btn-outline { background: white; color: var(--gray-600); border: 1.5px solid var(--gray-200); }
-  .btn-outline:hover { border-color: var(--gray-400); background: var(--gray-50); }
-
-  /* RESULTS */
-  .results-header {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 14px;
-  }
-  .results-count {
-    font-size: 13px; color: var(--gray-600);
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .result-card {
-    border: 1.5px solid var(--gray-200); border-radius: 10px;
-    padding: 16px; margin-bottom: 12px;
-    transition: all 0.18s; position: relative;
-    background: white;
-  }
-  .result-card.best-match {
-    border-color: var(--saffron); background: #FFFAF5;
-  }
-  .result-card.best-match::before {
-    content: '★ Best Match';
-    position: absolute; top: -10px; left: 16px;
-    background: var(--saffron); color: white;
-    font-size: 11px; font-weight: 700; padding: 2px 10px; border-radius: 99px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .result-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 10px; margin-bottom: 12px;
-  }
-  .result-field label {
-    font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px;
-    color: var(--gray-400); margin-bottom: 2px;
-  }
-  .result-field .val {
-    font-size: 15px; font-weight: 600; color: var(--gray-800);
-    font-family: 'Noto Sans Kannada', sans-serif;
-  }
-  .result-field .val.small { font-size: 13px; }
-  mark { background: #FEF3C7; color: inherit; border-radius: 2px; padding: 0 1px; }
-  .result-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-
-  /* SUCCESS MODAL */
-  .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.55);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 1000; padding: 16px;
-    opacity: 0; pointer-events: none; transition: opacity 0.2s;
-  }
-  .modal-overlay.show { opacity: 1; pointer-events: all; }
-  .modal {
-    background: white; border-radius: 16px; max-width: 420px; width: 100%;
-    box-shadow: var(--shadow-lg); padding: 32px; text-align: center;
-    transform: translateY(20px); transition: transform 0.2s;
-  }
-  .modal-overlay.show .modal { transform: translateY(0); }
-  .modal .big-check { font-size: 56px; margin-bottom: 12px; }
-  .modal h3 { font-size: 22px; font-weight: 700; color: var(--green); margin-bottom: 8px; }
-  .modal p { color: var(--gray-600); font-size: 15px; margin-bottom: 20px; }
-  .modal-info {
-    background: var(--gray-50); border-radius: 10px; padding: 16px;
-    margin-bottom: 20px; text-align: left;
-  }
-  .modal-info-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 14px; }
-  .modal-info-row span:first-child { color: var(--gray-600); }
-  .modal-info-row span:last-child { font-weight: 700; font-family: 'JetBrains Mono', monospace; }
-
-  /* ALERTS */
-  .alert {
-    padding: 12px 16px; border-radius: 8px; font-size: 13px;
-    margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px;
-  }
-  .alert-warning { background: #FFFBEB; border: 1px solid #FDE68A; color: #92400E; }
-  .alert-error { background: #FEF2F2; border: 1px solid #FECACA; color: #991B1B; }
-  .alert-info { background: #EFF6FF; border: 1px solid #BFDBFE; color: #1E40AF; }
-  .alert-success { background: #ECFDF5; border: 1px solid #A7F3D0; color: #065F46; }
-
-  /* HINT */
-  .hint { font-size: 12px; color: var(--gray-400); margin-top: 5px; }
-
-  /* DIVIDER */
-  .divider { height: 1px; background: var(--gray-100); margin: 16px 0; }
-
-  /* FOOTER */
-  footer {
-    text-align: center; font-size: 12px; color: var(--gray-400);
-    padding: 24px 16px; border-top: 1px solid var(--gray-200);
-    max-width: 900px; margin: 0 auto;
-  }
-
-  /* SPINNER */
-  .spinner {
-    width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.4);
-    border-top-color: white; border-radius: 50%;
-    animation: spin 0.7s linear infinite; display: inline-block;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .no-results {
-    text-align: center; padding: 32px 16px; color: var(--gray-400);
-  }
-  .no-results .icon { font-size: 40px; margin-bottom: 8px; }
-
-  .tag {
-    display: inline-block; font-size: 11px; padding: 2px 8px;
-    border-radius: 99px; font-family: 'JetBrains Mono', monospace;
-    font-weight: 600;
-  }
-  .tag-male { background: #DBEAFE; color: #1D4ED8; }
-  .tag-female { background: #FCE7F3; color: #9D174D; }
-  .tag-age { background: var(--gray-100); color: var(--gray-600); }
-
-  /* VIDEO SECTION */
-  .video-section {
-    background: white; border-radius: var(--radius);
-    box-shadow: var(--shadow-md); margin-bottom: 20px;
-    border: 1px solid var(--gray-200); overflow: hidden;
-  }
-  .video-section-header {
-    background: linear-gradient(135deg, var(--saffron) 0%, #FF8C38 100%);
-    padding: 12px 20px; display: flex; align-items: center; gap: 10px;
-  }
-  .video-section-header h2 {
-    font-size: 15px; font-weight: 700; color: white;
-    font-family: 'Noto Sans Kannada', sans-serif;
-  }
-  .video-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 16px;
-  }
-  @media (max-width: 600px) { .video-grid { grid-template-columns: 1fr; } }
-  .video-item { display: flex; flex-direction: column; gap: 8px; }
-  .video-embed {
-    position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
-    border-radius: 8px; box-shadow: var(--shadow-sm);
-  }
-  .video-embed iframe {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    border: none; border-radius: 8px;
-  }
-  .video-caption {
-    font-size: 12px; color: var(--gray-600); font-family: 'Noto Serif', serif;
-    line-height: 1.4; font-weight: 600;
-  }
-
-  /* QUICK GUIDE */
-  .quick-guide {
-    background: linear-gradient(135deg, #EFF6FF 0%, #F0FDF4 100%);
-    border: 1px solid #BFDBFE; border-radius: var(--radius);
-    margin-bottom: 20px; overflow: hidden;
-  }
-  .quick-guide-header {
-    background: var(--blue); padding: 10px 20px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .quick-guide-header h2 {
-    font-size: 14px; font-weight: 700; color: white;
-    font-family: 'Noto Sans Kannada', sans-serif;
-  }
-  .guide-steps {
-    padding: 16px 20px; display: flex; flex-direction: column; gap: 12px;
-  }
-  .guide-step {
-    display: flex; gap: 12px; align-items: flex-start;
-  }
-  .guide-step-num {
-    width: 28px; height: 28px; border-radius: 50%;
-    background: var(--saffron); color: white;
-    font-size: 14px; font-weight: 700;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; margin-top: 1px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .guide-step-text {
-    font-size: 13px; color: var(--gray-800); line-height: 1.55;
-    font-family: 'Noto Serif', serif;
-  }
-  .guide-step-text a {
-    color: var(--blue); text-decoration: underline; font-weight: 600;
-  }
-  .guide-step-text strong { color: var(--saffron); }
-
-  /* IMPORTANT LINKS */
-  .link-bar {
-    background: white; border: 1px solid var(--gray-200);
-    border-radius: var(--radius); padding: 12px 20px;
-    margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
-  }
-  .link-bar-label {
-    font-size: 12px; font-weight: 700; color: var(--gray-600);
-    text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
-  }
-  .link-pill {
-    display: inline-flex; align-items: center; gap: 5px;
-    background: #EFF6FF; border: 1px solid #BFDBFE;
-    color: var(--blue); font-size: 12px; font-weight: 600;
-    padding: 4px 12px; border-radius: 99px; text-decoration: none;
-    font-family: 'JetBrains Mono', monospace;
-    transition: all 0.15s;
-  }
-  .link-pill:hover { background: var(--blue); color: white; }
-
-  /* CLEAR DATA BUTTON */
-  .clear-data-wrap { margin-top: 10px; }
-
-  /* ── SEARCH MODE TABS ── */
-  .search-tabs {
-    display: flex; background: white;
-    border: 1px solid var(--gray-200); border-radius: var(--radius);
-    overflow: hidden; margin-bottom: 20px;
-    box-shadow: var(--shadow-sm);
-  }
-  .search-tab {
-    flex: 1; padding: 14px 16px; border: none; background: none;
-    cursor: pointer; font-family: 'Noto Sans Kannada', sans-serif;
-    font-size: 14px; font-weight: 600; color: var(--gray-600);
-    transition: all 0.2s; position: relative;
-    display: flex; flex-direction: column; align-items: center; gap: 4px;
-    border-bottom: 3px solid transparent;
-  }
-  .search-tab .tab-icon { font-size: 20px; }
-  .search-tab .tab-label { line-height: 1.2; text-align: center; }
-  .search-tab .tab-badge {
-    font-size: 10px; background: #FEF3C7; color: #92400E;
-    border: 1px solid #FDE68A; border-radius: 99px;
-    padding: 1px 7px; font-family: 'JetBrains Mono', monospace;
-    font-weight: 700; margin-top: 2px;
-  }
-  .search-tab.active {
-    color: var(--saffron); border-bottom-color: var(--saffron);
-    background: #FFF5EC;
-  }
-  .search-tab:not(.active):hover { background: var(--gray-50); }
-  @media (max-width: 500px) {
-    .search-tab { padding: 10px 8px; font-size: 12px; }
-  }
-
-  /* ── VOTE BANNER (prominent) ── */
-  .vote-banner {
-    background: linear-gradient(135deg, #1a1a6e 0%, #2d2d9e 50%, #1a1a6e 100%);
-    border-radius: var(--radius); margin-bottom: 20px;
-    padding: 20px 24px; color: white; position: relative; overflow: hidden;
-  }
-  .vote-banner::before {
-    content: '🗳️';
-    position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
-    font-size: 64px; opacity: 0.12;
-  }
-  .vote-banner-title {
-    font-size: 17px; font-weight: 700;
-    font-family: 'Noto Sans Kannada', sans-serif;
-    margin-bottom: 4px;
-  }
-  .vote-banner-sub {
-    font-size: 12.5px; opacity: 0.82;
-    font-family: 'Noto Serif', serif;
-    margin-bottom: 14px; line-height: 1.5;
-  }
-  .vote-banner-inner {
-    display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;
-  }
-  .vote-banner select {
-    flex: 1; min-width: 180px;
-    background: rgba(255,255,255,0.15);
-    border: 1.5px solid rgba(255,255,255,0.35);
-    color: white; border-radius: 8px; padding: 9px 14px;
-    font-family: 'Noto Sans Kannada', sans-serif; font-size: 13px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23ffffff' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat; background-position: right 12px center;
-    padding-right: 36px;
-  }
-  .vote-banner select option { background: #1a1a6e; color: white; }
-  .vote-banner select:focus { outline: none; border-color: rgba(255,255,255,0.7); box-shadow: none; }
-  .btn-vote {
-    background: var(--saffron); color: white;
-    border: none; padding: 9px 20px; border-radius: 8px;
-    font-family: 'Noto Sans Kannada', sans-serif;
-    font-size: 14px; font-weight: 700; cursor: pointer;
-    white-space: nowrap; transition: background 0.2s;
-  }
-  .btn-vote:hover { background: #E55F00; }
-  .vote-results-bar {
-    margin-top: 14px; display: none;
-  }
-  .vote-results-bar.show { display: block; }
-  .vote-result-row {
-    display: flex; align-items: center; gap: 10px;
-    margin-bottom: 6px; font-size: 12.5px;
-  }
-  .vote-result-name { min-width: 130px; color: rgba(255,255,255,0.9); font-weight: 600; }
-  .vote-result-track {
-    flex: 1; height: 8px; background: rgba(255,255,255,0.15);
-    border-radius: 99px; overflow: hidden;
-  }
-  .vote-result-fill {
-    height: 100%; border-radius: 99px;
-    background: linear-gradient(90deg, var(--saffron), #FFD700);
-    transition: width 0.6s ease;
-  }
-  .vote-result-count { font-size: 11px; opacity: 0.75; font-family: 'JetBrains Mono', monospace; }
-
-  /* ── FEEDBACK BUTTON & MODAL ── */
-  .feedback-fab {
-    position: fixed; bottom: 24px; right: 20px; z-index: 800;
-    background: var(--blue); color: white;
-    border: none; border-radius: 50px; padding: 10px 18px;
-    font-family: 'Noto Sans Kannada', sans-serif;
-    font-size: 13px; font-weight: 700; cursor: pointer;
-    box-shadow: 0 4px 16px rgba(0,0,80,0.35);
-    display: flex; align-items: center; gap: 7px;
-    transition: all 0.2s;
-  }
-  .feedback-fab:hover { background: #0000a8; transform: translateY(-2px); }
-  .feedback-modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.55);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 1100; padding: 16px;
-    opacity: 0; pointer-events: none; transition: opacity 0.2s;
-  }
-  .feedback-modal-overlay.show { opacity: 1; pointer-events: all; }
-  .feedback-modal {
-    background: white; border-radius: 16px; max-width: 480px; width: 100%;
-    box-shadow: var(--shadow-lg); padding: 28px;
-    transform: translateY(20px); transition: transform 0.2s;
-    max-height: 90vh; overflow-y: auto;
-  }
-  .feedback-modal-overlay.show .feedback-modal { transform: translateY(0); }
-  .feedback-modal h3 {
-    font-size: 18px; font-weight: 700; color: var(--gray-800);
-    margin-bottom: 6px; font-family: 'Noto Sans Kannada', sans-serif;
-  }
-  .feedback-modal p { font-size: 13px; color: var(--gray-600); margin-bottom: 18px; }
-  .feedback-modal label { margin-bottom: 6px; }
-  .feedback-modal textarea {
-    width: 100%; padding: 10px 14px; border: 1.5px solid var(--gray-200);
-    border-radius: 8px; font-size: 13px; font-family: 'Noto Serif', serif;
-    color: var(--gray-800); resize: vertical; min-height: 90px;
-    transition: border-color 0.2s;
-  }
-  .feedback-modal textarea:focus { outline: none; border-color: var(--saffron); }
-  .feedback-screenshot-area {
-    border: 2px dashed var(--gray-200); border-radius: 8px;
-    padding: 18px; text-align: center; cursor: pointer;
-    background: var(--gray-50); transition: all 0.2s;
-    margin-bottom: 14px; position: relative;
-  }
-  .feedback-screenshot-area:hover { border-color: var(--saffron); background: #FFF5EC; }
-  .feedback-screenshot-area input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
-  .feedback-screenshot-area .ss-icon { font-size: 28px; margin-bottom: 5px; }
-  .feedback-screenshot-area p { font-size: 13px; color: var(--gray-600); margin: 0; }
-  #feedback-preview { max-width: 100%; border-radius: 6px; margin-top: 8px; display: none; }
-  .feedback-actions { display: flex; gap: 10px; margin-top: 18px; }
-  .feedback-sending { text-align: center; padding: 12px; display: none; }
-
-  /* ── WHATSAPP SHARE BAR ── */
-  .share-bar {
-    background: white; border: 1px solid var(--gray-200);
-    border-radius: var(--radius); padding: 12px 20px;
-    margin-bottom: 20px; display: flex; align-items: center;
-    gap: 12px; flex-wrap: wrap;
-  }
-  .share-bar-label {
-    font-size: 13px; font-weight: 700; color: var(--gray-600);
-    font-family: 'Noto Sans Kannada', sans-serif; flex: 1;
-    min-width: 160px;
-  }
-  .btn-whatsapp {
-    display: inline-flex; align-items: center; gap: 7px;
-    background: #25D366; color: white;
-    border: none; border-radius: 8px; padding: 9px 18px;
-    font-family: 'Noto Sans Kannada', sans-serif;
-    font-size: 13px; font-weight: 700; cursor: pointer;
-    transition: background 0.18s; text-decoration: none;
-    white-space: nowrap;
-  }
-  .btn-whatsapp:hover { background: #1ebe5d; }
-  .btn-copy-link {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: var(--gray-100); color: var(--gray-700);
-    border: 1.5px solid var(--gray-200); border-radius: 8px;
-    padding: 9px 16px; font-family: 'Noto Sans Kannada', sans-serif;
-    font-size: 13px; font-weight: 600; cursor: pointer;
-    transition: all 0.18s; white-space: nowrap;
-  }
-  .btn-copy-link:hover { background: var(--gray-200); }
-  .btn-copy-link.copied { background: #ECFDF5; color: var(--green); border-color: #A7F3D0; }
-
-  @keyframes votePulse {
-    0%   { box-shadow: 0 0 0 0 rgba(255,107,0,0.75); transform: scale(1); }
-    50%  { box-shadow: 0 0 0 12px rgba(255,107,0,0); transform: scale(1.05); }
-    100% { box-shadow: 0 0 0 0 rgba(255,107,0,0); transform: scale(1); }
-  }
-  @keyframes bannerShimmer {
-    0%,100% { opacity: 1; }
-    50%     { opacity: 0.78; }
-  }
-  #btn-vote-new { animation: votePulse 1.8s ease-in-out infinite; }
-  .vote-banner-title { animation: bannerShimmer 2.8s ease-in-out infinite; }
-
-  #admin-panel {
-    position: fixed; bottom: 80px; right: 16px; z-index: 9999;
-    background: white; border: 2px solid var(--blue);
-    border-radius: 12px; padding: 16px 18px; width: 310px;
-    box-shadow: var(--shadow-lg); font-family: 'JetBrains Mono', monospace;
-    font-size: 12px; display: none;
-  }
-  #admin-panel h4 { font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--blue); }
-  #admin-panel table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
-  #admin-panel td, #admin-panel th { padding: 4px 8px; border: 1px solid var(--gray-200); }
-  #admin-panel th { background: var(--gray-100); font-weight: 700; }
-  .admin-btn { padding: 5px 10px; border: none; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 700; margin-right: 6px; }
-  .admin-btn-json { background: var(--saffron); color: white; }
-  .admin-btn-csv  { background: var(--green); color: white; }
-</style>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗳️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<link rel="preload" as="fetch" href="../../data/master_index.json" crossorigin>
 </head>
 <body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
 
-<div class="header">
+<!-- ═══════════════ HEADER ═══════════════ -->
+<header class="header" role="banner">
   <div class="header-inner">
-    <div class="emblem">🗳️</div>
-    <div class="header-text">
-      <h1>Karnataka 2002 Voter List Search</h1>
-      <p>ಕರ್ನಾಟಕ 2002 ಮತದಾರರ ಪಟ್ಟಿ ಹುಡುಕಾಟ</p>
-      <div style="margin-top:8px;display:inline-block;background:#FEF3C7;border:1px solid #FDE68A;border-radius:6px;padding:5px 12px;font-size:11.5px;color:#92400E;line-height:1.5;font-family:'Noto Serif',serif;max-width:680px">
-        ⚠️ <strong>This is NOT an official Election Commission of India website.</strong>
-        This is an independent community tool to make historical voter rolls searchable.
-        For official records, visit <a href="https://ceokarnataka.kar.nic.in" target="_blank" rel="noopener" style="color:#92400E;font-weight:700">ceokarnataka.kar.nic.in</a>
-        &nbsp;·&nbsp; ಇದು ಅಧಿಕೃತ ECI ವೆಬ್‌ಸೈಟ್ ಅಲ್ಲ — ಸ್ವತಂತ್ರ ಸಮುದಾಯ ಸಾಧನ.
+    <div class="brand">
+      <div class="brand-icon emblem">🗳️</div>
+      <div class="brand-text">
+        <h1 data-i18n="site-title">Karnataka 2002 Voter List Search</h1>
+        <p class="brand-sub" data-i18n="site-subtitle">ಕರ್ನಾಟಕ 2002 ಮತದಾರರ ಪಟ್ಟಿ ಹುಡುಕಾಟ</p>
       </div>
     </div>
+    <div class="header-actions">
+      <button class="lang-toggle" id="btn-lang-toggle" aria-label="ಕನ್ನಡಕ್ಕೆ ಬದಲಿಸಿ">ಕನ್ನಡ</button>
+      <div class="header-badge">
+        <span class="badge-dot"></span>
+        <span data-i18n="header-records">7M+ Records</span>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="tricolor-bar" aria-hidden="true"></div>
+
+<!-- ═══════════════ DISCLAIMER ═══════════════ -->
+<div class="disclaimer-strip">
+  <div class="disclaimer-inner">
+    <strong data-i18n="disclaimer-strong">⚠️ This is NOT an official Election Commission of India website.</strong>
+    <span data-i18n="disclaimer-text">This is an independent community tool to make historical voter rolls searchable.</span>
+    Official records: <a href="https://ceokarnataka.kar.nic.in" target="_blank" rel="noopener">ceokarnataka.kar.nic.in</a>
   </div>
 </div>
-<div class="tricolor-bar"></div>
 
-<div class="main">
-
-  <!-- VIDEOS -->
-  <div class="video-section">
-    <div class="video-section-header">
-      <span>🎬</span>
-      <h2>Watch: How to Use This Tool</h2>
-    </div>
-    <div class="video-grid">
-      <div class="video-item">
-        <div class="video-embed">
-          <iframe src="https://www.youtube.com/embed/14WGP450Uf0" allowfullscreen loading="lazy" title="How to Fill the ECI SIR Enumeration Form"></iframe>
-        </div>
-        <div class="video-caption">📋 How to Fill the ECI SIR Enumeration Form — 2002 Voter Mapping in Karnataka Explained</div>
-      </div>
-      <div class="video-item">
-        <div class="video-embed">
-          <iframe src="https://www.youtube.com/embed/mhZTiprJ5pE" allowfullscreen loading="lazy" title="Find Your 2002 Karnataka Voter Name Instantly"></iframe>
-        </div>
-        <div class="video-caption">🔍 Find Your 2002 Karnataka Voter Name Instantly using www.votersearch2002.com</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- QUICK GUIDE -->
-  <div class="quick-guide">
-    <div class="quick-guide-header">
-      <span>⚡</span>
-      <h2>Quick Guide</h2>
-    </div>
-    <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:12px 15px;margin-top:10px;margin-bottom:10px;font-size:12.5px;color:#78350F;line-height:1.65">
-      <div style="font-weight:700;margin-bottom:4px">📌 Note</div>
-      <div>Few districts are added in the full search. For other districts (not available in the dropdown), use the following 3 steps.</div>
-    </div>
-    <div class="guide-steps">
-      <div class="guide-step">
-        <div class="guide-step-num">1</div>
-        <div class="guide-step-text">
-          Visit <a href="https://voters.eci.gov.in" target="_blank" rel="noopener">voters.eci.gov.in</a> and <strong>look for the most likely polling station or part number</strong> in which your name may exist — there may be a few possible PDFs.
-        </div>
-      </div>
-      <div class="guide-step">
-        <div class="guide-step-num">2</div>
-        <div class="guide-step-text">
-          Go to <a href="https://ceo.karnataka.gov.in/voter_list/en" target="_blank" rel="noopener">ceo.karnataka.gov.in/voter_list/en</a> and <strong>download the PDF(s)</strong> for your AC and part number. File names look like <strong>A0850001.pdf</strong> — do not rename them.
-        </div>
-      </div>
-      <div class="guide-step">
-        <div class="guide-step-num">3</div>
-        <div class="guide-step-text">
-          <strong>Upload the PDF(s)</strong> below and enter your name and father's / husband's name in the search box. The tool will OCR and search the roll for you.
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- IMPORTANT LINKS -->
-  <div class="link-bar">
-    <span class="link-bar-label">🔗 Important Links</span>
-    <a class="link-pill" href="https://voters.eci.gov.in" target="_blank" rel="noopener">🗳️ voters.eci.gov.in</a>
-    <a class="link-pill" href="https://ceo.karnataka.gov.in/voter_list/en" target="_blank" rel="noopener">📋 CEO Karnataka Voter List</a>
-  </div>
-
-  <!-- WHATSAPP SHARE BAR -->
-  <div class="share-bar">
-    <div class="share-bar-label">📣 Know someone searching the 2002 voter list? Share this tool:</div>
-    <a class="btn-whatsapp" id="btn-whatsapp-share" href="#" target="_blank" rel="noopener">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Share on WhatsApp
-    </a>
-    <button class="btn-copy-link" id="btn-copy-link" onclick="copyPageLink()">🔗 Copy Link</button>
-  </div>
-
-  <!-- VOTE BANNER – prominent -->
-  <div class="vote-banner">
-    <div class="vote-banner-title">🗳️ Help us expand — vote for the next district!</div>
-    <div class="vote-banner-sub">
-      Currently searchable by name: <strong style="color:#FFD700">Bagalkot · BBMP / Bangalore Urban · Mysore</strong>.<br>
-      Vote below and the district with the most votes gets processed next.
-    </div>
-    <div class="vote-banner-inner">
-      <select id="sel-vote-district-new">
-        <option value="">Select a district to vote for…</option>
-        <option value="Bangalore Rural">Bangalore Rural</option>
-        <option value="Belgaum">Belgaum / Belagavi</option>
-        <option value="Bellary">Bellary / Ballari</option>
-        <option value="Bidar">Bidar</option>
-        <option value="Bijapur">Bijapur / Vijayapura</option>
-        <option value="Chamarajanagar">Chamarajanagar</option>
-        <option value="Chikmagalur">Chikmagalur</option>
-        <option value="Chitradurga">Chitradurga</option>
-        <option value="Dakshina Kannada">Dakshina Kannada</option>
-        <option value="Davanagere">Davanagere</option>
-        <option value="Dharwad">Dharwad</option>
-        <option value="Gadag">Gadag</option>
-        <option value="Gulbarga / Kalaburagi">Gulbarga / Kalaburagi</option>
-        <option value="Hassan">Hassan</option>
-        <option value="Haveri">Haveri</option>
-        <option value="Kodagu">Kodagu</option>
-        <option value="Kolar">Kolar</option>
-        <option value="Koppal">Koppal</option>
-        <option value="Mandya">Mandya</option>
-        <option value="Raichur">Raichur</option>
-        <option value="Shimoga / Shivamogga">Shimoga / Shivamogga</option>
-        <option value="Tumkur / Tumakuru">Tumkur / Tumakuru</option>
-        <option value="Udupi">Udupi</option>
-        <option value="Uttara Kannada">Uttara Kannada</option>
-        <option value="Chikkaballapura">Chikkaballapura</option>
-        <option value="Yadgir">Yadgir</option>
-      </select>
-      <button class="btn-vote" id="btn-vote-new" onclick="submitVoteNew()">🗳️ Cast My Vote</button>
-    </div>
-    <div class="vote-results-bar" id="vote-results-bar-new"></div>
-  </div>
+<!-- ═══════════════ MAIN ═══════════════ -->
+<main class="main" id="main-content" role="main">
 
   <!-- SEARCH MODE TABS -->
-  <div class="search-tabs" id="search-tabs" role="tablist">
-    <button class="search-tab active" id="tab-btn-db" role="tab" aria-selected="true" onclick="switchTab('db')">
+  <nav class="search-tabs" id="search-tabs" role="tablist" aria-label="Search mode">
+    <button class="search-tab active" id="tab-btn-db" role="tab" aria-selected="true" data-tab="db">
       <span class="tab-icon">🔍</span>
-      <span class="tab-label">Search by Name<br><span style="font-size:11px;font-weight:400;opacity:0.8">(no upload needed)</span></span>
+      <span class="tab-label" data-i18n="tab-db-label">Search by Name</span>
+      <span class="tab-desc" data-i18n="tab-db-desc">No upload needed</span>
       <span class="tab-badge" id="badge-live-districts">⚠️ Loading…</span>
     </button>
-    <button class="search-tab" id="tab-btn-upload" role="tab" aria-selected="false" onclick="switchTab('upload')">
-      <span class="tab-icon">📄</span>
-      <span class="tab-label">Upload PDF &amp; Search<br><span style="font-size:11px;font-weight:400;opacity:0.8">(any district)</span></span>
+    <button class="search-tab" id="tab-btn-upload" role="tab" aria-selected="false" data-tab="upload">
+      <span class="tab-icon">📂</span>
+      <span class="tab-label" data-i18n="tab-upload-label">Upload PDF &amp; Search</span>
+      <span class="tab-desc" data-i18n="tab-upload-desc">Any district</span>
       <span class="tab-badge">✅ All Karnataka</span>
     </button>
-  </div>
+  </nav>
 
-  <div class="card">
-    <div class="card-header">
-      <div class="step-badge">0</div>
-      <h2>Search by Elector Details | ಮತದಾರರ ವಿವರಗಳಿಂದ ಹುಡುಕಿ</h2>
-    </div>
-    <div class="card-body">
-      <div class="hint" style="margin-top:-4px;margin-bottom:12px">Search historical Karnataka electoral rolls (2002 onwards)</div>
+  <!-- ══════ TAB PANEL: DATABASE SEARCH ══════ -->
+  <div id="tab-panel-db">
 
-      <div class="search-row">
-        <div>
-          <label>District * | ಜಿಲ್ಲೆ</label>
-          <select id="sel-district">
-            <option value="">Select District | ಜಿಲ್ಲೆ ಆಯ್ಕೆ ಮಾಡಿ</option>
-          </select>
-        </div>
-        <div>
-          <label>Assembly Constituency * | ವಿಧಾನಸಭಾ ಕ್ಷೇತ್ರ</label>
-          <select id="sel-ac" disabled>
-            <option value="">Select AC | ಕ್ಷೇತ್ರ ಆಯ್ಕೆ ಮಾಡಿ</option>
-          </select>
-        </div>
-        <div>
-          <label>Part Number | ಭಾಗ ಸಂಖ್ಯೆ (Optional)</label>
-          <select id="sel-part" disabled>
-            <option value="">All Parts | ಎಲ್ಲಾ ಭಾಗಗಳು</option>
-          </select>
-        </div>
+    <!-- SEARCH CARD -->
+    <section class="card card-search">
+      <div class="card-header">
+        <div class="step-badge">🔍</div>
+        <h2><span data-i18n="search-card-title">Search by Elector Details</span> <span class="h2-kan">| ಮತದಾರರ ವಿವರಗಳಿಂದ ಹುಡುಕಿ</span></h2>
       </div>
+      <div class="card-body">
+        <p class="hint hint-intro" data-i18n="search-card-hint">Search historical Karnataka electoral rolls (2002 onwards)</p>
 
-      <div class="hint" style="margin-top:10px">
-        <div style="font-weight:700;color:var(--gray-700);margin-bottom:6px">Search Scope | ಹುಡುಕಾಟ ವ್ಯಾಪ್ತಿ</div>
-        <div style="display:flex;gap:14px;flex-wrap:wrap">
-          <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--gray-600);cursor:pointer">
-            <input type="radio" name="db-search-scope" id="rdo-part-only" value="part" checked>
-            Search selected part only (fast) | ಆಯ್ದ ಭಾಗ ಮಾತ್ರ (ವೇಗ)
-          </label>
-          <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--gray-600);cursor:pointer">
-            <input type="radio" name="db-search-scope" id="rdo-all-parts" value="ac">
-            Search all parts in this AC (slower) | ಈ ಕ್ಷೇತ್ರದ ಎಲ್ಲಾ ಭಾಗಗಳು (ಮಂದ)
-          </label>
+        <!-- Location Selectors -->
+        <div class="search-row">
+          <div class="field">
+            <label for="sel-district"><span data-i18n="lbl-district">District *</span> <span class="label-kan">| ಜಿಲ್ಲೆ</span></label>
+            <select id="sel-district">
+              <option value="" data-i18n="ph-district">Select District</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="sel-ac"><span data-i18n="lbl-ac">Assembly Constituency *</span> <span class="label-kan">| ವಿಧಾನಸಭಾ ಕ್ಷೇತ್ರ</span></label>
+            <select id="sel-ac" disabled>
+              <option value="" data-i18n="ph-ac">Select AC</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="sel-part"><span data-i18n="lbl-part">Part Number (Optional)</span> <span class="label-kan">| ಭಾಗ ಸಂಖ್ಯೆ</span></label>
+            <select id="sel-part" disabled>
+              <option value="" data-i18n="ph-part">All Parts</option>
+            </select>
+          </div>
         </div>
+
+        <!-- Search Scope -->
+        <fieldset class="scope-fieldset">
+          <legend><span data-i18n="scope-legend">Search Scope</span> <span class="label-kan">| ಹುಡುಕಾಟ ವ್ಯಾಪ್ತಿ</span></legend>
+          <div class="scope-options">
+            <label class="radio-label">
+              <input type="radio" name="db-search-scope" id="rdo-all-parts" value="ac" checked>
+              <span data-i18n="scope-all">Search entire constituency</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="db-search-scope" id="rdo-part-only" value="part">
+              <span data-i18n="scope-part">Specific part only (faster)</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Name Inputs -->
+        <div class="search-row">
+          <div class="field">
+            <label for="inp-voter-name"><span data-i18n="lbl-voter-name">Voter Full Name *</span> <span class="label-kan">| ಮತದಾರರ ಹೆಸರು</span></label>
+            <input type="text" id="inp-voter-name" data-i18n-placeholder="ph-voter-name" placeholder="e.g. Abdul Rehman" autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="inp-relative-name"><span data-i18n="lbl-relative-name">Father/Mother/Husband Name (Optional)</span> <span class="label-kan">| ಸಂಬಂಧಿತರ ಹೆಸರು</span></label>
+            <input type="text" id="inp-relative-name" data-i18n-placeholder="ph-relative-name" placeholder="e.g. Mohammad Ibrahim" autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="inp-age"><span data-i18n="lbl-age">Age (Optional, ±2yr)</span> <span class="label-kan">| ವಯಸ್ಸು</span></label>
+            <input type="text" id="inp-age" inputmode="numeric" data-i18n-placeholder="ph-age" placeholder="e.g. 35" autocomplete="off">
+          </div>
+        </div>
+
+        <!-- Advanced Filters Toggle -->
+        <div class="advanced-toggle-wrap">
+          <a href="#" id="lnk-advanced-filters" class="advanced-toggle" data-i18n="advanced-toggle">▼ Advanced Filters</a>
+        </div>
+
+        <div id="row-advanced-filters" class="search-row advanced-row" style="display:none">
+          <div class="field">
+            <label for="sel-rel-type">Relative Type <span class="label-kan">| ಸಂಬಂಧ</span></label>
+            <select id="sel-rel-type">
+              <option value="">Any | ಯಾವುದಾದರೂ</option>
+              <option value="F">F (Father | ತಂದೆ)</option>
+              <option value="M">M (Mother | ತಾಯಿ)</option>
+              <option value="H">H (Husband | ಗಂಡ)</option>
+              <option value="W">W (Wife | ಹೆಂಡತಿ)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="sel-gender">Gender <span class="label-kan">| ಲಿಂಗ</span></label>
+            <select id="sel-gender">
+              <option value="">Any | ಯಾವುದಾದರೂ</option>
+              <option value="M">M (Male | ಪುರುಷ)</option>
+              <option value="F">F (Female | ಮಹಿಳಾ)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="inp-voter-id">Voter ID | EPIC No.</label>
+            <input type="text" id="inp-voter-id" placeholder="e.g. ABC1234567">
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-row">
+          <div class="action-buttons">
+            <button class="btn btn-primary" id="btn-search" disabled data-i18n="btn-search-text">🔍 Search</button>
+            <button class="btn btn-outline" id="btn-global-search" title="Search ALL districts at once" data-i18n="btn-global-text">🌐 Search All Districts</button>
+            <button class="btn btn-ghost" id="btn-clear" data-i18n="btn-clear-text">✕ Clear</button>
+          </div>
+          <div id="search-hint" class="search-hint" data-i18n="search-hint-text">→ Select a District &amp; AC above, then enter a name</div>
+        </div>
+
+        <!-- Status / Progress -->
+        <div id="div-status-banner" class="alert alert-info" role="alert" aria-live="assertive" style="display:none"></div>
+        <div id="div-ac-search-more" style="display:none"></div>
+
+        <div id="div-search-progress" class="status-bar" role="status" aria-live="polite" style="display:none">
+          <div class="progress-header">
+            <div class="status-text progress-text">Searching...</div>
+            <button class="btn btn-outline btn-sm" id="btn-cancel-db-search" type="button">Cancel</button>
+          </div>
+          <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="progress-fill progress-bar-fill" style="width:0%"></div>
+          </div>
+        </div>
+
+        <!-- Results Area -->
+        <div id="div-db-results" aria-live="polite" aria-atomic="false">
+          <div id="empty-state" class="empty-state">
+            <div class="empty-state-icon">�</div>
+            <div class="empty-state-text" data-i18n="empty-title">Your search results will appear here</div>
+            <div class="empty-state-sub" data-i18n="empty-sub">Select a district, enter a name, and hit Search</div>
+          </div>
+        </div>
+        <div id="search-result-announcement" class="sr-only" aria-live="polite" aria-atomic="true"></div>
       </div>
+    </section>
 
-      <div class="search-row" style="margin-top:12px">
-        <div>
-          <label>Voter Full Name * | ಮತದಾರರ ಹೆಸರು</label>
-          <input type="text" id="inp-voter-name" placeholder="e.g. Abdul Rehman | ಅಬ್ದುಲ್ ರೆಹಮಾನ್">
+    <!-- SECONDARY CONTENT — collapsible -->
+    <details class="secondary-section" id="secondary-content">
+      <summary class="secondary-toggle">ℹ️ More: Videos, Guide, Links &amp; Vote for Next District</summary>
+      <div class="secondary-inner">
+
+        <!-- VIDEO SECTION -->
+        <div class="video-section">
+          <div class="video-section-header">
+            <span>🎬</span>
+            <h2>Watch: How to Use This Tool</h2>
+          </div>
+          <div class="video-grid">
+            <div class="video-item">
+              <div class="video-embed video-lazy" data-video-id="14WGP450Uf0" role="button" tabindex="0" aria-label="Play: How to Fill the ECI SIR Enumeration Form">
+                <img src="https://i.ytimg.com/vi/14WGP450Uf0/hqdefault.jpg" alt="How to Fill the ECI SIR Enumeration Form" loading="lazy">
+                <div class="video-play-btn" aria-hidden="true">&#9654;</div>
+              </div>
+              <div class="video-caption">📋 How to Fill the ECI SIR Enumeration Form — 2002 Voter Mapping in Karnataka</div>
+            </div>
+            <div class="video-item">
+              <div class="video-embed video-lazy" data-video-id="mhZTiprJ5pE" role="button" tabindex="0" aria-label="Play: Find Your 2002 Karnataka Voter Name Instantly">
+                <img src="https://i.ytimg.com/vi/mhZTiprJ5pE/hqdefault.jpg" alt="Find Your 2002 Karnataka Voter Name Instantly" loading="lazy">
+                <div class="video-play-btn" aria-hidden="true">&#9654;</div>
+              </div>
+              <div class="video-caption">🔍 Find Your 2002 Karnataka Voter Name Instantly</div>
+            </div>
+          </div>
         </div>
-        <div>
-          <label>Father/Mother/Husband Name | ಸಂಬಂಧಿತರ ಹೆಸರು (Optional)</label>
-          <input type="text" id="inp-relative-name" placeholder="e.g. Mohammad Ibrahim | ಮೊಹಮದ್ ಇಬ್ರಾಹಿಂ">
+
+        <!-- QUICK GUIDE -->
+        <div class="quick-guide">
+          <div class="quick-guide-header">
+            <span>⚡</span>
+            <h2>Quick Guide</h2>
+          </div>
+          <div class="guide-note">
+            <strong>📌 Note:</strong> Few districts are added in the full search. For other districts, use the following 3 steps.
+          </div>
+          <div class="guide-steps">
+            <div class="guide-step">
+              <div class="guide-step-num">1</div>
+              <div class="guide-step-text">
+                Visit <a href="https://voters.eci.gov.in" target="_blank" rel="noopener">voters.eci.gov.in</a> and <strong>look for the most likely polling station or part number</strong> where your name may exist.
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="guide-step-num">2</div>
+              <div class="guide-step-text">
+                Go to <a href="https://ceo.karnataka.gov.in/voter_list/en" target="_blank" rel="noopener">ceo.karnataka.gov.in/voter_list/en</a> and <strong>download the PDF(s)</strong> for your AC and part number.
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="guide-step-num">3</div>
+              <div class="guide-step-text">
+                <strong>Upload the PDF(s)</strong> below and enter your name. The tool will OCR and search the roll for you.
+              </div>
+            </div>
+          </div>
         </div>
-        <div>
-          <label>Age | ವಯಸ್ಸು (Optional, ±2yr tolerance)</label>
-          <input type="text" id="inp-age" inputmode="numeric" placeholder="e.g. 35">
+
+        <!-- IMPORTANT LINKS -->
+        <div class="link-bar">
+          <span class="link-bar-label">🔗 Important Links</span>
+          <a class="link-pill" href="https://voters.eci.gov.in" target="_blank" rel="noopener">🗳️ voters.eci.gov.in</a>
+          <a class="link-pill" href="https://ceo.karnataka.gov.in/voter_list/en" target="_blank" rel="noopener">📋 CEO Karnataka Voter List</a>
         </div>
+
+        <!-- SHARE BAR -->
+        <div class="share-bar">
+          <div class="share-bar-label">📣 Know someone searching the 2002 voter list? Share this tool:</div>
+          <a class="btn-whatsapp" id="btn-whatsapp-share" href="https://api.whatsapp.com/send?text=Search%20your%20name%20in%20Karnataka%202002%20voter%20rolls%20%E2%80%94%20https%3A%2F%2Fwww.votersearch2002.com" target="_blank" rel="noopener">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Share on WhatsApp
+          </a>
+          <button class="btn-copy-link" id="btn-copy-link">🔗 Copy Link</button>
+        </div>
+
+        <!-- VOTE BANNER -->
+        <div class="vote-banner">
+          <div class="vote-banner-title">🗳️ Help us expand — vote for the next district!</div>
+          <div class="vote-banner-sub">
+            Currently searchable: <strong>Bagalkot · BBMP / Bangalore Urban · Mysore</strong>.<br>
+            Vote below and the district with the most votes gets processed next.
+          </div>
+          <div class="vote-banner-inner">
+            <select id="sel-vote-district-new">
+              <option value="">Select a district to vote for…</option>
+              <option value="Bangalore Rural">Bangalore Rural</option>
+              <option value="Belgaum">Belgaum / Belagavi</option>
+              <option value="Bellary">Bellary / Ballari</option>
+              <option value="Bidar">Bidar</option>
+              <option value="Bijapur">Bijapur / Vijayapura</option>
+              <option value="Chamarajanagar">Chamarajanagar</option>
+              <option value="Chikmagalur">Chikmagalur</option>
+              <option value="Chitradurga">Chitradurga</option>
+              <option value="Dakshina Kannada">Dakshina Kannada</option>
+              <option value="Davanagere">Davanagere</option>
+              <option value="Dharwad">Dharwad</option>
+              <option value="Gadag">Gadag</option>
+              <option value="Gulbarga / Kalaburagi">Gulbarga / Kalaburagi</option>
+              <option value="Hassan">Hassan</option>
+              <option value="Haveri">Haveri</option>
+              <option value="Kodagu">Kodagu</option>
+              <option value="Kolar">Kolar</option>
+              <option value="Koppal">Koppal</option>
+              <option value="Mandya">Mandya</option>
+              <option value="Raichur">Raichur</option>
+              <option value="Shimoga / Shivamogga">Shimoga / Shivamogga</option>
+              <option value="Tumkur / Tumakuru">Tumkur / Tumakuru</option>
+              <option value="Udupi">Udupi</option>
+              <option value="Uttara Kannada">Uttara Kannada</option>
+              <option value="Chikkaballapura">Chikkaballapura</option>
+              <option value="Yadgir">Yadgir</option>
+            </select>
+            <button class="btn-vote" id="btn-vote-new">🗳️ Cast My Vote</button>
+          </div>
+          <div class="vote-results-bar" id="vote-results-bar-new"></div>
+        </div>
+
       </div>
+    </details>
 
-      <div class="hint" style="margin-top:10px">
-        <a href="#" id="lnk-advanced-filters" style="color:var(--blue);font-weight:600;text-decoration:underline">▼ Advanced Filters | ಹೆಚ್ಚಿನ ಫಿಲ್ಟರ್</a>
-      </div>
-
-      <div id="row-advanced-filters" class="search-row" style="margin-top:12px;display:none">
-        <div>
-          <label>Relative Type | ಸಂಬಂಧ: F/M/H/W</label>
-          <select id="sel-rel-type">
-            <option value="">Any | ಯಾವುದಾದರೂ</option>
-            <option value="F">F (Father | ತಂದೆ)</option>
-            <option value="M">M (Mother | ತಾಯಿ)</option>
-            <option value="H">H (Husband | ಗಂಡ)</option>
-            <option value="W">W (Wife | ಹೆಂಡತಿ)</option>
-          </select>
-        </div>
-        <div>
-          <label>Gender | ಲಿಂಗ: M/F</label>
-          <select id="sel-gender">
-            <option value="">Any | ಯಾವುದಾದರೂ</option>
-            <option value="M">M (Male | ಪುರುಷ)</option>
-            <option value="F">F (Female | ಮಹಿಳಾ)</option>
-          </select>
-        </div>
-        <div>
-          <label>Voter ID | EPIC No.</label>
-          <input type="text" id="inp-voter-id" placeholder="e.g. ABC1234567">
-        </div>
-      </div>
-
-      <div class="search-row" style="margin-top:14px">
-        <div>
-          <button class="btn btn-primary" id="btn-search" disabled>🔍 Search | ಹುಡುಕಿ</button>
-          <button class="btn btn-outline" id="btn-clear" style="margin-left:8px">✕ Clear | ತೆರವು</button>
-        </div>
-      </div>
-
-      <div id="div-status-banner" class="alert alert-info" style="display:none"></div>
-      <div id="div-ac-search-more" style="display:none"></div>
-
-      <div id="div-search-progress" class="status-bar" style="display:none">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
-          <div class="status-text progress-text">Searching...</div>
-          <button class="btn btn-outline btn-sm" id="btn-cancel-db-search" type="button">Cancel</button>
-        </div>
-        <div class="progress"><div class="progress-fill progress-bar-fill" style="width:0%"></div></div>
-      </div>
-
-      <div id="div-db-results"></div>
-    </div>
   </div><!-- /tab-panel-db -->
 
-  <!-- ── TAB PANEL: UPLOAD & SEARCH ── -->
+  <!-- ══════ TAB PANEL: UPLOAD & SEARCH ══════ -->
   <div id="tab-panel-upload" style="display:none">
-  <!-- Quick guide is relevant only for upload tab -->
 
-  <div class="card">
-    <div class="card-header">
-      <div class="step-badge">1</div>
-      <h2>Upload Electoral Roll PDF | ಮತದಾರರ ಪಟ್ಟಿ PDF ಅಪ್ಲೋಡ್</h2>
-    </div>
-    <div class="card-body">
-
-      <div class="upload-zone" id="uploadZone">
-        <input type="file" id="pdfInput" accept=".pdf" multiple onchange="onFileSelected(event)">
-        <div class="upload-icon">📄</div>
-        <p>Click to upload or drag & drop PDF(s) here</p>
-        <small>CEO Karnataka format only — e.g. <b>A1620037.pdf</b>. AC is auto-detected from filename.</small>
+    <!-- STEP 1: UPLOAD -->
+    <section class="card">
+      <div class="card-header">
+        <div class="step-badge">1</div>
+        <h2>Upload Electoral Roll PDF <span class="h2-kan">| ಮತದಾರರ ಪಟ್ಟಿ PDF ಅಪ್ಲೋಡ್</span></h2>
       </div>
-      <div id="multiFileNotice" class="alert alert-info" style="display:none;margin-top:10px">
-        <span>⏱️</span>
-        <span id="multiFileNoticeText"></span>
-      </div>
-
-      <div class="status-bar" id="statusBar">
-        <div class="status-text" id="statusText">Processing...</div>
-        <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
-      </div>
-
-      <div id="loadedPdfs" class="pdf-chips" style="margin-top:12px;"></div>
-      <div class="clear-data-wrap" id="clearDataWrap" style="display:none">
-        <button class="btn btn-outline btn-sm" onclick="clearStoredData()" style="margin-top:8px;color:#991B1B;border-color:#FECACA">
-          🗑️ Clear all stored PDF data
-        </button>
-        <span style="font-size:11px;color:var(--gray-400);margin-left:8px">Removes all cached results — useful when uploading a new set of PDFs</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- STEP 2: SEARCH -->
-  <div class="card">
-    <div class="card-header">
-      <div class="step-badge">2</div>
-      <h2>Search Voter | ಮತದಾರರ ಹೆಸರು ಹುಡುಕಿ</h2>
-    </div>
-    <div class="card-body">
-      <div class="search-row">
-        <div>
-          <label>Your Name | ನಿಮ್ಮ ಹೆಸರು (full or partial)</label>
-          <input type="text" id="searchName" placeholder="e.g. Syed or ಸ್ಯೆಯದ್">
-          <div class="hint">Works in English, Kannada, or any phonetic spelling</div>
+      <div class="card-body">
+        <div class="upload-zone" id="uploadZone">
+          <input type="file" id="pdfInput" accept=".pdf" multiple>
+          <div class="upload-icon">📄</div>
+          <p>Click to upload or drag &amp; drop PDF(s) here</p>
+          <small>CEO Karnataka format only — e.g. <strong>A1620037.pdf</strong>. AC is auto-detected.</small>
         </div>
-        <div>
-          <label>Father's / Husband's Name | ತಂದೆ / ಗಂಡನ ಹೆಸರು</label>
-          <input type="text" id="searchRelative" placeholder="e.g. Mohammed or partial name">
-          <div class="hint">Optional — helps narrow down results</div>
+        <div id="multiFileNotice" class="alert alert-info" style="display:none;margin-top:10px">
+          <span>⏱️</span>
+          <span id="multiFileNoticeText"></span>
         </div>
-        <div>
-          <button class="btn btn-primary" id="searchBtn" onclick="performSearch()">
-            🔍 Search
-          </button>
+        <div class="status-bar" id="statusBar">
+          <div class="status-text" id="statusText">Processing...</div>
+          <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+        </div>
+        <div id="loadedPdfs" class="pdf-chips"></div>
+        <div class="clear-data-wrap" id="clearDataWrap" style="display:none">
+          <button class="btn btn-outline btn-sm btn-danger" id="btn-clear-stored">🗑️ Clear all stored PDF data</button>
+          <span class="clear-hint">Removes cached results — useful when uploading new PDFs</span>
         </div>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <!-- RESULTS -->
-  <div id="resultsSection" style="display:none">
-    <!-- Accuracy & transliteration disclaimer — shown with every result set -->
-    <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:12px 15px;margin-bottom:12px;font-size:12.5px;color:#78350F;line-height:1.65">
-      <div style="font-weight:700;margin-bottom:4px">📋 Before using these results:</div>
-      <div>🔤 <strong>English names are transliterated from Kannada</strong> and may appear misspelled — the Kannada name above is more accurate.</div>
-      <div style="margin-top:3px">📊 <strong>This tool extracts ~75–80% of records</strong> via OCR. If your name is missing, open the original PDF and search manually.</div>
-      <div style="margin-top:3px">⭐ When you find your name, <strong>note down the AC Number and Part Number</strong> shown on the card.</div>
+    <!-- STEP 2: SEARCH -->
+    <section class="card">
+      <div class="card-header">
+        <div class="step-badge">2</div>
+        <h2>Search Voter <span class="h2-kan">| ಮತದಾರರ ಹೆಸರು ಹುಡುಕಿ</span></h2>
+      </div>
+      <div class="card-body">
+        <div class="search-row">
+          <div class="field">
+            <label for="searchName">Your Name <span class="label-kan">| ನಿಮ್ಮ ಹೆಸರು</span> (full or partial)</label>
+            <input type="text" id="searchName" placeholder="e.g. Syed or ಸೈಯದ್">
+            <div class="hint">Works in English, Kannada, or any phonetic spelling</div>
+          </div>
+          <div class="field">
+            <label for="searchRelative">Father's / Husband's Name <span class="label-kan">| ತಂದೆ / ಗಂಡನ ಹೆಸರು</span></label>
+            <input type="text" id="searchRelative" placeholder="e.g. Mohammed or partial name">
+            <div class="hint">Optional — helps narrow down results</div>
+          </div>
+          <div class="field field-btn">
+            <button class="btn btn-primary" id="searchBtn">🔍 Search</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <div id="resultsSection" style="display:none">
+      <div class="results-disclaimer">
+        <div class="disclaimer-title">📋 Before using these results:</div>
+        <div>🔤 <strong>English names are transliterated from Kannada</strong> and may appear misspelled — the Kannada name is more accurate.</div>
+        <div>📊 <strong>This tool extracts ~75–80% of records</strong> via OCR. If your name is missing, open the original PDF.</div>
+        <div>⭐ When you find your name, <strong>note down the AC Number and Part Number</strong> shown on the card.</div>
+      </div>
+      <div class="results-header">
+        <div class="results-count" id="resultsCount"></div>
+        <button class="btn btn-outline btn-sm" id="btn-clear-results">✕ Clear</button>
+      </div>
+      <div id="resultsContainer"></div>
     </div>
-    <div class="results-header">
-      <div class="results-count" id="resultsCount"></div>
-      <button class="btn btn-outline btn-sm" onclick="clearResults()">✕ Clear</button>
-    </div>
-    <div id="resultsContainer"></div>
-  </div>
 
   </div><!-- /tab-panel-upload -->
 
-</div><!-- /main -->
+</main>
 
-<!-- ADMIN PANEL (activate via URL #admin) -->
-<div id="admin-panel">
+<!-- ═══════════════ ADMIN PANEL ═══════════════ -->
+<div id="admin-panel" class="admin-panel">
   <h4>🔐 Admin: District Votes (this browser)</h4>
   <div id="admin-vote-table"></div>
-  <div style="color:#888;font-size:10px;margin-bottom:8px">These are votes stored in THIS browser's localStorage only.<br>For cross-user tracking, integrate Cloudflare KV (see code comments).</div>
-  <button class="admin-btn admin-btn-json" onclick="adminCopyJSON()">Copy JSON</button>
-  <button class="admin-btn admin-btn-csv" onclick="adminCopyCSV()">Copy CSV</button>
-  <button class="admin-btn" style="background:var(--gray-200)" onclick="document.getElementById('admin-panel').style.display='none'">✕ Close</button>
+  <div class="admin-note">These are votes stored in THIS browser's localStorage only.</div>
+  <button class="admin-btn" id="btn-admin-json">Copy JSON</button>
+  <button class="admin-btn" id="btn-admin-csv">Copy CSV</button>
+  <button class="admin-btn admin-btn-close" id="btn-admin-close">✕ Close</button>
 </div>
 
-<!-- FEEDBACK FLOATING BUTTON -->
-<button class="feedback-fab" onclick="openFeedback()">
-  💬 Feedback
-</button>
+<!-- ═══════════════ FEEDBACK FAB ═══════════════ -->
+<button class="feedback-fab" id="btn-feedback" data-i18n="feedback-btn">💬 Feedback</button>
 
-<!-- FEEDBACK MODAL -->
-<div class="feedback-modal-overlay" id="feedbackModalOverlay" onclick="closeFeedbackIfBg(event)">
+<!-- ═══════════════ FEEDBACK MODAL ═══════════════ -->
+<div class="feedback-modal-overlay" id="feedbackModalOverlay">
   <div class="feedback-modal">
-    <h3>💬 Send Feedback</h3>
-    <p>Found a bug or have a suggestion? Take a screenshot of the issue and describe it below. Your feedback goes directly to the developer.</p>
-    <label style="font-size:13px;font-weight:700;color:var(--gray-600);display:block;margin-bottom:6px">📸 Screenshot (optional)</label>
+    <h3 data-i18n="feedback-title">💬 Send Feedback</h3>
+    <p data-i18n="feedback-desc">Found a bug or have a suggestion? Describe it below.</p>
+    <label class="feedback-label" data-i18n="feedback-ss-label">📸 Screenshot (optional)</label>
     <div class="feedback-screenshot-area" id="feedbackSSArea">
-      <input type="file" id="feedbackSSInput" accept="image/*" onchange="previewScreenshot(event)">
+      <input type="file" id="feedbackSSInput" accept="image/*">
       <div class="ss-icon">📷</div>
-      <p>Click to attach a screenshot</p>
+      <p data-i18n="feedback-ss-text">Click to attach a screenshot</p>
       <img id="feedback-preview" src="" alt="screenshot preview">
     </div>
-    <label style="font-size:13px;font-weight:700;color:var(--gray-600);display:block;margin-bottom:6px">📝 Describe the issue or suggestion *</label>
-    <textarea id="feedbackText" placeholder="e.g. When I search for 'Syed Banu' in Bagalkot I get no results, but the name appears in the PDF as 'Syedabanu'…"></textarea>
+    <label class="feedback-label" data-i18n="feedback-desc-label">📝 Describe the issue or suggestion *</label>
+    <textarea id="feedbackText" placeholder="e.g. When I search for 'Syed Banu' in Bagalkot I get no results, but the name appears in the PDF…"></textarea>
     <div class="feedback-sending" id="feedbackSending">
-      <div class="spinner" style="border-color:var(--saffron);border-top-color:transparent;width:24px;height:24px;margin:0 auto 8px"></div>
-      <div style="font-size:13px;color:var(--gray-600)">Sending feedback…</div>
+      <div class="spinner"></div>
+      <div>Sending feedback…</div>
     </div>
     <div class="feedback-actions">
-      <button class="btn btn-primary" style="flex:1" onclick="submitFeedback()">📨 Send Feedback</button>
-      <button class="btn btn-outline" onclick="closeFeedback()">Cancel</button>
+      <button class="btn btn-primary" id="btn-submit-feedback" data-i18n="feedback-submit">📨 Send Feedback</button>
+      <button class="btn btn-outline" id="btn-cancel-feedback" data-i18n="feedback-cancel">Cancel</button>
     </div>
-    <div style="font-size:11px;color:var(--gray-400);margin-top:10px;text-align:center">Feedback sent to: umar.xperiments@gmail.com · Subject: votershare2002</div>
+    <div class="feedback-footer">Feedback sent to: umar.xperiments@gmail.com</div>
   </div>
 </div>
 
-<footer>
-  <p>This tool is for community service. Data is sourced from official CEO Karnataka electoral rolls.</p>
-  <p style="margin-top:4px">ಈ ಸೇವೆ ಸಮುದಾಯ ಸೇವೆಗಾಗಿ · All data stored locally in your browser</p>
-  <p id="statsFooter" style="margin-top:8px;font-size:13px;color:var(--gray-600)">👥 150 visitors · ✅ 150 successful voter searches</p>
-</footer>
-
-<!-- SUCCESS MODAL -->
+<!-- ═══════════════ SUCCESS MODAL ═══════════════ -->
 <div class="modal-overlay" id="successModal">
   <div class="modal">
     <div class="big-check">✅</div>
-    <h3>Voter Found! | ಮತದಾರರು ಪತ್ತೆಯಾಗಿದ್ದಾರೆ!</h3>
-    <p>Your voter details have been located in the electoral roll.</p>
+    <h3 data-i18n="modal-title">Voter Found!</h3>
+    <p data-i18n="modal-desc">Your voter details have been located in the electoral roll.</p>
     <div class="modal-info" id="modalInfo"></div>
-    <div style="background:#FFF3CD;border:1.5px solid #FF6B00;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#7A3A00;text-align:left">
+    <div class="modal-note" data-i18n-html="modal-note">
       ⭐ <strong>Note down your AC Number &amp; Part Number</strong> — you will need these when verifying your vote at the polling booth.
     </div>
-    <button class="btn btn-success" onclick="closeModal()" style="width:100%">Done | ಮುಗಿಯಿತು</button>
+    <button class="btn btn-success" id="btn-close-modal" data-i18n="modal-done">Done</button>
   </div>
 </div>
 
-<script>
-const dbState = {
-  masterIndex: null,
-  acIndex: null,
-  cacheBuster: null,
-  loadedParts: {},
-  selectedDist: null,
-  selectedAC: null,
-  selectedPart: null,
-  searchScope: 'part',
-  isSearching: false,
-  abortCtrl: null,
-  allResults: [],
-  displayedCount: 0,
-  PAGE_SIZE: 50,
-  acAllParts: null,
-  acAllPartsIndex: 0,
-  acAllPartsChunk: 150,
-  lastDBParams: null
-};
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer class="footer" role="contentinfo">
+  <p data-i18n="footer-text">This tool is for community service. Data sourced from official CEO Karnataka electoral rolls.</p>
+  <p class="footer-kan" data-i18n="footer-local">All data stored locally in your browser</p>
+  <p id="statsFooter" class="footer-stats"></p>
+</footer>
+
+<!-- ═══════════════ SCRIPTS ═══════════════ -->
+<script src="search-utils.js"></script>
+<script src="indexed-search.js"></script>
+<script src="search-engine.js"></script>
+<script src="state.js"></script>
+<script src="data-fetcher.js"></script>
+<script src="ui-renderer.js"></script>
+<script src="i18n.js"></script>
+<script src="monitor.js"></script>
+<script src="app.js"></script>
+
+<!-- Heavy libraries deferred (PDF upload tab only) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" integrity="sha384-/1qUCSGwTur9vjf/z9lmu/eCUYbpOTgSjmpbMQZ1/CtX2v/WcAIKqRv+U1DUCG6e" crossorigin="anonymous" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js" integrity="sha384-PCSoOZTpbkikBEtd/+uV3WNdc676i9KUf01KOA8CnJotvlx8rRrETbDuwdjqTYvt" crossorigin="anonymous" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js" integrity="sha384-GJqSu7vueQ9qN0E9yLPb3Wtpd7OrgK8KmYzC8T1IysG1bcvxvIO4qtYR/D3A991F" crossorigin="anonymous" defer></script>
 
-function siteBasePath() {
-  const p = window.location.pathname || '/';
-  const idx = p.indexOf('/apps/web/');
-  if (idx >= 0) return p.slice(0, idx + 1);
-  if (p.endsWith('/')) return p;
-  return p.replace(/[^/]*$/, '');
-}
-
-function noCacheUrl(url) {
-  return `${url}${url.includes('?') ? '&' : '?'}t=${Date.now()}`;
-}
-
-function withCacheBuster(url) {
-  const v =
-    (dbState.masterIndex && dbState.masterIndex.generated_at)
-      ? dbState.masterIndex.generated_at
-      : (dbState.cacheBuster || '1');
-  return `${url}${url.includes('?') ? '&' : '?'}v=${encodeURIComponent(String(v))}`;
-}
-
-async function initDBSearch() {
-  try {
-    const res = await fetch(noCacheUrl(siteBasePath() + 'data/master_index.json'), { cache: 'no-store' });
-    dbState.masterIndex = await res.json();
-    dbState.cacheBuster = (dbState.masterIndex && dbState.masterIndex.generated_at) ? dbState.masterIndex.generated_at : String(Date.now());
-
-    const sel = document.getElementById('sel-district');
-    const districts = (dbState.masterIndex || {}).districts || {};
-
-    const liveCount =
-      (dbState.masterIndex && dbState.masterIndex.stats && typeof dbState.masterIndex.stats.total_districts_live === 'number')
-        ? dbState.masterIndex.stats.total_districts_live
-        : Object.values(districts).filter(d => d && d.status === 'live').length;
-    const badge = document.getElementById('badge-live-districts');
-    if (badge) badge.textContent = `⚠️ ${liveCount} districts only`;
-
-    Object.entries(districts)
-      .filter(([, d]) => d && d.status === 'live')
-      .sort((a, b) => (a[1].display_name || '').localeCompare(b[1].display_name || ''))
-      .forEach(([key, d]) => {
-        sel.add(new Option(d.display_name, key));
-      });
-
-    if (sel.options.length > 1) {
-      const sep = new Option('── Coming Soon ──', '', false, false);
-      sep.disabled = true;
-      sel.add(sep);
-    }
-
-    Object.entries(districts)
-      .filter(([, d]) => d && d.status === 'coming_soon')
-      .sort((a, b) => (a[1].display_name || '').localeCompare(b[1].display_name || ''))
-      .forEach(([key, d]) => {
-        const opt = new Option(d.display_name + ' (Coming Soon)', key);
-        opt.disabled = true;
-        sel.add(opt);
-      });
-
-    sel.addEventListener('change', dbOnDistrictChange);
-    document.getElementById('sel-ac').addEventListener('change', dbOnACChange);
-    document.getElementById('sel-part').addEventListener('change', dbOnPartChange);
-    document.getElementById('btn-clear').addEventListener('click', clearSearch);
-    document.getElementById('btn-search').addEventListener('click', () => {
-      window.__searchMode = 'db';
-      performSearch();
-    });
-    const btnCancel = document.getElementById('btn-cancel-db-search');
-    if (btnCancel) btnCancel.addEventListener('click', cancelDBSearch);
-
-    const r1 = document.getElementById('rdo-part-only');
-    const r2 = document.getElementById('rdo-all-parts');
-    if (r1) r1.addEventListener('change', applyDBSearchScopeToUI);
-    if (r2) r2.addEventListener('change', applyDBSearchScopeToUI);
-
-    const lnk = document.getElementById('lnk-advanced-filters');
-    if (lnk) {
-      lnk.addEventListener('click', (e) => {
-        e.preventDefault();
-        toggleAdvancedFilters();
-      });
-    }
-
-    const last = sessionStorage.getItem('lastDBSearch');
-    if (last) restoreLastSearch(JSON.parse(last));
-
-    installSearchRouter();
-    applyDBSearchScopeToUI();
-  } catch (e) {
-    showBanner('error', 'Could not load district list. Please refresh. | ಜಿಲ್ಲೆಗಳ ಪಟ್ಟಿಯನ್ನು ಲೋಡ್ ಮಾಡಲಾಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ರಿಫ್ರೆಶ್ ಮಾಡಿ.');
-  }
-}
-
-function restoreLastSearch(last) {
-  if (!last) return;
-  const distSel = document.getElementById('sel-district');
-  if (last.searchScope === 'ac') {
-    const r2 = document.getElementById('rdo-all-parts');
-    if (r2) r2.checked = true;
-  } else {
-    const r1 = document.getElementById('rdo-part-only');
-    if (r1) r1.checked = true;
-  }
-  if (last.selectedDist) {
-    distSel.value = last.selectedDist;
-    dbOnDistrictChange();
-  }
-  if (last.voterName) document.getElementById('inp-voter-name').value = last.voterName;
-  if (last.relativeName) document.getElementById('inp-relative-name').value = last.relativeName;
-  if (last.age) document.getElementById('inp-age').value = last.age;
-  if (last.relType) document.getElementById('sel-rel-type').value = last.relType;
-  if (last.gender) document.getElementById('sel-gender').value = last.gender;
-  if (last.voterId) document.getElementById('inp-voter-id').value = last.voterId;
-  applyDBSearchScopeToUI();
-}
-
-function getDBSearchScope() {
-  const r2 = document.getElementById('rdo-all-parts');
-  return (r2 && r2.checked) ? 'ac' : 'part';
-}
-
-function applyDBSearchScopeToUI() {
-  dbState.searchScope = getDBSearchScope();
-  const partSel = document.getElementById('sel-part');
-  if (!partSel) return;
-  if (dbState.searchScope === 'ac') {
-    partSel.value = '';
-    dbState.selectedPart = null;
-    partSel.disabled = true;
-    if (partSel.options && partSel.options.length) partSel.options[0].textContent = 'All parts will be searched | ಎಲ್ಲಾ ಭಾಗಗಳು';
-  } else {
-    if (partSel.options && partSel.options.length) partSel.options[0].textContent = 'Select Part | ಭಾಗ ಆಯ್ಕೆ ಮಾಡಿ';
-    if (dbState.selectedAC) partSel.disabled = false;
-  }
-}
-
-function dbOnDistrictChange() {
-  const key = document.getElementById('sel-district').value;
-  dbState.selectedDist = key || null;
-
-  resetDropdown('sel-ac', 'Select AC | ಕ್ಷೇತ್ರ ಆಯ್ಕೆ ಮಾಡಿ');
-  resetDropdown('sel-part', 'All Parts | ಎಲ್ಲಾ ಭಾಗಗಳು');
-  clearDBResults();
-
-  document.getElementById('btn-search').disabled = true;
-
-  if (!key) {
-    hideBanner();
-    return;
-  }
-
-  const dist = (dbState.masterIndex.districts || {})[key];
-
-  if (!dist || dist.status === 'coming_soon') {
-    showBanner(
-      'yellow',
-      `⏳ Data for ${(dist && dist.display_name ? dist.display_name.split('|')[0].trim() : key)} is being processed. Currently live: Bagalkot, Bangalore Urban. | ⏳ ಡೇಟಾ ಸಿದ್ಧವಾಗುತ್ತಿದೆ. ಈಗ ಲೈವ್: ಬಾಗಲಕೋಟೆ, ಬೆಂಗಳೂರು ನಗರ.`
-    );
-    return;
-  }
-
-  const acSel = document.getElementById('sel-ac');
-  acSel.disabled = false;
-  (dist.acs || [])
-    .slice()
-    .sort((a, b) => (parseInt(a.ac_num, 10) || 0) - (parseInt(b.ac_num, 10) || 0))
-    .forEach((ac) => {
-      const acLabel = formatAcLabel(key, ac.ac_num, ac.ac_name);
-      acSel.add(
-        new Option(
-          `${acLabel} (${(ac.voter_count || 0).toLocaleString()})`,
-          ac.ac_num
-        )
-      );
-    });
-
-  showBanner(
-    'green',
-    `✅ ${dist.display_name.split('|')[0].trim()} — ${(dist.voter_count || 0).toLocaleString()} voters across ${dist.ac_count} constituencies | ✅ ${(dist.voter_count || 0).toLocaleString()} ಮತದಾರರು · ${dist.ac_count} ಕ್ಷೇತ್ರಗಳು`
-  );
-  applyDBSearchScopeToUI();
-}
-
-async function dbOnACChange() {
-  const acNum = document.getElementById('sel-ac').value;
-  dbState.selectedAC = acNum || null;
-
-  resetDropdown('sel-part', 'All Parts | ಎಲ್ಲಾ ಭಾಗಗಳು');
-  clearDBResults();
-  document.getElementById('btn-search').disabled = true;
-  if (!acNum) return;
-
-  showBanner('blue', '🔵 Loading... ಲೋಡ್ ಆಗುತ್ತಿದೆ...');
-
-  try {
-    const url = withCacheBuster(`${siteBasePath()}data/districts/${dbState.selectedDist}/${acNum}_index.json`);
-    const res = await fetch(url);
-    dbState.acIndex = await res.json();
-
-    const partSel = document.getElementById('sel-part');
-    (dbState.acIndex.parts || []).forEach((p) => {
-      partSel.add(new Option(`Part ${p.part_num} (${p.voter_count} voters)`, p.part_num));
-    });
-    partSel.disabled = false;
-    applyDBSearchScopeToUI();
-
-    showBanner(
-      'green',
-      `✅ ${dbState.acIndex.ac_name} — ${(dbState.acIndex.total_voters || 0).toLocaleString()} voters, ${(dbState.acIndex.parts || []).length} parts | ✅ ${(dbState.acIndex.total_voters || 0).toLocaleString()} ಮತದಾರರು · ${(dbState.acIndex.parts || []).length} ಭಾಗಗಳು`
-    );
-
-    document.getElementById('btn-search').disabled = false;
-  } catch (e) {
-    showBanner('error', 'Failed to load AC data. Please try again. | ಕ್ಷೇತ್ರದ ಡೇಟಾ ಲೋಡ್ ಆಗಲಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.');
-  }
-}
-
-function dbOnPartChange() {
-  const val = document.getElementById('sel-part').value;
-  dbState.selectedPart = val ? parseInt(val, 10) : null;
-}
-
-function resetDropdown(id, placeholder) {
-  const sel = document.getElementById(id);
-  sel.innerHTML = `<option value="">${placeholder}</option>`;
-  sel.disabled = true;
-}
-
-function clearDBResults() {
-  dbState.allResults = [];
-  dbState.displayedCount = 0;
-  dbState.acAllParts = null;
-  dbState.acAllPartsIndex = 0;
-  dbState.lastDBParams = null;
-  hideMorePartsControl();
-  const div = document.getElementById('div-db-results');
-  if (div) div.innerHTML = '';
-  hideProgress();
-}
-
-function hideMorePartsControl() {
-  const div = document.getElementById('div-ac-search-more');
-  if (!div) return;
-  div.style.display = 'none';
-  div.innerHTML = '';
-}
-
-function renderMorePartsControl() {
-  const div = document.getElementById('div-ac-search-more');
-  if (!div) return;
-
-  const total = (dbState.acAllParts && Array.isArray(dbState.acAllParts)) ? dbState.acAllParts.length : 0;
-  const searched = parseInt(dbState.acAllPartsIndex, 10) || 0;
-  const remaining = Math.max(0, total - searched);
-  if (!total || remaining <= 0) {
-    hideMorePartsControl();
-    return;
-  }
-
-  const nextCount = Math.min(dbState.acAllPartsChunk || 150, remaining);
-  div.style.display = 'block';
-  div.innerHTML = `
-    <div class="alert alert-warning" style="margin-top:10px;align-items:center">
-      <span>⚠️</span>
-      <span style="flex:1">
-        Searched ${searched}/${total} parts. Load remaining parts? | ${searched}/${total} ಭಾಗಗಳು ಹುಡುಕಲಾಗಿದೆ. ಉಳಿದ ಭಾಗಗಳನ್ನು ಹುಡುಕಬೇಕೇ?
-      </span>
-      <button class="btn btn-primary btn-sm" id="btn-search-next-parts" type="button">Search next ${nextCount}</button>
-      <button class="btn btn-outline btn-sm" id="btn-search-all-remaining" type="button" style="margin-left:6px">Search all remaining</button>
-    </div>
-  `;
-
-  const b1 = document.getElementById('btn-search-next-parts');
-  const b2 = document.getElementById('btn-search-all-remaining');
-  if (b1) b1.addEventListener('click', () => continueDBAllPartsSearch('next'));
-  if (b2) b2.addEventListener('click', () => continueDBAllPartsSearch('all'));
-}
-
-async function continueDBAllPartsSearch(mode = 'next') {
-  if (dbState.isSearching) return;
-  const params = dbState.lastDBParams;
-  if (!params || params.scopeMode !== 'ac') return;
-
-  const allParts = (dbState.acAllParts && Array.isArray(dbState.acAllParts)) ? dbState.acAllParts : [];
-  const totalAll = allParts.length;
-  const startIndex = parseInt(dbState.acAllPartsIndex, 10) || 0;
-  if (!totalAll || startIndex >= totalAll) {
-    hideMorePartsControl();
-    showBanner('green', '✅ All parts already searched. | ✅ ಎಲ್ಲಾ ಭಾಗಗಳು ಈಗಾಗಲೇ ಹುಡುಕಲಾಗಿದೆ.');
-    return;
-  }
-
-  const remaining = totalAll - startIndex;
-  const count = (mode === 'all')
-    ? remaining
-    : Math.min(dbState.acAllPartsChunk || 150, remaining);
-
-  const partsToSearch = allParts.slice(startIndex, startIndex + count);
-  await runDBSearchOverParts({
-    district: params.district,
-    acNum: params.acNum,
-    partsToSearch,
-    chunkStartIndex: startIndex,
-    totalAllParts: totalAll,
-    filters: params.filters,
-    voterName: params.voterName
-  });
-}
-
-async function loadPartData(district, acNum, partNum) {
-  const key = `${district}_${acNum}_${partNum}`;
-  if (dbState.loadedParts[key]) return dbState.loadedParts[key];
-  const url = withCacheBuster(`${siteBasePath()}data/districts/${district}/${acNum}/part_${partNum}.json`);
-  try {
-    const res = await fetch(url, { signal: dbState.abortCtrl ? dbState.abortCtrl.signal : undefined });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    const voters = (data && data.voters) ? data.voters : [];
-    const distKey = String(district || '').toUpperCase();
-    const acInt = parseInt(acNum, 10);
-    const withMeta = voters.map(v => ({
-      ...v,
-      d: distKey,
-      ac: isNaN(acInt) ? null : acInt,
-      pn: v && v.pn != null ? v.pn : partNum
-    }));
-    dbState.loadedParts[key] = withMeta;
-    return dbState.loadedParts[key];
-  } catch (e) {
-    console.warn(`Part ${partNum} failed to load:`, e);
-    return [];
-  }
-}
-
-async function runDBSearchOverParts({ district, acNum, partsToSearch, chunkStartIndex, totalAllParts, filters, voterName }) {
-  if (dbState.abortCtrl) dbState.abortCtrl.abort();
-  dbState.abortCtrl = new AbortController();
-  dbState.isSearching = true;
-  document.getElementById('btn-search').disabled = true;
-  hideMorePartsControl();
-
-  const BATCH = 10;
-  const totalChunk = partsToSearch.length;
-  let searchedInChunk = 0;
-
-  for (let i = 0; i < partsToSearch.length; i += BATCH) {
-    if (dbState.abortCtrl.signal.aborted) break;
-    const batch = partsToSearch.slice(i, i + BATCH);
-    const end = Math.min(i + BATCH, totalChunk);
-    const searchedOverall = Math.min(totalAllParts, chunkStartIndex + i);
-    const endOverall = Math.min(totalAllParts, chunkStartIndex + end);
-
-    showProgress(
-      `Searching parts ${searchedOverall + 1}–${endOverall} of ${totalAllParts}... Found ${dbState.allResults.length} so far | ಭಾಗಗಳು ${searchedOverall + 1}–${endOverall}/${totalAllParts} ಹುಡುಕುತ್ತಿದೆ...`,
-      totalAllParts ? (searchedOverall / totalAllParts) * 100 : 0
-    );
-
-    const batchData = await Promise.all(batch.map(pn => loadPartData(district, acNum, pn)));
-    const matches = batchData
-      .flat()
-      .map(v => {
-        const scored = scoreVoterRecord(v, filters);
-        if (scored <= 0) return null;
-        return { ...v, _score: scored };
-      })
-      .filter(Boolean);
-
-    dbState.allResults.push(...matches);
-    searchedInChunk += batch.length;
-
-    if (dbState.allResults.length > 0 && dbState.allResults.length <= 2000) {
-      dbState.allResults.sort((a, b) => (b._score || 0) - (a._score || 0));
-    }
-
-    const searchedNowOverall = Math.min(totalAllParts, chunkStartIndex + searchedInChunk);
-    if (dbState.allResults.length > 0 && dbState.displayedCount === 0) {
-      renderResults({ isPartial: searchedNowOverall < totalAllParts, searched: searchedNowOverall, total: totalAllParts, voterName });
-    } else if (dbState.allResults.length > 0) {
-      const badge = document.querySelector('.results-count');
-      if (badge) {
-        badge.textContent = `Found ${dbState.allResults.length}+ matches (searching ${searchedNowOverall}/${totalAllParts} parts...)`;
-      }
-    }
-  }
-
-  if (dbState.abortCtrl.signal.aborted) {
-    dbState.acAllPartsIndex = Math.min(totalAllParts, chunkStartIndex + searchedInChunk);
-    dbState.isSearching = false;
-    document.getElementById('btn-search').disabled = false;
-    hideProgress();
-    if (dbState.lastDBParams && dbState.lastDBParams.scopeMode === 'ac') renderMorePartsControl();
-    return;
-  }
-
-  dbState.acAllPartsIndex = Math.min(totalAllParts, chunkStartIndex + searchedInChunk);
-  dbState.isSearching = false;
-  document.getElementById('btn-search').disabled = false;
-  hideProgress();
-
-  const searchedOverallFinal = parseInt(dbState.acAllPartsIndex, 10) || 0;
-  const isPartialFinal = searchedOverallFinal < totalAllParts;
-
-  if (dbState.allResults.length === 0) {
-    if (isPartialFinal) {
-      showBanner(
-        'yellow',
-        `⚠️ No matches found yet. Only searched ${searchedOverallFinal}/${totalAllParts} parts. Load remaining parts to continue. | ⚠️ ಇನ್ನೂ ಫಲಿತಾಂಶಗಳಿಲ್ಲ. ${searchedOverallFinal}/${totalAllParts} ಭಾಗಗಳು ಮಾತ್ರ ಹುಡುಕಲಾಗಿದೆ. ಉಳಿದ ಭಾಗಗಳನ್ನು ಹುಡುಕಿ.`
-      );
-      renderMorePartsControl();
-      return;
-    }
-    showNoResults(filters.voterName || voterName, filters.relName || '');
-    return;
-  }
-
-  dbState.allResults.sort((a, b) => (b._score || 0) - (a._score || 0));
-  renderResults({ isPartial: isPartialFinal, searched: searchedOverallFinal, total: totalAllParts, voterName });
-  if (isPartialFinal) renderMorePartsControl();
-}
-
-async function performDBSearch() {
-  hideMorePartsControl();
-
-  const district = dbState.selectedDist;
-  const acNum = dbState.selectedAC;
-  const partNum = dbState.selectedPart;
-  const voterName = document.getElementById('inp-voter-name').value.trim();
-  const relName = document.getElementById('inp-relative-name').value.trim();
-  const age = document.getElementById('inp-age').value.trim();
-  const relType = document.getElementById('sel-rel-type').value;
-  const gender = document.getElementById('sel-gender').value;
-  const voterId = document.getElementById('inp-voter-id').value.trim();
-  const scopeMode = getDBSearchScope();
-
-  if (!district || !acNum) {
-    alert('Please select District and Constituency | ಜಿಲ್ಲೆ ಮತ್ತು ಕ್ಷೇತ್ರ ಆಯ್ಕೆ ಮಾಡಿ');
-    return;
-  }
-  if (scopeMode === 'part' && !partNum && !voterId) {
-    alert('Please select a Part Number (or switch to "Search all parts") | ಭಾಗ ಸಂಖ್ಯೆ ಆಯ್ಕೆ ಮಾಡಿ (ಅಥವಾ ಎಲ್ಲಾ ಭಾಗಗಳಲ್ಲಿ ಹುಡುಕಿ)');
-    return;
-  }
-  if (!voterName && !voterId) {
-    alert('Please enter Voter Name or Voter ID | ಹೆಸರು ಅಥವಾ ಐಡಿ ನಮೂದಿಸಿ');
-    return;
-  }
-
-  dbState.isSearching = true;
-  dbState.allResults = [];
-  dbState.displayedCount = 0;
-  document.getElementById('div-db-results').innerHTML = '';
-  document.getElementById('btn-search').disabled = true;
-
-  const allParts = (scopeMode === 'part')
-    ? (partNum ? [partNum] : [])
-    : ((dbState.acIndex && dbState.acIndex.parts) ? dbState.acIndex.parts.map(p => p.part_num) : []);
-
-  const filters = { voterName, relName, age, relType, gender, voterId };
-
-  if (scopeMode === 'ac') {
-    dbState.acAllParts = allParts.slice();
-    dbState.acAllPartsIndex = 0;
-    dbState.lastDBParams = { district, acNum, voterName, filters, scopeMode };
-
-    let firstChunk = dbState.acAllParts.slice(0, dbState.acAllPartsChunk || 150);
-    if (dbState.acAllParts.length > firstChunk.length) {
-      showBanner(
-        'yellow',
-        `⚠️ This AC has ${dbState.acAllParts.length} parts. Searching first ${firstChunk.length} parts. Use "Search next" to load remaining parts. | ⚠️ ಈ ಕ್ಷೇತ್ರದಲ್ಲಿ ${dbState.acAllParts.length} ಭಾಗಗಳಿವೆ. ಮೊದಲ ${firstChunk.length} ಭಾಗಗಳನ್ನು ಹುಡುಕುತ್ತಿದೆ. ಉಳಿದ ಭಾಗಗಳಿಗಾಗಿ "Search next" ಒತ್ತಿರಿ.`
-      );
-    }
-
-    await runDBSearchOverParts({
-      district,
-      acNum,
-      partsToSearch: firstChunk,
-      chunkStartIndex: 0,
-      totalAllParts: dbState.acAllParts.length,
-      filters,
-      voterName
-    });
-  } else {
-    dbState.acAllParts = null;
-    dbState.acAllPartsIndex = 0;
-    dbState.lastDBParams = null;
-    await runDBSearchOverParts({
-      district,
-      acNum,
-      partsToSearch: allParts,
-      chunkStartIndex: 0,
-      totalAllParts: allParts.length,
-      filters,
-      voterName
-    });
-  }
-
-  sessionStorage.setItem('lastDBSearch', JSON.stringify({
-    selectedDist: district,
-    selectedAC: acNum,
-    selectedPart: partNum,
-    searchScope: scopeMode,
-    voterName,
-    relativeName: relName,
-    age,
-    relType,
-    gender,
-    voterId,
-    timestamp: Date.now()
-  }));
-}
-
-function cancelDBSearch() {
-  if (dbState.abortCtrl) dbState.abortCtrl.abort();
-  dbState.isSearching = false;
-  document.getElementById('btn-search').disabled = false;
-  hideProgress();
-  showBanner('yellow', 'Search cancelled. | ಹುಡುಕಾಟ ರದ್ದುಪಡಿಸಲಾಗಿದೆ.');
-}
-
-function clearSearch() {
-  if (dbState.abortCtrl) dbState.abortCtrl.abort();
-  document.getElementById('sel-district').value = '';
-  resetDropdown('sel-ac', 'Select AC | ಕ್ಷೇತ್ರ ಆಯ್ಕೆ ಮಾಡಿ');
-  resetDropdown('sel-part', 'All Parts | ಎಲ್ಲಾ ಭಾಗಗಳು');
-  document.getElementById('inp-voter-name').value = '';
-  document.getElementById('inp-relative-name').value = '';
-  document.getElementById('inp-age').value = '';
-  document.getElementById('sel-rel-type').value = '';
-  document.getElementById('sel-gender').value = '';
-  document.getElementById('inp-voter-id').value = '';
-  dbState.allResults = [];
-  dbState.displayedCount = 0;
-  dbState.acAllParts = null;
-  dbState.acAllPartsIndex = 0;
-  dbState.lastDBParams = null;
-  document.getElementById('div-db-results').innerHTML = '';
-  hideMorePartsControl();
-  hideBanner();
-  hideProgress();
-  document.getElementById('btn-search').disabled = true;
-  sessionStorage.removeItem('lastDBSearch');
-}
-
-function matchesFilters(voter, filters) {
-  const { voterName, relName, age, relType, gender, voterId } = filters;
-
-  if (voterId) {
-    return voter.id && voter.id.toLowerCase() === voterId.toLowerCase();
-  }
-
-  if (voterName) {
-    if (!fuzzyMatch(voterName, voter.vn) && !fuzzyMatch(voterName, voter.vk)) return false;
-  }
-
-  if (relName) {
-    if (!fuzzyMatch(relName, voter.rn) && !fuzzyMatch(relName, voter.rk)) return false;
-  }
-
-  if (age) {
-    const diff = Math.abs(parseInt(age, 10) - parseInt(voter.a, 10));
-    if (!isNaN(diff) && diff > 2) return false;
-  }
-
-  if (relType && voter.rt !== relType) return false;
-  if (gender && voter.g !== gender) return false;
-
-  return true;
-}
-
-function tokenizeForScoring(text) {
-  if (!text) return [];
-  return String(text)
-    .trim()
-    .split(/[\s\.\-,/]+/g)
-    .map(t => String(t || '').trim())
-    .filter(Boolean);
-}
-
-function isKannadaToken(tok) {
-  return /[\u0C80-\u0CFF]/.test(tok || '');
-}
-
-function isSyedSurnameToken(tok) {
-  const t = String(tok || '').toLowerCase().trim();
-  const tClean = t.replace(/[^a-z]/g, '');
-  if (tClean === 'syed' || tClean === 'sayed' || tClean === 'sayyed' || tClean === 'sayyad' || tClean === 'saiyad' || tClean === 'saiyyad' || tClean === 'sayyid' || tClean === 'saiyyid') return true;
-  if (tClean === 'syeda' || tClean === 'saiyada' || tClean === 'sayyada' || tClean === 'saiyda' || tClean === 'sayyida') return true;
-  if (t.includes('ಸಯ್ಯದ') || t.includes('ಸ್ಯಯದ') || t.includes('ಸಯ್ಯ')) return true;
-  return false;
-}
-
-const TOKEN_SYNONYMS = {
-  syed: ['syed','steyad','stayad','staiyad','saiyad','syayed','sayyad','sayyed','sayyid','saiyyad','saiyyid','syeda','sayyada','saiyada'],
-  mohammed: ['mohammed','mohammad','mohd','md','muhamad','muhammed','mohamad','mahomad','mehammed'],
-  farooq: ['farooq','farooque','faruq','faruk','paruk','paruq','parooq','pharuk','parooq'],
-  faisal: ['faisal','paisal','phtaiesal','phtaisal','faesal','phaisal','phtaisel','phtaesal'],
-  zaher: ['zaher','zaheer','jaher','jaheer','jahera','zahera','jaheera','jahira'],
-  sait: ['sait','seth','sett','saeth','sayt','saite','saitt','saab','sahib','saib'],
-  kaniz: ['kaniz','kaneez','khaniz','kaneej','khanij','kanij','kaaniz','kaneeze','kanaij'],
-  salahuddin: ['salahuddin','salauddin','salahudin','salaudin','salaoodeen','salaoodin'],
-  fazal: ['fazal','fasal','fajal','pajal','pasal','phasal','fazalulla','fasalulla'],
-  iqbal: ['iqbal','ikbal','iqbaal','ikbaal'],
-  suleiman: ['suleiman','suleman','sulyman','sulaiman','suliman'],
-  kitore: ['kitore','kitoore','kittore','kitoor'],
-  azeez: ['azeez','aziz','ajeej','ajij','ajees','ajeez'],
-  fatima: ['fatima','fathima','fatheema','patima','pathima','phatima'],
-  gowda: ['gowda','gauda','gouda','goud'],
-  girish: ['girish','gireesh','giriesh'],
-  swamy: ['swamy','swami'],
-  murthy: ['murthy','murthi','moorthy','murti'],
-  tippesami: ['tippesami','tippeswami','tippeyswami','tippeswamy','tipeswami'],
-  annamma: ['annamma','anamma','annama'],
-  louisa: ['louisa','lovisa','louise'],
-  anthony: ['anthony','anthoni','antony'],
-  george: ['george','jarj'],
-  michael: ['michael','michel','micheal','maikal','michal'],
-  mary: ['mary','meri','mery'],
-  francis: ['francis','pransis','prancis','pransis'],
-  peris: ['peris','perris','paris'],
-  palanisamy: ['palanisamy','palani','palaniswami','palaniswamy'],
-  subramani: ['subramani','subrahmani','subramony','subramaniam'],
-  karthikeyan: ['karthikeyan','kartikeyan','karthik'],
-};
-
-function expandQueryToken(token) {
-  const raw = String(token || '').toLowerCase().trim();
-  if (!raw) return [];
-  if (isKannadaToken(raw)) {
-    const s = raw.replace(/\s+/g,'').trim();
-    return s ? [s] : [];
-  }
-  const base = raw.replace(/[^a-z]/g, '');
-  if (!base) return [];
-  const out = new Set([base]);
-  const syn = TOKEN_SYNONYMS[base];
-  if (syn) syn.forEach(v => out.add(String(v || '').toLowerCase()));
-
-  if (base === 'md' || base === 'mohd') (TOKEN_SYNONYMS.mohammed || []).forEach(v => out.add(v));
-
-  if (base.startsWith('f') && base.length > 3) {
-    out.add(base.replace(/^f/, 'p'));
-    out.add(base.replace(/^f/, 'ph'));
-  }
-  if (base.startsWith('ph') && base.length > 3) out.add(base.replace(/^ph/, 'f'));
-  if (base.startsWith('p') && base.length > 3) out.add(base.replace(/^p/, 'f'));
-
-  if (base.includes('z')) {
-    out.add(base.replace(/z/g, 'j'));
-    out.add(base.replace(/z/g, 'j') + 'a');
-  }
-  if (base.includes('j')) out.add(base.replace(/j/g, 'z'));
-
-  if (base.includes('q')) out.add(base.replace(/q/g, 'k'));
-  if (base.includes('k') && base.length > 3) out.add(base.replace(/k/g, 'q'));
-
-  return Array.from(out).filter(v => v.length >= 2);
-}
-
-function getThreshold(len) {
-  if (len <= 4) return 0.85;
-  if (len <= 7) return 0.78;
-  return 0.72;
-}
-
-function editDistanceLimited(a, b, maxDist) {
-  const s = String(a || '');
-  const t = String(b || '');
-  if (!s || !t) return maxDist + 1;
-  if (Math.abs(s.length - t.length) > maxDist) return maxDist + 1;
-  const rows = s.length + 1;
-  const cols = t.length + 1;
-  const dp = new Array(cols);
-  for (let j = 0; j < cols; j++) dp[j] = j;
-  for (let i = 1; i < rows; i++) {
-    let prev = dp[0];
-    dp[0] = i;
-    let minRow = dp[0];
-    for (let j = 1; j < cols; j++) {
-      const temp = dp[j];
-      const cost = s[i - 1] === t[j - 1] ? 0 : 1;
-      dp[j] = Math.min(
-        dp[j] + 1,
-        dp[j - 1] + 1,
-        prev + cost
-      );
-      prev = temp;
-      if (dp[j] < minRow) minRow = dp[j];
-    }
-    if (minRow > maxDist) return maxDist + 1;
-  }
-  return dp[cols - 1];
-}
-
-function stringSimilarity(a, b) {
-  const x = String(a || '').toLowerCase().trim();
-  const y = String(b || '').toLowerCase().trim();
-  if (!x || !y) return 0;
-  if (x === y) return 1;
-  if (x.includes(y) || y.includes(x)) return 1;
-  if (isKannadaToken(x) || isKannadaToken(y)) return 0;
-  const maxLen = Math.max(x.length, y.length);
-  const dist = editDistanceLimited(x, y, 3);
-  if (dist > 3) return 0;
-  return Math.max(0, 1 - (dist / maxLen));
-}
-
-function bestTokenSimilarity(queryTok, recordTokens) {
-  const qt = String(queryTok || '').trim();
-  if (!qt) return 0;
-  const variants = expandQueryToken(qt).slice(0, 20);
-  let best = 0;
-  for (const v of variants) {
-    const vv = String(v || '').trim();
-    if (!vv) continue;
-    for (const rt of recordTokens) {
-      const sim = stringSimilarity(vv, rt);
-      if (sim > best) best = sim;
-      if (best >= 1) return 1;
-    }
-  }
-  return best;
-}
-
-function scoreNameAgainstRecord(query, recordTokens) {
-  const qTokens = tokenizeForScoring(query)
-    .map(t => String(t || '').toLowerCase().trim())
-    .filter(t => t.length >= 2 && !/^\d+$/.test(t));
-  if (!qTokens.length) return -1;
-
-  let primaryIdx = 0;
-  let primaryRequired = true;
-  if (qTokens.length >= 2 && isSyedSurnameToken(qTokens[0])) primaryIdx = 1;
-  if (qTokens.length === 1 && isSyedSurnameToken(qTokens[0])) primaryRequired = false;
-
-  let score = 0;
-  let possible = 0;
-  for (let i = 0; i < qTokens.length; i++) {
-    const qt = qTokens[i];
-    const weight = (i === primaryIdx) ? 2.0 : 1.0;
-    possible += weight;
-    const thresh = getThreshold(qt.length);
-    const bestSim = bestTokenSimilarity(qt, recordTokens);
-    if (bestSim >= thresh) {
-      score += bestSim * weight;
-    } else {
-      if (i === primaryIdx && primaryRequired) return -1;
-      if (bestSim > 0.5) score += bestSim * weight * 0.5;
-    }
-  }
-  const norm = possible > 0 ? (score / possible) : 0;
-  if (primaryRequired) {
-    const primaryTok = qTokens[primaryIdx];
-    const primaryThresh = getThreshold(primaryTok.length);
-    const primaryBest = bestTokenSimilarity(primaryTok, recordTokens);
-    if (primaryBest < primaryThresh) return -1;
-  }
-  return norm;
-}
-
-function scoreVoterRecord(voter, filters) {
-  const { voterName, relName, age, relType, gender, voterId } = filters;
-
-  if (voterId) {
-    return voter.id && voter.id.toLowerCase() === voterId.toLowerCase() ? 1.0 : -1;
-  }
-
-  if (age) {
-    const diff = Math.abs(parseInt(age, 10) - parseInt(voter.a, 10));
-    if (!isNaN(diff) && diff > 2) return -1;
-  }
-  if (relType && voter.rt !== relType) return -1;
-  if (gender && voter.g !== gender) return -1;
-
-  const voterTokens = Array.isArray(voter.vt) && voter.vt.length
-    ? voter.vt.map(x => String(x || '').toLowerCase())
-    : tokenizeForScoring(voter.vn).map(x => x.toLowerCase());
-
-  const relTokens = Array.isArray(voter.rnt) && voter.rnt.length
-    ? voter.rnt.map(x => String(x || '').toLowerCase())
-    : tokenizeForScoring(voter.rn).map(x => x.toLowerCase());
-
-  let vScore = voterName ? scoreNameAgainstRecord(voterName, voterTokens) : 0;
-  if (voterName && vScore < 0) {
-    const legacy = matchesFilters(voter, { voterName, relName: '', age: '', relType: '', gender: '', voterId: '' });
-    if (!legacy) return -1;
-    vScore = 0.55;
-  }
-
-  let rScore = 1.0;
-  if (relName) {
-    const relS = scoreNameAgainstRecord(relName, relTokens);
-    if (relS < 0) {
-      const legacyRel = fuzzyMatch(relName, voter.rn) || fuzzyMatch(relName, voter.rk);
-      if (!legacyRel) return -1;
-      rScore = 0.55;
-    } else {
-      rScore = relS;
-    }
-  }
-
-  const combined = relName ? (vScore * 0.7) + (rScore * 0.3) : vScore;
-  return combined >= 0.55 ? combined : -1;
-}
-
-function fuzzyMatch(query, target) {
-  if (!query || !target) return false;
-  const q = query.toLowerCase().trim();
-  const t = target.toLowerCase().trim();
-
-  if (t.includes(q)) return true;
-
-  const variants = (typeof generateVariants === 'function' ? generateVariants(q) : [q])
-    .map(v => (v || '').toLowerCase().trim())
-    .filter(v => v.length >= 3);
-  for (const v of variants) {
-    if (t.includes(v)) return true;
-  }
-
-  const qTokens = q.split(/\s+/).filter(w => w.length >= 3);
-  if (qTokens.length > 1 && qTokens.every(tok => t.includes(tok))) return true;
-
-  if (!q.includes(' ') && q.length >= 5 && q.length <= 10) {
-    const prefix = t.substring(0, Math.min(t.length, q.length + 2));
-    if (prefix && prefix[0] === q[0]) {
-      return levenshtein(q, prefix) <= 1;
-    }
-  }
-
-  return false;
-}
-
-function levenshtein(a, b) {
-  if (Math.abs(a.length - b.length) > 3) return 99;
-  const dp = Array.from({ length: a.length + 1 }, (_, i) =>
-    Array.from({ length: b.length + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0))
-  );
-  for (let i = 1; i <= a.length; i++) {
-    for (let j = 1; j <= b.length; j++) {
-      dp[i][j] = a[i - 1] === b[j - 1]
-        ? dp[i - 1][j - 1]
-        : 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
-    }
-  }
-  return dp[a.length][b.length];
-}
-
-function renderResults({ isPartial, searched, total, voterName }) {
-  const container = document.getElementById('div-db-results');
-  const count = dbState.allResults.length;
-  const toShow = dbState.allResults.slice(0, dbState.PAGE_SIZE);
-  dbState.displayedCount = toShow.length;
-
-  const countText = isPartial
-    ? `Found ${count}+ matches (searching ${searched}/${total} parts...)`
-    : `Found ${count} voter${count !== 1 ? 's' : ''} matching "${voterName}" across ${total} parts`;
-
-  const remaining = count - dbState.PAGE_SIZE;
-
-  container.innerHTML = `
-    <div style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:12px 15px;margin-bottom:12px;font-size:12.5px;color:#78350F;line-height:1.65">
-      <div>🔤 <strong>English names are transliterated from Kannada text</strong> and may contain spelling variations.</div>
-    </div>
-    <div class="results-header">
-      <span class="results-count">${countText}</span>
-    </div>
-    <div id="results-grid">
-      ${toShow.map(v => renderVoterCard(v)).join('')}
-    </div>
-    ${count > dbState.PAGE_SIZE ? `
-      <div class="load-more-row" style="text-align:center;padding:12px 0">
-        <button onclick="loadMoreResults()" class="btn btn-outline btn-sm load-more-btn">
-          Load ${Math.min(dbState.PAGE_SIZE, remaining)} more | ಇನ್ನಷ್ಟು ತೋರಿಸಿ (${remaining} remaining)
-        </button>
-      </div>` : ''}
-  `;
-}
-
-function loadMoreResults() {
-  const next = dbState.allResults.slice(dbState.displayedCount, dbState.displayedCount + dbState.PAGE_SIZE);
-  const grid = document.getElementById('results-grid');
-  if (!grid) return;
-  grid.insertAdjacentHTML('beforeend', next.map(v => renderVoterCard(v)).join(''));
-  dbState.displayedCount += next.length;
-  if (dbState.displayedCount >= dbState.allResults.length) {
-    const btn = document.querySelector('.load-more-btn');
-    if (btn) btn.parentElement.remove();
-  }
-}
-
-function renderVoterCard(voter) {
-  const relTypeLabel = { 'F': 'Father | ತಂದೆ', 'H': 'Husband | ಗಂಡ', 'M': 'Mother | ತಾಯಿ', 'W': 'Wife | ಹೆಂಡತಿ' }[voter.rt] || voter.rt || '';
-  const genderLabel = voter.g === 'M' ? '👨 Male | ಗಂಡಸು' : '👩 Female | ಹೆಂಗಸು';
-  const voterId = voter.id ? `<div class="result-field"><label>Voter ID | EPIC</label><div class="val small" style="font-family:monospace">${voter.id}</div></div>` : '';
-  const acNum = voter.ac != null ? String(voter.ac) : (dbState.selectedAC || '');
-  const partNum = voter.pn != null ? String(voter.pn) : (dbState.selectedPart != null ? String(dbState.selectedPart) : '');
-  const thisMeBtn = (acNum && partNum && (voter.sn != null))
-    ? `<div class="result-actions">
-         <button class="btn btn-success btn-sm btn-this-is-me"
-           data-ac="${encodeURIComponent(acNum)}"
-           data-part="${encodeURIComponent(partNum)}"
-           data-serial="${encodeURIComponent(String(voter.sn ?? ''))}"
-           data-psn="${encodeURIComponent(String(voter.psn ?? ''))}"
-           data-name="${encodeURIComponent(voter.vk || '')}"
-           data-rel="${encodeURIComponent(voter.rk || '')}"
-           data-id="${encodeURIComponent(voter.id || '')}"
-         >✅ This is me / Found</button>
-         <span style="font-size:12px;color:var(--gray-400)">Not you? Check next result →</span>
-       </div>`
-    : '';
-
-  return `
-    <div class="result-card">
-      <div class="result-grid">
-        <div class="result-field">
-          <label>Name | ಹೆಸರು</label>
-          <div class="val" style="font-family:'Noto Sans Kannada',sans-serif;font-size:17px;font-weight:700;line-height:1.4">${voter.vk || '—'}</div>
-          <div style="font-size:14px;font-weight:600;color:var(--gray-600);margin-top:3px;font-family:'Noto Serif',serif;letter-spacing:0.01em">${voter.vn || ''}</div>
-        </div>
-        <div class="result-field">
-          <label>${relTypeLabel || 'Relative Name | ಸಂಬಂಧಿತರ ಹೆಸರು'}</label>
-          <div class="val" style="font-family:'Noto Sans Kannada',sans-serif;font-size:17px;font-weight:700;line-height:1.4">${voter.rk || '—'}</div>
-          <div style="font-size:14px;font-weight:600;color:var(--gray-600);margin-top:3px;font-family:'Noto Serif',serif;letter-spacing:0.01em">${voter.rn || ''}</div>
-        </div>
-        <div class="result-field"><label>Serial No. | ಕ್ರಮ ಸಂಖ್ಯೆ</label><div class="val">${voter.sn ?? '—'}</div></div>
-        <div class="result-field"><label>Part Serial No. | ಭಾಗ ಕ್ರಮ ಸಂಖ್ಯೆ</label><div class="val" style="font-family:'JetBrains Mono',monospace;font-weight:800;color:var(--blue)">${voter.psn || '—'}</div></div>
-        <div class="result-field"><label>AC / Part | ಕ್ಷೇತ್ರ / ಭಾಗ</label><div class="val">${acNum ? `AC ${acNum}` : '—'}${partNum ? ` · Part ${partNum}` : ''}</div></div>
-        <div class="result-field"><label>House No. | ಮನೆ ಸಂಖ್ಯೆ</label><div class="val">${voter.hn || '—'}</div></div>
-        <div class="result-field">
-          <label>Gender / Age | ಲಿಂಗ / ವಯಸ್ಸು</label>
-          <div class="val small">
-            <span class="tag ${voter.g === 'M' ? 'tag-male' : 'tag-female'}">${genderLabel}</span>
-            <span class="tag tag-age">${voter.a != null ? `${voter.a} yrs` : '—'}</span>
-          </div>
-        </div>
-        ${voterId}
-      </div>
-      ${thisMeBtn}
-      ${voter.dq === 0 ?
-        '<div class="data-quality-warn">' +
-        '⚠️ Details may be incomplete — ' +
-        'verify from official rolls | ' +
-        'ಈ ವಿವರಗಳು ಅಪೂರ್ಣವಾಗಿರಬಹುದು' +
-        '</div>'
-      : ''}
-    </div>
-  `;
-}
-
-function formatAcLabel(districtKey, acNum, fallbackName) {
-  const n = parseInt(acNum, 10);
-  const dKey = String(districtKey || '').toUpperCase().replace(/_/g, ' ');
-  const code = 'A' + String(isNaN(n) ? acNum : n).padStart(3, '0');
-  const list = AC_DATA[dKey] || [];
-  const hit = list.find(x => (x && x.num) === code);
-  if (hit && hit.name) return `${isNaN(n) ? acNum : n} - ${hit.name}`;
-  const fb = (fallbackName || '').trim();
-  return isNaN(n) ? (fb || String(acNum)) : (fb || String(n));
-}
-
-document.addEventListener('click', function (e) {
-  const btn = e.target && e.target.closest ? e.target.closest('.btn-this-is-me') : null;
-  if (!btn) return;
-  const ac = decodeURIComponent(btn.getAttribute('data-ac') || '');
-  const part = decodeURIComponent(btn.getAttribute('data-part') || '');
-  const serial = decodeURIComponent(btn.getAttribute('data-serial') || '');
-  const psn = decodeURIComponent(btn.getAttribute('data-psn') || '');
-  const name = decodeURIComponent(btn.getAttribute('data-name') || '');
-  const rel = decodeURIComponent(btn.getAttribute('data-rel') || '');
-  const vid = decodeURIComponent(btn.getAttribute('data-id') || '');
-  const acCode = ac.startsWith('A') ? ac : ('A' + String(ac).padStart(3, '0'));
-  onSuccess(acCode, part, name || '—', rel || '—', serial || '—', vid || '', psn || '');
-});
-
-function showNoResults(voterName, relName) {
-  const v = voterName || '—';
-  const r = relName || '';
-  const tokens = tokenizeForScoring(voterName || '').map(t => t.toLowerCase()).filter(t => t.length >= 2);
-  const expanded = tokens.slice(0, 6).map(t => expandQueryToken(t).slice(0, 8).join('/'));
-  document.getElementById('div-db-results').innerHTML = `
-    <div class="result-card">
-      <div style="font-size:16px;font-weight:800;color:var(--gray-800);margin-bottom:6px">
-        No results found | ಯಾವುದೇ ಮತದಾರರು ಕಂಡುಬಂದಿಲ್ಲ
-      </div>
-      <div style="color:var(--gray-600);font-size:14px;margin-bottom:10px">
-        No voters found for "<strong>${v}</strong>" ${r ? `with relative "<strong>${r}</strong>"` : ''}
-      </div>
-      ${expanded.length ? `
-        <div style="font-size:12px;color:var(--gray-600);margin-bottom:10px">
-          Searched tokens: <span style="font-family:'JetBrains Mono',monospace">${expanded.join(', ')}</span>
-        </div>` : ''
-      }
-      <div style="font-weight:800;color:var(--gray-800);font-size:13px;margin-bottom:6px">Search tips | ಹುಡುಕಾಟ ಸಲಹೆಗಳು:</div>
-      <ul style="margin:0;padding-left:18px;color:var(--gray-600);font-size:13px;line-height:1.6">
-        <li>Try a shorter name (first word only) | ಚಿಕ್ಕ ಹೆಸರು ಪ್ರಯತ್ನಿಸಿ</li>
-        <li>Muslim names may vary (Abdul/Abdur, Mohammad/Mohammed) | ಮುಸ್ಲಿಂ ಹೆಸರುಗಳಲ್ಲಿ ವ್ಯತ್ಯಾಸ ಸಾಧ್ಯ</li>
-        <li>Remove Part filter | ಭಾಗ ಫಿಲ್ಟರ್ ತೆಗೆದುಹಾಕಿ</li>
-        <li>Check Father/Husband spelling | ಸಂಬಂಧಿತರ ಹೆಸರಿನ ಸ್ಪೆಲ್ಲಿಂಗ್ ಪರಿಶೀಲಿಸಿ</li>
-        <li>Try searching in Kannada | ಕನ್ನಡದಲ್ಲಿಯೇ ಹುಡುಕಿ</li>
-      </ul>
-    </div>
-  `;
-}
-
-function installSearchRouter() {
-  if (window.__searchRouterInstalled) return;
-  window.__searchRouterInstalled = true;
-
-  const original = window.performSearch;
-  if (typeof original === 'function') window.__ocrPerformSearch = original;
-
-  const ocrBtn = document.getElementById('searchBtn');
-  if (ocrBtn) ocrBtn.addEventListener('click', () => { window.__searchMode = 'ocr'; }, true);
-
-  const focusIdsOcr = ['searchName', 'searchRelative', 'searchHouse', 'searchAge'];
-  focusIdsOcr.forEach((id) => {
-    const el = document.getElementById(id);
-    if (el) el.addEventListener('focus', () => { window.__searchMode = 'ocr'; }, true);
-  });
-
-  const focusIdsDb = ['inp-voter-name', 'inp-relative-name', 'inp-age', 'sel-rel-type', 'sel-gender', 'inp-voter-id', 'sel-district', 'sel-ac', 'sel-part'];
-  focusIdsDb.forEach((id) => {
-    const el = document.getElementById(id);
-    if (el) el.addEventListener('focus', () => { window.__searchMode = 'db'; }, true);
-  });
-
-  window.performSearch = async function () {
-    const mode = window.__searchMode || inferSearchMode();
-    if (mode === 'db') return performDBSearch();
-    if (typeof window.__ocrPerformSearch === 'function') return window.__ocrPerformSearch();
-  };
-}
-
-function inferSearchMode() {
-  const ae = document.activeElement ? document.activeElement.id : '';
-  if (ae && (ae.startsWith('inp-') || ae.startsWith('sel-') || ae === 'btn-search' || ae === 'btn-clear')) return 'db';
-  if (ae && ae.startsWith('search')) return 'ocr';
-
-  const dbName = (document.getElementById('inp-voter-name')?.value || '').trim();
-  const ocrName = (document.getElementById('searchName')?.value || '').trim();
-  if (dbName && !ocrName) return 'db';
-  return 'ocr';
-}
-
-function toggleAdvancedFilters() {
-  const row = document.getElementById('row-advanced-filters');
-  const lnk = document.getElementById('lnk-advanced-filters');
-  if (!row || !lnk) return;
-  const isOpen = row.style.display !== 'none';
-  row.style.display = isOpen ? 'none' : 'grid';
-  lnk.textContent = isOpen ? '▼ Advanced Filters | ಹೆಚ್ಚಿನ ಫಿಲ್ಟರ್' : '▲ Advanced Filters | ಹೆಚ್ಚಿನ ಫಿಲ್ಟರ್';
-}
-
-function showBanner(type, message) {
-  const banner = document.getElementById('div-status-banner');
-  if (!banner) return;
-  let cls = 'alert alert-info';
-  if (type === 'green') cls = 'alert alert-success';
-  else if (type === 'yellow') cls = 'alert alert-warning';
-  else if (type === 'blue') cls = 'alert alert-info';
-  else if (type === 'error') cls = 'alert alert-error';
-  banner.className = cls;
-  banner.textContent = message;
-  banner.style.display = 'flex';
-}
-
-function hideBanner() {
-  const banner = document.getElementById('div-status-banner');
-  if (banner) banner.style.display = 'none';
-}
-
-function showProgress(text, pct = null) {
-  const div = document.getElementById('div-search-progress');
-  if (!div) return;
-  div.style.display = 'block';
-  const t = div.querySelector('.progress-text');
-  if (t) t.textContent = text;
-  if (pct !== null) {
-    const fill = div.querySelector('.progress-bar-fill');
-    if (fill) fill.style.width = `${pct}%`;
-  }
-}
-
-function hideProgress() {
-  const div = document.getElementById('div-search-progress');
-  if (div) div.style.display = 'none';
-}
-
-document.addEventListener('DOMContentLoaded', initDBSearch);
-
-function initDistrictVote() {
-  const sel = document.getElementById('sel-vote-district');
-  const btn = document.getElementById('btn-vote-district');
-  const counter = document.getElementById('vote-counter');
-  const top = document.getElementById('vote-top');
-  if (!sel || !btn || !counter || !top) return;
-
-  const KEY = 'district_vote_counts_v1';
-  const readCounts = () => {
-    try {
-      const raw = localStorage.getItem(KEY);
-      const obj = raw ? JSON.parse(raw) : {};
-      return (obj && typeof obj === 'object') ? obj : {};
-    } catch {
-      return {};
-    }
-  };
-  const writeCounts = (obj) => {
-    try { localStorage.setItem(KEY, JSON.stringify(obj)); } catch {}
-  };
-
-  const render = () => {
-    const counts = readCounts();
-    const total = Object.values(counts).reduce((a, b) => a + (parseInt(b, 10) || 0), 0);
-    counter.textContent = `Votes: ${total.toLocaleString()}`;
-    const entries = Object.entries(counts).sort((a, b) => (parseInt(b[1], 10) || 0) - (parseInt(a[1], 10) || 0));
-    if (!entries.length || (parseInt(entries[0][1], 10) || 0) === 0) {
-      top.textContent = 'Top voted district: —';
-      return;
-    }
-    const [name, cnt] = entries[0];
-    top.textContent = `Top voted district: ${name} (${(parseInt(cnt, 10) || 0).toLocaleString()})`;
-  };
-
-  btn.addEventListener('click', () => {
-    const d = sel.value;
-    if (!d) return;
-    const counts = readCounts();
-    counts[d] = (parseInt(counts[d], 10) || 0) + 1;
-    writeCounts(counts);
-    render();
-  });
-
-  render();
-}
-
-document.addEventListener('DOMContentLoaded', initDistrictVote);
-
-// ====================================================================
-// DATA: DISTRICTS & ASSEMBLY CONSTITUENCIES
-// ====================================================================
-const AC_DATA = {
-  "BAGALKOT": [
-    {name:"Jamkhandi",num:"A210"},{name:"Bilgi",num:"A211"},{name:"Mudhol",num:"A212"},
-    {name:"Bagalkot",num:"A213"},{name:"Badami",num:"A214"},{name:"Gulegud",num:"A215"},{name:"Hungund",num:"A216"}
-  ],
-  "BANGALORE RURAL": [
-    {name:"Kanakapura",num:"A091"},{name:"Sathanur",num:"A092"},{name:"Channapatna",num:"A093"},
-    {name:"Ramanagar",num:"A094"},{name:"Magadi",num:"A095"},{name:"Nelamangala",num:"A096"},
-    {name:"Doddaballapur",num:"A097"},{name:"Devanahalli",num:"A098"},{name:"Hosakote",num:"A099"}
-  ],
-  "BANGALORE URBAN": [
-    {name:"Yelahanka",num:"A088"},{name:"Uttarahalli",num:"A089"},{name:"Varthur",num:"A090"},{name:"Anekal",num:"A100"}
-  ],
-  "BBMP": [
-    {name:"Malleshwaram",num:"A076"},{name:"Rajaji Nagar",num:"A077"},{name:"Gandhi Nagar",num:"A078"},
-    {name:"Chickpet",num:"A079"},{name:"Binnypet",num:"A080"},{name:"Chamrajpet",num:"A081"},
-    {name:"Basavanagudi",num:"A082"},{name:"Jayanagar",num:"A083"},{name:"Shanti Nagar",num:"A084"},
-    {name:"Shivajinagar",num:"A085"},{name:"Bharathinagar",num:"A086"},{name:"Jayamahal",num:"A087"}
-  ],
-  "BELGAUM": [
-    {name:"Ramdurg",num:"A192"},{name:"Saundatti",num:"A193"},{name:"Bailhongal",num:"A194"},
-    {name:"Kittur",num:"A195"},{name:"Khanapur",num:"A196"},{name:"Belgaum",num:"A197"},
-    {name:"Uchagaon",num:"A198"},{name:"Bagewadi",num:"A199"},{name:"Gokak",num:"A200"},
-    {name:"Arabhavi",num:"A201"},{name:"Hukkeri",num:"A202"},{name:"Sankeshwar",num:"A203"},
-    {name:"Nippani",num:"A204"},{name:"Sadalga",num:"A205"},{name:"Chikkodi",num:"A206"},
-    {name:"Raibag",num:"A207"},{name:"Kagwad",num:"A208"},{name:"Athani",num:"A209"}
-  ],
-  "BELLARY": [
-    {name:"Siruguppa",num:"A031"},{name:"Kurugodu",num:"A032"},{name:"Bellary",num:"A033"},
-    {name:"Hospet",num:"A034"},{name:"Sandur",num:"A035"},{name:"Kudligi",num:"A036"},
-    {name:"Kottur",num:"A037"},{name:"Hadagali",num:"A038"}
-  ],
-  "BIDAR": [
-    {name:"Aurad",num:"A001"},{name:"Bhalki",num:"A002"},{name:"Hulsoor",num:"A003"},
-    {name:"Bidar",num:"A004"},{name:"Humnabad",num:"A005"},{name:"Basavakalyan",num:"A006"}
-  ],
-  "BIJAPURA": [
-    {name:"Muddebihal",num:"A217"},{name:"Huvina Hipparagi",num:"A218"},{name:"Basavana Bagevadi",num:"A219"},
-    {name:"Tikota",num:"A220"},{name:"Bijapur",num:"A221"},{name:"Ballolli",num:"A222"},
-    {name:"Indi",num:"A223"},{name:"Sindagi",num:"A224"}
-  ],
-  "CHAMARAJANAGAR": [
-    {name:"Hanur",num:"A110"},{name:"Kollegal",num:"A111"},{name:"Santhemarahalli",num:"A119"},
-    {name:"Chamarajanagar",num:"A120"},{name:"Gundlupet",num:"A121"}
-  ],
-  "CHIKKAMAGALURU": [
-    {name:"Sringeri",num:"A152"},{name:"Mudigere",num:"A153"},{name:"Chikmagalur",num:"A154"},
-    {name:"Birur",num:"A155"},{name:"Kadur",num:"A156"},{name:"Tarikere",num:"A157"}
-  ],
-  "CHITRADURGA": [
-    {name:"Bharamasagara",num:"A043"},{name:"Chitradurga",num:"A044"},{name:"Molakalmuru",num:"A046"},
-    {name:"Challakere",num:"A047"},{name:"Hiriyur",num:"A048"},{name:"Holalkere",num:"A049"},{name:"Hosadurga",num:"A050"}
-  ],
-  "DAKSHINA KANNADA": [
-    {name:"Sullia",num:"A137"},{name:"Puttur",num:"A138"},{name:"Vittla",num:"A139"},
-    {name:"Belthangady",num:"A140"},{name:"Bantval",num:"A141"},{name:"Mangalore",num:"A142"},
-    {name:"Ullal",num:"A143"},{name:"Surathkal",num:"A144"},{name:"Moodabidri",num:"A151"}
-  ],
-  "DAVANGERE": [
-    {name:"Harapanahalli",num:"A039"},{name:"Harihar",num:"A040"},{name:"Davanagere",num:"A041"},
-    {name:"Mayakonda",num:"A042"},{name:"Jagalur",num:"A045"},{name:"Channagiri",num:"A158"},{name:"Honnali",num:"A161"}
-  ],
-  "DHARWAD": [
-    {name:"Dharwad Rural",num:"A174"},{name:"Dharwad",num:"A175"},{name:"Hubli",num:"A176"},
-    {name:"Hubli Rural",num:"A177"},{name:"Kalghatgi",num:"A178"},{name:"Kundgol",num:"A179"},{name:"Navalgund",num:"A191"}
-  ],
-  "GADAG": [
-    {name:"Shirahatti",num:"A186"},{name:"Mundargi",num:"A187"},{name:"Gadag",num:"A188"},
-    {name:"Ron",num:"A189"},{name:"Nargund",num:"A190"}
-  ],
-  "GULBARGA": [
-    {name:"Chincholi",num:"A007"},{name:"Kamalapur",num:"A008"},{name:"Aland",num:"A009"},
-    {name:"Gulbarga",num:"A010"},{name:"Shahabad",num:"A011"},{name:"Afzalpur",num:"A012"},
-    {name:"Chittapur",num:"A013"},{name:"Sedam",num:"A014"},{name:"Jevargi",num:"A015"},
-    {name:"Gurmitkal",num:"A016"},{name:"Yadgir",num:"A017"},{name:"Shahapur",num:"A018"},{name:"Shorapur",num:"A019"}
-  ],
-  "HASSAN": [
-    {name:"Belur",num:"A129"},{name:"Arsikere",num:"A130"},{name:"Gandasi",num:"A131"},
-    {name:"Shravanabelagola",num:"A132"},{name:"Holenarasipur",num:"A133"},{name:"Arkalgud",num:"A134"},
-    {name:"Hassan",num:"A135"},{name:"Sakleshpur",num:"A136"}
-  ],
-  "HAVERI": [
-    {name:"Shiggaon",num:"A180"},{name:"Hangal",num:"A181"},{name:"Hirekerur",num:"A182"},
-    {name:"Ranibennur",num:"A183"},{name:"Byadgi",num:"A184"},{name:"Haveri",num:"A185"}
-  ],
-  "KODAGU": [{name:"Virajpet",num:"A126"},{name:"Madikeri",num:"A127"},{name:"Somwarpet",num:"A128"}],
-  "KOLAR": [
-    {name:"Gauribidanur",num:"A064"},{name:"Chikballapur",num:"A065"},{name:"Sidlaghatta",num:"A066"},
-    {name:"Bagepalli",num:"A067"},{name:"Chintamani",num:"A068"},{name:"Srinivasapur",num:"A069"},
-    {name:"Mulbagal",num:"A070"},{name:"Kolar Gold Field",num:"A071"},{name:"Bethamangala",num:"A072"},
-    {name:"Kolar",num:"A073"},{name:"Vemagal",num:"A074"},{name:"Malur",num:"A075"}
-  ],
-  "KOPPAL": [
-    {name:"Kushtagi",num:"A026"},{name:"Yelburga",num:"A027"},{name:"Kanakagiri",num:"A028"},
-    {name:"Gangawati",num:"A029"},{name:"Koppal",num:"A030"}
-  ],
-  "MANDYA": [
-    {name:"Nagamangala",num:"A101"},{name:"Maddur",num:"A102"},{name:"Kiragaval",num:"A103"},
-    {name:"Malavalli",num:"A104"},{name:"Mandya",num:"A105"},{name:"Keragodu",num:"A106"},
-    {name:"Shrirangapattana",num:"A107"},{name:"Pandavapura",num:"A108"},{name:"Krishnarajpete",num:"A109"}
-  ],
-  "MYSORE": [
-    {name:"Bannur",num:"A112"},{name:"T. Narasipur",num:"A113"},{name:"Krishnaraja",num:"A114"},
-    {name:"Chamaraja",num:"A115"},{name:"Narasimharaja",num:"A116"},{name:"Chamundeshwari",num:"A117"},
-    {name:"Nanjangud",num:"A118"},{name:"Heggadadevankote",num:"A122"},{name:"Hunsur",num:"A123"},
-    {name:"Krishnarajanagara",num:"A124"},{name:"Periyapatna",num:"A125"}
-  ],
-  "RAICHUR": [
-    {name:"Devadurga",num:"A020"},{name:"Raichur",num:"A021"},{name:"Kalmala",num:"A022"},
-    {name:"Manvi",num:"A023"},{name:"Lingsugur",num:"A024"},{name:"Sindhanur",num:"A025"}
-  ],
-  "SHIVAMOGGA": [
-    {name:"Holehonnur",num:"A159"},{name:"Bhadravati",num:"A160"},{name:"Shimoga",num:"A162"},
-    {name:"Tirthahalli",num:"A163"},{name:"Hosanagar",num:"A164"},{name:"Sagar",num:"A165"},
-    {name:"Sorab",num:"A166"},{name:"Shikaripura",num:"A167"}
-  ],
-  "TUMKUR": [
-    {name:"Pavagada",num:"A051"},{name:"Sira",num:"A052"},{name:"Kalambella",num:"A053"},
-    {name:"Bellavi",num:"A054"},{name:"Madhugiri",num:"A055"},{name:"Koratagere",num:"A056"},
-    {name:"Tumkur",num:"A057"},{name:"Kunigal",num:"A058"},{name:"Huliyurdurga",num:"A059"},
-    {name:"Gubbi",num:"A060"},{name:"Turuvekere",num:"A061"},{name:"Tiptur",num:"A062"},{name:"Chikkanayakanahalli",num:"A063"}
-  ],
-  "UDUPI": [
-    {name:"Kapu",num:"A145"},{name:"Udupi",num:"A146"},{name:"Brahmavar",num:"A147"},
-    {name:"Kundapura",num:"A148"},{name:"Byndoor",num:"A149"},{name:"Karkala",num:"A150"}
-  ],
-  "UTTAR KANNADA": [
-    {name:"Sirsi",num:"A168"},{name:"Bhatkal",num:"A169"},{name:"Kumta",num:"A170"},
-    {name:"Ankola",num:"A171"},{name:"Karwar",num:"A172"},{name:"Haliyal",num:"A173"}
-  ]
-};
-
-// ====================================================================
-// TRANSLITERATION — Latin phonetic to Kannada variants
-// ====================================================================
-const PHONETIC_MAP = {
-  // ---- Muslim / Urdu names ----
-  "syed":       ["ಸ್ಯೆಯದ್","ಸೈಯದ್","ಸಯ್ಯದ್","ಸ್ಯೆಯದ"],
-  "umar":       ["ಉಮರ್","ಉಮರ","ಉಮ್ಮರ್","ಉಮ್ಮರ"],
-  "omar":       ["ಉಮರ್","ಉಮರ","ಓಮರ್"],
-  "syeda":      ["ಸ್ಯೆಯದಾ","ಸೈಯದಾ","ಸ್ಯೆದಾ"],
-  "khan":       ["ಖಾನ್","ಖಾನ","ಖಾನ್ ","ಖಾನ "],
-  "khanum":     ["ಖಾನಂ","ಖಾನುಂ","ಖಾನಮ್"],
-  "pasha":      ["ಪಾಶ","ಪಾಷ","ಬಾಶ","ಬಾಷ"],
-  "basha":      ["ಬಾಶ","ಬಾಷ","ಬಾಸ","ಪಾಶ"],
-  "mohammed":   ["ಮಹಮದ್","ಮೊಹಮ್ಮದ್","ಮುಹಮ್ಮದ್","ಮಹಮ್ಮದ","ಮೊಹಮದ್","ಮಹಮ್ಮದ್","ಮೊಹಮ್ಮದ"],
-  "mohammad":   ["ಮಹಮದ್","ಮೊಹಮ್ಮದ್","ಮೊಹಮದ್","ಮಹಮ್ಮದ್"],
-  "mohamad":    ["ಮಹಮದ್","ಮೊಹಮದ್"],
-  "mohamed":    ["ಮಹಮದ್","ಮೊಹಮದ್","ಮುಹಮ್ಮದ್"],
-  "muhammed":   ["ಮುಹಮ್ಮದ್","ಮಹಮದ್"],
-  "banu":       ["ಬಾನು","ಬಾನ್","ಭಾನು","ಬಾನ"],
-  "begum":      ["ಬೇಗಂ","ಬೇಗಮ್","ಬೇಗುಂ","ಬೀಗಂ","ಬೇಗಂ","ಬೇಗಮ"],
-  "akram":      ["ಅಕ್ರಮ್","ಅಕ್ರಮ"],
-  "bibi":       ["ಬೀಬಿ","ಬಿಬಿ"],
-  "shabana":    ["ಶಬಾನ","ಶಬಾನ","ಷಬಾನ","ಶಬಾನಾ"],
-  "fatima":     ["ಫಾತಿಮ","ಫಾತಿಮ","ಫಾತ್ಮಾ","ಫಾತಿಮಾ"],
-  "abdul":      ["ಅಬ್ದುಲ್","ಅಬ್ಬೂಲ್","ಅಬ್ದುಲ"],
-  "ibrahim":    ["ಇಬ್ರಾಹಿಂ","ಇಬ್ರಾಹಿಮ್"],
-  "hassan":     ["ಹಸನ್","ಹಸನ","ಹಾಸನ್"],
-  "hussain":    ["ಹುಸೇನ್","ಹುಸೈನ್","ಹುಸ್ಸೇನ್"],
-  "hussein":    ["ಹುಸೇನ್","ಹುಸೈನ್"],
-  "imaam":      ["ಇಮಾಮ್","ಇಮಾಮ"],
-  "imam":       ["ಇಮಾಮ್","ಇಮಾಮ"],
-  "nazeer":     ["ನಜೀರ್","ನಜೀರ"],
-  "nazar":      ["ನಜರ್","ನಜ಼ರ"],
-  "rasheed":    ["ರಶೀದ್","ರಶೀದ"],
-  "rashid":     ["ರಶೀದ್","ರಾಷಿದ್"],
-  "saleem":     ["ಸಲೀಮ್","ಸಲೀಮ"],
-  "salim":      ["ಸಲೀಮ್","ಸಲಿಮ್"],
-  "shareef":    ["ಶರೀಫ್","ಷರೀಫ್"],
-  "sharif":     ["ಶರೀಫ್","ಷರೀಫ್"],
-  "shabbir":    ["ಶಬ್ಬೀರ್","ಸಬ್ಬೀರ"],
-  "jabeer":     ["ಜಬೀರ್","ಜಬೀರ"],
-  "jabir":      ["ಜಬೀರ್","ಜಾಬಿರ"],
-  "kareem":     ["ಕರೀಮ","ಕರೀಮ್"],
-  "karim":      ["ಕರೀಮ","ಕರಿಮ್"],
-  "rahim":      ["ರಹೀಮ","ರಹಿಮ್"],
-  "raheem":     ["ರಹೀಮ","ರಹೀಮ್"],
-  "aminabi":    ["ಅಮೀನಾ ಬಿ","ಅಮೀನಾಬಿ"],
-  "amina":      ["ಅಮೀನಾ","ಅಮಿನ"],
-  "aisha":      ["ಐಶ","ಆಯಿಶ"],
-  "ayesha":     ["ಐಶ","ಅಯೇಶಾ"],
-  "sakeena":    ["ಸಕೀನ","ಸಖೀನ"],
-  "zubaida":    ["ಜುಬೇದಾ","ಜ಼ುಬೈದ"],
-  "zubeida":    ["ಜುಬೇದಾ","ಜ಼ುಬೈದ"],
-  "mujeer":     ["ಮುಜೀರ","ಮುಜೀರ್"],
-  "fayaz":      ["ಫಯಾಜ","ಫಯಾಜ್"],
-  "faiyaz":     ["ಫಯಾಜ","ಫಯ್ಯಾಜ"],
-  "noorulla":   ["ನೂರುಲ್ಲ","ನೂರ್ ಉಲ್ಲ"],
-  "noorullakhan":["ನೂರುಲ್ಲಾಖಾನ್","ನೂರ್ ಉಲ್ಲ ಖಾನ"],
-  "khillemualla":["ಖಿಲೇಮುಲ್ಲ","ಖಿಲೇಮುಲ್ಲಾ"],
-  "sultana":    ["ಸುಲ್ತಾನ","ಸುಲ್ಥಾನ"],
-  "sultan":     ["ಸುಲ್ತಾನ","ಸುಲ್ಥಾನ"],
-  "majeed":     ["ಮಜೀದ","ಮಜೀದ್"],
-  "taher":      ["ತಾಹೆರ","ತಾಹಿರ"],
-  "tahir":      ["ತಾಹಿರ","ತಾಹೆರ"],
-  "wahab":      ["ವಹಾಬ","ವಾಹಬ"],
-  "waliulla":   ["ವಲೀಉಲ್ಲ","ವಲಿ ಉಲ್ಲ"],
-  // ---- Hindu / Kannada names ----
-  "kumar":      ["ಕುಮಾರ್","ಕುಮಾರ"],
-  "lakshmi":    ["ಲಕ್ಷ್ಮಿ","ಲಕ್ಷ್ಮಮ್ಮ","ಲಕ್ಷ್ಮೀ"],
-  "venkatesh":  ["ವೆಂಕಟೇಶ್","ವೆಂಕಟೇಶ"],
-  "narayana":   ["ನಾರಾಯಣ","ನಾರಾಯಣ್"],
-  "ramesh":     ["ರಮೇಶ್","ರಮೇಶ"],
-  "suresh":     ["ಸುರೇಶ್","ಸುರೇಶ"],
-  "shivakumar": ["ಶಿವಕುಮಾರ್","ಶಿವಕುಮಾರ"],
-  "manjula":    ["ಮಂಜುಲ","ಮಂಜುಳ"],
-  "rajesh":     ["ರಾಜೇಶ","ರಾಜೇಶ್"],
-  "girish":     ["ಗಿರೀಶ","ಗಿರೀಶ್"],
-  "mahesh":     ["ಮಹೇಶ","ಮಹೇಶ್"],
-  "ganesh":     ["ಗಣೇಶ","ಗಣೇಶ್"],
-  "ravi":       ["ರವಿ","ರವಿ"],
-  "rupa":       ["ರೂಪ","ರೂಪಾ"],
-  "sunitha":    ["ಸುನಿತ","ಸುನೀತ"],
-  "savitha":    ["ಸಾವಿತ","ಸಾವಿತ್ರಿ"],
-  "kavitha":    ["ಕಾವ್ಯ","ಕಾವಿತ"],
-  "anitha":     ["ಅನಿತ","ಅನೀತ"],
-  "rekha":      ["ರೇಖ","ರೇಖಾ"],
-  "usha":       ["ಉಷ","ಉಷಾ"],
-  "pushpa":     ["ಪುಷ್ಪ","ಪುಷ್ಪ"],
-  "geetha":     ["ಗೀತ","ಗೀತಾ"],
-  "nandini":    ["ನಂದಿನಿ","ನಂದಿನಿ"],
-  "sridevi":    ["ಶ್ರೀದೇವಿ","ಸ್ರೀದೇವಿ"],
-  "basavaraj":  ["ಬಸವರಾಜ","ಬಸವರಾಜ್"],
-  "nagaraj":    ["ನಾಗರಾಜ","ನಾಗರಾಜ್"],
-  "shivaraj":   ["ಶಿವರಾಜ","ಶಿವರಾಜ್"],
-  "muniswamy":  ["ಮುನಿಸ್ವಾಮಿ","ಮುನಿಸ್ವಾಮಿ"],
-  "rangaswamy": ["ರಂಗಸ್ವಾಮಿ","ರಂಗಸ್ವಾಮಿ"],
-  "thimmaiah":  ["ತಿಮ್ಮಯ್ಯ","ತಿಮ್ಮಪ್ಪ"],
-  "hanumantha": ["ಹನುಮಂತ","ಹನುಮಂತಪ್ಪ"],
-  "siddappa":   ["ಸಿದ್ದಪ್ಪ","ಸಿದ್ದ"],
-  "lingappa":   ["ಲಿಂಗಪ್ಪ","ಲಿಂಗ"],
-  "venkatarao": ["ವೆಂಕಟರಾವ","ವೆಂಕಟ ರಾವ"],
-  "chendraiah": ["ಚೆಂದ್ರಯ್ಯ","ಚಂದ್ರಯ್ಯ"],
-  "nanjaiah":   ["ನಂಜಯ್ಯ","ನಂಜಪ್ಪ"],
-  "munirajappa":["ಮುನಿರಾಜಪ್ಪ","ಮುನಿರಾಜ"],
-  "krishna":    ["ಕೃಷ್ಣ","ಕ್ರಿಷ್ಣ"],
-  "rama":       ["ರಾಮ","ರಾಮ"],
-  "srinivas":   ["ಶ್ರೀನಿವಾಸ","ಸ್ರೀನಿವಾಸ"],
-  "manjunath":  ["ಮಂಜುನಾಥ","ಮಂಜುನಾಥ್"],
-  "subramani":  ["ಸುಬ್ರಮಣಿ","ಸುಬ್ರಹ್ಮಣ್ಯ"],
-  "shivashankar":["ಶಿವಶಂಕರ","ಶಿವಶಂಕರ್"],
-  "bhaskar":    ["ಭಾಸ್ಕರ","ಭಾಸ್ಕರ್"],
-  "siddalingaiah":["ಸಿದ್ದಲಿಂಗಯ್ಯ","ಸಿದ್ದಲಿಂಗ"],
-  "ashwath":    ["ಅಶ್ವತ್","ಅಶ್ವಥ"],
-  "ashwathappa":["ಅಶ್ವತ್ಥಪ್ಪ","ಅಶ್ವತ್ಪ್ಪ"],
-  "gurappa":    ["ಗುರಪ್ಪ","ಗುರಪ್ಪ"],
-  "rudra":      ["ರುದ್ರ","ರುದ್ರ"]
-};
-
-// ====================================================================
-// PHONETIC NORMALIZATION: map common char sequences
-// ====================================================================
-const PHONETIC_NORMALIZE = [
-  [/ಸ್ಯೆ/g,   "sye"],
-  [/ಸ್ಯ/g,    "sy"],
-  [/ಯದ್/g,   "yad"],
-  [/ಖಾನ/g,   "khan"],
-  [/ಬೇಗ/g,   "beg"],
-  [/ಮಹಮ/g,   "moham"],
-  [/ಮುಹ/g,   "muh"],
-  [/ಮೊಹ/g,   "moh"],
-  [/ಕುಮಾರ/g, "kumar"],
-  [/ಲಕ್ಷ್ಮ/g, "lakshm"],
-  [/ರಮೇಶ/g,  "ramesh"],
-  [/ಸುರೇಶ/g, "suresh"],
-  [/ನಾರಾಯಣ/g,"narayana"],
-  [/ರಾಜೇಶ/g, "rajesh"],
-  [/ಹನುಮ/g,  "hanum"],
-  [/ಸಿದ್ದ/g, "sidda"],
-  [/ಫಾತಿಮ/g, "fatim"],
-  [/ಬಾನು/g,  "banu"],
-  [/ಶಬಾನ/g,  "shaban"],
-  [/ಅಕ್ರಮ/g, "akram"],
-  [/ಇಬ್ರಾಹಿಂ/g,"ibrahim"],
-  [/ಹುಸೇನ/g, "hussain"],
-  [/ಫಯಾಜ/g,  "fayaz"],
-  [/ನೂರ/g,   "noor"],
-  [/ಮಂಜುನಾಥ/g,"manjunath"],
-  [/ಮಂಜ/g,   "manj"],
-  [/ಗಣೇಶ/g,  "ganesh"],
-  [/ಲಿಂಗ/g,  "linga"],
-  [/ಬಸವ/g,   "basava"],
-  [/ವೆಂಕಟ/g, "venkata"]
-];
-// ====================================================================
-// PHONETIC CONVERSION: Kannada text -> latin-like string for fuzzy match
-// ====================================================================
-function toPhonetic(text) {
-  if (!text) return '';
-  let t = text.toLowerCase();
-  PHONETIC_NORMALIZE.forEach(([re, rep]) => { t = t.replace(re, rep); });
-  return t;
-}
-
-// ====================================================================
-// KANNADA → READABLE ENGLISH transliteration
-//
-// Key rules fixed vs previous version:
-//  1. Consonant + ್ (virama) + same consonant = doubled consonant + 'a'
-//     e.g. ಬ್ಬ = 'bba', ಮ್ಮ = 'mma', ಪ್ಪ = 'ppa'
-//  2. Bare consonant at word end = consonant + 'a' (implicit vowel)
-//     e.g. ಪ್ಪ at end → 'ppa', ಮ್ಮ → 'mma'
-//  3. ಂ (anusvara) = 'm' before labials (p/b/m), 'n' before others, 'ng' before velars
-//  4. ಾ (aa-kaara) = 'a' not 'aa' in common names (reads more natural)
-//  5. ಫ → 'f' not 'ph' for Muslim names (Fatima not Phatima)
-//  6. ಳ → 'la' not 'l' (retroflex lateral)
-// ====================================================================
-function kannadaToLatin(text) {
-  if (!text) return '';
-  // Strip ZWNJ
-  text = text.replace(/[\u200C\u200D]/g, '');
-
-  // Consonant bases → phoneme (without implicit 'a')
-  const C = {
-    'ಕ':'k','ಖ':'kh','ಗ':'g','ಘ':'gh','ಙ':'ng',
-    'ಚ':'ch','ಛ':'chh','ಜ':'j','ಝ':'jh','ಞ':'ny',
-    'ಟ':'t','ಠ':'th','ಡ':'d','ಢ':'dh','ಣ':'n',
-    'ತ':'t','ಥ':'th','ದ':'d','ಧ':'dh','ನ':'n',
-    'ಪ':'p','ಫ':'f','ಬ':'b','ಭ':'bh','ಮ':'m',
-    'ಯ':'y','ರ':'r','ಲ':'l','ವ':'v',
-    'ಶ':'sh','ಷ':'sh','ಸ':'s','ಹ':'h','ಳ':'l','ಱ':'r',
-  };
-  // Independent vowels
-  const V = {
-    'ಅ':'a','ಆ':'aa','ಇ':'i','ಈ':'ee','ಉ':'u','ಊ':'oo','ಋ':'ru',
-    'ಎ':'e','ಏ':'ee','ಐ':'ai','ಒ':'o','ಓ':'oo','ಔ':'au',
-  };
-  // Dependent vowel signs (matras)
-  const M = {
-    'ಾ':'a','ಿ':'i','ೀ':'ee','ು':'u','ೂ':'oo','ೃ':'ru',
-    'ೆ':'e','ೇ':'ee','ೈ':'ai','ೊ':'o','ೋ':'oo','ೌ':'au',
-  };
-  const VIRAMA = '್';
-  const ANUSVARA = 'ಂ';
-  const VISARGA  = 'ಃ';
-
-  const chars = [...text];
-  let out = '';
-  let i = 0;
-
-  while (i < chars.length) {
-    const ch = chars[i];
-
-    // Independent vowel
-    if (V[ch] !== undefined) { out += V[ch]; i++; continue; }
-
-    // Consonant
-    if (C[ch] !== undefined) {
-      const base = C[ch];
-      i++;
-      // Check what follows
-      if (i < chars.length && chars[i] === VIRAMA) {
-        // Consonant cluster: no implicit 'a'
-        out += base;
-        i++;
-        continue;
-      }
-      if (i < chars.length && M[chars[i]] !== undefined) {
-        // Consonant + matra vowel sign
-        out += base + M[chars[i]];
-        i++;
-        continue;
-      }
-      if (i < chars.length && chars[i] === ANUSVARA) {
-        // e.g. ರಂ → 'ram', ವೆಂ → 'ven'
-        // anusvara handled below on next iteration — emit base + 'a' here
-        out += base + 'a';
-        continue; // don't advance i — anusvara handled next loop
-      }
-      // Bare consonant — add implicit 'a'
-      out += base + 'a';
-      continue;
-    }
-
-    // Anusvara ಂ — context-sensitive nasal
-    if (ch === ANUSVARA) {
-      const next = i + 1 < chars.length ? chars[i + 1] : '';
-      if ('ಪಫಬಭಮ'.includes(next)) out += 'm';
-      else if ('ಕಖಗಘ'.includes(next)) out += 'n';
-      else out += 'n';
-      i++; continue;
-    }
-
-    if (ch === VISARGA) { out += 'h'; i++; continue; }
-
-    // Dependent vowel sign appearing without prior consonant (shouldn't happen but be safe)
-    if (M[ch] !== undefined) { out += M[ch]; i++; continue; }
-
-    // Pass through spaces, dots, hyphens etc.
-    if (/[\s.\-\/,']/.test(ch)) { out += ch; i++; continue; }
-
-    // Unknown — skip
-    i++;
-  }
-
-  // Post-process for readability:
-  // 1. Trailing consonant cluster like 'pp','mm','tt','nn' at word end → keep (already natural: Ramappa)
-  // 2. 'aa' → 'a' for more natural reading (Rama not Raama, Shiva not Shiiva)
-  //    EXCEPT: don't collapse 'aa' in first syllable if name is short (e.g. 'Aashiq')
-  out = out
-    .replace(/aa/g, 'a')   // Raama→Rama, Subbamma still Subbamma (mm preserved)
-    .replace(/ee/g, 'i')   // Deepa not Deepaa
-    .replace(/oo/g, 'u')   // not oo
-    .replace(/ppha/g, 'ppa')  // cleanup double-ph
-    .replace(/([a-z])\1{2,}/g, '$1$1')  // max double consonant
-    .trim();
-
-  // Title-case each word
-  return out.split(/\s+/)
-    .map(w => w ? w[0].toUpperCase() + w.slice(1) : '')
-    .join(' ');
-}
-
-
-
-// ====================================================================
-// STATE
-// ====================================================================
-let currentAC = null;
-let voterDB = {};      // key = "AC_PARTNUM" => array of voter records
-let fuseInstances = {}; // key = "AC_PARTNUM" => Fuse instance
-let currentSearchScope = []; // which DB keys to search
-
-// PDF.js workerSrc is set inside processPDF() after libraries have loaded
-
-// ====================================================================
-// INIT
-// ====================================================================
-function initApp() {
-  loadFromStorage();
-  refreshLoadedChips();
-  trackVisitor();
-  updateStatsFooter();
-}
-// Run when DOM is ready (scripts already loaded since they're at bottom of body)
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initApp);
-} else {
-  initApp();
-}
-
-// Storage with graceful fallback if localStorage is blocked (tracking prevention)
-let storageAvailable = false;
-try {
-  localStorage.setItem('_test', '1');
-  localStorage.removeItem('_test');
-  storageAvailable = true;
-} catch(e) {
-  console.warn('localStorage blocked — data will not persist across sessions.');
-}
-
-function loadFromStorage() {
-  if (!storageAvailable) return;
-  try {
-    const saved = localStorage.getItem('electoralDB');
-    if (saved) {
-      voterDB = JSON.parse(saved);
-      Object.keys(voterDB).filter(k => !k.endsWith('_meta')).forEach(key => buildFuseIndex(key));
-    }
-  } catch(e) { voterDB = {}; }
-}
-
-function saveToStorage() {
-  if (!storageAvailable) {
-    console.warn('Storage blocked — processed data kept in memory only for this session.');
-    return;
-  }
-  try {
-    localStorage.setItem('electoralDB', JSON.stringify(voterDB));
-  } catch(e) {
-    console.warn('Storage quota exceeded — data not saved:', e.message);
-  }
-}
-
-// ====================================================================
-// VISITOR & SUCCESS COUNTERS
-// Uses window.storage (Claude.ai shared storage) when available,
-// falls back to localStorage counters for standalone deployment.
-// Seeded at 150 so counter is non-zero from day 1.
-// ====================================================================
-async function trackVisitor() {
-  try {
-    if (sessionStorage.getItem('_visited')) { updateStatsFooter(); return; }
-    sessionStorage.setItem('_visited', '1');
-    if (typeof window.storage !== 'undefined') {
-      const cur = await window.storage.get('stats:visitors', true).catch(() => null);
-      const n = cur ? Math.max(parseInt(cur.value, 10) || 150, 150) + 1 : 151;
-      await window.storage.set('stats:visitors', String(n), true);
-    } else if (storageAvailable) {
-      const n = Math.max(parseInt(localStorage.getItem('_vis') || '150', 10), 150) + 1;
-      localStorage.setItem('_vis', String(n));
-    }
-    updateStatsFooter();
-  } catch(e) { updateStatsFooter(); }
-}
-
-async function trackSuccessfulFind() {
-  try {
-    if (typeof window.storage !== 'undefined') {
-      const cur = await window.storage.get('stats:successes', true).catch(() => null);
-      const n = cur ? Math.max(parseInt(cur.value, 10) || 150, 150) + 1 : 151;
-      await window.storage.set('stats:successes', String(n), true);
-    } else if (storageAvailable) {
-      const n = Math.max(parseInt(localStorage.getItem('_suc') || '150', 10), 150) + 1;
-      localStorage.setItem('_suc', String(n));
-    }
-    updateStatsFooter();
-  } catch(e) { /* silent */ }
-}
-
-async function updateStatsFooter() {
-  try {
-    let visitors = 150, successes = 150;
-    if (typeof window.storage !== 'undefined') {
-      const v = await window.storage.get('stats:visitors', true).catch(() => null);
-      const s = await window.storage.get('stats:successes', true).catch(() => null);
-      if (v) visitors  = Math.max(parseInt(v.value, 10) || 150, 150);
-      if (s) successes = Math.max(parseInt(s.value, 10) || 150, 150);
-    } else if (storageAvailable) {
-      visitors  = Math.max(parseInt(localStorage.getItem('_vis') || '150', 10), 150);
-      successes = Math.max(parseInt(localStorage.getItem('_suc') || '150', 10), 150);
-    }
-    const el = document.getElementById('statsFooter');
-    if (el) el.textContent = `👥 ${visitors} visitors · ✅ ${successes} successful voter searches`;
-  } catch(e) { /* silent */ }
-}
-
-// ====================================================================
-// DROPDOWNS — kept as no-op stubs (no longer shown in UI)
-// ====================================================================
-function populateDistricts() {}
-function onDistrictChange() {}
-function onACChange() {}
-function updateUploadState() {}
-
-// ====================================================================
-// FILE SELECTION & VALIDATION
-// ====================================================================
-function onFileSelected(event) {
-  const files = Array.from(event.target.files || []);
-  event.target.value = '';
-  if (!files.length) return;
-
-  // ── Multi-file nudge ─────────────────────────────────────────────
-  const notice = document.getElementById('multiFileNotice');
-  const noticeText = document.getElementById('multiFileNoticeText');
-  if (files.length > 1) {
-    noticeText.textContent = `You've selected ${files.length} files. Each file takes 2–5 minutes to process — multiple files may take considerably longer. Please keep this tab open.`;
-    notice.style.display = 'flex';
-  } else {
-    notice.style.display = 'none';
-  }
-
-  files.forEach(file => validateAndProcess(file));
-}
-
-function validateAndProcess(file) {
-  const filename = file.name;
-
-  // ── Rule 1: Must match CEO Karnataka naming exactly ──────────────────
-  const match = filename.match(/^A(\d{3})0(\d{3})\.pdf$/i);
-  if (!match) {
-    showAlert('error',
-      `❌ <b>Invalid filename: ${filename}</b><br>
-       Expected CEO Karnataka format: <b>AXXXOYYY.pdf</b> (e.g. A1620037.pdf).<br>
-       Do <u>not</u> rename the file before uploading.`);
-    return;
-  }
-
-  // ── Auto-detect AC from filename ─────────────────────────────────────
-  const fileAC  = 'A' + match[1];   // e.g. "A162"
-  const partNum = match[2];          // e.g. "037"
-
-  // Set currentAC to match this file (allows search scope to work)
-  currentAC = fileAC;
-
-  // ── Rule 2: Dedup — already processed? ───────────────────────────────
-  const dbKey = `${fileAC}_${partNum}`;
-  if (voterDB[dbKey]) {
-    const meta  = voterDB[dbKey + '_meta'] || {};
-    const count = voterDB[dbKey].length;
-    const when  = meta.processedAt
-      ? new Date(meta.processedAt).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'})
-      : 'earlier';
-    showAlert('success',
-      `✅ <b>Already processed!</b> Part <b>${partNum}</b> (AC ${match[1]}) was uploaded ${when} 
-       and has <b>${count} voter records</b> ready.<br>
-       No re-upload needed — go ahead and search.`);
-    currentSearchScope = getSearchScope();
-    refreshLoadedChips();
-    return;
-  }
-
-  processPDF(file, dbKey, partNum);
-}
-
-function getSearchScope() {
-  // Return all data keys regardless of AC — user may have uploaded multiple ACs
-  return Object.keys(voterDB).filter(k => !k.endsWith('_meta'));
-}
-
-// Drag and drop
-const uploadZone = document.getElementById('uploadZone');
-uploadZone.addEventListener('dragover', e => {
-  e.preventDefault(); uploadZone.classList.add('dragover');
-});
-uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
-uploadZone.addEventListener('drop', e => {
-  e.preventDefault(); uploadZone.classList.remove('dragover');
-  const file = e.dataTransfer.files[0];
-  if (file) onFileSelected({target:{files:[file],value:''}});
-});
-
-// ====================================================================
-// PDF PROCESSING — tries direct text first, falls back to OCR
-// ====================================================================
-async function processPDF(file, dbKey, partNum) {
-  showStatus('Loading PDF...', 3);
-  try {
-    pdfjsLib.GlobalWorkerOptions.workerSrc =
-      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-
-    const arrayBuffer = await file.arrayBuffer();
-    if (!arrayBuffer || arrayBuffer.byteLength === 0) {
-      throw new Error('File is empty or could not be read');
-    }
-
-    showStatus('Parsing PDF structure...', 5);
-    let pdf;
-    try {
-      pdf = await pdfjsLib.getDocument({
-        data: arrayBuffer,
-        useWorkerFetch: false,
-        isEvalSupported: false,
-        useSystemFonts: true
-      }).promise;
-    } catch(pdfErr) {
-      console.warn('PDF worker failed, retrying:', pdfErr);
-      pdfjsLib.GlobalWorkerOptions.workerSrc = '';
-      pdf = await pdfjsLib.getDocument({data: new Uint8Array(arrayBuffer)}).promise;
-    }
-
-    const totalPages = pdf.numPages;
-    showStatus('Checking for embedded text...', 7);
-
-    // Step 1: try direct text extraction (instant — works if PDF has real text layer)
-    let allRecords = await tryDirectExtract(pdf, totalPages);
-    console.log('Direct extract records:', allRecords.length);
-
-    // Step 2: if direct extraction yielded nothing, use OCR
-    if (allRecords.length === 0) {
-      showAlert('info',
-        'ℹ️ Scanned PDF detected. Starting OCR — takes 2–4 minutes for ' +
-        totalPages + ' pages. Please keep this tab open.');
-      allRecords = await runOCR(pdf, totalPages);
-      console.log('OCR records:', allRecords.length);
-    }
-
-    if (allRecords.length === 0) {
-      showAlert('error',
-        '❌ Could not extract voter records.<br>' +
-        'Please open browser console (F12 → Console tab) and share the log for debugging.');
-      hideStatus();
-      return;
-    }
-
-    voterDB[dbKey] = allRecords;
-    voterDB[dbKey + '_meta'] = {
-      processedAt: new Date().toISOString(),
-      recordCount: allRecords.length,
-      partNum, acNum: currentAC
-    };
-    buildFuseIndex(dbKey);
-    saveToStorage();
-    currentSearchScope = getSearchScope();
-
-    showStatus('✅ Done! ' + allRecords.length + ' voter records loaded from Part ' + partNum + '.', 100);
-    setTimeout(hideStatus, 4000);
-    refreshLoadedChips();
-
-  } catch(err) {
-    const msg = (err && err.message) ? err.message : JSON.stringify(err);
-    console.error('processPDF error:', err);
-    showAlert('error', '❌ Error reading PDF: ' + msg);
-    hideStatus();
-  }
-}
-
-// ====================================================================
-// STRATEGY 2: OCR using Tesseract.js
-// PSM 3 = fully automatic page segmentation (DO NOT force PSM 6)
-// PSM 6 breaks on pages that have headers + table content mixed
-// Diagnostic confirmed scale 2.5 works well for this PDF
-// ====================================================================
-async function runOCR(pdf, totalPages) {
-  if (typeof Tesseract === 'undefined') {
-    showAlert('error', '❌ OCR library not loaded. Please refresh the page.');
-    return [];
-  }
-
-  showStatus('Loading OCR engine...', 8);
-  let currentOCRPage = 1;
-
-  let worker;
-  try {
-    worker = await Tesseract.createWorker(['kan', 'eng'], 1, {
-      logger: m => {
-        if (m.status === 'recognizing text') {
-          const p = 10 + Math.round((currentOCRPage / totalPages) * 85);
-          showStatus('OCR page ' + currentOCRPage + '/' + totalPages +
-            ' — ' + Math.round(m.progress * 100) + '%', p);
-        } else if (m.status) {
-          showStatus(m.status + '...', 9);
-        }
-      }
-    });
-    // NO setParameters — use Tesseract default PSM 3 (auto segmentation)
-    // PSM 6 (uniform block) was causing zero extractions on mixed-layout pages
-  } catch(tErr) {
-    console.error('Tesseract init failed:', tErr);
-    showAlert('error', '❌ OCR engine failed to start: ' + (tErr.message || tErr));
-    return [];
-  }
-
-  let allRecords = [];
-  for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
-    currentOCRPage = pageNum;
-    const page   = await pdf.getPage(pageNum);
-    const vp     = page.getViewport({scale: 3.0}); // ~216 DPI — better than 2.5 for Kannada OCR
-    const canvas = document.createElement('canvas');
-    canvas.width  = vp.width;
-    canvas.height = vp.height;
-    await page.render({canvasContext: canvas.getContext('2d'), viewport: vp}).promise;
-
-    // Preprocessing: boost contrast to help faded/degraded scans
-    let ocrTarget = canvas;
-    try {
-      const proc = document.createElement('canvas');
-      proc.width = canvas.width; proc.height = canvas.height;
-      const pctx = proc.getContext('2d');
-      pctx.filter = 'contrast(1.35) brightness(1.05) grayscale(1)';
-      pctx.drawImage(canvas, 0, 0);
-      ocrTarget = proc;
-    } catch(e) { /* use raw canvas if filter unsupported */ }
-
-    const {data} = await worker.recognize(ocrTarget);
-
-    // Log first page raw output for debugging
-    if (pageNum <= 2) {
-      const previewLines = data.text.split('\n').filter(l => l.trim()).slice(0, 5);
-      console.log('Page ' + pageNum + ' OCR preview:', previewLines);
-    }
-
-    const pageRecords = parseOCRText(data.text);
-    console.log('Page ' + pageNum + ': ' + pageRecords.length + ' records extracted');
-    allRecords = allRecords.concat(pageRecords);
-  }
-
-  await worker.terminate();
-  console.log('Total records from OCR:', allRecords.length);
-  if (allRecords.length > 0) {
-    console.log('Sample record:', JSON.stringify(allRecords[0]));
-  }
-  return allRecords;
-}
-
-
-// ====================================================================
-// STRATEGY 1: Direct PDF text extraction
-// ====================================================================
-async function tryDirectExtract(pdf, totalPages) {
-  let allRecords = [];
-  for (let i = 1; i <= totalPages; i++) {
-    const page = await pdf.getPage(i);
-    const content = await page.getTextContent();
-    if (content.items.length > 2) {  // lower threshold — some pages have very few items per row
-      allRecords = allRecords.concat(parseTextItems(content.items));
-    }
-  }
-  return allRecords;
-}
-
-// ====================================================================
-// ====================================================================
-// PARSER 1: For direct PDF text extraction (structured items)
-// ====================================================================
-function parseTextItems(items) {
-  const records = [];
-  const lines = {};
-  items.forEach(item => {
-    const y = Math.round(item.transform[5] / 3) * 3;
-    if (!lines[y]) lines[y] = [];
-    lines[y].push({text: item.str, x: item.transform[4]});
-  });
-  Object.keys(lines).map(Number).sort((a,b) => b-a).forEach(y => {
-    const lineText = lines[y].sort((a,b)=>a.x-b.x).map(i=>i.str).join(' ').replace(/\s+/g,' ').trim();
-    const r = matchVoterLine(lineText);
-    if (r) records.push(r);
-  });
-  return records;
-}
-
-// ====================================================================
-// PARSER 2: For OCR text output (line by line)
-// Handles \u200C (ZWNJ) characters that Tesseract inserts in Kannada text
-// ====================================================================
-// ====================================================================
-// OCR LINE NORMALISER — all 12 failure modes from real A0850001 data
-// ====================================================================
-function normaliseOCRLine(line) {
-  if (!line) return '';
-  line = line.replace(/[\u200C\u200D\uFEFF]/g, '');
-  // Kannada digits → Arabic
-  const KD={'೦':'0','೧':'1','೨':'2','೩':'3','೪':'4','೫':'5','೬':'6','೭':'7','೮':'8','೯':'9'};
-  line = line.replace(/[೦-೯]/g, d => KD[d]||d);
-  // FM3: ALL confirmed Latin OCR misreads for ತಂದೆ from real PDFs
-  line = line.replace(/\b(god|wack|mortars|nowt|nod|woot|seas|means|dasa|go\}|gots|tod|fod|bod|wok|kod|303|Deacon\)?|Deacon|goa|sod)\b/gi, 'ತಂದೆ');
-  // FM3: Kannada zero substitution
-  line = line.replace(/ತ[o0\u0CE6]ದೆ/g, 'ತಂದೆ');
-  line = line.replace(/ಗ[o0\u0CE6]ಡ/g, 'ಗಂಡ');
-  // FM4: Gender latin — word boundary before age
-  line = line.replace(/\b(no|ro|rio|Bo|fo|go|co|ho|lo|po|do|qo)\b\.?\s*(?=\d{2,3})/g, 'ಗಂ ');
-  line = line.replace(/\b(nowt|now|hew|how|hex|bow|dew|few)\b\.?\s*(?=\d{2,3})/g, 'ಹೆಂ ');
-  // FM4: Kannada glyph confusions
-  line = line.replace(/ಗಣ(?=\s*\d)/g, 'ಗಂ');
-  line = line.replace(/ಹೆಣ(?=\s*\d)/g, 'ಹೆಂ');
-  // FM6: Bracket in age (5] → 51)
-  line = line.replace(/(\d)\](?=\s|$)/g, '$11');
-  // Strip trailing . after relation word
-  line = line.replace(/(ತಂದೆ|ತಾಯಿ|ಗಂಡ|ಇತರೆ)[.,]+/g, '$1 ');
-  // FM1: Leading serial noise
-  line = line.replace(/^[-.|l\[\]{}]+\s*/, '');
-  // FM12: Trailing noise on voter ID
-  line = line.replace(/(\s[A-Z0-9]{5,15})[.\|ನ\s]+$/, '$1');
-  return line.replace(/\s+/g, ' ').trim();
-}
-
-function parseOCRText(text) {
-  const records = [];
-  const rawLines = text.split('\n');
-  for (let i = 0; i < rawLines.length; i++) {
-    let line = normaliseOCRLine(rawLines[i]);
-    if (!line || line.length < 8) continue;
-    let r = matchVoterLine(line);
-    if (!r && i + 1 < rawLines.length) {
-      const n1 = normaliseOCRLine(rawLines[i + 1]);
-      const m1 = (line + ' ' + n1).replace(/\s+/g, ' ').trim();
-      r = matchVoterLine(m1);
-      if (r) { i++; }
-      else if (i + 2 < rawLines.length) {
-        const n2 = normaliseOCRLine(rawLines[i + 2]);
-        const m2 = (line + ' ' + n1 + ' ' + n2).replace(/\s+/g, ' ').trim();
-        r = matchVoterLine(m2);
-        if (r) i += 2;
-      }
-    }
-    if (r) records.push(r);
-  }
-  return records;
-}
-
-// ====================================================================
-// CORE VOTER ROW MATCHER
-//
-// CRITICAL FIX: Kannada Unicode block is U+0C80–U+0CFF
-// Previous code used U+0C00–U+0C7F which matched NOTHING
-//
-// Actual CEO Karnataka PDF row format (confirmed from OCR output):
-//   serial  house  name  ತಂದೆ.  relname  ಗಂ/ಹೆಂ  age  [voterID]
-//   e.g: "2 43 ಸಮೀರ ತಂದೆ. ಹುಲಿರಾಜ ಗಂ 25 KFM2748473"
-// ====================================================================
-const KAN_RE = '[\\u0C80-\\u0CFF\\u200C\\u200D]';
-
-// Helper to build a ZWNJ-tolerant match for a fixed Kannada keyword
-// e.g. ತಂದೆ → each char may be followed by optional ZWNJ
-function kanPattern(word) {
-  return [...word].map(c => c.replace(/[\u0C80-\u0CFF]/,
-    ch => ch + '\\u200C?\\u200D?')).join('');
-}
-
-const REL_PAT  = `(?:${kanPattern('ತಂದೆ')}|${kanPattern('ತಾಯಿ')}|${kanPattern('ಗಂಡ')}|${kanPattern('ಇತರೆ')})`;
-const GEN_PAT  = `(?:${kanPattern('ಗಂ')}|${kanPattern('ಹೆಂ')})`;
-
-const VOTER_PATTERN = new RegExp(
-  '^(\\d{1,4})'                                         // serial
-  + '\\s+([\\w\\u0C80-\\u0CFF\\u200C\\u200D\\/\\-\\.]+)'  // house no
-  + '\\s+(' + KAN_RE + '(?:' + KAN_RE + '|[\\s\\.\\,\\-\\\'])*?)'  // name
-  + '\\s+' + REL_PAT + '[\\.]?\\s+'                     // relation + optional dot
-  + '(' + KAN_RE + '(?:' + KAN_RE + '|[\\s\\.\\,\\-\\\'])*?)'      // rel name
-  + '\\s+' + GEN_PAT                                    // gender short
-  + '\\s+(\\d{1,3})'                                    // age
-  + '(?:\\s+([\\w\\d]{6,15}))?'                         // voter ID optional
-  + '\\s*$'
-);
-
-function matchVoterLine(line) {
-  if (!line || line.length < 8) return null;
-  const clean = line.replace(/\u200C|\u200D/g, ''); // strip ZWNJ for matching
-  const m = VOTER_PATTERN.exec(line.trim());
-  if (!m) return null;
-  // Groups: 1=serial, 2=house, 3=name, 4=relName, 5=age, 6=voterId
-  // (relation keyword and gender are non-capturing in the new pattern)
-  // Detect relation from original line
-  let relation = 'ತಂದೆ';
-  if (/ತಾಯಿ/.test(clean)) relation = 'ತಾಯಿ';
-  else if (/ಗಂಡ/.test(clean)) relation = 'ಗಂಡ';
-  else if (/ಇತರೆ/.test(clean)) relation = 'ಇತರೆ';
-  const genderCode = /ಹೆಂ/.test(clean) ? 'ಹೆಂ' : 'ಗಂ';
-  return makeRecord(m[1], m[2], m[3], relation, m[4], genderCode, m[5], m[6] || '');
-}
-
-function makeRecord(serial, house, name, relation, relName, genderCode, age, voterId) {
-  name    = (name    || '').replace(/\u200C|\u200D/g, '').trim();
-  relName = (relName || '').replace(/\u200C|\u200D/g, '').trim();
-  const gender = genderCode === 'ಗಂ' ? 'Male' : 'Female';
-  return {
-    serial, house, name, relation, relName, gender, age,
-    voterId: voterId || '',
-    nameLower:    name.toLowerCase(),
-    relNameLower: relName.toLowerCase(),
-    namePhonetic: toPhonetic(name),
-    relPhonetic:  toPhonetic(relName),
-    nameLatin:    kannadaToLatin(name),
-    relLatin:     kannadaToLatin(relName)
-  };
-}
-
-
-// ====================================================================
-// BUILD FUSE INDEX
-// ====================================================================
-function buildFuseIndex(dbKey) {
-  const data = voterDB[dbKey];
-  if (!data || !data.length) return;
-  fuseInstances[dbKey] = new Fuse(data, {
-    keys: ['name','relName','nameLower','relNameLower','namePhonetic','relPhonetic','nameLatin','relLatin','voterId'],
-    threshold: 0.30,
-    distance: 80,
-    includeScore: true,
-    ignoreLocation: true,
-    useExtendedSearch: false
-  });
-}
-
-// ====================================================================
-// SEARCH
-// ====================================================================
-function performSearch() {
-  const nameQ = document.getElementById('searchName').value.trim();
-  const relQ  = document.getElementById('searchRelative').value.trim();
-
-  if (!nameQ && !relQ) {
-    showAlert('warning', 'Please enter at least your name to search.');
-    return;
-  }
-
-  const scope = getSearchScope();
-  if (!scope.length) {
-    showAlert('warning', 'No electoral roll data loaded. Please upload a PDF part file first.');
-    return;
-  }
-
-  // Split multi-word queries into individual tokens e.g. "Syed Umar" → ["syed","umar"]
-  // Each token generates its own variants; a record must match ALL tokens (AND logic)
-  const nameTokens = nameQ ? nameQ.trim().toLowerCase().split(/\s+/).filter(t => t.length >= 2).map(generateVariants) : [];
-  const relTokens  = relQ  ? relQ.trim().toLowerCase().split(/\s+/).filter(t => t.length >= 2).map(generateVariants) : [];
-
-  // Helper: does field string match ALL token-variant groups?
-  function tokenMatchField(fieldLatin, fieldLower, fieldPhonetic) {
-    return (tokenGroups) => tokenGroups.every(variants =>
-      variants.some(v => {
-        const vClean = v.replace(/[^a-z0-9]/g, '');
-        return fieldLower.includes(v) ||
-               fieldPhonetic.includes(v) ||
-               (vClean.length >= 2 && fieldLatin.includes(vClean));
-      })
-    );
-  }
-
-  let allMatches = new Map(); // uid => {record, score, dbKey, nameHit, relHit}
-
-  scope.forEach(dbKey => {
-    const records = voterDB[dbKey] || [];
-
-    records.forEach(r => {
-      const uid = dbKey + '_' + r.serial;
-      const nLatin = r.nameLatin   || '';
-      const rLatin = r.relLatin    || '';
-      const nLower = r.nameLower   || '';
-      const rLower = r.relNameLower|| '';
-      const nPhon  = r.namePhonetic|| '';
-      const rPhon  = r.relPhonetic || '';
-
-      let nameHit = nameTokens.length === 0 || tokenMatchField(nLatin, nLower, nPhon)(nameTokens);
-      let relHit  = relTokens.length === 0  || tokenMatchField(rLatin, rLower, rPhon)(relTokens);
-
-      // Both must match if both are provided
-      const bothProvided = nameTokens.length > 0 && relTokens.length > 0;
-      const hit = bothProvided ? (nameHit && relHit) : (nameHit || relHit);
-
-      if (hit) {
-        const score = (nameTokens.length > 0 && nameHit ? 2 : 0) +
-                      (relTokens.length  > 0 && relHit  ? 1 : 0);
-        if (!allMatches.has(uid) || allMatches.get(uid).score < score) {
-          allMatches.set(uid, { record:r, score, dbKey, nameHit, relHit });
-        }
-      }
-    });
-  });
-
-  // Fuzzy fallback — only if exact/substring scan found nothing
-  if (allMatches.size === 0) {
-    const allQueryVariants = [...nameTokens, ...relTokens].flat();
-    scope.forEach(dbKey => {
-      if (!fuseInstances[dbKey]) return;
-      allQueryVariants.forEach(v => {
-        if (v.length < 3) return;
-        fuseInstances[dbKey].search(v, {limit:15}).forEach(res => {
-          const uid = dbKey + '_' + res.item.serial;
-          if (!allMatches.has(uid)) {
-            allMatches.set(uid, { record:res.item, score:0.1, dbKey, nameHit:false, relHit:false });
-          }
-        });
-      });
-    });
-  }
-
-  // Sort: both-hit first, then name-only/rel-only, then fuzzy
-  const sorted = Array.from(allMatches.values()).sort((a,b) => b.score - a.score);
-  displayResults(sorted.slice(0, 20), nameQ, relQ);
-}
-
-// ====================================================================
-// GENERATE SEARCH VARIANTS
-// ====================================================================
-function generateVariants(query) {
-  const q = query.toLowerCase().trim();
-  const variants = new Set([q]);
-
-  if (typeof expandQueryToken === 'function') {
-    expandQueryToken(q).forEach(v => variants.add(String(v || '').toLowerCase()));
-  }
-
-  // Check phonetic map
-  Object.entries(PHONETIC_MAP).forEach(([latin, kanList]) => {
-    if (latin === q || latin.includes(q) || q.includes(latin)) {
-      variants.add(latin);
-      kanList.forEach(k => {
-        const s = k.toLowerCase();
-        variants.add(s);
-        variants.add(s.replace(/್$/u, ''));
-      });
-    }
-    kanList.forEach(k => {
-      if (k.toLowerCase().includes(q) || q.includes(k.toLowerCase())) {
-        variants.add(latin);
-        kanList.forEach(k2 => {
-          const s2 = k2.toLowerCase();
-          variants.add(s2);
-          variants.add(s2.replace(/್$/u, ''));
-        });
-      }
-    });
-  });
-
-  const qClean = q.replace(/[^a-z0-9]/g, '');
-  if (qClean === 'syed' || qClean === 'sayyed' || qClean === 'sayed' || qClean === 'saiyed' || qClean === 'sayyad' || qClean === 'saiyad' || qClean === 'saiyyad' || qClean === 'sayyid' || qClean === 'saiyyid') {
-    ['syed', 'sayed', 'sayyed', 'sayyad', 'sayyid', 'saiyed', 'saiyad', 'saiyyad', 'saiyyid'].forEach(v => variants.add(v));
-  }
-
-  // If purely latin, add phonetic version
-  if (/^[a-z\s]+$/.test(q)) {
-    variants.add(toPhonetic(q));
-  }
-
-  return Array.from(variants).filter(v => v.length >= 2);
-}
-
-// ====================================================================
-// DISPLAY RESULTS  — pure DOM, no innerHTML for data (avoids all quoting bugs)
-// ====================================================================
-function displayResults(results, nameQ, relQ) {
-  const section   = document.getElementById('resultsSection');
-  const container = document.getElementById('resultsContainer');
-  const countEl   = document.getElementById('resultsCount');
-
-  section.style.display = 'block';
-  container.innerHTML = '';
-
-  if (!results.length) {
-    countEl.textContent = 'No results found';
-    const empty = document.createElement('div');
-    empty.className = 'no-results';
-    empty.innerHTML = '<div class="icon">&#128269;</div>'
-      + '<p>No voter records found matching your search.</p>'
-      + '<p style="margin-top:8px;font-size:13px">Try uploading more PDF parts or check the spelling.</p>';
-    container.appendChild(empty);
-    return;
-  }
-
-  let currentPage = 0;
-  const PAGE_SIZE = 5;
-
-  function makeField(labelText, valueHTML) {
-    const wrap = document.createElement('div');
-    wrap.className = 'result-field';
-    const lbl = document.createElement('label');
-    lbl.textContent = labelText;
-    const val = document.createElement('div');
-    val.className = 'val';
-    val.innerHTML = valueHTML;          // safe: valueHTML is our own highlight() output
-    wrap.appendChild(lbl);
-    wrap.appendChild(val);
-    return wrap;
-  }
-
-  function makeSmallField(labelText, valueText, extraStyle) {
-    const wrap = document.createElement('div');
-    wrap.className = 'result-field';
-    const lbl = document.createElement('label');
-    lbl.textContent = labelText;
-    const val = document.createElement('div');
-    val.className = 'val small';
-    if (extraStyle) val.style.cssText = extraStyle;
-    val.textContent = valueText;
-    wrap.appendChild(lbl);
-    wrap.appendChild(val);
-    return wrap;
-  }
-
-  function renderPage() {
-    Array.from(container.querySelectorAll('.result-card, .load-more-row')).forEach(el => el.remove());
-
-    const end       = (currentPage + 1) * PAGE_SIZE;
-    const shown     = results.slice(0, end);
-    const remaining = results.length - end;
-
-    countEl.textContent = 'Showing ' + shown.length + ' of ' + results.length + ' matches';
-
-    shown.forEach(function(match, idx) {
-      const r       = match.record;
-      const partNum = match.dbKey.split('_')[1];
-      const acNum   = match.dbKey.split('_')[0];
-      const isBest  = (idx === 0 && currentPage === 0);
-
-      // Card wrapper
-      const card = document.createElement('div');
-      card.className = 'result-card' + (isBest ? ' best-match' : '');
-
-      // Grid
-      const grid = document.createElement('div');
-      grid.className = 'result-grid';
-
-      // Name field: Kannada PROMINENT (large bold) + English transliteration below (readable)
-      const nameWrap = document.createElement('div');
-      nameWrap.className = 'result-field';
-      const nameLbl = document.createElement('label');
-      nameLbl.textContent = 'Name | ಹೆಸರು';
-      // Kannada — primary, large
-      const nameKan = document.createElement('div');
-      nameKan.className = 'val';
-      nameKan.style.cssText = 'font-family:"Noto Sans Kannada",sans-serif;font-size:17px;font-weight:700;line-height:1.4';
-      nameKan.innerHTML = highlight(r.name, nameQ);
-      // English — secondary, readable but smaller
-      const nameVal = document.createElement('div');
-      nameVal.style.cssText = 'font-size:14px;font-weight:600;color:var(--gray-600);margin-top:3px;font-family:"Noto Serif",serif;letter-spacing:0.01em';
-      nameVal.textContent = r.nameLatin || '';
-      nameWrap.appendChild(nameLbl);
-      nameWrap.appendChild(nameKan);
-      if (r.nameLatin) {
-        nameWrap.appendChild(nameVal);
-        // Name split hint for concatenated names (e.g. syedabanu → syeda banu)
-        const splitSuggestion = maybeSplitName(r.nameLatin);
-        if (splitSuggestion) {
-          const splitHint = document.createElement('div');
-          splitHint.style.cssText = 'font-size:11px;color:var(--saffron);margin-top:3px;font-family:"JetBrains Mono",monospace';
-          splitHint.title = 'This may be a compound name written as one word in Kannada';
-          splitHint.textContent = '💡 Possible split: ' + splitSuggestion;
-          nameWrap.appendChild(splitHint);
-        }
-      }
-      grid.appendChild(nameWrap);
-
-      // Relative name field: same pattern
-      const relWrap = document.createElement('div');
-      relWrap.className = 'result-field';
-      const relLbl = document.createElement('label');
-      relLbl.textContent = "Father's / Husband's Name";
-      const relKan = document.createElement('div');
-      relKan.className = 'val';
-      relKan.style.cssText = 'font-family:"Noto Sans Kannada",sans-serif;font-size:17px;font-weight:700;line-height:1.4';
-      relKan.innerHTML = highlight(r.relName, relQ);
-      const relVal = document.createElement('div');
-      relVal.style.cssText = 'font-size:14px;font-weight:600;color:var(--gray-600);margin-top:3px;font-family:"Noto Serif",serif;letter-spacing:0.01em';
-      relVal.textContent = r.relLatin || '';
-      relWrap.appendChild(relLbl);
-      relWrap.appendChild(relKan);
-      if (r.relLatin) relWrap.appendChild(relVal);
-      grid.appendChild(relWrap);
-      grid.appendChild(makeSmallField('Serial No.', r.serial));
-      grid.appendChild(makeSmallField('House No.',  r.house));
-
-      // Gender + Age tags
-      const genderWrap = document.createElement('div');
-      genderWrap.className = 'result-field';
-      const gLbl = document.createElement('label');
-      gLbl.textContent = 'Gender / Age';
-      const gVal = document.createElement('div');
-      gVal.className = 'val small';
-      const gTag = document.createElement('span');
-      gTag.className = 'tag ' + (r.gender === 'Male' ? 'tag-male' : 'tag-female');
-      gTag.textContent = r.gender;
-      const aTag = document.createElement('span');
-      aTag.className = 'tag tag-age';
-      aTag.textContent = r.age + ' yrs';
-      gVal.appendChild(gTag);
-      gVal.appendChild(document.createTextNode(' '));
-      gVal.appendChild(aTag);
-      genderWrap.appendChild(gLbl);
-      genderWrap.appendChild(gVal);
-      grid.appendChild(genderWrap);
-
-      grid.appendChild(makeSmallField('Voter ID', r.voterId || '—', 'font-family:monospace'));
-
-      card.appendChild(grid);
-
-      // Actions row
-      const actions = document.createElement('div');
-      actions.className = 'result-actions';
-
-      const btn = document.createElement('button');
-      btn.className = 'btn btn-success btn-sm';
-      btn.textContent = '✅ This is me / Found';
-      // Closure captures exact voter data — no string escaping needed
-      btn.addEventListener('click', (function(ac, pt, nm, rn, sr, vi) {
-        return function() { onSuccess(ac, pt, nm, rn, sr, vi, sr); };
-      })(acNum, partNum, r.name, r.relName, r.serial, r.voterId));
-
-      const hint = document.createElement('span');
-      hint.style.cssText = 'font-size:12px;color:var(--gray-400)';
-      hint.textContent = 'Not you? Check next result →';
-
-      actions.appendChild(btn);
-      actions.appendChild(hint);
-      card.appendChild(actions);
-      container.appendChild(card);
-    });
-
-    // Next 5 / end-of-results row
-    const row = document.createElement('div');
-    row.className = 'load-more-row';
-    if (remaining > 0) {
-      row.style.cssText = 'text-align:center;padding:12px 0';
-      const nextBtn = document.createElement('button');
-      nextBtn.className = 'btn btn-outline';
-      nextBtn.textContent = 'Next 5 results (' + remaining + ' remaining) →';
-      nextBtn.addEventListener('click', function() {
-        currentPage++;
-        renderPage();
-        const cards = container.querySelectorAll('.result-card');
-        const firstNew = cards[currentPage * PAGE_SIZE];
-        if (firstNew) firstNew.scrollIntoView({behavior:'smooth', block:'start'});
-      });
-      row.appendChild(nextBtn);
-      container.appendChild(row);
-    } else if (results.length > PAGE_SIZE) {
-      row.style.cssText = 'text-align:center;padding:10px;font-size:13px;color:var(--gray-400)';
-      row.textContent = '— All ' + results.length + ' results shown —';
-      container.appendChild(row);
-    }
-  }
-
-  renderPage();
-}
-
-
-function toTitleCase(str) {
-  if (!str) return '';
-  return str.replace(/\b\w/g, c => c.toUpperCase());
-}
-
-function highlight(text, query) {
-  if (!text || !query) return text || '—';
-  try {
-    const re = new RegExp('(' + query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
-    return text.replace(re, '<mark>$1</mark>');
-  } catch(e) { return text; }
-}
-
-function escJ(s) { return (s||'').replace(/'/g,"\\'").replace(/"/g,'\\"'); }
-
-// ====================================================================
-// SUCCESS MODAL
-// ====================================================================
-function onSuccess(acNum, partNum, name, relName, serial, voterId, partSerialNum) {
-  const acNumeric = acNum.replace('A','');
-  // Find AC name
-  let acName = '';
-  Object.values(AC_DATA).flat().forEach(ac => {
-    if (ac.num === acNum) acName = ac.name;
-  });
-
-  const saffron = 'color:var(--saffron);font-weight:700';
-  const psnVal = (partSerialNum || serial || '').toString().trim();
-
-  document.getElementById('modalInfo').innerHTML = `
-    <div class="modal-info-row"><span>Voter Name</span><span style="text-align:right"><span style="font-family:'Noto Sans Kannada',sans-serif;font-size:15px;font-weight:700;display:block">${name}</span><small style="font-weight:600;color:var(--gray-600);font-family:'Noto Serif',serif;font-size:13px">${kannadaToLatin(name)}</small></span></div>
-    <div class="modal-info-row"><span>Relation Name</span><span style="text-align:right"><span style="font-family:'Noto Sans Kannada',sans-serif;font-size:15px;font-weight:700;display:block">${relName}</span><small style="font-weight:600;color:var(--gray-600);font-family:'Noto Serif',serif;font-size:13px">${kannadaToLatin(relName)}</small></span></div>
-    <div class="modal-info-row"><span>Serial No.</span><span>${serial}</span></div>
-    <div class="modal-info-row"><span>⭐ AC Number</span><span style="${saffron}">${acNumeric}</span></div>
-    ${acName ? `<div class="modal-info-row"><span>AC Name</span><span>${acName}</span></div>` : ''}
-    <div class="modal-info-row"><span>⭐ Part Number</span><span style="${saffron}">${partNum}</span></div>
-    <div class="modal-info-row"><span>⭐ Part Serial No.</span><span style="${saffron}">${psnVal || '—'}</span></div>
-    ${voterId ? `<div class="modal-info-row"><span>Voter ID</span><span>${voterId}</span></div>` : ''}
-  `;
-  document.getElementById('successModal').classList.add('show');
-  trackSuccessfulFind();
-}
-
-function closeModal() {
-  document.getElementById('successModal').classList.remove('show');
-}
-
-document.getElementById('successModal').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
-});
-
-// ====================================================================
-// UI HELPERS
-// ====================================================================
-function showStatus(msg, pct) {
-  const bar = document.getElementById('statusBar');
-  bar.classList.add('show');
-  document.getElementById('statusText').textContent = msg;
-  document.getElementById('progressFill').style.width = pct + '%';
-}
-function hideStatus() {
-  document.getElementById('statusBar').classList.remove('show');
-}
-
-let alertTimeout;
-function showAlert(type, html) {
-  clearTimeout(alertTimeout);
-  const existing = document.getElementById('dynamicAlert');
-  if (existing) existing.remove();
-  const div = document.createElement('div');
-  div.id = 'dynamicAlert';
-  div.className = `alert alert-${type}`;
-  div.innerHTML = `<span>${getAlertIcon(type)}</span><span>${html}</span>`;
-  document.getElementById('uploadZone').parentNode.insertBefore(div, document.getElementById('uploadZone'));
-  if (type !== 'error') alertTimeout = setTimeout(() => div.remove(), 6000);
-}
-function getAlertIcon(t) {
-  return {warning:'⚠️',error:'❌',info:'ℹ️',success:'✅'}[t] || 'ℹ️';
-}
-
-function refreshLoadedChips() {
-  const container = document.getElementById('loadedPdfs');
-  const keys = Object.keys(voterDB).filter(k => !k.endsWith('_meta'));
-  container.innerHTML = '';
-  const clearWrap = document.getElementById('clearDataWrap');
-  if (keys.length) {
-    if (clearWrap) clearWrap.style.display = 'block';
-    const label = document.createElement('div');
-    label.style = 'font-size:12px;color:var(--gray-400);width:100%;margin-bottom:6px';
-    label.textContent = `${keys.length} part(s) already processed — no re-upload needed:`;
-    container.appendChild(label);
-    keys.sort().forEach(k => {
-      const [acNum, part] = k.split('_');
-      const meta  = voterDB[k + '_meta'] || {};
-      const count = meta.recordCount || (voterDB[k] || []).length;
-      const when  = meta.processedAt
-        ? new Date(meta.processedAt).toLocaleDateString('en-IN',{day:'numeric',month:'short'})
-        : '';
-      const chip = document.createElement('div');
-      chip.className = 'pdf-chip';
-      chip.title = `AC ${acNum} · Part ${part} · ${count} records · processed ${when}`;
-      chip.innerHTML = `<span class="dot"></span> AC ${acNum.replace('A','')} · Part ${part} &nbsp;·&nbsp; ${count} voters${when ? ' &nbsp;·&nbsp; ' + when : ''}`;
-      container.appendChild(chip);
-    });
-    currentSearchScope = keys;
-  } else {
-    if (clearWrap) clearWrap.style.display = 'none';
-  }
-}
-
-function clearStoredData() {
-  if (!confirm('This will delete all stored PDF data from your browser. You will need to re-upload PDFs to search again. Continue?')) return;
-  voterDB = {};
-  fuseInstances = {};
-  currentSearchScope = [];
-  if (storageAvailable) {
-    try { localStorage.removeItem('electoralDB'); } catch(e) {}
-  }
-  refreshLoadedChips();
-  clearResults();
-  showAlert('info', 'All stored PDF data has been cleared. Please upload new PDFs to search.');
-}
-
-function clearResults() {
-  document.getElementById('resultsSection').style.display = 'none';
-}
-
-// Enter key
-document.getElementById('searchName').addEventListener('keydown', e => { if(e.key==='Enter') performSearch(); });
-document.getElementById('searchRelative').addEventListener('keydown', e => { if(e.key==='Enter') performSearch(); });
-
-// ====================================================================
-// SEARCH MODE TABS
-// ====================================================================
-function switchTab(mode) {
-  const dbPanel   = document.getElementById('tab-panel-upload');
-  const dbCard    = document.querySelector('.card'); // Step 0 card
-  const tabDb     = document.getElementById('tab-btn-db');
-  const tabUpload = document.getElementById('tab-btn-upload');
-
-  // The Step 0 "db" card is always the first .card after tabs
-  // We identify it by its step-badge content
-  const allCards = document.querySelectorAll('.main > .card');
-  const step0Card = Array.from(allCards).find(c => {
-    const badge = c.querySelector('.step-badge');
-    return badge && badge.textContent.trim() === '0';
-  });
-
-  if (mode === 'db') {
-    tabDb.classList.add('active');
-    tabDb.setAttribute('aria-selected','true');
-    tabUpload.classList.remove('active');
-    tabUpload.setAttribute('aria-selected','false');
-    if (step0Card) step0Card.style.display = '';
-    document.getElementById('tab-panel-upload').style.display = 'none';
-  } else {
-    tabUpload.classList.add('active');
-    tabUpload.setAttribute('aria-selected','true');
-    tabDb.classList.remove('active');
-    tabDb.setAttribute('aria-selected','false');
-    if (step0Card) step0Card.style.display = 'none';
-    document.getElementById('tab-panel-upload').style.display = '';
-  }
-}
-
-// ====================================================================
-// WHATSAPP SHARE
-// ====================================================================
-(function initShare() {
-  const url  = encodeURIComponent(window.location.href);
-  const text = encodeURIComponent(
-    '🗳️ Find your name in the 2002 Karnataka voter list!\n' +
-    'Search Bagalkot, BBMP & Mysore by name — no login needed.\n' +
-    window.location.href
-  );
-  const btn = document.getElementById('btn-whatsapp-share');
-  if (btn) {
-    btn.href = 'https://wa.me/?text=' + text;
-  }
-})();
-
-function copyPageLink() {
-  const btn = document.getElementById('btn-copy-link');
-  navigator.clipboard.writeText(window.location.href).then(() => {
-    btn.textContent = '✅ Copied!';
-    btn.classList.add('copied');
-    setTimeout(() => {
-      btn.textContent = '🔗 Copy Link';
-      btn.classList.remove('copied');
-    }, 2000);
-  }).catch(() => {
-    // Fallback
-    const ta = document.createElement('textarea');
-    ta.value = window.location.href;
-    document.body.appendChild(ta);
-    ta.select(); document.execCommand('copy');
-    document.body.removeChild(ta);
-    btn.textContent = '✅ Copied!';
-    btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = '🔗 Copy Link'; btn.classList.remove('copied'); }, 2000);
-  });
-}
-
-// ====================================================================
-// PROMINENT DISTRICT VOTE BANNER
-// ====================================================================
-const VOTE_STORAGE_KEY = 'districtVotes_v2';
-const VOTE_STORAGE_KEY_LEGACY = 'district_vote_counts_v1';
-
-function loadVotes() {
-  try {
-    const raw = localStorage.getItem(VOTE_STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
-    const legacy = localStorage.getItem(VOTE_STORAGE_KEY_LEGACY);
-    if (!legacy) return {};
-    const obj = JSON.parse(legacy);
-    if (obj && typeof obj === 'object') {
-      localStorage.setItem(VOTE_STORAGE_KEY, JSON.stringify(obj));
-      return obj;
-    }
-    return {};
-  } catch(e) { return {}; }
-}
-function saveVotes(v) {
-  try { localStorage.setItem(VOTE_STORAGE_KEY, JSON.stringify(v)); } catch(e) {}
-}
-
-function submitVoteNew() {
-  const sel = document.getElementById('sel-vote-district-new');
-  const district = sel.value;
-  if (!district) { sel.style.borderColor = 'var(--saffron)'; setTimeout(()=>{sel.style.borderColor='';},1500); return; }
-
-  const votes = loadVotes();
-  votes[district] = (votes[district] || 0) + 1;
-  saveVotes(votes);
-
-  const btn = document.getElementById('btn-vote-new');
-  btn.style.animation = 'none';
-  btn.textContent = '✅ Voted!';
-  btn.disabled = true;
-  setTimeout(() => { btn.textContent = '🗳️ Cast My Vote'; btn.disabled = false; }, 3000);
-
-  /*
-   * TO TRACK VOTES ACROSS ALL USERS — deploy a Cloudflare Worker, then uncomment:
-   * fetch('https://your-worker.workers.dev/vote', {
-   *   method: 'POST',
-   *   headers: { 'Content-Type': 'application/json' },
-   *   body: JSON.stringify({ district: district })
-   * }).catch(e => console.log('Vote sync failed:', e));
-   */
-
-  renderVoteResults();
-}
-
-function renderVoteResults() {
-  const bar = document.getElementById('vote-results-bar-new');
-  if (!bar) return;
-  const votes = loadVotes();
-  const entries = Object.entries(votes).sort((a,b) => b[1]-a[1]).slice(0, 5);
-  if (!entries.length) {
-    bar.classList.remove('show');
-    return;
-  }
-  const max = entries[0][1] || 1;
-  const total = Object.values(votes).reduce((s,v)=>s+(parseInt(v,10)||0), 0);
-  bar.innerHTML = `<div style="font-size:12.5px;font-weight:800;color:#FFD700;margin-bottom:8px;font-family:'JetBrains Mono',monospace">
-    🏆 Leading: <span style="text-decoration:underline">${entries[0][0]}</span>
-    &nbsp;·&nbsp; <span style="font-weight:400;opacity:0.8">Total community votes: ${total}</span>
-  </div>`;
-  bar.innerHTML += '<div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.55);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px">Top districts:</div>';
-  entries.forEach(([name, count]) => {
-    const pct = Math.round((count / max) * 100);
-    const isLeader = (name === entries[0][0]);
-    bar.innerHTML += `
-      <div class="vote-result-row">
-        <div class="vote-result-name" style="${isLeader?'color:#FFD700;font-weight:800':''}">${isLeader?'🏆 ':''}${name}</div>
-        <div class="vote-result-track"><div class="vote-result-fill" style="width:${pct}%"></div></div>
-        <div class="vote-result-count">${count} vote${count!==1?'s':''}</div>
-      </div>`;
-  });
-  bar.classList.add('show');
-}
-
-// Render on load if votes exist
-(function() {
-  const v = loadVotes();
-  if (Object.keys(v).length > 0) renderVoteResults();
-})();
-
-// ====================================================================
-// ADMIN PANEL — activated by URL hash #admin
-// ====================================================================
-function renderAdminPanel() {
-  const panel = document.getElementById('admin-panel');
-  if (!panel) return;
-  const votes = loadVotes();
-  const entries = Object.entries(votes).sort((a,b) => b[1]-a[1]);
-  const tableEl = document.getElementById('admin-vote-table');
-  if (!tableEl) return;
-  if (!entries.length) {
-    tableEl.innerHTML = '<div style="color:#888;padding:6px">No votes recorded in this browser yet.</div>';
-  } else {
-    let html = '<table><tr><th>District</th><th>Votes</th></tr>';
-    entries.forEach(([d,v]) => { html += `<tr><td>${d}</td><td><b>${v}</b></td></tr>`; });
-    html += `</table><div style="color:#888;margin-top:4px;font-size:10px">Total: ${entries.reduce((s,[,v])=>s+v,0)} votes</div>`;
-    tableEl.innerHTML = html;
-  }
-  panel.style.display = 'block';
-}
-
-function adminCopyJSON() {
-  const data = loadVotes();
-  const txt = JSON.stringify(data, null, 2);
-  navigator.clipboard.writeText(txt).then(()=>alert('✅ JSON copied to clipboard!')).catch(()=>prompt('Copy this JSON:', txt));
-}
-
-function adminCopyCSV() {
-  const data = loadVotes();
-  const rows = ['District,Votes', ...Object.entries(data).sort((a,b)=>b[1]-a[1]).map(([d,v])=>`\"${d}\",${v}`)];
-  const csv = rows.join('\n');
-  navigator.clipboard.writeText(csv).then(()=>alert('✅ CSV copied to clipboard!')).catch(()=>prompt('Copy this CSV:', csv));
-}
-
-function checkAdminHash() {
-  const panel = document.getElementById('admin-panel');
-  if (!panel) return;
-  if (window.location.hash === '#admin') renderAdminPanel();
-  else panel.style.display = 'none';
-}
-window.addEventListener('hashchange', checkAdminHash);
-checkAdminHash();
-
-// ====================================================================
-// FEEDBACK MODAL
-// ====================================================================
-function openFeedback() {
-  document.getElementById('feedbackModalOverlay').classList.add('show');
-}
-function closeFeedback() {
-  document.getElementById('feedbackModalOverlay').classList.remove('show');
-}
-function closeFeedbackIfBg(e) {
-  if (e.target === document.getElementById('feedbackModalOverlay')) closeFeedback();
-}
-
-let feedbackScreenshotBase64 = null;
-
-function previewScreenshot(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (ev) => {
-    feedbackScreenshotBase64 = ev.target.result;
-    const img = document.getElementById('feedback-preview');
-    img.src = ev.target.result;
-    img.style.display = 'block';
-    document.querySelector('#feedbackSSArea p').textContent = '✅ Screenshot attached';
-  };
-  reader.readAsDataURL(file);
-}
-
-function submitFeedback() {
-  const text = document.getElementById('feedbackText').value.trim();
-  if (!text) {
-    document.getElementById('feedbackText').style.borderColor = 'var(--saffron)';
-    document.getElementById('feedbackText').placeholder = '⚠️ Please describe the issue before sending.';
-    return;
-  }
-  document.getElementById('feedbackText').style.borderColor = '';
-
-  // Use mailto: as a reliable, zero-backend approach
-  const subject = encodeURIComponent('votershare2002 Feedback');
-  const body = encodeURIComponent(
-    'Feedback from VoterSearch2002\n' +
-    '================================\n\n' +
-    text +
-    '\n\n--- Page URL ---\n' + window.location.href +
-    (feedbackScreenshotBase64
-      ? '\n\n[Screenshot attached — please reply to this email if not visible]'
-      : '')
-  );
-
-  // Open mail client
-  window.location.href = `mailto:umar.xperiments@gmail.com?subject=${subject}&body=${body}`;
-
-  // Show confirmation and close after delay
-  const sending = document.getElementById('feedbackSending');
-  sending.style.display = 'block';
-  sending.innerHTML = '<div style="font-size:15px;color:var(--green);font-weight:700;text-align:center">✅ Opening your email client…<br><span style="font-size:12px;color:var(--gray-600);font-weight:400">If it doesn\'t open, email umar.xperiments@gmail.com<br>with subject: <b>votershare2002</b></span></div>';
-  document.querySelector('.feedback-actions').style.display = 'none';
-
-  setTimeout(() => {
-    closeFeedback();
-    sending.style.display = 'none';
-    document.querySelector('.feedback-actions').style.display = '';
-    document.getElementById('feedbackText').value = '';
-    feedbackScreenshotBase64 = null;
-    const img = document.getElementById('feedback-preview');
-    img.src = ''; img.style.display = 'none';
-    document.querySelector('#feedbackSSArea p').textContent = 'Click to attach a screenshot';
-  }, 3500);
-}
-
-// ====================================================================
-// NAME SPLIT HINT for concatenated Kannada names in upload search
-// ====================================================================
-// This is a non-breaking display hint only — shows in result cards.
-// We inject a small note if the returned name looks like a compound
-// (e.g. "syedabanu" — no space, length > 8, common Muslim name patterns).
-function maybeSplitName(latinName) {
-  if (!latinName) return null;
-  const n = latinName.toLowerCase().replace(/\s/g,'');
-  if (n.length < 7) return null;
-  const splits = [
-    [/^(syeda)(banu|begum|parween|parveen|khanam|sultana|bibi|tabassum)/, '$1 $2'],
-    [/^(fathima|fatima|fatheema|patima|pathima)(bi|banu|begum|unnisa|sulthana)/, '$1 $2'],
-    [/^(noor|nur)(jahan|unnisa|banu|basha|nisa|sultana)/, '$1 $2'],
-    [/^(kamar|rahat|fasal|pasal|anjum|tajun|halim|rahimann?)(unnisa|nissa|unnissa)/, '$1 unnisa'],
-    [/^(aisha|ayesha|amina|aminaa?)(banu|begum|bi)/, '$1 $2'],
-    [/^(abdul|abdull?a?)(rehman|rahman|rahim|karim|aziz|azeez|hamid|latif|majid|wahab|razak|razzak|sattar|jabbar|qadir|hakim|hafeez|rashid|ghani|khader|kader|baseer|basheer|matin|mateen|wajid|wajeed|hameed|haseeb)/, '$1 $2'],
-    [/^(mohammed|mohammad|mohd|md|muhammed|mohamad)(ali|hussain|hussein|rafi|rafiq|sajid|imran|iqbal|arif|farooq|parooq|moin|shafi|aslam|akram|ibrahim|ismail|yusuf|yunus|kaleem|saleem|nazir|tahir|bashir|munir|aamir|amir|hasan|haneef|hanif|kasim|khader|gouse|ghaus|yousuf|sharif|shareef|jaleel|jameel)/, '$1 $2'],
-    [/^(syed|syayed|sayyad|sayyed|shaikh|shaik)(ali|hussain|mohd|mohammed|ahmad|ahmed|moin|ghouse|sadiq|razvi|jalal|kasim|yasin|ibrahim|mujeeb|mohinuddin|najaruddin|inayath|mujeebu?r?)/, '$1 $2'],
-    [/^([a-z]{4,})(begum|begam)$/, '$1 $2'],
-    [/^([a-z]{4,})(banu)$/, '$1 banu'],
-    [/^([a-z]{4,})(khan)$/, '$1 khan'],
-    [/^([a-z]{4,})(bi)$/, '$1 bi'],
-    [/^([a-z]{4,})(unnisa)$/, '$1 $2'],
-    [/^(balaram)(bhovi|bovi|bhavi)/, '$1 $2'],
-    [/^(shivabasappa|shivabasavappa)/, 'shiva basappa'],
-    [/^(narayanakutti|narayanakutty)/, 'narayana kutti'],
-    [/^(muniswami|muneeswami|munniswamy)/, 'muni swami'],
-    [/^(pattabirama|pattabhirama)/, 'pattabhi rama'],
-    [/^(siddharama|siddharamappa)/, 'siddha rama'],
-    [/^(musthafa|mustafa)(kitore|kitoore|kittore|kitoor)/, '$1 $2'],
-    [/^(mohamad|mohammed)(kitore|kitoore|kittore|kitoor)/, '$1 $2'],
-    [/^(rama?)(krishna)/, '$1 $2'],
-    [/^(lakshmi)(narayana|devi|pathi)/, '$1 $2'],
-    [/^(venkata)(ramana|chala|krishna|raman)/, '$1 $2'],
-    [/^(putta|ramaa?)(swamy|swami)/, '$1 $2'],
-  ];
-  const cleaned = latinName.toLowerCase().replace(/[^a-z]/g,'');
-  for (const [re, rep] of splits) {
-    if (!rep) continue;
-    if (re.test(cleaned)) {
-      const suggested = cleaned.replace(re, rep);
-      if (suggested !== cleaned) return suggested;
-    }
-  }
-  return null;
-}
-</script>
-
-<!-- Libraries loaded at end of body so DOM is ready and page renders instantly -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 </body>
 </html>

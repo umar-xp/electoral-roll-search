@@ -3,3 +3,11 @@ pyarrow==24.0.0
 indic-transliteration==2.3.82
 pandas==3.0.2
 pytest==9.0.3
+python-dotenv==1.1.0
+pytesseract==0.3.13
+PyMuPDF==1.25.0
+opencv-python==4.11.0.86
+Pillow==11.1.0
+scipy==1.15.0
+numpy>=1.26.0
+psycopg2-binary==2.9.10
