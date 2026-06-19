@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: rolls_postgres
+    environment:
+      POSTGRES_DB: electoral_rolls
+      POSTGRES_USER: rolls_admin
+      POSTGRES_PASSWORD: rolls_local_2026
+    ports:
+      - "5432:5432"
+    volumes:
+      - rolls_pgdata:/var/lib/postgresql/data
+      - ./packages/data-pipeline/scripts/pg_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+    shm_size: "512mb"
+    command: >
+      postgres
+        -c shared_buffers=256MB
+        -c work_mem=64MB
+        -c maintenance_work_mem=256MB
+        -c max_connections=50
+        -c wal_level=minimal
+        -c max_wal_senders=0
+        -c synchronous_commit=off
+        -c checkpoint_completion_target=0.9
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rolls_admin -d electoral_rolls"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  rolls_pgdata:
