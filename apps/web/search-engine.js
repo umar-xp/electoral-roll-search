@@ -89,6 +89,7 @@ class VoterSearchEngine {
     this.useWorker = options.useWorker !== false;
     this.worker = null;
     this.masterIndex = null;
+    this.loadedDistrictIndexes = new Map();
     this.loadedParts = new LRUCache(options.maxCachedParts || 200);
     this.searchHistory = [];
     this._batchCounter = 0;
@@ -171,17 +172,44 @@ class VoterSearchEngine {
    */
   getDistricts() {
     if (!this.masterIndex) return [];
-    const districts = this.masterIndex.districts || {};
-    return Object.entries(districts)
-      .filter(([, d]) => d.status === 'live')
-      .map(([key, d]) => ({
-        key,
-        name: d.display_name,
+    const districts = Array.isArray(this.masterIndex.districts) ? this.masterIndex.districts : [];
+    return districts
+      .filter(d => d && d.status === 'live')
+      .filter(d => !!d.district_code)
+      .map((d) => ({
+        key: d.district_code,
+        name: d.display_name || d.name || d.district_code,
         voterCount: d.voter_count,
         acCount: d.ac_count,
-        acs: d.acs || [],
       }))
       .sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  /**
+   * Load a district index to get AC metadata on demand.
+   *
+   * @param {string} districtKey - District identifier
+   * @returns {Promise<Object>} District index data with acs array
+   */
+  async loadDistrictIndex(districtKey) {
+    if (this.loadedDistrictIndexes.has(districtKey)) {
+      return this.loadedDistrictIndexes.get(districtKey);
+    }
+
+    const dirName = districtKey.replace(/ /g, '_');
+    const url = `${this.basePath}data/districts/${dirName}/index.json`;
+
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      this.loadedDistrictIndexes.set(districtKey, data);
+      return data;
+    } catch (err) {
+      this._lastError = `Failed to load district index for ${districtKey}: ${err.message}`;
+      console.warn(this._lastError);
+      return { acs: [] };
+    }
   }
 
   /**
@@ -391,16 +419,25 @@ class VoterSearchEngine {
     let totalAcs = 0;
     let timedOut = false;
 
-    // Calculate total ACs for progress
-    for (const dist of districts) {
-      totalAcs += dist.acs.length;
+    // master_index.json is intentionally lightweight in Schema 2.0,
+    // so global search loads AC metadata from each district index file.
+    const districtsWithIndexes = await Promise.all(
+      districts.map(async (dist) => ({
+        ...dist,
+        districtIndex: await this.loadDistrictIndex(dist.key),
+      }))
+    );
+
+    for (const dist of districtsWithIndexes) {
+      totalAcs += (dist.districtIndex.acs || []).length;
     }
 
-    for (const dist of districts) {
+    for (const dist of districtsWithIndexes) {
       if (signal && signal.aborted) break;
       if (timedOut) break;
 
-      for (const ac of dist.acs) {
+      const acs = dist.districtIndex.acs || [];
+      for (const ac of acs) {
         if (signal && signal.aborted) break;
 
         // Timeout protection: stop if search exceeds time limit
@@ -817,6 +854,7 @@ class VoterSearchEngine {
    * Clear the voter data cache to free memory.
    */
   clearCache() {
+    this.loadedDistrictIndexes.clear();
     this.loadedParts.clear();
   }
 
@@ -835,6 +873,7 @@ class VoterSearchEngine {
     }
     this._pendingSearches.clear();
     this._inflightFetches.clear();
+    this.loadedDistrictIndexes.clear();
     this.loadedParts.clear();
     this.masterIndex = null;
   }

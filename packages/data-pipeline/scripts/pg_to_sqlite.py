@@ -23,6 +23,7 @@ import re
 import sqlite3
 import sys
 import time
+from datetime import datetime, timezone
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -39,6 +40,35 @@ PG_DEFAULTS = {
     "user": "rolls_admin",
     "password": "rolls_local_2026",
 }
+
+
+def _district_code(name: str) -> str:
+    """Return a stable district code for master_index.json."""
+    if not name:
+        return "UNKNOWN"
+    return re.sub(r"[^A-Z0-9]+", "_", name.upper()).strip("_") or "UNKNOWN"
+
+
+def _district_display_name(name: str) -> str:
+    """Return a readable display name while preserving short acronyms."""
+    if not name:
+        return "Unknown"
+
+    parts = re.split(r"[_\s]+", name.strip())
+    formatted = []
+    for part in parts:
+        if not part:
+            continue
+        if part.isupper() and len(part) <= 4:
+            formatted.append(part)
+        else:
+            formatted.append(part.capitalize())
+    return " ".join(formatted) or name
+
+
+def _generated_at() -> str:
+    """Return a UTC ISO-8601 timestamp for JSON metadata."""
+    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 def get_pg_conn(pg_params=None):
@@ -274,14 +304,22 @@ def export_json_index(pg_params, output_dir, district_filter=None, ac_filter=Non
         d_acs = districts[d_name]
         d_voters = sum(len(voters) for ac in d_acs.values() for voters in ac.values())
         district_summaries.append({
+            "district_code": _district_code(d_name),
             "name": d_name,
-            "total_voters": d_voters,
+            "display_name": _district_display_name(d_name),
+            "status": "live",
+            "voter_count": d_voters,
             "ac_count": len(d_acs)
         })
 
     master = {
+        "schema_version": "2.0",
+        "generated_at": _generated_at(),
         "state": "KARNATAKA",
-        "total_voters": total_voters,
+        "stats": {
+            "total_voters": total_voters,
+            "district_count": len(district_summaries)
+        },
         "districts": district_summaries
     }
     master_path = out / "master_index.json"
@@ -302,13 +340,13 @@ def export_json_index(pg_params, output_dir, district_filter=None, ac_filter=Non
             ac_summaries.append({
                 "ac_num": ac_num,
                 "ac_name": f"AC-{ac_num}",
-                "total_voters": ac_voters,
-                "parts_count": len(ac_parts)
+                "voter_count": ac_voters,
+                "part_count": len(ac_parts)
             })
 
         dist_index = {
             "district": d_name,
-            "total_voters": sum(a["total_voters"] for a in ac_summaries),
+            "total_voters": sum(a["voter_count"] for a in ac_summaries),
             "acs": ac_summaries
         }
         dist_index_path = d_dir / "index.json"

@@ -51,6 +51,20 @@ def load_master_index():
         return json.load(f)
 
 
+def iter_live_districts(master):
+    """Yield (district_key, district_info) for live Schema 2.0 districts."""
+    districts = master.get("districts", [])
+    for district in districts:
+        if not isinstance(district, dict):
+            continue
+        if district.get("status") != "live":
+            continue
+        district_key = district.get("district_code") or district.get("name")
+        if not district_key:
+            continue
+        yield district_key, district
+
+
 def normalize_token(token):
     """Normalize a search token for consistent matching.
     
@@ -169,7 +183,7 @@ def build_district_shard(district_key, district_dir):
                     "rn": rn,
                     "rk": rk,
                     "g": voter.get("g", ""),
-                    "a": voter.get("a", 0),
+                    "a": voter.get("a", None),
                     "ac": ac_num,
                     "pn": voter.get("pn", 0),
                     "sn": voter.get("sn", 0),
@@ -251,7 +265,7 @@ def build_compact_shard(district_key, district_dir):
                 cols["rn"].append(voter.get("rn", ""))
                 cols["rk"].append(voter.get("rk", ""))
                 cols["g"].append(voter.get("g", ""))
-                cols["a"].append(voter.get("a", 0))
+                cols["a"].append(voter.get("a", None))
                 cols["ac"].append(ac_num)
                 cols["pn"].append(voter.get("pn", 0))
                 cols["sn"].append(voter.get("sn", 0))
@@ -279,8 +293,6 @@ def main():
     
     # Load master index
     master = load_master_index()
-    districts = master.get("districts", {})
-    
     # Create output directory
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     
@@ -294,11 +306,7 @@ def main():
     
     total_start = time.time()
     
-    for dist_key, dist_info in sorted(districts.items()):
-        if dist_info.get("status") != "live":
-            print(f"\n  SKIP: {dist_key} (status={dist_info.get('status', 'unknown')})")
-            continue
-        
+    for dist_key, dist_info in sorted(iter_live_districts(master), key=lambda item: item[0]):
         # Map display name to directory name (replace spaces with underscores)
         dir_name = dist_key.replace(" ", "_")
         district_dir = DATA_DIR / dir_name

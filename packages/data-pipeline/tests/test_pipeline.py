@@ -98,10 +98,21 @@ class TestDataIntegrity:
             data = json.load(f)
         
         assert "schema_version" in data
+        assert data["schema_version"] == "2.0"
         assert "stats" in data
         assert "districts" in data
-        assert data["stats"]["total_voters_live"] > 0
-        assert data["stats"]["total_districts_live"] > 0
+        assert isinstance(data["districts"], list)
+        assert data["stats"]["total_voters"] > 0
+        assert data["stats"]["district_count"] > 0
+        assert data["stats"]["district_count"] == len(data["districts"])
+
+        district = data["districts"][0]
+        assert "district_code" in district
+        assert "display_name" in district
+        assert "status" in district
+        assert "voter_count" in district
+        assert "ac_count" in district
+        assert "acs" not in district
     
     def test_voter_record_schema(self):
         """Voter part files should have valid record structure."""
@@ -126,7 +137,7 @@ class TestDataIntegrity:
             
             # Type checks
             assert isinstance(voter["sn"], int), "Serial number should be int"
-            assert isinstance(voter["a"], int), "Age should be int"
+            assert voter["a"] is None or isinstance(voter["a"], int), "Age should be int or null"
             assert voter["g"] in ("M", "F", None, ""), f"Invalid gender: {voter['g']}"
     
     def test_voter_ages_valid_range(self):

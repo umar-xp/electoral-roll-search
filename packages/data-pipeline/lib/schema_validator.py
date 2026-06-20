@@ -6,7 +6,7 @@ they are written to JSON. Prevents malformed data from reaching the frontend.
 """
 
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import List
 
 
 @dataclass
@@ -17,55 +17,51 @@ class ValidationError:
 
 
 def validate_voter_record(record: dict) -> List[ValidationError]:
-    """Validate a single voter record against the expected schema.
-
-    Required fields: serial_no (int-like), voter_name (non-empty string)
-    Optional fields: age, gender, voter_id, relative_name, relation, house_no
-
-    Returns:
-        List of validation errors (empty list = valid)
-    """
+    """Validate a single Schema 2.0 voter record."""
     errors = []
 
-    # serial_no: required, numeric string
-    sn = record.get("serial_no")
+    # sn: required, numeric int-like
+    sn = record.get("sn")
     if sn is None or sn == "":
-        errors.append(ValidationError("serial_no", "missing"))
+        errors.append(ValidationError("sn", "missing"))
     elif isinstance(sn, str) and not sn.isdigit():
-        errors.append(ValidationError("serial_no", "not numeric", sn))
+        errors.append(ValidationError("sn", "not numeric", sn))
+    elif not isinstance(sn, (int, str)):
+        errors.append(ValidationError("sn", "must be int or numeric string", sn))
 
-    # voter_name: required, non-empty
-    name = record.get("voter_name") or record.get("voter_name_kn") or ""
+    # At least one name should be present
+    name = record.get("vk") or record.get("vn") or ""
     if not name or len(name.strip()) < 2:
-        # Allow records with voter_id as alternate identifier
-        vid = record.get("voter_id", "")
+        vid = record.get("id", "")
         if not vid:
-            errors.append(ValidationError("voter_name", "missing or too short", name))
+            errors.append(ValidationError("vk|vn", "missing or too short", name))
 
-    # age: optional, 18-120 if present
-    age = record.get("age")
-    if age is not None and age != "" and age != -1:
+    # a: required, int or null
+    if "a" not in record:
+        errors.append(ValidationError("a", "missing"))
+    age = record.get("a")
+    if age is not None:
         try:
             age_int = int(age)
             if age_int < 18 or age_int > 120:
-                errors.append(ValidationError("age", f"out of range (18-120)", age_int))
+                errors.append(ValidationError("a", "out of range (18-120)", age_int))
         except (ValueError, TypeError):
-            errors.append(ValidationError("age", "not a valid integer", age))
+            errors.append(ValidationError("a", "not a valid integer", age))
 
     # gender: optional, must be known value if present
-    gender = record.get("gender", "")
+    gender = record.get("g", "")
     valid_genders = {"M", "F", "ಗಂ", "ಹೆಂ", ""}
     if gender and gender not in valid_genders:
-        errors.append(ValidationError("gender", f"unknown value", gender))
+        errors.append(ValidationError("g", "unknown value", gender))
 
-    # voter_id: optional, 5-6 digits if present
-    vid = record.get("voter_id", "")
+    # id: optional, 4-7 digits if present
+    vid = record.get("id", "")
     if vid:
         if not isinstance(vid, str):
             vid = str(vid)
         digits_only = vid.replace(" ", "")
         if not digits_only.isdigit() or len(digits_only) < 4 or len(digits_only) > 7:
-            errors.append(ValidationError("voter_id", "invalid format (expected 4-7 digits)", vid))
+            errors.append(ValidationError("id", "invalid format (expected 4-7 digits)", vid))
 
     return errors
 
@@ -76,7 +72,7 @@ def validate_part_file(data: dict) -> List[ValidationError]:
     Expected structure:
         {
             "voters": [...],
-            "meta": {"ac_num": int, "part_num": int, "page_count": int, ...}
+            "meta": {"ac_num": int, "part_num": int, ...}
         }
     """
     errors = []
@@ -123,6 +119,11 @@ def validate_district_index(data: dict) -> List[ValidationError]:
         errors.append(ValidationError("root", "must be a dict"))
         return errors
 
+    if "district" not in data:
+        errors.append(ValidationError("district", "missing"))
+    if "total_voters" not in data:
+        errors.append(ValidationError("total_voters", "missing"))
+
     # Should have acs list
     acs = data.get("acs")
     if acs is None:
@@ -136,8 +137,12 @@ def validate_district_index(data: dict) -> List[ValidationError]:
                 continue
             if "ac_num" not in ac:
                 errors.append(ValidationError(f"acs[{i}].ac_num", "missing"))
-            if "parts" not in ac and "part_count" not in ac:
-                errors.append(ValidationError(f"acs[{i}]", "missing parts or part_count"))
+            if "ac_name" not in ac:
+                errors.append(ValidationError(f"acs[{i}].ac_name", "missing"))
+            if "parts_count" not in ac and "part_count" not in ac:
+                errors.append(ValidationError(f"acs[{i}]", "missing parts_count or part_count"))
+            if "total_voters" not in ac and "voter_count" not in ac:
+                errors.append(ValidationError(f"acs[{i}]", "missing total_voters or voter_count"))
 
     return errors
 
@@ -150,19 +155,33 @@ def validate_master_index(data: dict) -> List[ValidationError]:
         errors.append(ValidationError("root", "must be a dict"))
         return errors
 
+    for field in ("schema_version", "generated_at", "state", "stats", "districts"):
+        if field not in data:
+            errors.append(ValidationError(field, "missing"))
+
+    stats = data.get("stats")
+    if stats is not None:
+        if not isinstance(stats, dict):
+            errors.append(ValidationError("stats", "must be a dict"))
+        else:
+            if "total_voters" not in stats:
+                errors.append(ValidationError("stats.total_voters", "missing"))
+            if "district_count" not in stats:
+                errors.append(ValidationError("stats.district_count", "missing"))
+
     districts = data.get("districts")
     if districts is None:
         errors.append(ValidationError("districts", "missing"))
-    elif not isinstance(districts, dict):
-        errors.append(ValidationError("districts", "must be a dict"))
+    elif not isinstance(districts, list):
+        errors.append(ValidationError("districts", "must be a list"))
     else:
-        for key, district in districts.items():
+        for i, district in enumerate(districts):
             if not isinstance(district, dict):
-                errors.append(ValidationError(f"districts.{key}", "must be a dict"))
+                errors.append(ValidationError(f"districts[{i}]", "must be a dict"))
                 continue
-            if "status" not in district:
-                errors.append(ValidationError(f"districts.{key}.status", "missing"))
-            if "voter_count" not in district and "ac_count" not in district:
-                errors.append(ValidationError(f"districts.{key}", "missing voter_count or ac_count"))
+            required_fields = ("district_code", "name", "display_name", "status", "voter_count", "ac_count")
+            for field in required_fields:
+                if field not in district:
+                    errors.append(ValidationError(f"districts[{i}].{field}", "missing"))
 
     return errors

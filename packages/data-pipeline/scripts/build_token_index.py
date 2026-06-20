@@ -63,6 +63,20 @@ def normalize_token(token):
     return t
 
 
+def iter_live_districts(master):
+    """Yield (district_key, district_info) for live Schema 2.0 districts."""
+    districts = master.get("districts", [])
+    for district in districts:
+        if not isinstance(district, dict):
+            continue
+        if district.get("status") != "live":
+            continue
+        district_key = district.get("district_code") or district.get("name")
+        if not district_key:
+            continue
+        yield district_key, district
+
+
 def build_token_index():
     """Build the inverted token index across all live districts.
     
@@ -80,12 +94,7 @@ def build_token_index():
     with open(MASTER_INDEX_PATH, "r", encoding="utf-8") as f:
         master = json.load(f)
     
-    districts = master.get("districts", {})
-    
-    for dist_key, dist_info in sorted(districts.items()):
-        if dist_info.get("status") != "live":
-            continue
-        
+    for dist_key, _dist_info in sorted(iter_live_districts(master), key=lambda item: item[0]):
         dir_name = dist_key.replace(" ", "_")
         district_dir = DATA_DIR / dir_name
         

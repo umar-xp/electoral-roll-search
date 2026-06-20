@@ -147,23 +147,23 @@ async function initDBSearch() {
     const districts = (dbState.masterIndex || {}).districts || {};
 
     let liveCount = 0;
-    if (dbState.masterIndex && dbState.masterIndex.stats && typeof dbState.masterIndex.stats.total_districts_live === 'number') {
-      liveCount = dbState.masterIndex.stats.total_districts_live;
+    if (Array.isArray(districts)) {
+      liveCount = districts.filter(d => d && d.status === 'live').length;
     } else {
-      if (Array.isArray(districts)) {
-        liveCount = districts.length;
-      } else {
-        liveCount = Object.values(districts).filter(d => d && d.status === 'live').length;
-      }
+      liveCount = Object.values(districts).filter(d => d && d.status === 'live').length;
     }
     const badge = document.getElementById('badge-live-districts');
     if (badge) badge.textContent = `⚠️ ${liveCount} districts only`;
 
     if (Array.isArray(districts)) {
       districts
-        .sort((a, b) => (a.name || '').localeCompare(b.name || ''))
+        .filter(d => d && d.status === 'live')
+        .sort((a, b) => (a.display_name || a.name || '').localeCompare(b.display_name || b.name || ''))
         .forEach(d => {
-          sel.add(new Option(d.name, d.name));
+          const key = d.district_code || '';
+          if (!key) return;
+          const label = d.display_name || d.name || key;
+          sel.add(new Option(label, key));
         });
     } else {
       Object.entries(districts)
@@ -306,7 +306,7 @@ function dbOnDistrictChange() {
   // Support both array-style and object-style district formats
   let dist;
   if (Array.isArray(districts)) {
-    dist = districts.find(d => d.name === key);
+    dist = districts.find(d => d && d.district_code === key);
   } else {
     dist = districts[key];
   }
@@ -348,7 +348,7 @@ function _populateACDropdown(key, dist) {
       const acLabel = formatAcLabel(key, ac.ac_num, ac.ac_name);
       acSel.add(
         new Option(
-          `${acLabel} (${(ac.total_voters || ac.voter_count || 0).toLocaleString()})`,
+          `${acLabel} (${(ac.voter_count || 0).toLocaleString()})`,
           ac.ac_num
         )
       );

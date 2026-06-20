@@ -21,6 +21,7 @@ import json
 import re
 import sqlite3
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 # Characters that indicate OCR garbage in a name field
@@ -32,6 +33,35 @@ def _is_garbage_name(name: str) -> bool:
     if not name:
         return False
     return len(_GARBAGE_CHARS.findall(name)) >= 3
+
+
+def _district_code(name: str) -> str:
+    """Return a stable district code for master_index.json."""
+    if not name:
+        return "UNKNOWN"
+    return re.sub(r"[^A-Z0-9]+", "_", name.upper()).strip("_") or "UNKNOWN"
+
+
+def _district_display_name(name: str) -> str:
+    """Return a readable display name while preserving short acronyms."""
+    if not name:
+        return "Unknown"
+
+    parts = re.split(r"[_\s]+", name.strip())
+    formatted = []
+    for part in parts:
+        if not part:
+            continue
+        if part.isupper() and len(part) <= 4:
+            formatted.append(part)
+        else:
+            formatted.append(part.capitalize())
+    return " ".join(formatted) or name
+
+
+def _generated_at() -> str:
+    """Return a UTC ISO-8601 timestamp for JSON metadata."""
+    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 def generate_json_index(db_path: str, output_dir: str):
@@ -173,8 +203,8 @@ def generate_json_index(db_path: str, output_dir: str):
             ac_list.append({
                 "ac_num": ac_num,
                 "ac_name": f"AC-{ac_num}",
-                "total_voters": ac_total,
-                "parts_count": len(parts)
+                "voter_count": ac_total,
+                "part_count": len(parts)
             })
         
         # Write district index
@@ -189,16 +219,26 @@ def generate_json_index(db_path: str, output_dir: str):
             json.dump(district_index, f, ensure_ascii=False, separators=(',', ':'))
         total_files += 1
         
+        district_code = _district_code(district)
         master_districts.append({
+            "district_code": district_code,
             "name": district,
-            "total_voters": district_total,
+            "display_name": _district_display_name(district),
+            "status": "live",
+            "voter_count": district_total,
             "ac_count": len(acs)
         })
     
     # Write master index
+    total_voters = sum(d["voter_count"] for d in master_districts)
     master_index = {
+        "schema_version": "2.0",
+        "generated_at": _generated_at(),
         "state": "KARNATAKA",
-        "total_voters": sum(d["total_voters"] for d in master_districts),
+        "stats": {
+            "total_voters": total_voters,
+            "district_count": len(master_districts)
+        },
         "districts": master_districts
     }
     
@@ -209,9 +249,9 @@ def generate_json_index(db_path: str, output_dir: str):
     
     print(f"Generated {total_files} JSON files in {out}/")
     print(f"  Districts: {len(master_districts)}")
-    print(f"  Total voters: {master_index['total_voters']}")
+    print(f"  Total voters: {master_index['stats']['total_voters']}")
     for d in master_districts:
-        print(f"    {d['name']}: {d['total_voters']} voters, {d['ac_count']} ACs")
+        print(f"    {d['name']}: {d['voter_count']} voters, {d['ac_count']} ACs")
 
 
 def main():

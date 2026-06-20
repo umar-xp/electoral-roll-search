@@ -14,65 +14,70 @@ from lib.schema_validator import (
 class TestVoterRecordValidation:
     def test_valid_record(self):
         record = {
-            "serial_no": "42",
-            "voter_name": "ಮೊಹಮ್ಮದ್ ಶೋಯೆಬ್",
-            "age": 35,
-            "gender": "M",
-            "voter_id": "123456",
+            "sn": 42,
+            "vk": "ಮೊಹಮ್ಮದ್ ಶೋಯೆಬ್",
+            "a": 35,
+            "g": "M",
+            "id": "123456",
         }
         errors = validate_voter_record(record)
         assert errors == []
 
     def test_missing_serial(self):
-        record = {"voter_name": "ಮೊಹಮ್ಮದ್"}
+        record = {"vk": "ಮೊಹಮ್ಮದ್", "a": 30}
         errors = validate_voter_record(record)
-        assert any(e.field == "serial_no" for e in errors)
+        assert any(e.field == "sn" for e in errors)
 
     def test_non_numeric_serial(self):
-        record = {"serial_no": "abc", "voter_name": "ಟೆಸ್ಟ್"}
+        record = {"sn": "abc", "vk": "ಟೆಸ್ಟ್", "a": 30}
         errors = validate_voter_record(record)
-        assert any(e.field == "serial_no" for e in errors)
+        assert any(e.field == "sn" for e in errors)
 
     def test_missing_name_with_voter_id(self):
-        """voter_id alone is a valid identifier."""
-        record = {"serial_no": "1", "voter_id": "123456"}
+        """id alone is a valid identifier."""
+        record = {"sn": 1, "a": 35, "id": "123456"}
         errors = validate_voter_record(record)
-        assert not any(e.field == "voter_name" for e in errors)
+        assert not any(e.field == "vk|vn" for e in errors)
 
     def test_age_out_of_range(self):
-        record = {"serial_no": "1", "voter_name": "ಟೆಸ್ಟ್", "age": 150}
+        record = {"sn": 1, "vk": "ಟೆಸ್ಟ್", "a": 150}
         errors = validate_voter_record(record)
-        assert any(e.field == "age" for e in errors)
+        assert any(e.field == "a" for e in errors)
 
     def test_valid_age_boundaries(self):
         for age in [18, 65, 120]:
-            record = {"serial_no": "1", "voter_name": "ಟೆಸ್ಟ್", "age": age}
+            record = {"sn": 1, "vk": "ಟೆಸ್ಟ್", "a": age}
             errors = validate_voter_record(record)
-            assert not any(e.field == "age" for e in errors)
+            assert not any(e.field == "a" for e in errors)
+
+    def test_null_age_allowed(self):
+        record = {"sn": 1, "vk": "ಟೆಸ್ಟ್", "a": None}
+        errors = validate_voter_record(record)
+        assert errors == []
 
     def test_invalid_gender(self):
-        record = {"serial_no": "1", "voter_name": "ಟೆಸ್ಟ್", "gender": "X"}
+        record = {"sn": 1, "vk": "ಟೆಸ್ಟ್", "a": 30, "g": "X"}
         errors = validate_voter_record(record)
-        assert any(e.field == "gender" for e in errors)
+        assert any(e.field == "g" for e in errors)
 
     def test_valid_genders(self):
         for g in ["M", "F", "ಗಂ", "ಹೆಂ", ""]:
-            record = {"serial_no": "1", "voter_name": "ಟೆಸ್ಟ್", "gender": g}
+            record = {"sn": 1, "vk": "ಟೆಸ್ಟ್", "a": 30, "g": g}
             errors = validate_voter_record(record)
-            assert not any(e.field == "gender" for e in errors)
+            assert not any(e.field == "g" for e in errors)
 
     def test_invalid_voter_id(self):
-        record = {"serial_no": "1", "voter_name": "ಟೆಸ್ಟ್", "voter_id": "abc"}
+        record = {"sn": 1, "vk": "ಟೆಸ್ಟ್", "a": 30, "id": "abc"}
         errors = validate_voter_record(record)
-        assert any(e.field == "voter_id" for e in errors)
+        assert any(e.field == "id" for e in errors)
 
 
 class TestPartFileValidation:
     def test_valid_part_file(self):
         data = {
             "voters": [
-                {"serial_no": "1", "voter_name": "ಟೆಸ್ಟ್ ಹೆಸರು"},
-                {"serial_no": "2", "voter_name": "ಇನ್ನೊಂದು ಹೆಸರು"},
+                {"sn": 1, "vk": "ಟೆಸ್ಟ್ ಹೆಸರು", "a": 30, "g": "M"},
+                {"sn": 2, "vn": "Another Name", "a": None, "g": "F"},
             ],
             "meta": {"ac_num": 210, "part_num": 1},
         }
@@ -92,9 +97,20 @@ class TestPartFileValidation:
 class TestMasterIndexValidation:
     def test_valid_master_index(self):
         data = {
-            "districts": {
-                "BAGALKOT": {"status": "live", "voter_count": 100000, "ac_count": 7}
-            }
+            "schema_version": "2.0",
+            "generated_at": "2026-06-20T00:00:00Z",
+            "state": "KARNATAKA",
+            "stats": {"total_voters": 100000, "district_count": 1},
+            "districts": [
+                {
+                    "district_code": "BAGALKOT",
+                    "name": "BAGALKOT",
+                    "display_name": "Bagalkot",
+                    "status": "live",
+                    "voter_count": 100000,
+                    "ac_count": 7,
+                }
+            ],
         }
         errors = validate_master_index(data)
         assert errors == []
@@ -104,7 +120,13 @@ class TestMasterIndexValidation:
         assert any(e.field == "districts" for e in errors)
 
     def test_missing_status(self):
-        data = {"districts": {"TEST": {"voter_count": 100}}}
+        data = {
+            "schema_version": "2.0",
+            "generated_at": "2026-06-20T00:00:00Z",
+            "state": "KARNATAKA",
+            "stats": {"total_voters": 100, "district_count": 1},
+            "districts": [{"district_code": "TEST", "name": "TEST", "display_name": "Test", "voter_count": 100, "ac_count": 1}],
+        }
         errors = validate_master_index(data)
         assert any("status" in e.field for e in errors)
 
@@ -112,8 +134,10 @@ class TestMasterIndexValidation:
 class TestDistrictIndexValidation:
     def test_valid_district_index(self):
         data = {
+            "district": "BAGALKOT",
+            "total_voters": 100000,
             "acs": [
-                {"ac_num": 210, "part_count": 150}
+                {"ac_num": 210, "ac_name": "AC-210", "total_voters": 14000, "parts_count": 150}
             ]
         }
         errors = validate_district_index(data)
