@@ -50,7 +50,7 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        run: npm exec --yes npm@11.11.0 -- ci
 
       - name: TypeScript type check
         run: npx tsc --noEmit
@@ -123,7 +123,7 @@ jobs:
 
       - name: Install & Build
         run: |
-          npm ci
+          npm exec --yes npm@11.11.0 -- ci
           npm run build
 
       - name: Deploy to Netlify
@@ -148,7 +148,7 @@ jobs:
           node-version: 22
           cache: npm
 
-      - run: npm ci
+      - run: npm exec --yes npm@11.11.0 -- ci
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
