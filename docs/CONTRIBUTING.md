@@ -108,25 +108,107 @@ main ← always deployable (auto-deploys to Netlify)
 # 1. Obtain PDFs from ceo.karnataka.gov.in
 #    Filenames must match: A{AC_NUM}0{PART_NUM}.pdf (e.g., A1140001.pdf)
 
-# 2. Run the pipeline
-python packages/data-pipeline/scripts/ingest_rolls.py \
-  --root ./new_pdfs --db ./data/rolls.sqlite --dpi 300
+# 2. OCR extraction into isolated staging SQLite
+python packages/data-pipeline/scripts/ingest_rolls.py --dir .\new_pdfs\DISTRICT_NAME --db .\tmp\DISTRICT_NAME.sqlite --district DISTRICT_NAME --dpi 300 --workers 4
 
-# 3. Generate JSON for frontend
-python packages/data-pipeline/scripts/generate_json_index.py --district DISTRICT_NAME
+# 3. OCR/QC checkpoint
+python packages/data-pipeline/scripts/show_pipeline_status.py --db .\tmp\DISTRICT_NAME.sqlite
 
-# 4. Build search index
-npm run build:index
+# 4. Generate Schema 2.0 staging JSON
+python packages/data-pipeline/scripts/generate_json_index.py --db .\tmp\DISTRICT_NAME.sqlite --out .\tmp\schema2\DISTRICT_NAME
 
-# 5. Verify
-python packages/data-pipeline/scripts/show_pipeline_status.py
+# 5. Validate staging output
+python packages/data-pipeline/scripts/validate_data.py .\tmp\schema2\DISTRICT_NAME
 
-# 6. Build and deploy
+# 6. Promote district files only
+Copy-Item -Recurse -Force .\tmp\schema2\DISTRICT_NAME\districts\DISTRICT_NAME .\data\districts\
+
+# 7. Regenerate the published master manifest from cumulative SQLite
+python packages/data-pipeline/scripts/generate_json_index.py --db .\data\rolls.sqlite --out .\data
+
+# 8. Rebuild search indexes
+python packages/data-pipeline/scripts/build_search_index.py
+python packages/data-pipeline/scripts/build_token_index.py
+
+# 9. Verify published data
+python packages/data-pipeline/scripts/validate_data.py .\data
+python -m pytest packages/data-pipeline/tests/test_schema_validator.py packages/data-pipeline/tests/test_pipeline.py
+npx playwright test tests/e2e/search.spec.ts tests/e2e\data-integrity.spec.ts tests/e2e\responsive-a11y.spec.ts --project=chromium -g "selecting district loads AC dropdown|selecting AC enables part dropdown in part-scope mode|global search searches across all districts|search input is full width on mobile|district dropdown is full width"
+
+# 10. Build and release after approval
 npm run build
 git add data/
 git commit -m "data: add DISTRICT_NAME"
 git push
 ```
+
+## District Onboarding Process
+
+Use Mysore as the reference implementation for all future districts.
+
+Development flow:
+
+```text
+Raw PDFs
+→ OCR
+→ QC
+→ SQLite
+→ JSON generation
+→ Validation
+→ Search index build
+→ Deployment
+```
+
+Production flow:
+
+```text
+All released districts
+→ cumulative SQLite
+→ master_index.json
+→ search index rebuild
+→ deployment
+```
+
+Release rule:
+
+- District-isolated generation outputs must never replace the published
+  `data/master_index.json`.
+- The published `data/master_index.json` must always be generated from a
+  cumulative SQLite containing all released districts.
+
+## Validation Checkpoints
+
+- OCR checkpoint: `show_pipeline_status.py --db .\tmp\DISTRICT_NAME.sqlite`
+- Staging JSON checkpoint: `validate_data.py .\tmp\schema2\DISTRICT_NAME`
+- Published data checkpoint: `validate_data.py .\data`
+- Python regression checkpoint:
+  `python -m pytest packages/data-pipeline/tests/test_schema_validator.py packages/data-pipeline/tests/test_pipeline.py`
+- Browser verification checkpoint:
+  `npx playwright test tests/e2e/search.spec.ts tests/e2e\data-integrity.spec.ts tests/e2e\responsive-a11y.spec.ts --project=chromium -g "selecting district loads AC dropdown|selecting AC enables part dropdown in part-scope mode|global search searches across all districts|search input is full width on mobile|district dropdown is full width"`
+
+## Required Verification Commands
+
+```powershell
+python packages/data-pipeline/scripts/show_pipeline_status.py --db .\tmp\DISTRICT_NAME.sqlite
+python packages/data-pipeline/scripts/validate_data.py .\tmp\schema2\DISTRICT_NAME
+python packages/data-pipeline/scripts/validate_data.py .\data
+python -m pytest packages/data-pipeline/tests/test_schema_validator.py packages/data-pipeline/tests/test_pipeline.py
+npx playwright test tests/e2e/search.spec.ts tests/e2e\data-integrity.spec.ts tests/e2e\responsive-a11y.spec.ts --project=chromium -g "selecting district loads AC dropdown|selecting AC enables part dropdown in part-scope mode|global search searches across all districts|search input is full width on mobile|district dropdown is full width"
+```
+
+## Release Checklist
+
+- Isolated OCR ingestion completed successfully
+- OCR/QC status reviewed in staging SQLite
+- Schema 2.0 staging JSON generated successfully
+- Staging JSON validated successfully
+- District files promoted into `data/districts/`
+- Published `master_index.json` regenerated from cumulative SQLite
+- Search indexes rebuilt successfully
+- Published `data/` validated successfully
+- Python regression checks passed
+- Targeted Playwright verification passed
+- Mysore reference behavior preserved
 
 ---
 

@@ -154,38 +154,170 @@ netlify deploy --prod
 When new district data is processed:
 
 ```powershell
-# 1. Run pipeline for new district
-python packages/data-pipeline/scripts/ingest_rolls.py --district NEW_DISTRICT
+# 1. OCR extraction into isolated staging SQLite
+python packages/data-pipeline/scripts/ingest_rolls.py --dir .\pdfs\NEW_DISTRICT --db .\tmp\NEW_DISTRICT.sqlite --district NEW_DISTRICT --dpi 300 --workers 4
 
-# 2. Generate JSON shards
-python packages/data-pipeline/scripts/generate_json_index.py --district NEW_DISTRICT
+# 2. OCR/QC status check
+python packages/data-pipeline/scripts/show_pipeline_status.py --db .\tmp\NEW_DISTRICT.sqlite
 
-# 3. Verify
-python packages/data-pipeline/scripts/show_pipeline_status.py
+# 3. Generate Schema 2.0 JSON into staging
+python packages/data-pipeline/scripts/generate_json_index.py --db .\tmp\NEW_DISTRICT.sqlite --out .\tmp\schema2\NEW_DISTRICT
 
-# 4. Commit data files
-git add data/districts/NEW_DISTRICT/ data/master_index.json
-git commit -m "data: add NEW_DISTRICT (X voters, Y ACs)"
+# 4. Validate staging output
+python packages/data-pipeline/scripts/validate_data.py .\tmp\schema2\NEW_DISTRICT
+
+# 5. Promote district files only
+Copy-Item -Recurse -Force .\tmp\schema2\NEW_DISTRICT\districts\NEW_DISTRICT .\data\districts\
+
+# 6. Regenerate published master_index.json from cumulative SQLite
+python packages/data-pipeline/scripts/generate_json_index.py --db .\data\rolls.sqlite --out .\data
+
+# 7. Rebuild search indexes
+python packages/data-pipeline/scripts/build_search_index.py
+python packages/data-pipeline/scripts/build_token_index.py
+
+# 8. Verify published data
+python packages/data-pipeline/scripts/validate_data.py .\data
+python -m pytest packages/data-pipeline/tests/test_schema_validator.py packages/data-pipeline/tests/test_pipeline.py
+npx playwright test tests/e2e/search.spec.ts tests/e2e\data-integrity.spec.ts tests/e2e\responsive-a11y.spec.ts --project=chromium -g "selecting district loads AC dropdown|selecting AC enables part dropdown in part-scope mode|global search searches across all districts|search input is full width on mobile|district dropdown is full width"
+
+# 9. Commit and deploy after approval
+git add data/districts/NEW_DISTRICT data/master_index.json data/search
+git commit -m "data: add NEW_DISTRICT schema 2.0 rollout"
 git push
 ```
 
-**Important**: `master_index.json` must be regenerated to include the new district in the frontend dropdown.
+**Important release rule**:
+
+- District-isolated generation outputs must never replace the published
+  `data/master_index.json`.
+- The published `data/master_index.json` must always be regenerated from a
+  cumulative SQLite containing all released districts.
+
+## Operational Workflows
+
+### OCR Extraction Workflow
+
+```text
+Raw PDFs
+→ OCR
+→ QC
+→ SQLite
+```
+
+Commands:
+
+```powershell
+python packages/data-pipeline/scripts/ingest_rolls.py --dir .\pdfs\DISTRICT_NAME --db .\tmp\DISTRICT_NAME.sqlite --district DISTRICT_NAME --dpi 300 --workers 4
+python packages/data-pipeline/scripts/show_pipeline_status.py --db .\tmp\DISTRICT_NAME.sqlite
+```
+
+### Validation Workflow
+
+```text
+SQLite / staged JSON
+→ Schema validation
+→ regression checks
+→ browser verification
+```
+
+Commands:
+
+```powershell
+python packages/data-pipeline/scripts/validate_data.py .\tmp\schema2\DISTRICT_NAME
+python packages/data-pipeline/scripts/validate_data.py .\data
+python -m pytest packages/data-pipeline/tests/test_schema_validator.py packages/data-pipeline/tests/test_pipeline.py
+npx playwright test tests/e2e/search.spec.ts tests/e2e\data-integrity.spec.ts tests/e2e\responsive-a11y.spec.ts --project=chromium -g "selecting district loads AC dropdown|selecting AC enables part dropdown in part-scope mode|global search searches across all districts|search input is full width on mobile|district dropdown is full width"
+```
+
+### Schema 2.0 Generation Workflow
+
+```text
+isolated SQLite
+→ district staging JSON
+→ district promotion
+→ cumulative master_index regeneration
+```
+
+Commands:
+
+```powershell
+python packages/data-pipeline/scripts/generate_json_index.py --db .\tmp\DISTRICT_NAME.sqlite --out .\tmp\schema2\DISTRICT_NAME
+Copy-Item -Recurse -Force .\tmp\schema2\DISTRICT_NAME\districts\DISTRICT_NAME .\data\districts\
+python packages/data-pipeline/scripts/generate_json_index.py --db .\data\rolls.sqlite --out .\data
+```
+
+### Search Index Rebuild Workflow
+
+```text
+published data
+→ build_search_index.py
+→ build_token_index.py
+```
+
+Commands:
+
+```powershell
+python packages/data-pipeline/scripts/build_search_index.py
+python packages/data-pipeline/scripts/build_token_index.py
+```
+
+### Deployment Workflow
+
+```text
+All released districts
+→ cumulative SQLite
+→ master_index.json
+→ search index rebuild
+→ deployment
+```
+
+Commands:
+
+```powershell
+python packages/data-pipeline/scripts/generate_json_index.py --db .\data\rolls.sqlite --out .\data
+python packages/data-pipeline/scripts/build_search_index.py
+python packages/data-pipeline/scripts/build_token_index.py
+python packages/data-pipeline/scripts/validate_data.py .\data
+npm run build
+git add data/ docs/
+git commit -m "docs/data: rollout update"
+git push origin schema-v2-migration
+```
+
+### Rollback Workflow
+
+Commands:
+
+```powershell
+git restore --source <PREV_RELEASE_COMMIT> -- data\master_index.json data\districts\DISTRICT_NAME data\search
+python packages/data-pipeline/scripts/build_search_index.py
+python packages/data-pipeline/scripts/build_token_index.py
+python packages/data-pipeline/scripts/validate_data.py .\data
+git add data/
+git commit -m "rollback: restore DISTRICT_NAME release state"
+git push origin schema-v2-migration
+```
 
 ---
 
 ## Rollback Procedure
 
 ```powershell
-# Option 1: Revert last deploy in Netlify dashboard
-#   → Deploys tab → click previous deploy → "Publish deploy"
+# Restore published data from previous release commit
+git restore --source <PREV_RELEASE_COMMIT> -- data\master_index.json data\districts\DISTRICT_NAME data\search
 
-# Option 2: Git revert
-git revert HEAD
-git push
+# Rebuild search indexes against restored data
+python packages/data-pipeline/scripts/build_search_index.py
+python packages/data-pipeline/scripts/build_token_index.py
 
-# Option 3: Force previous commit
-git reset --hard HEAD~1
-git push --force  # Caution: destructive
+# Validate restored state
+python packages/data-pipeline/scripts/validate_data.py .\data
+
+# Commit rollback and push
+git add data/
+git commit -m "rollback: restore DISTRICT_NAME release state"
+git push origin schema-v2-migration
 ```
 
 ---

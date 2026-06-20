@@ -16,11 +16,14 @@ Recommended rollout order:
 Use the same controlled process for each district:
 
 1. Prepare or isolate the district source data in a staging SQLite database.
-2. Generate Schema 2.0 JSON shards into a staging output directory.
-3. Verify district-level and AC-level counts.
-4. Promote the district files into `data/`.
-5. Rebuild search indexes against the updated published dataset.
-6. Run validation and targeted tests before release.
+2. Run OCR ingestion into that isolated SQLite database.
+3. Generate Schema 2.0 JSON shards into a staging output directory.
+4. Verify district-level and AC-level counts.
+5. Promote only the staged district files into `data/districts/`.
+6. Regenerate the published `master_index.json` from a cumulative SQLite that
+   contains all released districts.
+7. Rebuild search indexes against the updated published dataset.
+8. Run validation and targeted tests before release.
 
 Current generator note:
 
@@ -28,8 +31,81 @@ Current generator note:
   database, not from a `--district` flag.
 - For district-by-district rollout, use a staging SQLite database that contains
   only the target district or target promotion files from a staging output.
+- District-isolated generation outputs must never replace the published
+  `data/master_index.json`.
+- The published `data/master_index.json` must always be generated from a
+  cumulative SQLite containing all released districts.
+
+## Reference Implementation
+
+- Mysore is the reference implementation for Schema 2.0 rollout.
+- Future districts must conform to the Mysore-generated artifact pattern:
+  - lightweight `master_index.json`
+  - district index files under `data/districts/<district_code>/index.json`
+  - AC index files under `data/districts/<district_code>/<ac_num>_index.json`
+  - part files under `data/districts/<district_code>/<ac_num>/part_<part_num>.json`
+
+## End-To-End Flows
+
+Development flow:
+
+```text
+Raw PDFs
+→ OCR
+→ QC
+→ SQLite
+→ JSON generation
+→ Validation
+→ Search index build
+→ Deployment
+```
+
+Production flow:
+
+```text
+All released districts
+→ cumulative SQLite
+→ master_index.json
+→ search index rebuild
+→ deployment
+```
+
+## Release Rule
+
+- Never publish a district-isolated `master_index.json`.
+- Always promote district JSON shards separately from the published master
+  manifest.
+- Always regenerate the published `master_index.json` from cumulative released
+  data before rebuilding search indexes and deploying.
+
+## Exact Release Workflow
+
+1. Ingest raw PDFs for the target district into an isolated staging SQLite.
+2. Run quality-control review on the staging SQLite output.
+3. Generate district JSON shards into a staging output directory.
+4. Validate the staging output.
+5. Compare district totals, AC totals, and part counts against staging source.
+6. Copy only `tmp/schema2/<DISTRICT>/districts/<DISTRICT>/` into
+   `data/districts/`.
+7. Regenerate `data/master_index.json` from the cumulative SQLite containing
+   all currently released districts.
+8. Rebuild search indexes from the published `data/` directory.
+9. Run validation, Python tests, and targeted Playwright verification.
+10. Deploy only after all checks pass.
 
 ## Standard Commands
+
+OCR ingestion into isolated SQLite:
+
+```bash
+python packages/data-pipeline/scripts/ingest_rolls.py --dir .\pdfs\<DISTRICT> --db .\tmp\<DISTRICT>.sqlite --district <DISTRICT> --dpi 300 --workers 4
+```
+
+OCR/QC status check:
+
+```bash
+python packages/data-pipeline/scripts/show_pipeline_status.py --db .\tmp\<DISTRICT>.sqlite
+```
 
 District generation from isolated SQLite:
 
@@ -62,22 +138,33 @@ python packages/data-pipeline/scripts/build_search_index.py
 python packages/data-pipeline/scripts/build_token_index.py
 ```
 
+Published master manifest regeneration from cumulative SQLite:
+
+```bash
+python packages/data-pipeline/scripts/generate_json_index.py --db .\data\rolls.sqlite --out .\data
+```
+
 ## SHIVAMOGGA
 
 Expected pipeline steps:
 
 1. Prepare `tmp/SHIVAMOGGA.sqlite` from the repaired OCR source for SHIVAMOGGA.
-2. Generate Schema 2.0 output into `tmp/schema2/SHIVAMOGGA`.
-3. Compare district totals, AC totals, and part counts against source records.
-4. Promote:
-   - `data/districts/SHIVAMOGGA/`
-   - updated `data/master_index.json`
-5. Rebuild search indexes and rerun validation/tests.
+2. Ingest SHIVAMOGGA PDFs into that isolated staging SQLite.
+3. Generate Schema 2.0 output into `tmp/schema2/SHIVAMOGGA`.
+4. Compare district totals, AC totals, and part counts against source records.
+5. Promote only `data/districts/SHIVAMOGGA/`.
+6. Regenerate the published `data/master_index.json` from cumulative released
+   SQLite data.
+7. Rebuild search indexes and rerun validation/tests.
 
-Regeneration commands:
+Commands:
 
 ```bash
+python packages/data-pipeline/scripts/ingest_rolls.py --dir .\pdfs\SHIVAMOGGA --db .\tmp\SHIVAMOGGA.sqlite --district SHIVAMOGGA --dpi 300 --workers 4
+python packages/data-pipeline/scripts/show_pipeline_status.py --db .\tmp\SHIVAMOGGA.sqlite
 python packages/data-pipeline/scripts/generate_json_index.py --db tmp/SHIVAMOGGA.sqlite --out tmp/schema2/SHIVAMOGGA
+Copy-Item -Recurse -Force .\tmp\schema2\SHIVAMOGGA\districts\SHIVAMOGGA .\data\districts\
+python packages/data-pipeline/scripts/generate_json_index.py --db .\data\rolls.sqlite --out .\data
 python packages/data-pipeline/scripts/build_search_index.py
 python packages/data-pipeline/scripts/build_token_index.py
 ```
@@ -97,8 +184,8 @@ Estimated risks:
 
 Rollback strategy:
 
-- Revert the promoted `data/districts/SHIVAMOGGA/` directory and related
-  `data/master_index.json` change to the previous commit.
+- Revert the promoted `data/districts/SHIVAMOGGA/` directory and the published
+  `data/master_index.json` to the previous release commit.
 - Rebuild search indexes from the restored dataset.
 
 ## BAGALKOT
@@ -106,15 +193,22 @@ Rollback strategy:
 Expected pipeline steps:
 
 1. Prepare `tmp/BAGALKOT.sqlite`.
-2. Generate Schema 2.0 shards into staging.
-3. Verify district summary counts and AC summaries.
-4. Promote district files and refresh search indexes.
-5. Run validation and focused frontend checks.
+2. Ingest BAGALKOT PDFs into isolated staging SQLite.
+3. Generate Schema 2.0 shards into staging.
+4. Verify district summary counts and AC summaries.
+5. Promote district files only.
+6. Regenerate published `master_index.json` from cumulative SQLite.
+7. Refresh search indexes.
+8. Run validation and focused frontend checks.
 
-Regeneration commands:
+Commands:
 
 ```bash
+python packages/data-pipeline/scripts/ingest_rolls.py --dir .\pdfs\BAGALKOT --db .\tmp\BAGALKOT.sqlite --district BAGALKOT --dpi 300 --workers 4
+python packages/data-pipeline/scripts/show_pipeline_status.py --db .\tmp\BAGALKOT.sqlite
 python packages/data-pipeline/scripts/generate_json_index.py --db tmp/BAGALKOT.sqlite --out tmp/schema2/BAGALKOT
+Copy-Item -Recurse -Force .\tmp\schema2\BAGALKOT\districts\BAGALKOT .\data\districts\
+python packages/data-pipeline/scripts/generate_json_index.py --db .\data\rolls.sqlite --out .\data
 python packages/data-pipeline/scripts/build_search_index.py
 python packages/data-pipeline/scripts/build_token_index.py
 ```
@@ -142,15 +236,21 @@ Rollback strategy:
 Expected pipeline steps:
 
 1. Prepare `tmp/BANGALORE_RURAL.sqlite`.
-2. Generate staging shards and compare totals.
-3. Promote updated district files.
-4. Rebuild search indexes.
-5. Run validation and frontend smoke tests.
+2. Ingest BANGALORE RURAL PDFs into isolated staging SQLite.
+3. Generate staging shards and compare totals.
+4. Promote updated district files only.
+5. Regenerate published `master_index.json` from cumulative SQLite.
+6. Rebuild search indexes.
+7. Run validation and frontend smoke tests.
 
-Regeneration commands:
+Commands:
 
 ```bash
+python packages/data-pipeline/scripts/ingest_rolls.py --dir .\pdfs\BANGALORE_RURAL --db .\tmp\BANGALORE_RURAL.sqlite --district BANGALORE_RURAL --dpi 300 --workers 6
+python packages/data-pipeline/scripts/show_pipeline_status.py --db .\tmp\BANGALORE_RURAL.sqlite
 python packages/data-pipeline/scripts/generate_json_index.py --db tmp/BANGALORE_RURAL.sqlite --out tmp/schema2/BANGALORE_RURAL
+Copy-Item -Recurse -Force .\tmp\schema2\BANGALORE_RURAL\districts\BANGALORE_RURAL .\data\districts\
+python packages/data-pipeline/scripts/generate_json_index.py --db .\data\rolls.sqlite --out .\data
 python packages/data-pipeline/scripts/build_search_index.py
 python packages/data-pipeline/scripts/build_token_index.py
 ```
@@ -177,14 +277,20 @@ Rollback strategy:
 Expected pipeline steps:
 
 1. Prepare `tmp/BANGALORE_URBAN.sqlite`.
-2. Generate staging output and verify AC/part counts.
-3. Promote district files.
-4. Rebuild search indexes and validate.
+2. Ingest BANGALORE URBAN PDFs into isolated staging SQLite.
+3. Generate staging output and verify AC/part counts.
+4. Promote district files only.
+5. Regenerate published `master_index.json` from cumulative SQLite.
+6. Rebuild search indexes and validate.
 
-Regeneration commands:
+Commands:
 
 ```bash
+python packages/data-pipeline/scripts/ingest_rolls.py --dir .\pdfs\BANGALORE_URBAN --db .\tmp\BANGALORE_URBAN.sqlite --district BANGALORE_URBAN --dpi 300 --workers 6
+python packages/data-pipeline/scripts/show_pipeline_status.py --db .\tmp\BANGALORE_URBAN.sqlite
 python packages/data-pipeline/scripts/generate_json_index.py --db tmp/BANGALORE_URBAN.sqlite --out tmp/schema2/BANGALORE_URBAN
+Copy-Item -Recurse -Force .\tmp\schema2\BANGALORE_URBAN\districts\BANGALORE_URBAN .\data\districts\
+python packages/data-pipeline/scripts/generate_json_index.py --db .\data\rolls.sqlite --out .\data
 python packages/data-pipeline/scripts/build_search_index.py
 python packages/data-pipeline/scripts/build_token_index.py
 ```
@@ -212,15 +318,22 @@ Rollback strategy:
 Expected pipeline steps:
 
 1. Prepare `tmp/BBMP.sqlite`.
-2. Generate staging Schema 2.0 shards.
-3. Validate counts carefully because BBMP is large and search-heavy.
-4. Promote district files and refresh indexes.
-5. Run validation, Python tests, and frontend smoke checks.
+2. Ingest BBMP PDFs into isolated staging SQLite.
+3. Generate staging Schema 2.0 shards.
+4. Validate counts carefully because BBMP is large and search-heavy.
+5. Promote district files only.
+6. Regenerate published `master_index.json` from cumulative SQLite.
+7. Refresh indexes.
+8. Run validation, Python tests, and frontend smoke checks.
 
-Regeneration commands:
+Commands:
 
 ```bash
+python packages/data-pipeline/scripts/ingest_rolls.py --dir .\pdfs\BBMP --db .\tmp\BBMP.sqlite --district BBMP --dpi 300 --workers 8
+python packages/data-pipeline/scripts/show_pipeline_status.py --db .\tmp\BBMP.sqlite
 python packages/data-pipeline/scripts/generate_json_index.py --db tmp/BBMP.sqlite --out tmp/schema2/BBMP
+Copy-Item -Recurse -Force .\tmp\schema2\BBMP\districts\BBMP .\data\districts\
+python packages/data-pipeline/scripts/generate_json_index.py --db .\data\rolls.sqlite --out .\data
 python packages/data-pipeline/scripts/build_search_index.py
 python packages/data-pipeline/scripts/build_token_index.py
 ```

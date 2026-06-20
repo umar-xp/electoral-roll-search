@@ -187,28 +187,86 @@ electoral-roll-search/
 
 ```powershell
 # Step 1: Ingest PDFs into SQLite
-python packages/data-pipeline/scripts/ingest_rolls.py --root .\pdfs --db .\data\rolls.sqlite --dpi 300
+python packages/data-pipeline/scripts/ingest_rolls.py --dir .\pdfs\MYSORE --db .\tmp\MYSORE.sqlite --district MYSORE --dpi 300 --workers 4
 
-# Step 2: Generate JSON indexes for frontend
-python packages/data-pipeline/scripts/generate_json_index.py --all
+# Step 2: Generate Schema 2.0 JSON into staging
+python packages/data-pipeline/scripts/generate_json_index.py --db .\tmp\MYSORE.sqlite --out .\tmp\schema2\MYSORE
 
-# Step 3: Build inverted search index
-npm run build:index
+# Step 3: Promote district files and regenerate published master manifest
+Copy-Item -Recurse -Force .\tmp\schema2\MYSORE\districts\MYSORE .\data\districts\
+python packages/data-pipeline/scripts/generate_json_index.py --db .\data\rolls.sqlite --out .\data
 
-# Step 4: Build minified frontend
+# Step 4: Build search indexes
+python packages/data-pipeline/scripts/build_search_index.py
+python packages/data-pipeline/scripts/build_token_index.py
+
+# Step 5: Build minified frontend
 npm run build
 
-# Step 5: Deploy (auto on git push to main)
-git add . && git commit -m "Update data" && git push
+# Step 6: Validate and verify
+python packages/data-pipeline/scripts/validate_data.py .\data
+python -m pytest packages/data-pipeline/tests/test_schema_validator.py packages/data-pipeline/tests/test_pipeline.py
+npx playwright test tests/e2e/search.spec.ts --project=chromium -g "master_index.json loads and populates districts|selecting district loads AC dropdown|global search searches across all districts"
 ```
 
 ### Adding a New District
 
 ```powershell
-python packages/data-pipeline/scripts/ingest_rolls.py --district NEW_DISTRICT --dpi 300
-python packages/data-pipeline/scripts/generate_json_index.py --district NEW_DISTRICT
-python packages/data-pipeline/scripts/show_pipeline_status.py
-npm run build && git push
+# 1. OCR into isolated staging SQLite
+python packages/data-pipeline/scripts/ingest_rolls.py --dir .\pdfs\NEW_DISTRICT --db .\tmp\NEW_DISTRICT.sqlite --district NEW_DISTRICT --dpi 300 --workers 4
+
+# 2. Inspect OCR/QC status
+python packages/data-pipeline/scripts/show_pipeline_status.py --db .\tmp\NEW_DISTRICT.sqlite
+
+# 3. Generate Schema 2.0 JSON into staging
+python packages/data-pipeline/scripts/generate_json_index.py --db .\tmp\NEW_DISTRICT.sqlite --out .\tmp\schema2\NEW_DISTRICT
+
+# 4. Promote district files only
+Copy-Item -Recurse -Force .\tmp\schema2\NEW_DISTRICT\districts\NEW_DISTRICT .\data\districts\
+
+# 5. Regenerate the published master manifest from cumulative SQLite
+python packages/data-pipeline/scripts/generate_json_index.py --db .\data\rolls.sqlite --out .\data
+
+# 6. Rebuild search indexes
+python packages/data-pipeline/scripts/build_search_index.py
+python packages/data-pipeline/scripts/build_token_index.py
+
+# 7. Verify
+python packages/data-pipeline/scripts/validate_data.py .\data
+python -m pytest packages/data-pipeline/tests/test_schema_validator.py packages/data-pipeline/tests/test_pipeline.py
+```
+
+### Release Rule
+
+- District-isolated generation outputs must never replace the published
+  `data/master_index.json`.
+- The published `data/master_index.json` must always be generated from a
+  cumulative SQLite containing all released districts.
+- Mysore remains the reference implementation for future district onboarding.
+
+### Operational Flow
+
+Development flow:
+
+```text
+Raw PDFs
+→ OCR
+→ QC
+→ SQLite
+→ JSON generation
+→ Validation
+→ Search index build
+→ Deployment
+```
+
+Production flow:
+
+```text
+All released districts
+→ cumulative SQLite
+→ master_index.json
+→ search index rebuild
+→ deployment
 ```
 
 ---
