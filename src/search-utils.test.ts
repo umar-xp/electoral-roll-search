@@ -393,7 +393,7 @@ describe('doubleMetaphone', () => {
   });
 
   it('sh and s have different primary but s matches alternate', () => {
-    const [shPri, shAlt] = doubleMetaphone('shah');
+    const [, shAlt] = doubleMetaphone('shah');
     const [sPri] = doubleMetaphone('sah');
     // sh→X (primary), sh→S (alternate); s→S
     expect(shAlt).toBe(sPri);

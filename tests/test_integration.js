@@ -176,7 +176,7 @@ assert(noMatch === 0, 'Non-matching names score 0');
 
 console.log('\n── Build System Tests ──');
 
-const buildPath = path.join(__dirname, '..', 'scripts', 'build.js');
+const buildPath = path.join(__dirname, '..', 'Scripts', 'build.js');
 const buildJs = fs.readFileSync(buildPath, 'utf8');
 assert(buildJs.includes('app.js'), 'Build script includes app.js');
 assert(buildJs.includes('sw.js'), 'Build script includes sw.js');
