@@ -4,8 +4,8 @@
   "description": "Bilingual search engine for Karnataka 2002 electoral rolls (7M+ voters)",
   "private": true,
   "scripts": {
-    "build": "node scripts/build.js",
-    "build:watch": "node scripts/build.js --watch",
+    "build": "node Scripts/build.js",
+    "build:watch": "node Scripts/build.js --watch",
     "build:ts": "tsc --noEmit",
     "build:index": "python packages/data-pipeline/scripts/generate_search_index.py --data-dir ./data",
     "ingest": "py .\\packages\\data-pipeline\\scripts\\ingest_rolls.py --root .\\data --db .\\data\\rolls.sqlite --min-age-seconds 30 --dpi 300",
