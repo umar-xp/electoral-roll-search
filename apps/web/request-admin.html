@@ -6,7 +6,7 @@
 <meta name="description" content="Administrator dashboard for assisted voter search requests.">
 <title>Request Assisted Search Admin</title>
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="request-assisted.css">
+<link rel="stylesheet" href="request-assisted.css?v=20260625-3">
 </head>
 <body>
 <a href="#assist-main" class="skip-link">Skip to main content</a>
@@ -65,23 +65,9 @@
 
     <div class="assist-toolbar">
       <input id="admin-search" class="assist-input" placeholder="Search by Order ID or mobile number">
-      <select id="admin-status-filter" class="assist-select">
-        <option value="ALL">All statuses</option>
-        <option value="NEW">NEW</option>
-        <option value="ASSIGNED">ASSIGNED</option>
-        <option value="COMPLETED">COMPLETED</option>
-        <option value="NOT_FOUND">NOT_FOUND</option>
-      </select>
       <input id="admin-volunteer-filter" class="assist-input" placeholder="Filter by volunteer">
       <button id="admin-refresh" class="assist-button-secondary" type="button">Refresh</button>
-    </div>
-
-    <div class="assist-tab-row" id="admin-tabs">
-      <button class="assist-tab active" data-tab="ALL" type="button">All</button>
-      <button class="assist-tab" data-tab="NEW" type="button">New Requests</button>
-      <button class="assist-tab" data-tab="ASSIGNED" type="button">Assigned</button>
-      <button class="assist-tab" data-tab="COMPLETED" type="button">Completed</button>
-      <button class="assist-tab" data-tab="NOT_FOUND" type="button">Not Found</button>
+      <button id="admin-clear-found" class="assist-button-muted" type="button">Clear Found One's</button>
     </div>
 
     <div id="admin-results-message" class="assist-alert" hidden></div>
@@ -93,16 +79,31 @@
 
       <aside class="assist-admin-side">
         <div class="assist-admin-side-header">
-          <h4>Existing Order IDs</h4>
-          <p class="assist-hint">Click an order to open the full request details.</p>
+          <h4>Requests</h4>
+          <p class="assist-hint">New requests are shown first. Completed found requests stay collapsed by default.</p>
         </div>
-        <div id="admin-order-list" class="assist-order-list"></div>
+        <div id="admin-order-list"></div>
       </aside>
     </div>
+
+    <section class="assist-card assist-admin-summary">
+      <h4>Search Summary</h4>
+      <div class="assist-admin-summary-grid">
+        <div class="assist-stat">
+          <span class="assist-hint">Found voter IDs till date</span>
+          <strong id="admin-found-count">0</strong>
+        </div>
+        <div class="assist-stat">
+          <span class="assist-hint">Highest successful searches</span>
+          <strong id="admin-top-volunteer">—</strong>
+          <span id="admin-top-volunteer-count" class="assist-hint">0 successful searches</span>
+        </div>
+      </div>
+    </section>
   </section>
 </main>
 
-<script src="request-assisted-config.js"></script>
-<script type="module" src="request-assisted-admin.js"></script>
+<script src="request-assisted-config.js?v=20260625-3"></script>
+<script type="module" src="request-assisted-admin.js?v=20260625-3"></script>
 </body>
 </html>

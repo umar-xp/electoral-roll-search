@@ -1,6 +1,27 @@
 const CONFIG = window.REQUEST_ASSISTED_CONFIG || {};
 const SESSION_KEY = 'vsr-admin-session';
 
+// #region debug-point A:runtime-module-loaded
+function reportRequestAssistDebug(hypothesisId, location, msg, data) {
+  fetch('http://127.0.0.1:7777/event', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      sessionId: 'request-assist-submit',
+      runId: 'pre-fix',
+      hypothesisId,
+      location,
+      msg: `[DEBUG] ${msg}`,
+      data,
+      ts: Date.now(),
+    }),
+  }).catch(() => {});
+}
+reportRequestAssistDebug('A', 'request-assisted-common.js:2', 'common module loaded', {
+  href: window.location.href,
+});
+// #endregion
+
 function requiredConfigValue(key) {
   const value = CONFIG[key];
   if (!value) {
@@ -269,7 +290,9 @@ export async function fetchRequests(filters = {}) {
     'serial_number',
     'result_status',
     'remarks',
+    'kannada_roll_validated',
     'completed_at',
+    'details_cleared_at',
   ].join(','));
   params.set('order', 'created_at.desc');
   params.set('limit', String(filters.limit || 200));
@@ -294,6 +317,24 @@ export async function fetchRequests(filters = {}) {
     method: 'GET',
     headers: buildHeaders({ authToken: session.access_token }),
   });
+}
+
+export async function fetchRequestDashboardStats() {
+  const session = getSession();
+  if (!session || !session.access_token) {
+    throw new Error('Admin session not found. Please sign in again.');
+  }
+  const response = await callRpc('admin_get_request_dashboard_stats', {}, session.access_token);
+  return Array.isArray(response) ? response[0] : response;
+}
+
+export async function clearFoundRequests() {
+  const session = getSession();
+  if (!session || !session.access_token) {
+    throw new Error('Admin session not found. Please sign in again.');
+  }
+  const response = await callRpc('admin_cleanup_found_requests', {}, session.access_token);
+  return Array.isArray(response) ? response[0] : response;
 }
 
 export async function updateRequest(id, patch) {
@@ -339,8 +380,27 @@ export function boolFromRadio(value) {
 }
 
 export function ensureRequiredFiles(files, labels) {
+  // #region debug-point D:ensure-required-files-entry
+  reportRequestAssistDebug('D', 'request-assisted-common.js:355', 'ensureRequiredFiles invoked', {
+    filesType: Array.isArray(files) ? 'array' : typeof files,
+    filesLength: Array.isArray(files) ? files.length : null,
+    labelsType: Array.isArray(labels) ? 'array' : typeof labels,
+    labelsLength: Array.isArray(labels) ? labels.length : null,
+  });
+  // #endregion
+  const entries = Array.isArray(labels) ? labels : files;
   const missing = [];
-  labels.forEach(([file, label]) => {
+  // #region debug-point D:ensure-required-files-entries
+  reportRequestAssistDebug('D', 'request-assisted-common.js:363', 'resolved required file entries', {
+    entriesType: Array.isArray(entries) ? 'array' : typeof entries,
+    entriesLength: Array.isArray(entries) ? entries.length : null,
+    firstEntry: Array.isArray(entries) && entries.length ? {
+      filePresent: !!(entries[0] && entries[0][0]),
+      label: entries[0] && entries[0][1],
+    } : null,
+  });
+  // #endregion
+  entries.forEach(([file, label]) => {
     if (!file) missing.push(label);
   });
   if (missing.length) {

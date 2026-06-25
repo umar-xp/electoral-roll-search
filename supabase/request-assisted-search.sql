@@ -56,6 +56,8 @@ alter table public.search_requests add column if not exists neighbor_ac_number t
 alter table public.search_requests add column if not exists neighbor_part_number text;
 alter table public.search_requests add column if not exists neighbor_serial_number text;
 alter table public.search_requests add column if not exists neighbor_found_screenshot_url text;
+alter table public.search_requests add column if not exists kannada_roll_validated boolean;
+alter table public.search_requests add column if not exists details_cleared_at timestamptz;
 
 create sequence if not exists public.search_request_order_seq start 1;
 
@@ -102,6 +104,8 @@ $$;
 
 revoke all on public.search_requests from anon, authenticated;
 revoke all on public.request_admins from anon, authenticated;
+grant select, update on public.search_requests to authenticated;
+grant select on public.request_admins to authenticated;
 
 alter table public.search_requests enable row level security;
 alter table public.request_admins enable row level security;
@@ -246,6 +250,7 @@ grant execute on function public.public_create_search_request(
   text, text, text, text, text, text, text
 ) to anon, authenticated;
 
+drop function if exists public.public_get_search_request_status(text, text);
 create or replace function public.public_get_search_request_status(
   p_order_id text,
   p_mobile text
@@ -255,7 +260,10 @@ returns table (
   created_at timestamptz,
   status text,
   result_status text,
-  completed_at timestamptz
+  completed_at timestamptz,
+  ac_number text,
+  part_number text,
+  serial_number text
 )
 language sql
 security definer
@@ -266,7 +274,10 @@ as $$
     sr.created_at,
     sr.status,
     sr.result_status,
-    sr.completed_at
+    sr.completed_at,
+    sr.ac_number,
+    sr.part_number,
+    sr.serial_number
   from public.search_requests sr
   where sr.order_id = upper(trim(p_order_id))
     and sr.mobile = regexp_replace(coalesce(p_mobile, ''), '\D', '', 'g')
@@ -274,6 +285,96 @@ as $$
 $$;
 
 grant execute on function public.public_get_search_request_status(text, text) to anon, authenticated;
+
+create or replace function public.admin_get_request_dashboard_stats()
+returns table (
+  total_found_voter_ids bigint,
+  top_volunteer text,
+  top_volunteer_found_count bigint
+)
+language sql
+security definer
+set search_path = public
+as $$
+  with admin_check as (
+    select public.is_request_admin(auth.uid()) as allowed
+  ),
+  found_rows as (
+    select sr.primary_voter_id, sr.assigned_volunteer
+    from public.search_requests sr
+    join admin_check ac on ac.allowed
+    where sr.status = 'COMPLETED'
+      and coalesce(sr.result_status, '') = 'FOUND'
+  ),
+  volunteer_ranking as (
+    select
+      assigned_volunteer,
+      count(*)::bigint as found_count
+    from found_rows
+    where assigned_volunteer is not null
+      and trim(assigned_volunteer) <> ''
+    group by assigned_volunteer
+  ),
+  top_result as (
+    select assigned_volunteer, found_count
+    from volunteer_ranking
+    order by found_count desc, assigned_volunteer asc
+    limit 1
+  )
+  select
+    (select count(distinct primary_voter_id)::bigint from found_rows),
+    (select assigned_volunteer from top_result),
+    coalesce((select found_count from top_result), 0::bigint);
+$$;
+
+grant execute on function public.admin_get_request_dashboard_stats() to authenticated;
+
+create or replace function public.admin_cleanup_found_requests()
+returns table (cleared_count bigint)
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_count bigint;
+begin
+  if not public.is_request_admin(auth.uid()) then
+    raise exception 'Only request admins can clear completed requests';
+  end if;
+
+  update public.search_requests
+  set
+    email = null,
+    secondary_voter_id = null,
+    old_voter_id = null,
+    has_old_voter_id = false,
+    knows_neighbor = false,
+    neighbor_found_in_2002 = null,
+    neighbor_name = null,
+    neighbor_locality = null,
+    neighbor_voter_id = null,
+    neighbor_ac_number = null,
+    neighbor_part_number = null,
+    neighbor_serial_number = null,
+    neighbor_found_screenshot_url = null,
+    primary_front_url = '',
+    primary_back_url = '',
+    secondary_front_url = null,
+    secondary_back_url = null,
+    old_front_url = null,
+    old_back_url = null,
+    remarks = null,
+    details_cleared_at = now()
+  where status = 'COMPLETED'
+    and coalesce(result_status, '') = 'FOUND'
+    and details_cleared_at is null;
+
+  get diagnostics v_count = row_count;
+  return query select v_count;
+end;
+$$;
+
+grant execute on function public.admin_cleanup_found_requests() to authenticated;
 
 -- Storage bucket for uploaded images.
 insert into storage.buckets (id, name, public)

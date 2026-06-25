@@ -1,8 +1,10 @@
 import {
   adminLogin,
+  clearFoundRequests,
   clearSession,
   clearStatusMessage,
   escapeHtml,
+  fetchRequestDashboardStats,
   fetchRequests,
   formatDate,
   getCurrentAdminUser,
@@ -10,7 +12,7 @@ import {
   hasPlaceholderConfig,
   setStatusMessage,
   updateRequest,
-} from './request-assisted-common.js';
+} from './request-assisted-common.js?v=20260625-2';
 
 const loginCard = document.getElementById('admin-login-card');
 const dashboard = document.getElementById('admin-dashboard');
@@ -20,17 +22,23 @@ const configWarningEl = document.getElementById('admin-config-warning');
 const resultsMessageEl = document.getElementById('admin-results-message');
 const selectedRequestEl = document.getElementById('admin-selected-request');
 const orderListEl = document.getElementById('admin-order-list');
-const statusFilterEl = document.getElementById('admin-status-filter');
 const volunteerFilterEl = document.getElementById('admin-volunteer-filter');
 const searchInputEl = document.getElementById('admin-search');
 const userLabelEl = document.getElementById('admin-user-label');
+const clearFoundBtn = document.getElementById('admin-clear-found');
+const foundCountEl = document.getElementById('admin-found-count');
+const topVolunteerEl = document.getElementById('admin-top-volunteer');
+const topVolunteerCountEl = document.getElementById('admin-top-volunteer-count');
 
-let activeTab = 'ALL';
 let currentRequests = [];
 let selectedRequestId = null;
 
 function badgeClass(status) {
   return `assist-badge assist-badge-status-${String(status || '').toLowerCase()}`;
+}
+
+function statusLabel(status) {
+  return String(status || 'NEW').replace(/_/g, ' ');
 }
 
 function renderImageCard(label, url) {
@@ -41,6 +49,30 @@ function renderImageCard(label, url) {
       <span>${escapeHtml(label)}</span>
     </div>
   `;
+}
+
+function currentValidationValue(record) {
+  if (record.kannada_roll_validated === true) return 'yes';
+  if (record.kannada_roll_validated === false) return 'no';
+  return '';
+}
+
+function renderValidationHint(value) {
+  if (value === 'yes') {
+    return 'Kannada rolls were checked. Please inform the voter manually.';
+  }
+  if (value === 'no') {
+    return 'Validate once in the Kannada/PDF rolls and inform the voter by calling.';
+  }
+  return 'Volunteer must answer this before marking a request as found.';
+}
+
+function normalizeCodeField(value) {
+  return String(value || '').replace(/\D+/g, '').slice(0, 4);
+}
+
+function hasValidFoundCodes(patch) {
+  return [patch.ac_number, patch.part_number, patch.serial_number].every((value) => /^\d{1,4}$/.test(value || ''));
 }
 
 function renderRequestDetail(record) {
@@ -121,23 +153,38 @@ function renderRequestDetail(record) {
           <div class="assist-field-grid">
             <div class="assist-field">
               <label class="assist-label">AC Number</label>
-              <input class="assist-input" data-role="ac_number" value="${escapeHtml(record.ac_number || '')}">
+              <input class="assist-input" data-role="ac_number" inputmode="numeric" maxlength="4" pattern="[0-9]{1,4}" value="${escapeHtml(normalizeCodeField(record.ac_number || ''))}">
             </div>
             <div class="assist-field">
               <label class="assist-label">Part Number</label>
-              <input class="assist-input" data-role="part_number" value="${escapeHtml(record.part_number || '')}">
+              <input class="assist-input" data-role="part_number" inputmode="numeric" maxlength="4" pattern="[0-9]{1,4}" value="${escapeHtml(normalizeCodeField(record.part_number || ''))}">
             </div>
             <div class="assist-field">
-              <label class="assist-label">Serial Number</label>
-              <input class="assist-input" data-role="serial_number" value="${escapeHtml(record.serial_number || '')}">
+              <label class="assist-label">Part Serial Number</label>
+              <input class="assist-input" data-role="serial_number" inputmode="numeric" maxlength="4" pattern="[0-9]{1,4}" value="${escapeHtml(normalizeCodeField(record.serial_number || ''))}">
             </div>
             <div class="assist-field assist-field-full">
               <label class="assist-label">Remarks</label>
               <textarea class="assist-textarea" data-role="remarks">${escapeHtml(record.remarks || '')}</textarea>
             </div>
           </div>
+          <div class="assist-subsection">
+            <div class="assist-section-title">Kannada Roll Validation</div>
+            <p class="assist-hint">This answer is mandatory before marking a request as found.</p>
+            <div class="assist-choice-row">
+              <label class="assist-choice">
+                <input type="radio" name="kannada_roll_validated_${record.id}" data-role="kannada_roll_validated" value="yes"${currentValidationValue(record) === 'yes' ? ' checked' : ''}>
+                Yes, Kannada electoral rolls were checked
+              </label>
+              <label class="assist-choice">
+                <input type="radio" name="kannada_roll_validated_${record.id}" data-role="kannada_roll_validated" value="no"${currentValidationValue(record) === 'no' ? ' checked' : ''}>
+                No, validate once in the PDF rolls and call the voter
+              </label>
+            </div>
+            <div class="assist-inline-note">${escapeHtml(renderValidationHint(currentValidationValue(record)))}</div>
+          </div>
           <div class="assist-actions" style="margin-top:12px;">
-            <button class="assist-button" type="button" data-action="found">Mark Found</button>
+            <button class="assist-button" type="button" data-action="found"${currentValidationValue(record) ? '' : ' disabled'}>Mark Found</button>
             <button class="assist-button-danger" type="button" data-action="not_found">Mark Not Found</button>
           </div>
         </div>
@@ -146,35 +193,65 @@ function renderRequestDetail(record) {
   `;
 }
 
-function filteredRequests() {
-  return currentRequests.filter((record) => {
-    if (activeTab !== 'ALL' && record.status !== activeTab) {
-      return false;
-    }
-    return true;
-  });
+function getVisibleRecords() {
+  return currentRequests.filter((record) => !(record.status === 'COMPLETED' && record.details_cleared_at));
 }
 
-function renderOrderList(records) {
+function getGroupedRecords() {
+  const visible = getVisibleRecords();
+  return {
+    open: visible.filter((record) => record.status === 'NEW' || record.status === 'ASSIGNED'),
+    notFound: visible.filter((record) => record.status === 'NOT_FOUND'),
+    completed: visible.filter((record) => record.status === 'COMPLETED'),
+  };
+}
+
+function renderOrderItems(records) {
   if (!records.length) {
+    return '<div class="assist-empty">No requests in this section.</div>';
+  }
+  return `
+    <div class="assist-order-list">
+      ${records.map((record) => `
+        <button class="assist-order-item${String(record.id) === String(selectedRequestId) ? ' active' : ''}" type="button" data-order-id="${record.id}">
+          <strong>${escapeHtml(record.order_id || 'No Order ID')}</strong>
+          <span>${escapeHtml(record.applicant_name || 'Unknown applicant')}</span>
+          <small class="assist-order-meta">${escapeHtml(record.mobile || '—')} · ${escapeHtml(statusLabel(record.status))}</small>
+        </button>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderOrderList(groups) {
+  const totalVisible = groups.open.length + groups.notFound.length + groups.completed.length;
+  if (!totalVisible) {
     orderListEl.innerHTML = '<div class="assist-empty">No order IDs match the current filters.</div>';
     return;
   }
-  orderListEl.innerHTML = records.map((record) => `
-    <button class="assist-order-item${String(record.id) === String(selectedRequestId) ? ' active' : ''}" type="button" data-order-id="${record.id}">
-      <strong>${escapeHtml(record.order_id || 'No Order ID')}</strong>
-      <span>${escapeHtml(record.applicant_name || 'Unknown applicant')}</span>
-      <small>${escapeHtml(record.mobile || '—')} · ${escapeHtml(record.status || 'NEW')}</small>
-    </button>
-  `).join('');
+  orderListEl.innerHTML = `
+    <section class="assist-order-group">
+      <div class="assist-order-group-title">New Requests (${groups.open.length})</div>
+      ${renderOrderItems(groups.open)}
+    </section>
+    <section class="assist-order-group">
+      <div class="assist-order-group-title">Not Found (${groups.notFound.length})</div>
+      ${renderOrderItems(groups.notFound)}
+    </section>
+    <details class="assist-order-group assist-order-group-collapsible">
+      <summary class="assist-order-group-title">Found One's (${groups.completed.length})</summary>
+      ${renderOrderItems(groups.completed)}
+    </details>
+  `;
 }
 
 function renderRequests() {
-  const records = filteredRequests();
+  const groups = getGroupedRecords();
+  const records = [...groups.open, ...groups.notFound, ...groups.completed];
   if (!records.length) {
     selectedRequestId = null;
     selectedRequestEl.innerHTML = '<div class="assist-empty">No requests match the current filters.</div>';
-    renderOrderList(records);
+    renderOrderList(groups);
     return;
   }
   if (!records.some((record) => String(record.id) === String(selectedRequestId))) {
@@ -183,32 +260,83 @@ function renderRequests() {
   const selected = records.find((record) => String(record.id) === String(selectedRequestId)) || records[0];
   selectedRequestId = selected.id;
   selectedRequestEl.innerHTML = renderRequestDetail(selected);
-  renderOrderList(records);
+  const selectedCard = selectedRequestEl.querySelector('[data-request-id]');
+  if (selectedCard) {
+    syncValidationState(selectedCard);
+  }
+  renderOrderList(groups);
 }
 
 async function loadRequests() {
   setStatusMessage(resultsMessageEl, 'info', 'Loading requests...');
   try {
     currentRequests = await fetchRequests({
-      status: statusFilterEl.value,
       volunteer: volunteerFilterEl.value,
       search: searchInputEl.value,
+      limit: 500,
     });
     clearStatusMessage(resultsMessageEl);
+    await loadSummary();
     renderRequests();
   } catch (err) {
     setStatusMessage(resultsMessageEl, 'error', err.message || 'Unable to load requests.');
   }
 }
 
+async function loadSummary() {
+  try {
+    const stats = await fetchRequestDashboardStats();
+    foundCountEl.textContent = String(stats?.total_found_voter_ids || 0);
+    topVolunteerEl.textContent = stats?.top_volunteer || '—';
+    topVolunteerCountEl.textContent = `${stats?.top_volunteer_found_count || 0} successful searches`;
+  } catch (_) {
+    foundCountEl.textContent = '—';
+    topVolunteerEl.textContent = '—';
+    topVolunteerCountEl.textContent = 'Unable to load summary';
+  }
+}
+
+function readKannadaValidation(card) {
+  const selected = card.querySelector('input[data-role="kannada_roll_validated"]:checked');
+  if (!selected) return null;
+  return selected.value === 'yes';
+}
+
 function collectPatch(card) {
   return {
     assigned_volunteer: card.querySelector('[data-role="volunteer"]').value.trim() || null,
-    ac_number: card.querySelector('[data-role="ac_number"]').value.trim() || null,
-    part_number: card.querySelector('[data-role="part_number"]').value.trim() || null,
-    serial_number: card.querySelector('[data-role="serial_number"]').value.trim() || null,
+    ac_number: normalizeCodeField(card.querySelector('[data-role="ac_number"]').value) || null,
+    part_number: normalizeCodeField(card.querySelector('[data-role="part_number"]').value) || null,
+    serial_number: normalizeCodeField(card.querySelector('[data-role="serial_number"]').value) || null,
     remarks: card.querySelector('[data-role="remarks"]').value.trim() || null,
+    kannada_roll_validated: readKannadaValidation(card),
   };
+}
+
+function syncValidationState(card) {
+  const foundBtn = card.querySelector('[data-action="found"]');
+  const note = card.querySelector('.assist-inline-note');
+  const selected = card.querySelector('input[data-role="kannada_roll_validated"]:checked');
+  const value = selected ? selected.value : '';
+  ['ac_number', 'part_number', 'serial_number'].forEach((role) => {
+    const input = card.querySelector(`[data-role="${role}"]`);
+    if (!input) return;
+    const normalized = normalizeCodeField(input.value);
+    if (input.value !== normalized) {
+      input.value = normalized;
+    }
+  });
+  const codesValid = hasValidFoundCodes(collectPatch(card));
+  if (foundBtn) {
+    foundBtn.disabled = !value || !codesValid;
+  }
+  if (note) {
+    if (!codesValid) {
+      note.textContent = 'Enter AC Number, Part Number, and Part Serial Number using digits only (1 to 4 digits each).';
+    } else {
+      note.textContent = renderValidationHint(value);
+    }
+  }
 }
 
 async function handleCardAction(event) {
@@ -232,6 +360,12 @@ async function handleCardAction(event) {
       });
       setStatusMessage(resultsMessageEl, 'success', 'Volunteer assignment saved.');
     } else if (button.dataset.action === 'found') {
+      if (basePatch.kannada_roll_validated === null) {
+        throw new Error('Volunteer must answer the Kannada roll validation question before marking found.');
+      }
+      if (!hasValidFoundCodes(basePatch)) {
+        throw new Error('AC Number, Part Number, and Part Serial Number are required and must contain digits only (up to 4 digits each).');
+      }
       await updateRequest(id, {
         ...basePatch,
         status: 'COMPLETED',
@@ -251,6 +385,19 @@ async function handleCardAction(event) {
     await loadRequests();
   } catch (err) {
     setStatusMessage(resultsMessageEl, 'error', err.message || 'Unable to update request.');
+  }
+}
+
+async function handleClearFound() {
+  if (!window.confirm("Clear all found request details and keep only the lightweight completed records?")) {
+    return;
+  }
+  try {
+    const result = await clearFoundRequests();
+    setStatusMessage(resultsMessageEl, 'success', `${result?.cleared_count || 0} found request(s) cleared.`);
+    await loadRequests();
+  } catch (err) {
+    setStatusMessage(resultsMessageEl, 'error', err.message || 'Unable to clear found requests.');
   }
 }
 
@@ -284,27 +431,21 @@ async function handleLogin(event) {
   }
 }
 
-function bindTabs() {
-  document.getElementById('admin-tabs').addEventListener('click', (event) => {
-    const tab = event.target.closest('[data-tab]');
-    if (!tab) return;
-    activeTab = tab.dataset.tab;
-    document.querySelectorAll('.assist-tab').forEach((node) => {
-      node.classList.toggle('active', node === tab);
-    });
-    renderRequests();
-  });
-}
-
 function bindFilters() {
   document.getElementById('admin-refresh').addEventListener('click', loadRequests);
   selectedRequestEl.addEventListener('click', handleCardAction);
+  selectedRequestEl.addEventListener('change', (event) => {
+    const card = event.target.closest('[data-request-id]');
+    if (!card) return;
+    syncValidationState(card);
+  });
   orderListEl.addEventListener('click', (event) => {
     const button = event.target.closest('[data-order-id]');
     if (!button) return;
     selectedRequestId = button.dataset.orderId;
     renderRequests();
   });
+  clearFoundBtn.addEventListener('click', handleClearFound);
   document.getElementById('admin-signout').addEventListener('click', () => {
     clearSession();
     loginCard.hidden = false;
@@ -318,7 +459,6 @@ if (hasPlaceholderConfig()) {
   setStatusMessage(configWarningEl, 'error', 'Supabase is not configured yet. Replace the placeholders in request-assisted-config.js.');
 }
 
-bindTabs();
 bindFilters();
 loginForm.addEventListener('submit', handleLogin);
 

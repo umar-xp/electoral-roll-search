@@ -6,7 +6,7 @@ import {
   normalizeMobile,
   sanitizeText,
   setStatusMessage,
-} from './request-assisted-common.js';
+} from './request-assisted-common.js?v=20260625-2';
 
 const form = document.getElementById('status-form');
 const feedbackEl = document.getElementById('status-feedback');
@@ -18,6 +18,9 @@ function renderResult(data) {
   document.getElementById('result-status').textContent = String(data.status || 'REQUEST RECEIVED').replace(/_/g, ' ');
   document.getElementById('result-created-at').textContent = formatDate(data.created_at);
   document.getElementById('result-outcome').textContent = data.result_status || 'Pending';
+  document.getElementById('result-ac-number').textContent = data.ac_number || '—';
+  document.getElementById('result-part-number').textContent = data.part_number || '—';
+  document.getElementById('result-serial-number').textContent = data.serial_number || '—';
 
   let message = 'Your request has been received.';
   if (data.status === 'ASSIGNED') {
