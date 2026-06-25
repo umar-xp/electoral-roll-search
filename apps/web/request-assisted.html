@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Submit a manual voter search request for Karnataka 2002 electoral records.">
+<title>Request Assisted Search | Karnataka 2002 Voter Search</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="request-assisted.css">
+</head>
+<body>
+<a href="#assist-main" class="skip-link">Skip to main content</a>
+
+<header class="header" role="banner">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-icon emblem">🗳️</div>
+      <div class="brand-text">
+        <h1>Request Assisted Search</h1>
+        <p class="brand-sub">ಸ್ವಯಂ ಹುಡುಕಲು ಆಗದಿದ್ದರೆ ಸಹಾಯಕ್ಕಾಗಿ ವಿನಂತಿಸಿ</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <a class="lang-toggle" href="./index.html">Back To Search</a>
+    </div>
+  </div>
+</header>
+<div class="tricolor-bar" aria-hidden="true"></div>
+
+<main id="assist-main" class="assist-shell">
+  <section class="assist-hero">
+    <h2>Need help finding a 2002 Karnataka voter record?</h2>
+    <p>Submit a request with the voter details you already have. A volunteer will search the historical electoral records manually and contact you if more information is needed.</p>
+  </section>
+
+  <section id="assist-confirmation" class="assist-card assist-confirmation" hidden>
+    <p class="assist-hint">Your request has been received.</p>
+    <h2>Confirmation</h2>
+    <div class="assist-order-id" id="assist-order-id"></div>
+    <p>A volunteer will review your request and contact you if more information is needed.</p>
+    <div class="assist-actions" style="justify-content:center;margin-top:18px;">
+      <a class="assist-button" href="./request-status.html">Check Request Status</a>
+      <a class="assist-button-muted" href="./request-assisted.html">Submit Another Request</a>
+    </div>
+  </section>
+
+  <div id="assist-form-view" class="assist-grid">
+    <section class="assist-card">
+      <h3>Submit Search Request</h3>
+      <p>Please fill in as much information as possible. Fields marked with <span class="assist-required">*</span> are required.</p>
+      <div id="assist-config-warning" class="assist-alert assist-alert-error" hidden></div>
+      <div id="assist-status" class="assist-alert" hidden></div>
+
+      <form id="assist-request-form" class="assist-form" novalidate>
+        <div class="assist-section">
+          <div class="assist-section-title">Applicant Details</div>
+          <div class="assist-field-grid">
+            <div class="assist-field">
+              <label class="assist-label" for="applicant_name">Applicant Name <span class="assist-required">*</span></label>
+              <input class="assist-input" id="applicant_name" name="applicant_name" autocomplete="name" required>
+            </div>
+            <div class="assist-field">
+              <label class="assist-label" for="mobile">Mobile Number <span class="assist-required">*</span></label>
+              <input class="assist-input" id="mobile" name="mobile" inputmode="numeric" autocomplete="tel" maxlength="10" required>
+            </div>
+            <div class="assist-field assist-field-full">
+              <label class="assist-label" for="email">Email</label>
+              <input class="assist-input" id="email" name="email" type="email" autocomplete="email">
+            </div>
+          </div>
+        </div>
+
+        <div class="assist-section">
+          <div class="assist-section-title">Primary Voter ID</div>
+          <div class="assist-field-grid">
+            <div class="assist-field assist-field-full">
+              <label class="assist-label" for="primary_voter_id">Primary Voter ID <span class="assist-required">*</span></label>
+              <input class="assist-input" id="primary_voter_id" name="primary_voter_id" required>
+            </div>
+          </div>
+          <div class="assist-upload-grid" style="margin-top:14px;">
+            <div class="assist-upload">
+              <label class="assist-label" for="primary_front">Front Image <span class="assist-required">*</span></label>
+              <input id="primary_front" name="primary_front" type="file" accept="image/*" required>
+              <div class="assist-upload-preview" id="preview-primary-front"><span class="assist-hint">Preview appears here</span></div>
+            </div>
+            <div class="assist-upload">
+              <label class="assist-label" for="primary_back">Back Image <span class="assist-required">*</span></label>
+              <input id="primary_back" name="primary_back" type="file" accept="image/*" required>
+              <div class="assist-upload-preview" id="preview-primary-back"><span class="assist-hint">Preview appears here</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="assist-section">
+          <div class="assist-section-title">Secondary Voter ID</div>
+          <div class="assist-field-grid">
+            <div class="assist-field assist-field-full">
+              <label class="assist-label" for="secondary_voter_id">Secondary Voter ID</label>
+              <input class="assist-input" id="secondary_voter_id" name="secondary_voter_id">
+            </div>
+          </div>
+          <div class="assist-upload-grid" style="margin-top:14px;">
+            <div class="assist-upload">
+              <label class="assist-label" for="secondary_front">Front Image</label>
+              <input id="secondary_front" name="secondary_front" type="file" accept="image/*">
+              <div class="assist-upload-preview" id="preview-secondary-front"><span class="assist-hint">Optional</span></div>
+            </div>
+            <div class="assist-upload">
+              <label class="assist-label" for="secondary_back">Back Image</label>
+              <input id="secondary_back" name="secondary_back" type="file" accept="image/*">
+              <div class="assist-upload-preview" id="preview-secondary-back"><span class="assist-hint">Optional</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="assist-section">
+          <div class="assist-section-title">Question 1: Do you have a 2002 or older voter ID?</div>
+          <div class="assist-choice-row">
+            <label class="assist-choice"><input type="radio" name="has_old_voter_id" value="yes"> Yes</label>
+            <label class="assist-choice"><input type="radio" name="has_old_voter_id" value="no" checked> No</label>
+          </div>
+          <div id="old-voter-fields" class="assist-subsection" hidden>
+            <div class="assist-field-grid">
+              <div class="assist-field assist-field-full">
+                <label class="assist-label" for="old_voter_id">Older Voter ID Number</label>
+                <input class="assist-input" id="old_voter_id" name="old_voter_id">
+              </div>
+            </div>
+            <div class="assist-upload-grid" style="margin-top:14px;">
+              <div class="assist-upload">
+                <label class="assist-label" for="old_front">Older ID Front Image</label>
+                <input id="old_front" name="old_front" type="file" accept="image/*">
+                <div class="assist-upload-preview" id="preview-old-front"><span class="assist-hint">Optional if you selected Yes</span></div>
+              </div>
+              <div class="assist-upload">
+                <label class="assist-label" for="old_back">Older ID Back Image</label>
+                <input id="old_back" name="old_back" type="file" accept="image/*">
+                <div class="assist-upload-preview" id="preview-old-back"><span class="assist-hint">Optional if you selected Yes</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="assist-section">
+          <div class="assist-section-title">Question 2: Do you know any neighbor from around 2002 who still resides there?</div>
+          <div class="assist-choice-row">
+            <label class="assist-choice"><input type="radio" name="knows_neighbor" value="yes"> Yes</label>
+            <label class="assist-choice"><input type="radio" name="knows_neighbor" value="no" checked> No</label>
+          </div>
+          <div id="neighbor-fields" class="assist-subsection" hidden>
+            <div class="assist-choice-row" style="margin-bottom:12px;">
+              <span class="assist-label">Have they found their record in the 2002 voter list?</span>
+              <label class="assist-choice"><input type="radio" name="neighbor_found_in_2002" value="yes"> Yes</label>
+              <label class="assist-choice"><input type="radio" name="neighbor_found_in_2002" value="no"> No</label>
+            </div>
+            <div class="assist-field-grid">
+              <div class="assist-field">
+                <label class="assist-label" for="neighbor_name">Neighbor Name</label>
+                <input class="assist-input" id="neighbor_name" name="neighbor_name">
+              </div>
+              <div class="assist-field">
+                <label class="assist-label" for="neighbor_voter_id">Neighbor Voter ID</label>
+                <input class="assist-input" id="neighbor_voter_id" name="neighbor_voter_id">
+              </div>
+              <div class="assist-field assist-field-full">
+                <label class="assist-label" for="neighbor_locality">Area / Locality</label>
+                <input class="assist-input" id="neighbor_locality" name="neighbor_locality">
+              </div>
+            </div>
+            <div id="neighbor-found-fields" class="assist-subsection" hidden>
+              <div class="assist-field-grid">
+                <div class="assist-field">
+                  <label class="assist-label" for="neighbor_ac_number">Enter Assembly Constituency Number</label>
+                  <input class="assist-input" id="neighbor_ac_number" name="neighbor_ac_number">
+                  <span class="assist-hint">Optional</span>
+                </div>
+                <div class="assist-field">
+                  <label class="assist-label" for="neighbor_part_number">Enter Part Number</label>
+                  <input class="assist-input" id="neighbor_part_number" name="neighbor_part_number">
+                  <span class="assist-hint">Optional</span>
+                </div>
+                <div class="assist-field assist-field-full">
+                  <label class="assist-label" for="neighbor_serial_number">Enter Part Serial Number</label>
+                  <input class="assist-input" id="neighbor_serial_number" name="neighbor_serial_number">
+                  <span class="assist-hint">Optional</span>
+                </div>
+              </div>
+              <div class="assist-upload-grid" style="margin-top:14px;">
+                <div class="assist-upload assist-field-full">
+                  <label class="assist-label" for="neighbor_found_screenshot">Upload the screenshot of PDF in which it was found <span class="assist-required">*</span></label>
+                  <input id="neighbor_found_screenshot" name="neighbor_found_screenshot" type="file" accept="image/*,application/pdf">
+                  <div class="assist-upload-preview" id="preview-neighbor-found-screenshot"><span class="assist-hint">Required when you select Yes above</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="assist-section">
+          <label class="assist-check">
+            <input type="checkbox" id="declaration" name="declaration" value="yes" required>
+            <span>I authorize volunteers to search electoral records using the information provided.</span>
+          </label>
+        </div>
+
+        <div class="assist-actions">
+          <button id="assist-submit" class="assist-button" type="submit">Submit Request</button>
+          <a class="assist-button-muted" href="./request-status.html">Check Existing Status</a>
+        </div>
+      </form>
+    </section>
+
+    <aside class="assist-stats">
+      <section class="assist-card">
+        <h3>What happens next?</h3>
+        <ol class="assist-note-list">
+          <li>Your request is stored with a unique Order ID.</li>
+          <li>Uploaded voter ID images are saved to secure storage.</li>
+          <li>An administrator assigns the request to a volunteer.</li>
+          <li>You can check status anytime with Order ID and mobile number.</li>
+        </ol>
+      </section>
+      <section class="assist-card">
+        <h3>Status meanings</h3>
+        <div class="assist-stat"><strong>NEW</strong><span>Request received and waiting for assignment.</span></div>
+        <div class="assist-stat"><strong>ASSIGNED</strong><span>A volunteer has been assigned.</span></div>
+        <div class="assist-stat"><strong>COMPLETED</strong><span>The record was found and indexed by the team.</span></div>
+        <div class="assist-stat"><strong>NOT FOUND</strong><span>The search was completed but no record could be located.</span></div>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<script src="request-assisted-config.js"></script>
+<script type="module" src="request-assisted-form.js"></script>
+</body>
+</html>

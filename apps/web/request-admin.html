@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Administrator dashboard for assisted voter search requests.">
+<title>Request Assisted Search Admin</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="request-assisted.css">
+</head>
+<body>
+<a href="#assist-main" class="skip-link">Skip to main content</a>
+<header class="header" role="banner">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-icon emblem">🛠️</div>
+      <div class="brand-text">
+        <h1>Request Assisted Search Admin</h1>
+        <p class="brand-sub">Admins only — volunteer-facing workflow is managed here</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <a class="lang-toggle" href="./index.html">Back To Search</a>
+    </div>
+  </div>
+</header>
+<div class="tricolor-bar" aria-hidden="true"></div>
+
+<main id="assist-main" class="assist-shell">
+  <section class="assist-hero">
+    <h2>Administrator Dashboard</h2>
+    <p>Manage assisted-search requests, assign volunteers, and record final findings without exposing volunteer information on the public site.</p>
+  </section>
+
+  <section id="admin-login-card" class="assist-card">
+    <h3>Admin Sign In</h3>
+    <p>Use your administrator account configured in Supabase Auth.</p>
+    <div id="admin-config-warning" class="assist-alert assist-alert-error" hidden></div>
+    <div id="admin-feedback" class="assist-alert" hidden></div>
+    <form id="admin-login-form" class="assist-form" novalidate>
+      <div class="assist-field-grid">
+        <div class="assist-field">
+          <label class="assist-label" for="admin-email">Email</label>
+          <input class="assist-input" id="admin-email" name="email" type="email" autocomplete="username">
+        </div>
+        <div class="assist-field">
+          <label class="assist-label" for="admin-password">Password</label>
+          <input class="assist-input" id="admin-password" name="password" type="password" autocomplete="current-password">
+        </div>
+      </div>
+      <div class="assist-actions">
+        <button class="assist-button" type="submit">Sign In</button>
+      </div>
+    </form>
+  </section>
+
+  <section id="admin-dashboard" class="assist-card" hidden>
+    <div class="assist-actions" style="justify-content:space-between;margin-bottom:14px;">
+      <div>
+        <h3 style="margin-bottom:4px;">Requests Dashboard</h3>
+        <p class="assist-hint" id="admin-user-label">Signed in</p>
+      </div>
+      <button id="admin-signout" class="assist-button-muted" type="button">Sign Out</button>
+    </div>
+
+    <div class="assist-toolbar">
+      <input id="admin-search" class="assist-input" placeholder="Search by Order ID or mobile number">
+      <select id="admin-status-filter" class="assist-select">
+        <option value="ALL">All statuses</option>
+        <option value="NEW">NEW</option>
+        <option value="ASSIGNED">ASSIGNED</option>
+        <option value="COMPLETED">COMPLETED</option>
+        <option value="NOT_FOUND">NOT_FOUND</option>
+      </select>
+      <input id="admin-volunteer-filter" class="assist-input" placeholder="Filter by volunteer">
+      <button id="admin-refresh" class="assist-button-secondary" type="button">Refresh</button>
+    </div>
+
+    <div class="assist-tab-row" id="admin-tabs">
+      <button class="assist-tab active" data-tab="ALL" type="button">All</button>
+      <button class="assist-tab" data-tab="NEW" type="button">New Requests</button>
+      <button class="assist-tab" data-tab="ASSIGNED" type="button">Assigned</button>
+      <button class="assist-tab" data-tab="COMPLETED" type="button">Completed</button>
+      <button class="assist-tab" data-tab="NOT_FOUND" type="button">Not Found</button>
+    </div>
+
+    <div id="admin-results-message" class="assist-alert" hidden></div>
+
+    <div class="assist-admin-layout">
+      <section class="assist-admin-main">
+        <div id="admin-selected-request"></div>
+      </section>
+
+      <aside class="assist-admin-side">
+        <div class="assist-admin-side-header">
+          <h4>Existing Order IDs</h4>
+          <p class="assist-hint">Click an order to open the full request details.</p>
+        </div>
+        <div id="admin-order-list" class="assist-order-list"></div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<script src="request-assisted-config.js"></script>
+<script type="module" src="request-assisted-admin.js"></script>
+</body>
+</html>
