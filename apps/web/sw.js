@@ -8,7 +8,7 @@
  * - HTML: Network-first with cache fallback
  */
 
-const CACHE_VERSION = 'v4';
+const CACHE_VERSION = 'v5';
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const DATA_CACHE = `data-${CACHE_VERSION}`;
 
@@ -58,6 +58,16 @@ self.addEventListener('fetch', (event) => {
   if (url.origin !== self.location.origin) return;
 
   const path = url.pathname;
+
+  if (
+    path.endsWith('/request-admin.html') ||
+    path.endsWith('/request-assisted.html') ||
+    path.endsWith('/request-status.html') ||
+    path.endsWith('/about.html')
+  ) {
+    event.respondWith(fetch(event.request));
+    return;
+  }
 
   // Part data files — cache-first (immutable data)
   if (path.includes('/part_') && path.endsWith('.json')) {

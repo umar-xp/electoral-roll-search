@@ -5,13 +5,14 @@ import {
   createSearchRequest,
   createSubmissionKey,
   ensureRequiredFiles,
+  findOpenRequestByMobile,
   hasPlaceholderConfig,
   isValidEmail,
   normalizeMobile,
   sanitizeText,
   setStatusMessage,
   uploadFile,
-} from './request-assisted-common.js?v=20260625-3';
+} from './request-assisted-common.js?v=20260703-3';
 
 const form = document.getElementById('assist-request-form');
 const statusEl = document.getElementById('assist-status');
@@ -20,27 +21,7 @@ const submitBtn = document.getElementById('assist-submit');
 const confirmationView = document.getElementById('assist-confirmation');
 const formView = document.getElementById('assist-form-view');
 const orderIdEl = document.getElementById('assist-order-id');
-
-// #region debug-point B:form-module-loaded
-function reportRequestAssistFormDebug(hypothesisId, location, msg, data) {
-  fetch('http://127.0.0.1:7777/event', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      sessionId: 'request-assist-submit',
-      runId: 'pre-fix',
-      hypothesisId,
-      location,
-      msg: `[DEBUG] ${msg}`,
-      data,
-      ts: Date.now(),
-    }),
-  }).catch(() => {});
-}
-reportRequestAssistFormDebug('B', 'request-assisted-form.js:23', 'form module loaded', {
-  href: window.location.href,
-});
-// #endregion
+const neighborLocalityLabel = document.querySelector('label[for="neighbor_locality"]');
 
 const previewTargets = {
   primary_front: document.getElementById('preview-primary-front'),
@@ -71,6 +52,11 @@ function toggleConditionalSections() {
   document.getElementById('old-voter-fields').hidden = !hasOld;
   document.getElementById('neighbor-fields').hidden = !knowsNeighbor;
   document.getElementById('neighbor-found-fields').hidden = !neighborFound;
+  if (neighborLocalityLabel) {
+    neighborLocalityLabel.textContent = knowsNeighbor
+      ? 'Area / Locality and (if known) AC Number, Part Number, Part Serial Number'
+      : 'Area / Locality';
+  }
 }
 
 function showConfirmation(orderId) {
@@ -120,17 +106,6 @@ async function handleSubmit(event) {
   const neighborFoundIn2002 = knowsNeighbor ? boolFromRadio(form.elements.neighbor_found_in_2002.value) : null;
   const declarationAccepted = form.declaration.checked;
 
-  // #region debug-point B:submit-input-state
-  reportRequestAssistFormDebug('B', 'request-assisted-form.js:118', 'submit started', {
-    applicantNamePresent: !!applicantName,
-    mobileLength: mobile.length,
-    primaryVoterIdPresent: !!primaryVoterId,
-    hasOldVoterId,
-    knowsNeighbor,
-    neighborFoundIn2002,
-  });
-  // #endregion
-
   if (!applicantName || mobile.length !== 10 || !primaryVoterId) {
     setStatusMessage(statusEl, 'error', 'Applicant name, 10-digit mobile number, and primary voter ID are required.');
     return;
@@ -144,22 +119,29 @@ async function handleSubmit(event) {
     return;
   }
 
+  submitBtn.disabled = true;
+  setStatusMessage(statusEl, 'info', 'Checking if you already have an open ticket for this mobile number...');
+  try {
+    const existingResponse = await findOpenRequestByMobile(mobile);
+    const existing = Array.isArray(existingResponse) ? existingResponse[0] : existingResponse;
+    if (existing && existing.order_id) {
+      const nextUrl = new URL(window.location.href);
+      nextUrl.searchParams.set('submitted', '1');
+      nextUrl.searchParams.set('order', existing.order_id);
+      window.history.replaceState({}, '', nextUrl.toString());
+      showConfirmation(existing.order_id);
+      return;
+    }
+  } catch (_) {
+  } finally {
+    submitBtn.disabled = false;
+  }
+
   const primaryFront = form.primary_front.files[0];
   const primaryBack = form.primary_back.files[0];
   const neighborFoundScreenshot = knowsNeighbor && neighborFoundIn2002
     ? form.neighbor_found_screenshot.files[0]
     : null;
-  // #region debug-point B:submit-file-state
-  reportRequestAssistFormDebug('B', 'request-assisted-form.js:140', 'submit file snapshot', {
-    primaryFrontPresent: !!primaryFront,
-    primaryBackPresent: !!primaryBack,
-    secondaryFrontPresent: !!(form.secondary_front.files && form.secondary_front.files[0]),
-    secondaryBackPresent: !!(form.secondary_back.files && form.secondary_back.files[0]),
-    oldFrontPresent: !!(form.old_front.files && form.old_front.files[0]),
-    oldBackPresent: !!(form.old_back.files && form.old_back.files[0]),
-    neighborFoundScreenshotPresent: !!neighborFoundScreenshot,
-  });
-  // #endregion
   try {
     ensureRequiredFiles([
       [primaryFront, 'Primary voter ID front image'],
@@ -219,7 +201,7 @@ async function handleSubmit(event) {
 
     const orderId = response && (response.order_id || response.orderId || (Array.isArray(response) && response[0] && response[0].order_id));
     if (!orderId) {
-      throw new Error('Request created, but no order ID was returned by the server.');
+      throw new Error('Request created, but no Ticket ID was returned by the server.');
     }
 
     const nextUrl = new URL(window.location.href);

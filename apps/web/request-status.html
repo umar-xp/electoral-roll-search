@@ -6,7 +6,7 @@
 <meta name="description" content="Check the status of your assisted voter search request.">
 <title>Request Status | Karnataka 2002 Voter Search</title>
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="request-assisted.css?v=20260625-2">
+<link rel="stylesheet" href="request-assisted.css?v=20260703-3">
 </head>
 <body>
 <a href="#assist-main" class="skip-link">Skip to main content</a>
@@ -16,7 +16,7 @@
       <div class="brand-icon emblem">📋</div>
       <div class="brand-text">
         <h1>Request Status Check</h1>
-        <p class="brand-sub">Order ID + mobile number ಮೂಲಕ ಸ್ಥಿತಿ ಪರಿಶೀಲಿಸಿ</p>
+        <p class="brand-sub">Ticket ID + mobile number ಮೂಲಕ ಸ್ಥಿತಿ ಪರಿಶೀಲಿಸಿ</p>
       </div>
     </div>
     <div class="header-actions">
@@ -29,7 +29,7 @@
 <main id="assist-main" class="assist-shell">
   <section class="assist-hero">
     <h2>Check your assisted-search request</h2>
-    <p>Enter the Order ID shown on submission and the same mobile number used in your request.</p>
+    <p>Enter the Ticket ID shown on submission and the same mobile number used in your request.</p>
   </section>
 
   <div class="assist-grid">
@@ -41,7 +41,7 @@
       <form id="status-form" class="assist-form" novalidate>
         <div class="assist-field-grid">
           <div class="assist-field">
-            <label class="assist-label" for="status-order-id">Order ID</label>
+            <label class="assist-label" for="status-order-id">Ticket ID</label>
             <input class="assist-input" id="status-order-id" name="order_id" placeholder="VSR-000001" required>
           </div>
           <div class="assist-field">
@@ -59,12 +59,16 @@
         <h3>Request Status</h3>
         <div class="assist-request-grid">
           <div class="assist-kv">
-            <span class="assist-hint">Order ID</span>
+            <span class="assist-hint">Ticket ID</span>
             <strong id="result-order-id"></strong>
           </div>
           <div class="assist-kv">
             <span class="assist-hint">Current Status</span>
             <strong id="result-status"></strong>
+          </div>
+          <div class="assist-kv">
+            <span class="assist-hint">Assigned Volunteer</span>
+            <strong id="result-assigned-volunteer"></strong>
           </div>
           <div class="assist-kv">
             <span class="assist-hint">Submitted</span>
@@ -108,7 +112,7 @@
   </div>
 </main>
 
-<script src="request-assisted-config.js?v=20260625-2"></script>
-<script type="module" src="request-assisted-status.js?v=20260625-2"></script>
+<script src="request-assisted-config.js?v=20260703-3"></script>
+<script type="module" src="request-assisted-status.js?v=20260703-3"></script>
 </body>
 </html>

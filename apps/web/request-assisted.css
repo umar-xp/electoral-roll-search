@@ -1,3 +1,8 @@
+.assist-shell [hidden],
+[hidden] {
+  display: none !important;
+}
+
 .assist-shell {
   max-width: var(--max-w);
   margin: 0 auto;
@@ -486,10 +491,15 @@
 }
 
 .assist-image-card {
+  display: block;
+  width: 100%;
+  padding: 0;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   overflow: hidden;
   background: var(--bg-subtle);
+  cursor: pointer;
+  text-align: left;
 }
 
 .assist-image-card img {
@@ -531,6 +541,106 @@
   display: grid;
   gap: 16px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.assist-admin-tables {
+  display: grid;
+  gap: 18px;
+}
+
+.assist-admin-table-card h3 {
+  margin-bottom: 12px;
+}
+
+.assist-table-wrap {
+  width: 100%;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #fff;
+}
+
+.assist-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 520px;
+}
+
+.assist-table th,
+.assist-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 14px;
+}
+
+.assist-table th {
+  text-align: left;
+  font-weight: 800;
+  background: var(--bg-subtle);
+  position: sticky;
+  top: 0;
+}
+
+.assist-table tr.assist-row:hover td {
+  background: rgba(242, 107, 33, 0.05);
+}
+
+.assist-admin-modal,
+.assist-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: none;
+  place-items: center;
+}
+
+.assist-modal:not([hidden]) {
+  display: grid;
+}
+
+.assist-admin-modal {
+  display: none;
+}
+
+.assist-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+}
+
+.assist-modal-card {
+  position: relative;
+  width: min(980px, calc(100vw - 28px));
+  max-height: calc(100vh - 28px);
+  overflow: auto;
+  padding: 18px;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+}
+
+.assist-modal-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.assist-modal-image {
+  width: min(980px, calc(100vw - 28px));
+  text-align: center;
+}
+
+.assist-modal-image img {
+  max-width: 100%;
+  max-height: calc(100vh - 160px);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: #fff;
+  display: block;
+  margin: 0 auto;
 }
 
 @media (max-width: 920px) {

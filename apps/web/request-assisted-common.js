@@ -1,27 +1,6 @@
 const CONFIG = window.REQUEST_ASSISTED_CONFIG || {};
 const SESSION_KEY = 'vsr-admin-session';
 
-// #region debug-point A:runtime-module-loaded
-function reportRequestAssistDebug(hypothesisId, location, msg, data) {
-  fetch('http://127.0.0.1:7777/event', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      sessionId: 'request-assist-submit',
-      runId: 'pre-fix',
-      hypothesisId,
-      location,
-      msg: `[DEBUG] ${msg}`,
-      data,
-      ts: Date.now(),
-    }),
-  }).catch(() => {});
-}
-reportRequestAssistDebug('A', 'request-assisted-common.js:2', 'common module loaded', {
-  href: window.location.href,
-});
-// #endregion
-
 function requiredConfigValue(key) {
   const value = CONFIG[key];
   if (!value) {
@@ -185,6 +164,26 @@ export async function lookupRequestStatus(orderId, mobile) {
     p_order_id: sanitizeText(orderId).toUpperCase(),
     p_mobile: normalizeMobile(mobile),
   });
+}
+
+export async function findOpenRequestByMobile(mobile) {
+  return callRpc('public_find_open_request_by_mobile', {
+    p_mobile: normalizeMobile(mobile),
+  });
+}
+
+export async function fetchPublicRequests() {
+  return callRpc('public_list_search_requests', {});
+}
+
+export async function fetchPublicRequestDetail(orderId) {
+  return callRpc('public_get_search_request_detail', {
+    p_order_id: sanitizeText(orderId).toUpperCase(),
+  });
+}
+
+export async function publicUpdateRequest(payload) {
+  return callRpc('public_update_search_request', payload);
 }
 
 export async function adminLogin(email, password) {
@@ -380,26 +379,8 @@ export function boolFromRadio(value) {
 }
 
 export function ensureRequiredFiles(files, labels) {
-  // #region debug-point D:ensure-required-files-entry
-  reportRequestAssistDebug('D', 'request-assisted-common.js:355', 'ensureRequiredFiles invoked', {
-    filesType: Array.isArray(files) ? 'array' : typeof files,
-    filesLength: Array.isArray(files) ? files.length : null,
-    labelsType: Array.isArray(labels) ? 'array' : typeof labels,
-    labelsLength: Array.isArray(labels) ? labels.length : null,
-  });
-  // #endregion
   const entries = Array.isArray(labels) ? labels : files;
   const missing = [];
-  // #region debug-point D:ensure-required-files-entries
-  reportRequestAssistDebug('D', 'request-assisted-common.js:363', 'resolved required file entries', {
-    entriesType: Array.isArray(entries) ? 'array' : typeof entries,
-    entriesLength: Array.isArray(entries) ? entries.length : null,
-    firstEntry: Array.isArray(entries) && entries.length ? {
-      filePresent: !!(entries[0] && entries[0][0]),
-      label: entries[0] && entries[0][1],
-    } : null,
-  });
-  // #endregion
   entries.forEach(([file, label]) => {
     if (!file) missing.push(label);
   });

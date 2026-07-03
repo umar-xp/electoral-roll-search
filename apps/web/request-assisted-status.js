@@ -6,7 +6,7 @@ import {
   normalizeMobile,
   sanitizeText,
   setStatusMessage,
-} from './request-assisted-common.js?v=20260625-2';
+} from './request-assisted-common.js?v=20260703-3';
 
 const form = document.getElementById('status-form');
 const feedbackEl = document.getElementById('status-feedback');
@@ -16,6 +16,7 @@ const resultCard = document.getElementById('status-result');
 function renderResult(data) {
   document.getElementById('result-order-id').textContent = data.order_id || '—';
   document.getElementById('result-status').textContent = String(data.status || 'REQUEST RECEIVED').replace(/_/g, ' ');
+  document.getElementById('result-assigned-volunteer').textContent = data.assigned_volunteer || '—';
   document.getElementById('result-created-at').textContent = formatDate(data.created_at);
   document.getElementById('result-outcome').textContent = data.result_status || 'Pending';
   document.getElementById('result-ac-number').textContent = data.ac_number || '—';
@@ -48,7 +49,7 @@ async function handleLookup(event) {
   const orderId = sanitizeText(form.order_id.value).toUpperCase();
   const mobile = normalizeMobile(form.mobile.value);
   if (!orderId || mobile.length !== 10) {
-    setStatusMessage(feedbackEl, 'error', 'Enter a valid Order ID and the same 10-digit mobile number used in the request.');
+    setStatusMessage(feedbackEl, 'error', 'Enter a valid Ticket ID and the same 10-digit mobile number used in the request.');
     return;
   }
 
@@ -57,7 +58,7 @@ async function handleLookup(event) {
     const response = await lookupRequestStatus(orderId, mobile);
     const record = Array.isArray(response) ? response[0] : response;
     if (!record) {
-      throw new Error('No request matched the provided Order ID and mobile number.');
+      throw new Error('No request matched the provided Ticket ID and mobile number.');
     }
     clearStatusMessage(feedbackEl);
     renderResult(record);

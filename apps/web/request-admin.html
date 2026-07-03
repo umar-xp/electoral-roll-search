@@ -6,7 +6,7 @@
 <meta name="description" content="Administrator dashboard for assisted voter search requests.">
 <title>Request Assisted Search Admin</title>
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="request-assisted.css?v=20260625-3">
+<link rel="stylesheet" href="request-assisted.css?v=20260703-5">
 </head>
 <body>
 <a href="#assist-main" class="skip-link">Skip to main content</a>
@@ -16,7 +16,7 @@
       <div class="brand-icon emblem">🛠️</div>
       <div class="brand-text">
         <h1>Request Assisted Search Admin</h1>
-        <p class="brand-sub">Admins only — volunteer-facing workflow is managed here</p>
+    <p class="brand-sub">Volunteer workflow dashboard</p>
       </div>
     </div>
     <div class="header-actions">
@@ -28,82 +28,86 @@
 
 <main id="assist-main" class="assist-shell">
   <section class="assist-hero">
-    <h2>Administrator Dashboard</h2>
-    <p>Manage assisted-search requests, assign volunteers, and record final findings without exposing volunteer information on the public site.</p>
+    <h2>Requests Dashboard</h2>
+    <p>Assign volunteers and mark requests as Found / Not Found.</p>
   </section>
 
-  <section id="admin-login-card" class="assist-card">
-    <h3>Admin Sign In</h3>
-    <p>Use your administrator account configured in Supabase Auth.</p>
+  <section id="admin-dashboard" class="assist-card">
     <div id="admin-config-warning" class="assist-alert assist-alert-error" hidden></div>
-    <div id="admin-feedback" class="assist-alert" hidden></div>
-    <form id="admin-login-form" class="assist-form" novalidate>
-      <div class="assist-field-grid">
-        <div class="assist-field">
-          <label class="assist-label" for="admin-email">Email</label>
-          <input class="assist-input" id="admin-email" name="email" type="email" autocomplete="username">
-        </div>
-        <div class="assist-field">
-          <label class="assist-label" for="admin-password">Password</label>
-          <input class="assist-input" id="admin-password" name="password" type="password" autocomplete="current-password">
-        </div>
-      </div>
-      <div class="assist-actions">
-        <button class="assist-button" type="submit">Sign In</button>
-      </div>
-    </form>
-  </section>
-
-  <section id="admin-dashboard" class="assist-card" hidden>
-    <div class="assist-actions" style="justify-content:space-between;margin-bottom:14px;">
-      <div>
-        <h3 style="margin-bottom:4px;">Requests Dashboard</h3>
-        <p class="assist-hint" id="admin-user-label">Signed in</p>
-      </div>
-      <button id="admin-signout" class="assist-button-muted" type="button">Sign Out</button>
-    </div>
-
-    <div class="assist-toolbar">
-      <input id="admin-search" class="assist-input" placeholder="Search by Order ID or mobile number">
-      <input id="admin-volunteer-filter" class="assist-input" placeholder="Filter by volunteer">
-      <button id="admin-refresh" class="assist-button-secondary" type="button">Refresh</button>
-      <button id="admin-clear-found" class="assist-button-muted" type="button">Clear Found One's</button>
-    </div>
-
     <div id="admin-results-message" class="assist-alert" hidden></div>
 
-    <div class="assist-admin-layout">
-      <section class="assist-admin-main">
-        <div id="admin-selected-request"></div>
-      </section>
-
-      <aside class="assist-admin-side">
-        <div class="assist-admin-side-header">
-          <h4>Requests</h4>
-          <p class="assist-hint">New requests are shown first. Completed found requests stay collapsed by default.</p>
-        </div>
-        <div id="admin-order-list"></div>
-      </aside>
+    <div class="assist-toolbar" style="grid-template-columns: 2fr auto;">
+      <input id="admin-search" class="assist-input" placeholder="Search by Ticket ID / voter ID / name / volunteer">
+      <button id="admin-refresh" class="assist-button-secondary" type="button">Refresh</button>
     </div>
 
-    <section class="assist-card assist-admin-summary">
-      <h4>Search Summary</h4>
-      <div class="assist-admin-summary-grid">
-        <div class="assist-stat">
-          <span class="assist-hint">Found voter IDs till date</span>
-          <strong id="admin-found-count">0</strong>
+    <div class="assist-admin-tables">
+      <section class="assist-admin-table-card">
+        <h3>New Requests</h3>
+        <div class="assist-table-wrap">
+          <table class="assist-table">
+            <thead>
+              <tr>
+                <th>Voter ID</th>
+                <th>Voter Name</th>
+                <th>Assigned To</th>
+              </tr>
+            </thead>
+            <tbody id="admin-table-new"></tbody>
+          </table>
         </div>
-        <div class="assist-stat">
-          <span class="assist-hint">Highest successful searches</span>
-          <strong id="admin-top-volunteer">—</strong>
-          <span id="admin-top-volunteer-count" class="assist-hint">0 successful searches</span>
+      </section>
+
+      <section class="assist-admin-table-card">
+        <h3>Found</h3>
+        <div class="assist-table-wrap">
+          <table class="assist-table">
+            <thead>
+              <tr>
+                <th>Voter ID</th>
+                <th>Voter Name</th>
+                <th>Assigned To</th>
+              </tr>
+            </thead>
+            <tbody id="admin-table-found"></tbody>
+          </table>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <section class="assist-admin-table-card">
+        <h3>Not Found</h3>
+        <div class="assist-table-wrap">
+          <table class="assist-table">
+            <thead>
+              <tr>
+                <th>Voter ID</th>
+                <th>Voter Name</th>
+                <th>Assigned To</th>
+              </tr>
+            </thead>
+            <tbody id="admin-table-notfound"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
   </section>
 </main>
 
-<script src="request-assisted-config.js?v=20260625-3"></script>
-<script type="module" src="request-assisted-admin.js?v=20260625-3"></script>
+<div id="admin-modal" class="assist-admin-modal" style="display:none">
+  <div class="assist-modal-backdrop" data-action="close"></div>
+  <div class="assist-modal-card" role="dialog" aria-modal="true" aria-label="Request details">
+    <div class="assist-modal-header">
+      <div>
+        <h3 id="admin-modal-title" style="margin:0;">Ticket</h3>
+        <p id="admin-modal-subtitle" class="assist-hint" style="margin:6px 0 0;"></p>
+      </div>
+      <button class="assist-button-muted" type="button" data-action="close">Close</button>
+    </div>
+    <div id="admin-modal-body"></div>
+  </div>
+</div>
+
+<script src="request-assisted-config.js?v=20260703-5"></script>
+<script type="module" src="request-assisted-admin.js?v=20260703-5"></script>
 </body>
 </html>

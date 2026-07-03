@@ -187,6 +187,19 @@ begin
     raise exception 'Declaration must be accepted';
   end if;
 
+  select *
+  into v_record
+  from public.search_requests sr
+  where sr.mobile = v_mobile
+    and sr.status in ('NEW', 'ASSIGNED')
+  order by sr.created_at desc
+  limit 1;
+
+  if found then
+    return query select v_record.id, v_record.order_id, v_record.status;
+    return;
+  end if;
+
   insert into public.search_requests (
     applicant_name,
     mobile,
@@ -259,6 +272,7 @@ returns table (
   order_id text,
   created_at timestamptz,
   status text,
+  assigned_volunteer text,
   result_status text,
   completed_at timestamptz,
   ac_number text,
@@ -273,6 +287,7 @@ as $$
     sr.order_id,
     sr.created_at,
     sr.status,
+    sr.assigned_volunteer,
     sr.result_status,
     sr.completed_at,
     sr.ac_number,
@@ -285,6 +300,237 @@ as $$
 $$;
 
 grant execute on function public.public_get_search_request_status(text, text) to anon, authenticated;
+
+drop function if exists public.public_find_open_request_by_mobile(text);
+create or replace function public.public_find_open_request_by_mobile(
+  p_mobile text
+)
+returns table (
+  order_id text,
+  status text
+)
+language sql
+security definer
+set search_path = public
+as $$
+  select
+    sr.order_id,
+    sr.status
+  from public.search_requests sr
+  where sr.mobile = regexp_replace(coalesce(p_mobile, ''), '\D', '', 'g')
+    and sr.status in ('NEW', 'ASSIGNED')
+  order by sr.created_at desc
+  limit 1;
+$$;
+
+grant execute on function public.public_find_open_request_by_mobile(text) to anon, authenticated;
+
+drop function if exists public.public_list_search_requests();
+create or replace function public.public_list_search_requests()
+returns table (
+  order_id text,
+  applicant_name text,
+  primary_voter_id text,
+  assigned_volunteer text,
+  status text,
+  result_status text,
+  created_at timestamptz,
+  completed_at timestamptz
+)
+language sql
+security definer
+set search_path = public
+as $$
+  select
+    sr.order_id,
+    sr.applicant_name,
+    sr.primary_voter_id,
+    sr.assigned_volunteer,
+    sr.status,
+    sr.result_status,
+    sr.created_at,
+    sr.completed_at
+  from public.search_requests sr
+  order by sr.created_at desc
+  limit 2000;
+$$;
+
+grant execute on function public.public_list_search_requests() to anon, authenticated;
+
+drop function if exists public.public_get_search_request_detail(text);
+create or replace function public.public_get_search_request_detail(
+  p_order_id text
+)
+returns table (
+  id bigint,
+  order_id text,
+  created_at timestamptz,
+  applicant_name text,
+  mobile text,
+  email text,
+  primary_voter_id text,
+  secondary_voter_id text,
+  old_voter_id text,
+  has_old_voter_id boolean,
+  knows_neighbor boolean,
+  neighbor_found_in_2002 boolean,
+  neighbor_name text,
+  neighbor_locality text,
+  neighbor_voter_id text,
+  neighbor_ac_number text,
+  neighbor_part_number text,
+  neighbor_serial_number text,
+  neighbor_found_screenshot_url text,
+  primary_front_url text,
+  primary_back_url text,
+  secondary_front_url text,
+  secondary_back_url text,
+  old_front_url text,
+  old_back_url text,
+  status text,
+  assigned_volunteer text,
+  assigned_date timestamptz,
+  ac_number text,
+  part_number text,
+  serial_number text,
+  result_status text,
+  remarks text,
+  kannada_roll_validated boolean,
+  completed_at timestamptz
+)
+language sql
+security definer
+set search_path = public
+as $$
+  select
+    sr.id,
+    sr.order_id,
+    sr.created_at,
+    sr.applicant_name,
+    sr.mobile,
+    sr.email,
+    sr.primary_voter_id,
+    sr.secondary_voter_id,
+    sr.old_voter_id,
+    sr.has_old_voter_id,
+    sr.knows_neighbor,
+    sr.neighbor_found_in_2002,
+    sr.neighbor_name,
+    sr.neighbor_locality,
+    sr.neighbor_voter_id,
+    sr.neighbor_ac_number,
+    sr.neighbor_part_number,
+    sr.neighbor_serial_number,
+    sr.neighbor_found_screenshot_url,
+    sr.primary_front_url,
+    sr.primary_back_url,
+    sr.secondary_front_url,
+    sr.secondary_back_url,
+    sr.old_front_url,
+    sr.old_back_url,
+    sr.status,
+    sr.assigned_volunteer,
+    sr.assigned_date,
+    sr.ac_number,
+    sr.part_number,
+    sr.serial_number,
+    sr.result_status,
+    sr.remarks,
+    sr.kannada_roll_validated,
+    sr.completed_at
+  from public.search_requests sr
+  where sr.order_id = upper(trim(p_order_id))
+  limit 1;
+$$;
+
+grant execute on function public.public_get_search_request_detail(text) to anon, authenticated;
+
+drop function if exists public.public_update_search_request(text, text, text, text, text, text, text, boolean);
+create or replace function public.public_update_search_request(
+  p_order_id text,
+  p_action text,
+  p_assigned_volunteer text default null,
+  p_ac_number text default null,
+  p_part_number text default null,
+  p_serial_number text default null,
+  p_remarks text default null,
+  p_kannada_roll_validated boolean default null
+)
+returns table (
+  order_id text,
+  status text,
+  result_status text
+)
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_order_id text;
+  v_action text;
+begin
+  v_order_id := upper(trim(coalesce(p_order_id, '')));
+  v_action := upper(trim(coalesce(p_action, '')));
+  if v_order_id = '' then
+    raise exception 'Ticket ID is required';
+  end if;
+
+  if v_action = 'ASSIGN' then
+    if p_assigned_volunteer is null or trim(p_assigned_volunteer) = '' then
+      raise exception 'Volunteer name is required';
+    end if;
+    update public.search_requests
+    set
+      assigned_volunteer = trim(p_assigned_volunteer),
+      assigned_date = now(),
+      status = 'ASSIGNED'
+    where order_id = v_order_id;
+  elsif v_action = 'FOUND' then
+    if p_kannada_roll_validated is null then
+      raise exception 'Kannada roll validation is required';
+    end if;
+    if coalesce(p_ac_number, '') !~ '^[0-9]{1,4}$'
+      or coalesce(p_part_number, '') !~ '^[0-9]{1,4}$'
+      or coalesce(p_serial_number, '') !~ '^[0-9]{1,4}$' then
+      raise exception 'AC Number, Part Number, and Part Serial Number are required (1-4 digits each)';
+    end if;
+    update public.search_requests
+    set
+      status = 'COMPLETED',
+      result_status = 'FOUND',
+      completed_at = now(),
+      ac_number = p_ac_number,
+      part_number = p_part_number,
+      serial_number = p_serial_number,
+      remarks = nullif(trim(coalesce(p_remarks, '')), ''),
+      kannada_roll_validated = p_kannada_roll_validated
+    where order_id = v_order_id;
+  elsif v_action = 'NOT_FOUND' then
+    update public.search_requests
+    set
+      status = 'NOT_FOUND',
+      result_status = 'NOT_FOUND',
+      completed_at = now(),
+      remarks = nullif(trim(coalesce(p_remarks, '')), '')
+    where order_id = v_order_id;
+  else
+    raise exception 'Unknown action. Supported actions: ASSIGN, FOUND, NOT_FOUND';
+  end if;
+
+  if not found then
+    raise exception 'Ticket ID not found';
+  end if;
+
+  return query
+  select sr.order_id, sr.status, sr.result_status
+  from public.search_requests sr
+  where sr.order_id = v_order_id
+  limit 1;
+end;
+$$;
+
+grant execute on function public.public_update_search_request(text, text, text, text, text, text, text, boolean)
+to anon, authenticated;
 
 create or replace function public.admin_get_request_dashboard_stats()
 returns table (
