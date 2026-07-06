@@ -511,12 +511,12 @@ begin
     if p_assigned_volunteer is null or trim(p_assigned_volunteer) = '' then
       raise exception 'Volunteer name is required';
     end if;
-    update public.search_requests
+    update public.search_requests sr
     set
       assigned_volunteer = trim(p_assigned_volunteer),
       assigned_date = now(),
       status = 'ASSIGNED'
-    where order_id = v_order_id;
+    where sr.order_id = v_order_id;
   elsif v_action = 'FOUND' then
     if p_kannada_roll_validated is null then
       raise exception 'Kannada roll validation is required';
@@ -526,7 +526,7 @@ begin
       or coalesce(p_serial_number, '') !~ '^[0-9]{1,4}$' then
       raise exception 'AC Number, Part Number, and Part Serial Number are required (1-4 digits each)';
     end if;
-    update public.search_requests
+    update public.search_requests sr
     set
       assigned_volunteer = coalesce(nullif(trim(coalesce(p_assigned_volunteer, '')), ''), assigned_volunteer),
       assigned_date = case
@@ -541,9 +541,9 @@ begin
       serial_number = p_serial_number,
       remarks = nullif(trim(coalesce(p_remarks, '')), ''),
       kannada_roll_validated = p_kannada_roll_validated
-    where order_id = v_order_id;
+    where sr.order_id = v_order_id;
   elsif v_action = 'NOT_FOUND' then
-    update public.search_requests
+    update public.search_requests sr
     set
       assigned_volunteer = coalesce(nullif(trim(coalesce(p_assigned_volunteer, '')), ''), assigned_volunteer),
       assigned_date = case
@@ -554,7 +554,7 @@ begin
       result_status = 'NOT_FOUND',
       completed_at = now(),
       remarks = nullif(trim(coalesce(p_remarks, '')), '')
-    where order_id = v_order_id;
+    where sr.order_id = v_order_id;
   else
     raise exception 'Unknown action. Supported actions: ASSIGN, FOUND, NOT_FOUND';
   end if;
