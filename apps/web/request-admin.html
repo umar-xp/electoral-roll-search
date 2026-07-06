@@ -6,7 +6,7 @@
 <meta name="description" content="Administrator dashboard for assisted voter search requests.">
 <title>Request Assisted Search Admin</title>
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="request-assisted.css?v=20260703-5">
+<link rel="stylesheet" href="request-assisted.css?v=20260704-1">
 </head>
 <body>
 <a href="#assist-main" class="skip-link">Skip to main content</a>
@@ -30,14 +30,18 @@
   <section class="assist-hero">
     <h2>Requests Dashboard</h2>
     <p>Assign volunteers and mark requests as Found / Not Found.</p>
+    <p>You can be a volunteer (or refer to volunteers) and help people if you are seeing this page.</p>
   </section>
 
   <section id="admin-dashboard" class="assist-card">
     <div id="admin-config-warning" class="assist-alert assist-alert-error" hidden></div>
     <div id="admin-results-message" class="assist-alert" hidden></div>
 
-    <div class="assist-toolbar" style="grid-template-columns: 2fr auto;">
+    <div class="assist-toolbar" style="grid-template-columns: 2fr 1fr auto;">
       <input id="admin-search" class="assist-input" placeholder="Search by Ticket ID / voter ID / name / volunteer">
+      <select id="admin-district-filter" class="assist-select">
+        <option value="">All districts</option>
+      </select>
       <button id="admin-refresh" class="assist-button-secondary" type="button">Refresh</button>
     </div>
 
@@ -107,7 +111,7 @@
   </div>
 </div>
 
-<script src="request-assisted-config.js?v=20260703-5"></script>
-<script type="module" src="request-assisted-admin.js?v=20260703-5"></script>
+<script src="request-assisted-config.js?v=20260704-1"></script>
+<script type="module" src="request-assisted-admin.js?v=20260704-1"></script>
 </body>
 </html>

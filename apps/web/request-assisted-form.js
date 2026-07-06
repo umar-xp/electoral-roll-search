@@ -7,12 +7,13 @@ import {
   ensureRequiredFiles,
   findOpenRequestByMobile,
   hasPlaceholderConfig,
-  isValidEmail,
+  normalizeDistrict,
   normalizeMobile,
+  populateDistrictSelect,
   sanitizeText,
   setStatusMessage,
   uploadFile,
-} from './request-assisted-common.js?v=20260703-3';
+} from './request-assisted-common.js?v=20260704-1';
 
 const form = document.getElementById('assist-request-form');
 const statusEl = document.getElementById('assist-status');
@@ -22,6 +23,7 @@ const confirmationView = document.getElementById('assist-confirmation');
 const formView = document.getElementById('assist-form-view');
 const orderIdEl = document.getElementById('assist-order-id');
 const neighborLocalityLabel = document.querySelector('label[for="neighbor_locality"]');
+const districtSelectEl = document.getElementById('district');
 
 const previewTargets = {
   primary_front: document.getElementById('preview-primary-front'),
@@ -91,7 +93,8 @@ async function handleSubmit(event) {
 
   const applicantName = sanitizeText(form.applicant_name.value);
   const mobile = normalizeMobile(form.mobile.value);
-  const email = sanitizeText(form.email.value);
+  const district = normalizeDistrict(form.district.value);
+  const houseAddress2002 = sanitizeText(form.house_address_2002.value);
   const primaryVoterId = sanitizeText(form.primary_voter_id.value);
   const secondaryVoterId = sanitizeText(form.secondary_voter_id.value);
   const oldVoterId = sanitizeText(form.old_voter_id.value);
@@ -106,12 +109,8 @@ async function handleSubmit(event) {
   const neighborFoundIn2002 = knowsNeighbor ? boolFromRadio(form.elements.neighbor_found_in_2002.value) : null;
   const declarationAccepted = form.declaration.checked;
 
-  if (!applicantName || mobile.length !== 10 || !primaryVoterId) {
-    setStatusMessage(statusEl, 'error', 'Applicant name, 10-digit mobile number, and primary voter ID are required.');
-    return;
-  }
-  if (!isValidEmail(email)) {
-    setStatusMessage(statusEl, 'error', 'Please enter a valid email address or leave it blank.');
+  if (!applicantName || mobile.length !== 10 || !district || !houseAddress2002 || !primaryVoterId) {
+    setStatusMessage(statusEl, 'error', 'Applicant name, 10-digit mobile number, district, 2002 house address, and primary voter ID are required.');
     return;
   }
   if (!declarationAccepted) {
@@ -175,7 +174,8 @@ async function handleSubmit(event) {
     const response = await createSearchRequest({
       applicant_name: applicantName,
       mobile,
-      email: email || null,
+      district,
+      house_address_2002: houseAddress2002,
       primary_voter_id: primaryVoterId,
       secondary_voter_id: secondaryVoterId || null,
       old_voter_id: hasOldVoterId ? (oldVoterId || null) : null,
@@ -237,6 +237,7 @@ if (hasPlaceholderConfig()) {
   setStatusMessage(configWarningEl, 'error', 'Supabase is not configured yet. Replace the placeholders in request-assisted-config.js.');
 }
 
+populateDistrictSelect(districtSelectEl);
 toggleConditionalSections();
 hydrateFromQuery();
 form.addEventListener('submit', handleSubmit);

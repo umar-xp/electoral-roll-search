@@ -5,13 +5,15 @@ import {
   fetchPublicRequests,
   formatDate,
   hasPlaceholderConfig,
+  populateDistrictSelect,
   publicUpdateRequest,
   setStatusMessage,
-} from './request-assisted-common.js?v=20260703-5';
+} from './request-assisted-common.js?v=20260704-1';
 
 const configWarningEl = document.getElementById('admin-config-warning');
 const resultsMessageEl = document.getElementById('admin-results-message');
 const searchInputEl = document.getElementById('admin-search');
+const districtFilterEl = document.getElementById('admin-district-filter');
 const refreshBtn = document.getElementById('admin-refresh');
 const tableNewEl = document.getElementById('admin-table-new');
 const tableFoundEl = document.getElementById('admin-table-found');
@@ -45,13 +47,19 @@ function recordMatches(record, query) {
     record.primary_voter_id,
     record.applicant_name,
     record.assigned_volunteer,
+    record.district,
   ].map((v) => String(v || '').toLowerCase()).join(' ');
   return hay.includes(query);
 }
 
 function groupRecords(rows) {
   const query = String(searchInputEl.value || '').trim().toLowerCase();
-  const filtered = rows.filter((r) => recordMatches(r, query));
+  const district = String(districtFilterEl.value || '').trim().toLowerCase();
+  const filtered = rows.filter((r) => {
+    if (!recordMatches(r, query)) return false;
+    if (district && String(r.district || '').toLowerCase() !== district) return false;
+    return true;
+  });
   return {
     new: filtered.filter((r) => r.status === 'NEW' || r.status === 'ASSIGNED'),
     found: filtered.filter((r) => r.status === 'COMPLETED' && String(r.result_status || '').toUpperCase() === 'FOUND'),
@@ -199,6 +207,11 @@ function renderDetail(record) {
   modalBodyEl.innerHTML = `
     <div class="assist-request-grid">
       <div class="assist-kv">
+        <span class="assist-hint">District</span>
+        <strong>${escapeHtml(record.district || '—')}</strong>
+        <span>${escapeHtml(record.house_address_2002 || 'No 2002 address provided')}</span>
+      </div>
+      <div class="assist-kv">
         <span class="assist-hint">Primary Voter ID</span>
         <strong>${escapeHtml(record.primary_voter_id || '—')}</strong>
         <span>${escapeHtml(record.secondary_voter_id || 'No secondary ID')}</span>
@@ -295,6 +308,13 @@ async function refreshTables() {
   try {
     const response = await fetchPublicRequests();
     allRows = Array.isArray(response) ? response : [];
+    populateDistrictSelect(districtFilterEl, { includeAll: true });
+    const seenDistricts = Array.from(new Set(allRows.map((row) => String(row.district || '').trim()).filter(Boolean))).sort((a, b) => a.localeCompare(b));
+    const current = districtFilterEl.value;
+    districtFilterEl.innerHTML = ['<option value="">All districts</option>', ...seenDistricts.map((district) => (
+      `<option value="${escapeHtml(district)}">${escapeHtml(district)}</option>`
+    ))].join('');
+    districtFilterEl.value = seenDistricts.includes(current) ? current : '';
     clearStatusMessage(resultsMessageEl);
     const groups = groupRecords(allRows);
     renderTable(tableNewEl, groups.new);
@@ -350,6 +370,12 @@ function findTicketIdFromEvent(event) {
 function bindEvents() {
   refreshBtn.addEventListener('click', refreshTables);
   searchInputEl.addEventListener('input', () => {
+    const groups = groupRecords(allRows);
+    renderTable(tableNewEl, groups.new);
+    renderTable(tableFoundEl, groups.found);
+    renderTable(tableNotFoundEl, groups.notFound);
+  });
+  districtFilterEl.addEventListener('change', () => {
     const groups = groupRecords(allRows);
     renderTable(tableNewEl, groups.new);
     renderTable(tableFoundEl, groups.found);

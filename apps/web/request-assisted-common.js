@@ -1,5 +1,37 @@
 const CONFIG = window.REQUEST_ASSISTED_CONFIG || {};
 const SESSION_KEY = 'vsr-admin-session';
+export const KARNATAKA_DISTRICTS = Object.freeze([
+  'Bagalkot',
+  'Ballari',
+  'Belagavi',
+  'Bengaluru Rural',
+  'Bengaluru Urban',
+  'Bidar',
+  'Chamarajanagar',
+  'Chikkaballapur',
+  'Chikkamagaluru',
+  'Chitradurga',
+  'Dakshina Kannada',
+  'Davanagere',
+  'Dharwad',
+  'Gadag',
+  'Hassan',
+  'Haveri',
+  'Kalaburagi',
+  'Kodagu',
+  'Kolar',
+  'Koppal',
+  'Mandya',
+  'Mysuru',
+  'Raichur',
+  'Ramanagara',
+  'Shivamogga',
+  'Tumakuru',
+  'Udupi',
+  'Uttara Kannada',
+  'Vijayapura',
+  'Yadgir',
+]);
 
 function requiredConfigValue(key) {
   const value = CONFIG[key];
@@ -35,6 +67,10 @@ export function normalizeMobile(input) {
 
 export function sanitizeText(input) {
   return String(input || '').trim();
+}
+
+export function normalizeDistrict(input) {
+  return sanitizeText(input);
 }
 
 export function escapeHtml(input) {
@@ -73,6 +109,27 @@ export function createSubmissionKey() {
 
 export function createFilePreview(file) {
   return file ? URL.createObjectURL(file) : '';
+}
+
+export function populateDistrictSelect(selectEl, { includeAll = false, allLabel = 'All districts' } = {}) {
+  if (!selectEl) return;
+  const current = selectEl.value;
+  const options = [];
+  if (includeAll) {
+    options.push('<option value="">All districts</option>');
+  } else {
+    options.push('<option value="">Select district</option>');
+  }
+  KARNATAKA_DISTRICTS.forEach((district) => {
+    const selected = district === current ? ' selected' : '';
+    options.push(`<option value="${escapeHtml(district)}"${selected}>${escapeHtml(district)}</option>`);
+  });
+  selectEl.innerHTML = options.join('');
+  if (!current && includeAll) {
+    selectEl.value = '';
+  } else if (current) {
+    selectEl.value = current;
+  }
 }
 
 export function publicStorageUrl(objectPath) {

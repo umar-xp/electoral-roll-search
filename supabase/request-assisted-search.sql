@@ -10,6 +10,8 @@ create table if not exists public.search_requests (
   created_at timestamptz not null default now(),
   applicant_name text not null,
   mobile text not null,
+  district text,
+  house_address_2002 text,
   email text,
   primary_voter_id text not null,
   secondary_voter_id text,
@@ -58,6 +60,10 @@ alter table public.search_requests add column if not exists neighbor_serial_numb
 alter table public.search_requests add column if not exists neighbor_found_screenshot_url text;
 alter table public.search_requests add column if not exists kannada_roll_validated boolean;
 alter table public.search_requests add column if not exists details_cleared_at timestamptz;
+alter table public.search_requests add column if not exists district text;
+alter table public.search_requests add column if not exists house_address_2002 text;
+
+create index if not exists search_requests_district_idx on public.search_requests (district);
 
 create sequence if not exists public.search_request_order_seq start 1;
 
@@ -132,9 +138,19 @@ for select
 to authenticated
 using (public.is_request_admin(auth.uid()));
 
+drop function if exists public.public_create_search_request(
+  text, text, text, text, text, text, boolean, boolean, boolean, text, text, text, text, text, text, text, boolean,
+  text, text, text, text, text, text, text
+);
+drop function if exists public.public_create_search_request(
+  text, text, text, text, text, text, text, text, boolean, boolean, boolean, text, text, text, text, text, text, text, boolean,
+  text, text, text, text, text, text, text
+);
 create or replace function public.public_create_search_request(
   applicant_name text,
   mobile text,
+  district text default null,
+  house_address_2002 text default null,
   email text default null,
   primary_voter_id text default null,
   secondary_voter_id text default null,
@@ -174,6 +190,12 @@ begin
   if length(v_mobile) <> 10 then
     raise exception 'A valid 10-digit mobile number is required';
   end if;
+  if district is null or trim(district) = '' then
+    raise exception 'District is required';
+  end if;
+  if house_address_2002 is null or trim(house_address_2002) = '' then
+    raise exception '2002 house address is required';
+  end if;
   if primary_voter_id is null or trim(primary_voter_id) = '' then
     raise exception 'Primary voter ID is required';
   end if;
@@ -203,6 +225,8 @@ begin
   insert into public.search_requests (
     applicant_name,
     mobile,
+    district,
+    house_address_2002,
     email,
     primary_voter_id,
     secondary_voter_id,
@@ -229,6 +253,8 @@ begin
   values (
     trim(applicant_name),
     v_mobile,
+    trim(district),
+    trim(house_address_2002),
     nullif(trim(email), ''),
     trim(primary_voter_id),
     nullif(trim(secondary_voter_id), ''),
@@ -259,7 +285,7 @@ end;
 $$;
 
 grant execute on function public.public_create_search_request(
-  text, text, text, text, text, text, boolean, boolean, boolean, text, text, text, text, text, text, text, boolean,
+  text, text, text, text, text, text, text, text, boolean, boolean, boolean, text, text, text, text, text, text, text, boolean,
   text, text, text, text, text, text, text
 ) to anon, authenticated;
 
@@ -331,6 +357,7 @@ returns table (
   order_id text,
   applicant_name text,
   primary_voter_id text,
+  district text,
   assigned_volunteer text,
   status text,
   result_status text,
@@ -345,6 +372,7 @@ as $$
     sr.order_id,
     sr.applicant_name,
     sr.primary_voter_id,
+    sr.district,
     sr.assigned_volunteer,
     sr.status,
     sr.result_status,
@@ -367,6 +395,8 @@ returns table (
   created_at timestamptz,
   applicant_name text,
   mobile text,
+  district text,
+  house_address_2002 text,
   email text,
   primary_voter_id text,
   secondary_voter_id text,
@@ -408,6 +438,8 @@ as $$
     sr.created_at,
     sr.applicant_name,
     sr.mobile,
+    sr.district,
+    sr.house_address_2002,
     sr.email,
     sr.primary_voter_id,
     sr.secondary_voter_id,
@@ -496,6 +528,11 @@ begin
     end if;
     update public.search_requests
     set
+      assigned_volunteer = coalesce(nullif(trim(coalesce(p_assigned_volunteer, '')), ''), assigned_volunteer),
+      assigned_date = case
+        when nullif(trim(coalesce(p_assigned_volunteer, '')), '') is not null then now()
+        else assigned_date
+      end,
       status = 'COMPLETED',
       result_status = 'FOUND',
       completed_at = now(),
@@ -508,6 +545,11 @@ begin
   elsif v_action = 'NOT_FOUND' then
     update public.search_requests
     set
+      assigned_volunteer = coalesce(nullif(trim(coalesce(p_assigned_volunteer, '')), ''), assigned_volunteer),
+      assigned_date = case
+        when nullif(trim(coalesce(p_assigned_volunteer, '')), '') is not null then now()
+        else assigned_date
+      end,
       status = 'NOT_FOUND',
       result_status = 'NOT_FOUND',
       completed_at = now(),
@@ -591,6 +633,7 @@ begin
   update public.search_requests
   set
     email = null,
+    house_address_2002 = null,
     secondary_voter_id = null,
     old_voter_id = null,
     has_old_voter_id = false,
@@ -610,6 +653,7 @@ begin
     old_front_url = null,
     old_back_url = null,
     remarks = null,
+    district = null,
     details_cleared_at = now()
   where status = 'COMPLETED'
     and coalesce(result_status, '') = 'FOUND'

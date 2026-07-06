@@ -6,7 +6,7 @@
 <meta name="description" content="Submit a manual voter search request for Karnataka 2002 electoral records.">
 <title>Request Assisted Search | Karnataka 2002 Voter Search</title>
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="request-assisted.css?v=20260703-3">
+<link rel="stylesheet" href="request-assisted.css?v=20260704-1">
 </head>
 <body>
 <a href="#assist-main" class="skip-link">Skip to main content</a>
@@ -69,9 +69,15 @@
               <label class="assist-label" for="mobile">Mobile Number <span class="assist-required">*</span></label>
               <input class="assist-input" id="mobile" name="mobile" inputmode="numeric" autocomplete="tel" maxlength="10" required>
             </div>
+            <div class="assist-field">
+              <label class="assist-label" for="district">District <span class="assist-required">*</span></label>
+              <select class="assist-select" id="district" name="district" required>
+                <option value="">Select district</option>
+              </select>
+            </div>
             <div class="assist-field assist-field-full">
-              <label class="assist-label" for="email">Email</label>
-              <input class="assist-input" id="email" name="email" type="email" autocomplete="email">
+              <label class="assist-label" for="house_address_2002">2002 House Address <span class="assist-required">*</span></label>
+              <textarea class="assist-textarea" id="house_address_2002" name="house_address_2002" placeholder="Please provide accurate house address you were residing in 2002" required></textarea>
             </div>
           </div>
         </div>
@@ -249,7 +255,7 @@
   </div>
 </main>
 
-<script src="request-assisted-config.js?v=20260703-3"></script>
-<script type="module" src="request-assisted-form.js?v=20260703-3"></script>
+<script src="request-assisted-config.js?v=20260704-1"></script>
+<script type="module" src="request-assisted-form.js?v=20260704-1"></script>
 </body>
 </html>
