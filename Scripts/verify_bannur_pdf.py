@@ -32,7 +32,7 @@ for part, page, serial in test_cases:
         continue
     
     name_kn, name_en, vid, age, gender, pdf_file = row
-    pdf_path = f'pdfs/MYSORE/AC 112 - Bannur/{pdf_file}'
+    pdf_path = f'data/MYSORE/AC 112 - Bannur/{pdf_file}'
     
     print(f'Record: {name_kn} ({name_en}) | VID: {vid} | Age: {age} | Gender: {gender}')
     print(f'  Source: {pdf_file}, Page {page}')

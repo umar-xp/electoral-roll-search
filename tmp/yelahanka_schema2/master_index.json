@@ -1,0 +1,19 @@
+{
+  "schema_version": "2.0",
+  "generated_at": "legacy-normalized",
+  "state": "KARNATAKA",
+  "stats": {
+    "total_voters": 508752,
+    "district_count": 1
+  },
+  "districts": [
+    {
+      "district_code": "BANGALORE_URBAN",
+      "name": "BANGALORE_URBAN",
+      "display_name": "Bangalore Urban",
+      "status": "staged",
+      "voter_count": 508752,
+      "ac_count": 1
+    }
+  ]
+}

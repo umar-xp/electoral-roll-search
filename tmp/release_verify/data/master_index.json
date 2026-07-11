@@ -1,0 +1,27 @@
+{
+  "schema_version": "2.0",
+  "generated_at": "2026-06-24T00:00:00Z",
+  "state": "KARNATAKA",
+  "stats": {
+    "total_voters": 2300975,
+    "district_count": 2
+  },
+  "districts": [
+    {
+      "district_code": "BANGALORE_URBAN",
+      "name": "BANGALORE_URBAN",
+      "display_name": "Bangalore Urban",
+      "status": "live",
+      "voter_count": 508752,
+      "ac_count": 1
+    },
+    {
+      "district_code": "MYSORE",
+      "name": "MYSORE",
+      "display_name": "Mysore",
+      "status": "live",
+      "voter_count": 1792223,
+      "ac_count": 11
+    }
+  ]
+}

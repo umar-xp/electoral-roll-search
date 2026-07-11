@@ -10,7 +10,7 @@ Supports parallel processing using multiprocessing for batch operations.
 
 Usage:
     python scripts/ingest_rolls.py --pdf A1160043.pdf
-    python scripts/ingest_rolls.py --dir ./pdfs/ --db ./data/rolls.sqlite
+    python scripts/ingest_rolls.py --dir ./data/<DISTRICT>/ --db ./data/rolls.sqlite
     python scripts/ingest_rolls.py --pdf A1160043.pdf --pages 1,2,3
     python scripts/ingest_rolls.py --dir ./data/MYSORE/ --workers 4
 """
@@ -258,6 +258,12 @@ def main():
         pdf_dir = Path(args.dir)
         # Recursively find all PDFs (handles nested AC directories)
         pdfs = sorted([str(f) for f in pdf_dir.rglob("*.pdf")])
+    elif args.district:
+        default_dir = PROJECT_ROOT / "data" / args.district
+        if default_dir.exists():
+            pdfs = sorted([str(f) for f in default_dir.rglob("*.pdf")])
+        else:
+            pdfs = []
     else:
         # Default: process all PDFs in project root
         pdfs = sorted([str(f) for f in PROJECT_ROOT.glob("A*.pdf")])

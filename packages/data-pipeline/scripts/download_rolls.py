@@ -805,7 +805,7 @@ def iter_entries(entries: list[dict], district_filter: str | None, ac_filter: in
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--base-dir", default=os.getcwd())
+    parser.add_argument("--base-dir", default="data")
     parser.add_argument("--district", default=None)
     parser.add_argument("--ac", type=int, default=None)
     parser.add_argument("--start-part", type=int, default=1)

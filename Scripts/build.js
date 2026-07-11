@@ -50,6 +50,19 @@ const builds = [
   outfile: path.join(distDir, out),
 }));
 
+const extraStaticFiles = [
+  'about.html',
+  'request-assisted.html',
+  'request-status.html',
+  'request-admin.html',
+  'request-assisted.css',
+  'request-assisted-config.js',
+  'request-assisted-common.js',
+  'request-assisted-form.js',
+  'request-assisted-status.js',
+  'request-assisted-admin.js',
+];
+
 function rewriteContent(content, fileMap) {
   const replacements = Object.entries(fileMap).sort((a, b) => b[0].length - a[0].length);
   let rewritten = content;
@@ -121,6 +134,20 @@ async function build() {
       if (!['.js', '.css', '.html'].includes(ext)) continue;
       const rewritten = rewriteContent(fs.readFileSync(builtPath, 'utf8'), fileMap);
       fs.writeFileSync(builtPath, rewritten, 'utf8');
+    }
+
+    // Copy auxiliary static pages/assets for assisted-search flows.
+    for (const relativeFile of extraStaticFiles) {
+      const srcPath = path.join(webDir, relativeFile);
+      if (!fs.existsSync(srcPath)) continue;
+      const dstPath = path.join(distDir, relativeFile);
+      const ext = path.extname(relativeFile);
+      const source = fs.readFileSync(srcPath, 'utf8');
+      const rewritten = ['.html', '.js', '.css'].includes(ext)
+        ? rewriteContent(source, fileMap)
+        : source;
+      fs.writeFileSync(dstPath, rewritten, 'utf8');
+      console.log(`  ${relativeFile}: copied`);
     }
 
     // Write manifest for deployment verification

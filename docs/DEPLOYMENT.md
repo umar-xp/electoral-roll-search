@@ -155,7 +155,7 @@ When new district data is processed:
 
 ```powershell
 # 1. OCR extraction into isolated staging SQLite
-python packages/data-pipeline/scripts/ingest_rolls.py --dir .\pdfs\NEW_DISTRICT --db .\tmp\NEW_DISTRICT.sqlite --district NEW_DISTRICT --dpi 300 --workers 4
+python packages/data-pipeline/scripts/ingest_rolls.py --dir .\data\NEW_DISTRICT --db .\tmp\NEW_DISTRICT.sqlite --district NEW_DISTRICT --dpi 300 --workers 4
 
 # 2. OCR/QC status check
 python packages/data-pipeline/scripts/show_pipeline_status.py --db .\tmp\NEW_DISTRICT.sqlite
@@ -208,7 +208,7 @@ Raw PDFs
 Commands:
 
 ```powershell
-python packages/data-pipeline/scripts/ingest_rolls.py --dir .\pdfs\DISTRICT_NAME --db .\tmp\DISTRICT_NAME.sqlite --district DISTRICT_NAME --dpi 300 --workers 4
+python packages/data-pipeline/scripts/ingest_rolls.py --dir .\data\DISTRICT_NAME --db .\tmp\DISTRICT_NAME.sqlite --district DISTRICT_NAME --dpi 300 --workers 4
 python packages/data-pipeline/scripts/show_pipeline_status.py --db .\tmp\DISTRICT_NAME.sqlite
 ```
 

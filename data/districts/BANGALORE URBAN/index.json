@@ -1,0 +1,12 @@
+{
+  "district": "BANGALORE URBAN",
+  "total_voters": 508752,
+  "acs": [
+    {
+      "ac_num": 88,
+      "ac_name": "AC-88",
+      "total_voters": 508752,
+      "parts_count": 526
+    }
+  ]
+}

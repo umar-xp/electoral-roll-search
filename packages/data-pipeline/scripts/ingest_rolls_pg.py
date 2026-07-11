@@ -10,9 +10,9 @@ After ingestion is complete, use `pg_to_sqlite.py` to export to SQLite
 for the lightweight frontend deployment.
 
 Usage:
-    python scripts/ingest_rolls_pg.py --dir ../../pdfs/MYSORE --district MYSORE --workers 8
-    python scripts/ingest_rolls_pg.py --dir "../../pdfs/MYSORE/AC 112 - Bannur" --district MYSORE --workers 4
-    python scripts/ingest_rolls_pg.py --pdf ../../pdfs/MYSORE/A1120001.pdf --district MYSORE
+    python scripts/ingest_rolls_pg.py --dir ../../data/MYSORE --district MYSORE --workers 8
+    python scripts/ingest_rolls_pg.py --dir "../../data/MYSORE/AC 112 - Bannur" --district MYSORE --workers 4
+    python scripts/ingest_rolls_pg.py --pdf ../../data/MYSORE/A1120001.pdf --district MYSORE
 
 Requires:
     pip install psycopg2-binary
@@ -287,6 +287,12 @@ def main():
     elif args.dir:
         pdf_dir = Path(args.dir)
         pdfs = sorted([str(f) for f in pdf_dir.rglob("*.pdf")])
+    elif args.district:
+        default_dir = PROJECT_ROOT / "data" / args.district
+        if default_dir.exists():
+            pdfs = sorted([str(f) for f in default_dir.rglob("*.pdf")])
+        else:
+            pdfs = []
     else:
         pdfs = sorted([str(f) for f in PROJECT_ROOT.glob("A*.pdf")])
 

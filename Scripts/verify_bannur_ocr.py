@@ -18,7 +18,7 @@ conn = sqlite3.connect('data/rolls.sqlite')
 cur = conn.cursor()
 
 # Verify Part 32, Page 5
-pdf_path = 'pdfs/MYSORE/AC 112 - Bannur/A1120032.pdf'
+pdf_path = 'data/MYSORE/AC 112 - Bannur/A1120032.pdf'
 page_num = 5
 
 print(f'=== RE-OCR VERIFICATION: A1120032.pdf, Page {page_num} ===')

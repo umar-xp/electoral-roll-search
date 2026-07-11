@@ -3,6 +3,22 @@
 This plan describes how to onboard the remaining districts under Schema 2.0
 without reintroducing Schema 1.0 structures.
 
+## Production Status Update
+
+Use the following June 2026 operating assumptions for all future district work:
+
+- `schema-v2-migration` is the active production branch
+- approved pushes to `schema-v2-migration` are production-facing
+- JSON is the official production data format
+- SQLite and Parquet are not production deployment artifacts
+- new district outputs must be deployable as JSON without extra conversion steps
+
+This means:
+
+- SQLite remains allowed for OCR ingestion, resumability, quality review, and cumulative offline generation
+- Parquet is no longer part of the recommended production release path
+- the deployed website contract is the JSON hierarchy under `data/`
+
 Recommended rollout order:
 
 1. SHIVAMOGGA
@@ -98,7 +114,7 @@ All released districts
 OCR ingestion into isolated SQLite:
 
 ```bash
-python packages/data-pipeline/scripts/ingest_rolls.py --dir .\pdfs\<DISTRICT> --db .\tmp\<DISTRICT>.sqlite --district <DISTRICT> --dpi 300 --workers 4
+python packages/data-pipeline/scripts/ingest_rolls.py --dir .\data\<DISTRICT> --db .\tmp\<DISTRICT>.sqlite --district <DISTRICT> --dpi 300 --workers 4
 ```
 
 OCR/QC status check:
@@ -160,7 +176,7 @@ Expected pipeline steps:
 Commands:
 
 ```bash
-python packages/data-pipeline/scripts/ingest_rolls.py --dir .\pdfs\SHIVAMOGGA --db .\tmp\SHIVAMOGGA.sqlite --district SHIVAMOGGA --dpi 300 --workers 4
+python packages/data-pipeline/scripts/ingest_rolls.py --dir .\data\SHIVAMOGGA --db .\tmp\SHIVAMOGGA.sqlite --district SHIVAMOGGA --dpi 300 --workers 4
 python packages/data-pipeline/scripts/show_pipeline_status.py --db .\tmp\SHIVAMOGGA.sqlite
 python packages/data-pipeline/scripts/generate_json_index.py --db tmp/SHIVAMOGGA.sqlite --out tmp/schema2/SHIVAMOGGA
 Copy-Item -Recurse -Force .\tmp\schema2\SHIVAMOGGA\districts\SHIVAMOGGA .\data\districts\
@@ -204,7 +220,7 @@ Expected pipeline steps:
 Commands:
 
 ```bash
-python packages/data-pipeline/scripts/ingest_rolls.py --dir .\pdfs\BAGALKOT --db .\tmp\BAGALKOT.sqlite --district BAGALKOT --dpi 300 --workers 4
+python packages/data-pipeline/scripts/ingest_rolls.py --dir .\data\BAGALKOT --db .\tmp\BAGALKOT.sqlite --district BAGALKOT --dpi 300 --workers 4
 python packages/data-pipeline/scripts/show_pipeline_status.py --db .\tmp\BAGALKOT.sqlite
 python packages/data-pipeline/scripts/generate_json_index.py --db tmp/BAGALKOT.sqlite --out tmp/schema2/BAGALKOT
 Copy-Item -Recurse -Force .\tmp\schema2\BAGALKOT\districts\BAGALKOT .\data\districts\
@@ -246,7 +262,7 @@ Expected pipeline steps:
 Commands:
 
 ```bash
-python packages/data-pipeline/scripts/ingest_rolls.py --dir .\pdfs\BANGALORE_RURAL --db .\tmp\BANGALORE_RURAL.sqlite --district BANGALORE_RURAL --dpi 300 --workers 6
+python packages/data-pipeline/scripts/ingest_rolls.py --dir .\data\BANGALORE_RURAL --db .\tmp\BANGALORE_RURAL.sqlite --district BANGALORE_RURAL --dpi 300 --workers 6
 python packages/data-pipeline/scripts/show_pipeline_status.py --db .\tmp\BANGALORE_RURAL.sqlite
 python packages/data-pipeline/scripts/generate_json_index.py --db tmp/BANGALORE_RURAL.sqlite --out tmp/schema2/BANGALORE_RURAL
 Copy-Item -Recurse -Force .\tmp\schema2\BANGALORE_RURAL\districts\BANGALORE_RURAL .\data\districts\
@@ -286,7 +302,7 @@ Expected pipeline steps:
 Commands:
 
 ```bash
-python packages/data-pipeline/scripts/ingest_rolls.py --dir .\pdfs\BANGALORE_URBAN --db .\tmp\BANGALORE_URBAN.sqlite --district BANGALORE_URBAN --dpi 300 --workers 6
+python packages/data-pipeline/scripts/ingest_rolls.py --dir .\data\BANGALORE_URBAN --db .\tmp\BANGALORE_URBAN.sqlite --district BANGALORE_URBAN --dpi 300 --workers 6
 python packages/data-pipeline/scripts/show_pipeline_status.py --db .\tmp\BANGALORE_URBAN.sqlite
 python packages/data-pipeline/scripts/generate_json_index.py --db tmp/BANGALORE_URBAN.sqlite --out tmp/schema2/BANGALORE_URBAN
 Copy-Item -Recurse -Force .\tmp\schema2\BANGALORE_URBAN\districts\BANGALORE_URBAN .\data\districts\
@@ -313,6 +329,169 @@ Rollback strategy:
 - Restore previous district files and `master_index.json`.
 - Rebuild search indexes from the restored commit.
 
+### Bangalore Urban Execution Commands
+
+#### A. OCR extraction commands
+
+Full extraction command:
+
+```bash
+python packages/data-pipeline/scripts/ingest_rolls.py --dir .\data\BANGALORE_URBAN --db .\tmp\BANGALORE_URBAN.sqlite --district BANGALORE_URBAN --dpi 300 --workers 6
+```
+
+Four-worker overnight-safe command:
+
+```bash
+python packages/data-pipeline/scripts/ingest_rolls.py --dir .\data\BANGALORE_URBAN --db .\tmp\BANGALORE_URBAN.sqlite --district BANGALORE_URBAN --dpi 300 --workers 4
+```
+
+Resume command after interruption:
+
+```bash
+python packages/data-pipeline/scripts/ingest_rolls.py --dir .\data\BANGALORE_URBAN --db .\tmp\BANGALORE_URBAN.sqlite --district BANGALORE_URBAN --dpi 300 --workers 4
+```
+
+Single-part rerun command:
+
+```bash
+python packages/data-pipeline/scripts/ingest_rolls.py --pdf .\data\BANGALORE_URBAN\<PDF_FILE>.pdf --db .\tmp\BANGALORE_URBAN.sqlite --district BANGALORE_URBAN --dpi 300
+```
+
+Failed-part rerun command:
+
+```bash
+Get-Content .\tmp\BANGALORE_URBAN_failed.txt | ForEach-Object { python packages/data-pipeline/scripts/ingest_rolls.py --pdf $_ --db .\tmp\BANGALORE_URBAN.sqlite --district BANGALORE_URBAN --dpi 300 }
+```
+
+#### B. Monitoring commands
+
+Progress check command:
+
+```bash
+python packages/data-pipeline/scripts/show_pipeline_status.py --db .\tmp\BANGALORE_URBAN.sqlite
+```
+
+Worker status command:
+
+```bash
+Get-Process python | Sort-Object CPU -Descending | Select-Object -First 12 Id, ProcessName, CPU, StartTime
+```
+
+Records generated count:
+
+```bash
+python -c "import sqlite3; conn=sqlite3.connect(r'.\tmp\BANGALORE_URBAN.sqlite'); cur=conn.cursor(); print('voters=', cur.execute('select count(*) from voters').fetchone()[0]); print('pdfs_done=', cur.execute('select count(distinct pdf_file) from voters').fetchone()[0]); conn.close()"
+```
+
+ETA estimation command:
+
+```bash
+powershell -NoProfile -Command "$startedAt=Get-Date '2026-06-20 20:00'; $total=(Get-ChildItem .\data\BANGALORE_URBAN -Filter *.pdf -Recurse).Count; $done=(python -c \"import sqlite3; c=sqlite3.connect(r'.\tmp\BANGALORE_URBAN.sqlite'); cur=c.cursor(); print(cur.execute('select count(distinct pdf_file) from voters').fetchone()[0]); c.close()\" | Select-Object -Last 1); $elapsed=((Get-Date)-$startedAt).TotalHours; if([double]$done -gt 0){$rate=[double]$done/$elapsed; $remaining=$total-[double]$done; $eta=$remaining/$rate; Write-Host ('done={0}/{1} rate={2:N2} pdf/hr eta_hours={3:N2}' -f $done,$total,$rate,$eta)} else {Write-Host ('done=0/{0} eta_hours=unknown' -f $total)}"
+```
+
+#### C. Validation commands
+
+JSON validation:
+
+```bash
+python packages/data-pipeline/scripts/validate_data.py .\tmp\schema2\BANGALORE_URBAN
+python packages/data-pipeline/scripts/validate_data.py .\data
+```
+
+Duplicate voter detection:
+
+```bash
+python -c "import sqlite3; conn=sqlite3.connect(r'.\tmp\BANGALORE_URBAN.sqlite'); cur=conn.cursor(); q=\"select ac_num, part_num, serial_no, count(*) from voters group by ac_num, part_num, serial_no having count(*) > 1 limit 20\"; rows=cur.execute(q).fetchall(); print(rows if rows else 'no duplicate serial tuples'); conn.close()"
+```
+
+Missing field checks:
+
+```bash
+python -c "import json, pathlib; root=pathlib.Path(r'.\tmp\schema2\BANGALORE_URBAN\districts\BANGALORE_URBAN'); bad=[]; 
+for p in root.rglob('part_*.json'):
+ d=json.loads(p.read_text(encoding='utf-8')); 
+ for i,v in enumerate(d.get('voters',[]),1):
+  req=['sn','psn','vn','g','a','pn']; 
+  miss=[k for k in req if k not in v]; 
+  if miss: bad.append((str(p), i, miss)); 
+  if len(bad)>=20: break
+ if len(bad)>=20: break
+print(bad if bad else 'no missing required fields in sampled scan')"
+```
+
+AC and part consistency checks:
+
+```bash
+python -c "import json, pathlib; root=pathlib.Path(r'.\tmp\schema2\BANGALORE_URBAN\districts\BANGALORE_URBAN'); idx=json.loads((root/'index.json').read_text(encoding='utf-8')); problems=[]; 
+for ac in idx.get('acs',[]): 
+ n=str(ac['ac_num']); ac_file=root/f'{n}_index.json'; 
+ if not ac_file.exists(): problems.append((n,'missing ac index')); continue
+ ac_idx=json.loads(ac_file.read_text(encoding='utf-8')); part_dir=root/n; file_count=len(list(part_dir.glob('part_*.json'))) if part_dir.exists() else 0; expected=len(ac_idx.get('parts',[])); 
+ if file_count!=expected: problems.append((n, expected, file_count))
+print(problems if problems else 'ac/part consistency OK')"
+```
+
+#### D. Git commands
+
+Commit commands:
+
+```bash
+git checkout schema-v2-migration
+git pull --ff-only origin schema-v2-migration
+git add data/districts/BANGALORE_URBAN data/master_index.json data/search docs/
+git commit -m "data: add BANGALORE_URBAN schema 2.0 rollout"
+```
+
+Push command:
+
+```bash
+git push origin schema-v2-migration
+```
+
+Verification commands:
+
+```bash
+git status --short
+git log --oneline -n 3
+python packages/data-pipeline/scripts/validate_data.py .\data
+npm run build
+```
+
+#### E. Operational runbook
+
+Recommended overnight workflow:
+
+1. start with the four-worker command
+2. write stdout and stderr to a log file
+3. checkpoint the start time
+4. run the progress and records-count commands every 2 hours
+5. keep failed PDF paths in `.\tmp\BANGALORE_URBAN_failed.txt`
+
+Recommended pause/restart workflow:
+
+1. stop active workers cleanly
+2. run `show_pipeline_status.py` against the same staging SQLite
+3. rerun the same directory ingestion command
+4. rerun only failed PDFs if the failed list is non-empty
+
+Recommended machine-restart recovery:
+
+1. confirm `.\tmp\BANGALORE_URBAN.sqlite` still exists
+2. reactivate the environment
+3. run the progress command
+4. rerun the resume command
+5. regenerate staged JSON only after all intended PDFs are complete
+
+### Status reporting cadence
+
+During long Bangalore Urban runs, provide a summary every 2 hours containing:
+
+- PDFs completed
+- PDFs remaining
+- voter rows extracted
+- failed PDF count
+- estimated completion time
+
 ## BBMP
 
 Expected pipeline steps:
@@ -329,7 +508,7 @@ Expected pipeline steps:
 Commands:
 
 ```bash
-python packages/data-pipeline/scripts/ingest_rolls.py --dir .\pdfs\BBMP --db .\tmp\BBMP.sqlite --district BBMP --dpi 300 --workers 8
+python packages/data-pipeline/scripts/ingest_rolls.py --dir .\data\BBMP --db .\tmp\BBMP.sqlite --district BBMP --dpi 300 --workers 8
 python packages/data-pipeline/scripts/show_pipeline_status.py --db .\tmp\BBMP.sqlite
 python packages/data-pipeline/scripts/generate_json_index.py --db tmp/BBMP.sqlite --out tmp/schema2/BBMP
 Copy-Item -Recurse -Force .\tmp\schema2\BBMP\districts\BBMP .\data\districts\

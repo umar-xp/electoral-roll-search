@@ -29,7 +29,7 @@ from config.settings import ocr_settings
 pytesseract.pytesseract.tesseract_cmd = ocr_settings.TESSERACT_CMD
 os.environ["TESSDATA_PREFIX"] = ocr_settings.TESSDATA_DIR
 
-DB_PATH = "data/rolls.sqlite"
+DEFAULT_DB_PATH = "data/rolls.sqlite"
 GARBAGE_CHARS = re.compile(r'[!@#$%^&*()=+\[\]{}<>\\|;:"\',?/~`]')
 
 # Relation keywords in Kannada
@@ -48,17 +48,27 @@ GENDER_MAP = {
 }
 
 
-def get_garbage_records():
+def get_garbage_records(db_path: str, district: str | None = None, ac_nums: list[int] | None = None):
     """Get all records that are garbage (1+ special chars, empty/short names, or relative name garbage).
     Skips data_quality=2 (already successfully fixed).
     """
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
-    cursor = conn.execute('''
+    sql = '''
         SELECT id, pdf_file, page_num, serial_no, voter_name_kn, voter_name_en,
                age, gender, ac_num, part_num, house_no, relative_name_kn, relative_name_en, voter_id
-        FROM voters WHERE data_quality != 2
-    ''')
+        FROM voters
+        WHERE data_quality != 2
+    '''
+    params: list[object] = []
+    if district:
+        sql += " AND district = ?"
+        params.append(district)
+    if ac_nums:
+        placeholders = ",".join(["?"] * len(ac_nums))
+        sql += f" AND ac_num IN ({placeholders})"
+        params.extend(ac_nums)
+    cursor = conn.execute(sql, params)
     garbage = []
     for row in cursor.fetchall():
         r = dict(row)
@@ -78,14 +88,24 @@ def get_garbage_records():
     return garbage
 
 
-def find_pdf_path(pdf_file, ac_num):
+def find_pdf_path(pdf_file: str, ac_num: int, raw_root: str, district: str):
     """Find the full path to a PDF file."""
-    base = "pdfs/MYSORE"
-    for d in os.listdir(base):
-        if d.startswith(f"AC {ac_num}"):
-            path = os.path.join(base, d, pdf_file)
-            if os.path.exists(path):
-                return path
+    base = os.path.join(raw_root, district)
+    if not os.path.isdir(base):
+        return None
+
+    direct = os.path.join(base, pdf_file)
+    if os.path.exists(direct):
+        return direct
+
+    try:
+        for d in os.listdir(base):
+            if d.startswith(f"AC {ac_num}"):
+                path = os.path.join(base, d, pdf_file)
+                if os.path.exists(path):
+                    return path
+    except Exception:
+        return None
     return None
 
 
@@ -253,13 +273,29 @@ def process_page(pdf_path, page_num, garbage_records):
 
 
 def main():
+    import argparse
+
+    p = argparse.ArgumentParser()
+    p.add_argument("--district", required=True)
+    p.add_argument("--raw-root", default="data")
+    p.add_argument("--db", default=DEFAULT_DB_PATH)
+    p.add_argument("--ac", default=None, help="Comma-separated AC numbers to limit (optional)")
+    p.add_argument("--workers", type=int, default=12)
+    p.add_argument("--limit", type=int, default=None, help="Limit number of pages to re-OCR (optional)")
+    p.add_argument("--apply", action="store_true")
+    args = p.parse_args()
+
+    ac_nums = None
+    if args.ac:
+        ac_nums = [int(x.strip()) for x in args.ac.split(",") if x.strip()]
+
     print("=" * 60)
     print("RE-OCR GARBAGE RECORDS FIXER")
     print("=" * 60)
     sys.stdout.flush()
 
     # Get garbage records
-    garbage = get_garbage_records()
+    garbage = get_garbage_records(args.db, district=args.district, ac_nums=ac_nums)
     print(f"Total garbage records: {len(garbage)}")
     sys.stdout.flush()
 
@@ -278,16 +314,10 @@ def main():
     print(f"Pages to re-OCR: {len(pages)}")
     sys.stdout.flush()
 
-    # Check for --limit flag
-    limit = None
-    for arg in sys.argv:
-        if arg.startswith('--limit='):
-            limit = int(arg.split('=')[1])
-    
     page_items = sorted(pages.items())
-    if limit:
-        page_items = page_items[:limit]
-        print(f"Limited to first {limit} pages")
+    if args.limit:
+        page_items = page_items[:args.limit]
+        print(f"Limited to first {args.limit} pages")
     print()
     sys.stdout.flush()
 
@@ -300,24 +330,18 @@ def main():
     # Prepare work items
     work_items = []
     for (pdf_file, page_num, ac_num), records in page_items:
-        pdf_path = find_pdf_path(pdf_file, ac_num)
+        pdf_path = find_pdf_path(pdf_file, ac_num, raw_root=args.raw_root, district=args.district)
         if pdf_path:
             work_items.append((pdf_path, page_num, records))
         else:
             errors += 1
 
-    # Check for --workers flag
-    workers = 12
-    for arg in sys.argv:
-        if arg.startswith('--workers='):
-            workers = int(arg.split('=')[1])
-
-    print(f"Processing {len(work_items)} pages using {workers} parallel workers...")
+    print(f"Processing {len(work_items)} pages using {args.workers} parallel workers...")
     sys.stdout.flush()
 
     from concurrent.futures import ProcessPoolExecutor, as_completed
 
-    with ProcessPoolExecutor(max_workers=workers) as executor:
+    with ProcessPoolExecutor(max_workers=args.workers) as executor:
         futures = {
             executor.submit(process_page, pdf_path, page_num, records): (pdf_path, page_num)
             for pdf_path, page_num, records in work_items
@@ -360,10 +384,10 @@ def main():
               f"rel='{fix['relative_name_kn']}' age={fix['age']} gender={fix['gender']}")
 
     # Apply fixes to database
-    if "--apply" in sys.argv:
+    if args.apply:
         print()
         print("Applying fixes to database...")
-        conn = sqlite3.connect(DB_PATH)
+        conn = sqlite3.connect(args.db)
         updated = 0
         for fix in all_fixes:
             conn.execute('''

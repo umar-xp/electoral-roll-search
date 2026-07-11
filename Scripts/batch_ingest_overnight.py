@@ -22,11 +22,11 @@ WORKERS = 10
 
 # Queue: directories to process (Hunsur should already be running separately)
 QUEUE = [
-    "pdfs/MYSORE/AC 124 - Krishnarajanagara",
-    "pdfs/MYSORE/AC 117 - Chamundeshwari",
-    "pdfs/MYSORE/AC 125 - Periyapatna",
-    "pdfs/MYSORE/AC 122 - Heggadadevankote",
-    "pdfs/MYSORE/AC 116 - Narasimharaja",
+    "data/MYSORE/AC 124 - Krishnarajanagara",
+    "data/MYSORE/AC 117 - Chamundeshwari",
+    "data/MYSORE/AC 125 - Periyapatna",
+    "data/MYSORE/AC 122 - Heggadadevankote",
+    "data/MYSORE/AC 116 - Narasimharaja",
 ]
 
 def run_ingestion(directory):
