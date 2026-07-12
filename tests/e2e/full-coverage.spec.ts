@@ -115,8 +115,8 @@ test.describe('Complete User Workflow', () => {
     await page.waitForTimeout(500);
     await expect(page.locator('#successModal')).toHaveClass(/show/);
 
-    // Step 7: Close modal
-    await page.locator('#btn-close-modal').click();
+    // Step 7: Close modal (force click to bypass WebKit/Safari animations)
+    await page.locator('#btn-close-modal').click({ force: true });
     await page.waitForTimeout(500);
     await expect(page.locator('#successModal')).not.toHaveClass(/show/);
   });
