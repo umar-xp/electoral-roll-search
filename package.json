@@ -3,6 +3,9 @@
   "version": "5.0.0",
   "description": "Bilingual search engine for Karnataka 2002 electoral rolls (7M+ voters)",
   "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "build": "node Scripts/build.js",
     "build:watch": "node Scripts/build.js --watch",

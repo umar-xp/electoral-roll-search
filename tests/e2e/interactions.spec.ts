@@ -356,11 +356,13 @@ test.describe('Secondary Content Section', () => {
     expect(href).toContain('wa.me');
   });
 
-  test('copy link button works', async ({ page }) => {
+  test('copy link button works', async ({ page, context, browserName }) => {
     await page.locator('#secondary-content summary').click();
     await page.waitForTimeout(300);
-    // Grant clipboard permission
-    await page.context().grantPermissions(['clipboard-write']);
+    // Grant clipboard permission safely across browsers
+    if (browserName !== 'webkit') {
+      await context.grantPermissions(['clipboard-write']);
+    }
     await page.locator('#btn-copy-link').click();
     await page.waitForTimeout(500);
     const btnText = await page.locator('#btn-copy-link').textContent();

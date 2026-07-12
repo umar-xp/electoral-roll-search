@@ -151,7 +151,7 @@ jobs:
       - run: npm exec --yes npm@11.11.0 -- ci
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps
 
       - name: Build
         run: npm run build

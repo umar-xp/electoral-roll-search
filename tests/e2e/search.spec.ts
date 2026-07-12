@@ -1,5 +1,5 @@
 ﻿/**
- * E2E Tests â€” Playwright-based browser tests for critical user flows.
+ * E2E Tests — Playwright-based browser tests for critical user flows.
  * ====================================================================
  * Comprehensive edge case and corner case coverage.
  *
@@ -8,9 +8,9 @@
  */
 import { test, expect, type Page } from '@playwright/test';
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 // HELPERS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 
 async function waitForDistrictsLoaded(page: Page) {
   // Wait for the master_index.json to load and populate district dropdown
@@ -41,9 +41,9 @@ async function searchName(page: Page, name: string, options?: { relative?: strin
   await page.locator('#btn-search').click();
 }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 // SECTION 1: PAGE LOAD & INITIALIZATION
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 
 test.describe('Page Load & Initialization', () => {
   test.beforeEach(async ({ page }) => {
@@ -101,9 +101,9 @@ test.describe('Page Load & Initialization', () => {
   });
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 // SECTION 2: DISTRICT & AC SELECTION CASCADE
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 
 test.describe('District & AC Selection', () => {
   test.beforeEach(async ({ page }) => {
@@ -155,11 +155,11 @@ test.describe('District & AC Selection', () => {
   });
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// SECTION 3: SEARCH â€” HAPPY PATH
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
+// SECTION 3: SEARCH — HAPPY PATH
+// ──────────────────────────────────────────────────────────────────────
 
-test.describe('Search â€” Happy Path', () => {
+test.describe('Search — Happy Path', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/apps/web/');
     await waitForDistrictsLoaded(page);
@@ -260,11 +260,11 @@ test.describe('Search â€” Happy Path', () => {
   });
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-// SECTION 4: SEARCH â€” EDGE CASES & CORNER CASES
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
+// SECTION 4: SEARCH — EDGE CASES & CORNER CASES
+// ──────────────────────────────────────────────────────────────────────
 
-test.describe('Search â€” Edge Cases', () => {
+test.describe('Search — Edge Cases', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/apps/web/');
     await waitForDistrictsLoaded(page);
@@ -327,7 +327,7 @@ test.describe('Search â€” Edge Cases', () => {
 
   test('Kannada script input works', async ({ page }) => {
     await page.locator('#rdo-all-parts').check();
-    await page.locator('#inp-voter-name').fill('à²…à²¬à³à²¦à³à²²à³');
+    await page.locator('#inp-voter-name').fill('ಅಬ್ದುಲ್');
     await page.locator('#btn-search').click();
     await page.waitForTimeout(10000);
     // Should not crash, may or may not find results
@@ -344,7 +344,7 @@ test.describe('Search â€” Edge Cases', () => {
 
   test('emoji in name field is handled', async ({ page }) => {
     await page.locator('#rdo-all-parts').check();
-    await page.locator('#inp-voter-name').fill('Abdul ðŸ—³ï¸');
+    await page.locator('#inp-voter-name').fill('Abdul 🗳️');
     await page.locator('#btn-search').click();
     await page.waitForTimeout(5000);
     await expect(page.locator('#sel-district')).toBeVisible();
@@ -404,9 +404,9 @@ test.describe('Search â€” Edge Cases', () => {
   });
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 // SECTION 5: SEARCH CANCELLATION & DEBOUNCE
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 
 test.describe('Search Control', () => {
   test.beforeEach(async ({ page }) => {
@@ -427,7 +427,7 @@ test.describe('Search Control', () => {
     await page.locator('#btn-cancel-db-search').click();
     await page.waitForTimeout(2000);
 
-    // Search should stop â€” button should be re-enabled
+    // Search should stop — button should be re-enabled
     await expect(page.locator('#btn-search')).toBeEnabled({ timeout: 10000 });
   });
 
@@ -461,9 +461,9 @@ test.describe('Search Control', () => {
   });
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 // SECTION 6: TAB SWITCHING & UI STATE
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 
 test.describe('Tab Switching', () => {
   test.beforeEach(async ({ page }) => {
@@ -495,9 +495,9 @@ test.describe('Tab Switching', () => {
   });
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 // SECTION 7: KEYBOARD NAVIGATION & ACCESSIBILITY
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 
 test.describe('Accessibility & Keyboard', () => {
   test.beforeEach(async ({ page }) => {
@@ -555,12 +555,12 @@ test.describe('Accessibility & Keyboard', () => {
   });
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 // SECTION 8: RESPONSIVE DESIGN
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 
 test.describe('Responsive Design', () => {
-  test('mobile (375px) â€” all critical elements visible', async ({ page }) => {
+  test('mobile (375px) — all critical elements visible', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto('/apps/web/');
     await waitForDistrictsLoaded(page);
@@ -571,7 +571,7 @@ test.describe('Responsive Design', () => {
     await expect(page.locator('#btn-search')).toBeVisible();
   });
 
-  test('tablet (768px) â€” layout not broken', async ({ page }) => {
+  test('tablet (768px) — layout not broken', async ({ page }) => {
     await page.setViewportSize({ width: 768, height: 1024 });
     await page.goto('/apps/web/');
     await waitForDistrictsLoaded(page);
@@ -580,7 +580,7 @@ test.describe('Responsive Design', () => {
     await expect(page.locator('.card').first()).toBeVisible();
   });
 
-  test('very wide screen (1920px) â€” max-width constraint works', async ({ page }) => {
+  test('very wide screen (1920px) — max-width constraint works', async ({ page }) => {
     await page.setViewportSize({ width: 1920, height: 1080 });
     await page.goto('/apps/web/');
     await waitForDistrictsLoaded(page);
@@ -590,7 +590,7 @@ test.describe('Responsive Design', () => {
     expect(mainWidth).toBeLessThanOrEqual(970); // max-width: 900px + padding
   });
 
-  test('mobile â€” search tabs stack vertically', async ({ page }) => {
+  test('mobile — search tabs stack vertically', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto('/apps/web/');
     await page.waitForSelector('#search-tabs');
@@ -603,9 +603,9 @@ test.describe('Responsive Design', () => {
   });
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 // SECTION 9: SECURITY
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 
 test.describe('Security', () => {
   test('no inline scripts in the page source', async ({ page }) => {
@@ -664,9 +664,9 @@ test.describe('Security', () => {
   });
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 // SECTION 10: PERFORMANCE
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 
 test.describe('Performance', () => {
   test('page loads DOM in under 3 seconds', async ({ page }) => {
@@ -703,7 +703,7 @@ test.describe('Performance', () => {
     expect(elapsed).toBeLessThan(30000);
   });
 
-  test('no memory leak â€” LRU cache does not grow unbounded', async ({ page }) => {
+  test('no memory leak — LRU cache does not grow unbounded', async ({ page }) => {
     await page.goto('/apps/web/');
     await waitForDistrictsLoaded(page);
 
@@ -716,9 +716,9 @@ test.describe('Performance', () => {
   });
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 // SECTION 11: NETWORK RESILIENCE
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 
 test.describe('Network Resilience', () => {
   test('shows error banner when data fetch fails', async ({ page }) => {
@@ -757,9 +757,9 @@ test.describe('Network Resilience', () => {
   });
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 // SECTION 12: ADVANCED FILTERS
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 
 test.describe('Advanced Filters', () => {
   test.beforeEach(async ({ page }) => {
@@ -803,9 +803,9 @@ test.describe('Advanced Filters', () => {
   });
 });
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 // SECTION 13: LOAD MORE & PAGINATION
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ──────────────────────────────────────────────────────────────────────
 
 test.describe('Pagination', () => {
   test('load more button appears when results exceed page size', async ({ page }) => {
@@ -1374,9 +1374,7 @@ test.describe('Footer & Static Elements', () => {
     await waitForDistrictsLoaded(page);
     await page.waitForTimeout(2000);
     const statsSection = page.locator('[id*="stats"], [class*="stats"], .footer-stats');
-    if (await statsSection.count() > 0) {
-      const text = await statsSection.textContent();
-      expect(text).toMatch(/\d/); // Contains numbers
-    }
+    // Fix: Use web-first assertion to wait for async data rendering
+    await expect(statsSection).toHaveText(/\d/);
   });
 });

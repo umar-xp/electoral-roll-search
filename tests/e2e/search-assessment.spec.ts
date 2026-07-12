@@ -75,7 +75,7 @@ test.describe('UI Alignment & Structure', () => {
     expect(widthDiff).toBeLessThan(0.15);
   });
 
-  test('search row fields are aligned in a grid', async ({ page }) => {
+  test('search row fields are aligned in a grid', async ({ page, isMobile }) => {
     await waitForDistrictsLoaded(page);
     
     const fields = page.locator('.card-search .search-row:first-of-type .field');
@@ -91,9 +91,15 @@ test.describe('UI Alignment & Structure', () => {
     expect(box1).not.toBeNull();
     expect(box2).not.toBeNull();
     
-    // All at same Y position (aligned row)
-    expect(Math.abs(box0!.y - box1!.y)).toBeLessThan(3);
-    expect(Math.abs(box1!.y - box2!.y)).toBeLessThan(3);
+    if (isMobile) {
+      // On mobile, fields stack vertically, so we check they are aligned on the X-axis (left edge)
+      expect(Math.abs(box0!.x - box1!.x)).toBeLessThan(3);
+      expect(Math.abs(box1!.x - box2!.x)).toBeLessThan(3);
+    } else {
+      // On desktop, all at same Y position (aligned row)
+      expect(Math.abs(box0!.y - box1!.y)).toBeLessThan(3);
+      expect(Math.abs(box1!.y - box2!.y)).toBeLessThan(3);
+    }
   });
 
   test('card has proper padding and border radius', async ({ page }) => {
