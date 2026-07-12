@@ -8,7 +8,7 @@
  * - HTML: Network-first with cache fallback
  */
 
-const CACHE_VERSION = 'v5';
+const CACHE_VERSION = 'v6';
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const DATA_CACHE = `data-${CACHE_VERSION}`;
 
@@ -60,10 +60,8 @@ self.addEventListener('fetch', (event) => {
   const path = url.pathname;
 
   if (
-    path.endsWith('/request-admin.html') ||
     path.endsWith('/request-assisted.html') ||
-    path.endsWith('/request-status.html') ||
-    path.endsWith('/about.html')
+    path.endsWith('/request-status.html')
   ) {
     event.respondWith(fetch(event.request));
     return;

@@ -51,16 +51,12 @@ const builds = [
 }));
 
 const extraStaticFiles = [
-  'about.html',
   'request-assisted.html',
   'request-status.html',
-  'request-admin.html',
   'request-assisted.css',
   'request-assisted-config.js',
   'request-assisted-common.js',
-  'request-assisted-form.js',
   'request-assisted-status.js',
-  'request-assisted-admin.js',
 ];
 
 function rewriteContent(content, fileMap) {

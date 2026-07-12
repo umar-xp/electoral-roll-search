@@ -6,7 +6,7 @@ import {
   normalizeMobile,
   sanitizeText,
   setStatusMessage,
-} from './request-assisted-common.js?v=20260703-3';
+} from './request-assisted-common.js?v=20260712-1';
 
 const form = document.getElementById('status-form');
 const feedbackEl = document.getElementById('status-feedback');
