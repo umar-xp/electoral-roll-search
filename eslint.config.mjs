@@ -61,6 +61,17 @@ export default [
     },
   },
   {
+    files: [
+      "apps/web/request-assisted-admin.js",
+      "apps/web/request-assisted-common.js",
+      "apps/web/request-assisted-form.js",
+      "apps/web/request-assisted-status.js",
+    ],
+    languageOptions: {
+      sourceType: "module",
+    },
+  },
+  {
     // Worker files import functions via importScripts — declare as globals
     files: ["apps/web/search-worker.js"],
     languageOptions: {
