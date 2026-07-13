@@ -3,10 +3,17 @@ data/**
 !data/**/
 !data/**/*.json
 !data/**/*.jsonl
+data/rolls.sqlite
+!data/rolls.sqlite.zip
+# Oversized search indices — too large for browser/git (100+ MB each)
+data/search/
+# Generated search index (regenerate with: npm run build:index)
+data/search_index/
+
 *.pdf
-*.sqlite
 *.sqlite-shm
 *.sqlite-wal
+*.sqlite.bak*
 
 parquet_out/
 *.parquet
@@ -19,27 +26,84 @@ node_modules/
 .next/
 dist/
 out/
+coverage/
 
 __pycache__/
 *.pyc
 .pytest_cache/
 
+# Archived/abandoned experiments
+_archive/
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Environment files
 .env
-.env.*
+.env.local
+
+.env
+!.env.example
 
 trae_instructions/
 
-Lib/
-Scripts/
-pyvenv.cfg
+# Dead archive code (candidates for deletion)
+_archive/
+
+# Python venv artifacts (root level only — exact case for Windows)
+/Lib/
+/Scripts/
+/pyvenv.cfg
+# But allow our project scripts/ folder (lowercase)
+!/scripts/
 
 etl_pipeline.log
 *.log
+logs/
 
 .DS_Store
 Thumbs.db
 .vscode/
 .history/
 
+# Archive folder (deprecated code)
+_archive/
+
+# Copilot bridge
+.copilot-bridge.json
+
 audit_reports/
 *.traineddata
+
+# Debug/temporary images
+debug_*.png
+*.debug.png
+gt_*.png
+page_*_preview.png
+ocr_result_*.json
+
+# OCR benchmark outputs (regenerable)
+ocr_benchmark/
+
+# Test data (regenerable from pipeline)
+data_test/
+data_full_test/
+
+# Archive of old experimental code
+_archive/
+
+# Dev/scratch folder
+dev/
+
+# Playwright test artifacts
+playwright-report/
+test-results/
+scripts/garbage_pages/
+scripts/test_reocr_debug.py
+scripts/reocr_output.log
+
+proof/

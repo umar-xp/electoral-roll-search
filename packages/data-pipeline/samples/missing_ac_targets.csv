@@ -1,0 +1,13 @@
+district,ac_num,expected_pdf_count,notes
+BAGALKOT,211,209,govt_audit
+BAGALKOT,213,176,govt_audit
+BANGALORE RURAL,94,234,govt_audit
+BELGAUM,193,206,govt_audit
+BELGAUM,194,175,govt_audit
+BIDAR,1,188,govt_audit
+CHIKKAMAGALURU,153,170,govt_audit
+GADAG,186,150,govt_audit
+CHIKKAMAGALURU,154,,missing_ac_in_local
+GULBARGA,7,185,govt_audit
+GULBARGA,8,166,govt_audit
+GULBARGA,9,165,govt_audit

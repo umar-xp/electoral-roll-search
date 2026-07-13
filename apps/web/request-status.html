@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Check the status of your assisted voter search request.">
+<title>Request Status | Karnataka 2002 Voter Search</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="request-assisted.css?v=20260712-1">
+</head>
+<body>
+<a href="#assist-main" class="skip-link">Skip to main content</a>
+<header class="header" role="banner">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-icon emblem">📋</div>
+      <div class="brand-text">
+        <h1>Request Status Check</h1>
+        <p class="brand-sub">Ticket ID + mobile number ಮೂಲಕ ಸ್ಥಿತಿ ಪರಿಶೀಲಿಸಿ</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <a class="lang-toggle" href="./index.html">Back To Search</a>
+    </div>
+  </div>
+</header>
+<div class="tricolor-bar" aria-hidden="true"></div>
+
+<main id="assist-main" class="assist-shell">
+  <section class="assist-hero">
+    <h2>Check your assisted-search request</h2>
+    <p>Enter the Ticket ID shown on submission and the same mobile number used in your request.</p>
+  </section>
+
+  <div class="assist-grid">
+    <section class="assist-card">
+      <h3>Status Lookup</h3>
+      <div id="status-config-warning" class="assist-alert assist-alert-error" hidden></div>
+      <div id="status-feedback" class="assist-alert" hidden></div>
+
+      <form id="status-form" class="assist-form" novalidate>
+        <div class="assist-field-grid">
+          <div class="assist-field">
+            <label class="assist-label" for="status-order-id">Ticket ID</label>
+            <input class="assist-input" id="status-order-id" name="order_id" placeholder="VSR-000001" required>
+          </div>
+          <div class="assist-field">
+            <label class="assist-label" for="status-mobile">Mobile Number</label>
+            <input class="assist-input" id="status-mobile" name="mobile" inputmode="numeric" maxlength="10" required>
+          </div>
+        </div>
+        <div class="assist-actions">
+          <button class="assist-button" type="submit">Check Status</button>
+          <a class="assist-button-muted" href="./request-assisted.html">Request Intake Notice</a>
+        </div>
+      </form>
+
+      <section id="status-result" class="assist-card" style="margin-top:18px;" hidden>
+        <h3>Request Status</h3>
+        <div class="assist-request-grid">
+          <div class="assist-kv">
+            <span class="assist-hint">Ticket ID</span>
+            <strong id="result-order-id"></strong>
+          </div>
+          <div class="assist-kv">
+            <span class="assist-hint">Current Status</span>
+            <strong id="result-status"></strong>
+          </div>
+          <div class="assist-kv">
+            <span class="assist-hint">Assigned Volunteer</span>
+            <strong id="result-assigned-volunteer"></strong>
+          </div>
+          <div class="assist-kv">
+            <span class="assist-hint">Submitted</span>
+            <strong id="result-created-at"></strong>
+          </div>
+          <div class="assist-kv">
+            <span class="assist-hint">Last Outcome</span>
+            <strong id="result-outcome"></strong>
+          </div>
+          <div class="assist-kv">
+            <span class="assist-hint">AC Number</span>
+            <strong id="result-ac-number"></strong>
+          </div>
+          <div class="assist-kv">
+            <span class="assist-hint">Part Number</span>
+            <strong id="result-part-number"></strong>
+          </div>
+          <div class="assist-kv">
+            <span class="assist-hint">Serial Number</span>
+            <strong id="result-serial-number"></strong>
+          </div>
+          <div class="assist-kv assist-field-full">
+            <span class="assist-hint">Message</span>
+            <strong id="result-message"></strong>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <aside class="assist-stats">
+      <section class="assist-card">
+        <h3>Status meanings</h3>
+        <ol class="assist-note-list">
+          <li><strong>Request Received</strong>: your request is saved successfully.</li>
+          <li><strong>Assigned</strong>: an administrator has assigned the request for manual search.</li>
+          <li><strong>Completed</strong>: the record has been found and recorded.</li>
+          <li><strong>Not Found</strong>: the manual search completed but no matching record was located.</li>
+        </ol>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<script src="request-assisted-config.js?v=20260712-1"></script>
+<script type="module" src="request-assisted-status.js?v=20260712-1"></script>
+</body>
+</html>

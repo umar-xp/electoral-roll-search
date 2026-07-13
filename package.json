@@ -1,18 +1,56 @@
 {
-  "name": "sir-rolls-check",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "ingest": "py .\\packages\\data-pipeline\\scripts\\ingest_rolls.py --root .\\data --db .\\data\\rolls.sqlite --min-age-seconds 30 --dpi 300",
-    "ocr:tesseract:single": "node .\\packages\\data-pipeline\\scripts\\tesseract_ocr.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "name": "electoral-roll-search",
+  "version": "5.0.0",
+  "description": "Bilingual search engine for Karnataka 2002 electoral rolls (7M+ voters)",
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0"
   },
-  "keywords": [],
-  "author": "",
+  "scripts": {
+    "build": "node Scripts/build.js",
+    "build:watch": "node Scripts/build.js --watch",
+    "build:ts": "tsc --noEmit",
+    "build:index": "python packages/data-pipeline/scripts/generate_search_index.py --data-dir ./data",
+    "ingest": "py .\\packages\\data-pipeline\\scripts\\ingest_rolls.py --root .\\data --db .\\data\\rolls.sqlite --min-age-seconds 30 --dpi 300",
+    "validate:data": "python packages/data-pipeline/scripts/validate_data.py ./data",
+    "test": "vitest run && node tests/test_frontend.js && node tests/test_integration.js",
+    "test:unit": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:js": "node tests/test_frontend.js",
+    "test:integration": "node tests/test_integration.js",
+    "test:e2e": "npx playwright test",
+    "test:e2e:ui": "npx playwright test --ui",
+    "test:py": "python -m pytest",
+    "test:verbose": "python -m pytest -v",
+    "test:all": "vitest run && node tests/test_frontend.js && node tests/test_integration.js && python -m pytest && npx playwright test",
+    "lint": "eslint apps/web/*.js && tsc --noEmit",
+    "lint:fix": "eslint apps/web/*.js --fix",
+    "typecheck": "tsc --noEmit",
+    "perf": "node scripts/perf-benchmark.js",
+    "serve": "npx serve . -l 8080",
+    "clean": "node -e \"const fs=require('fs');fs.rmSync('dist',{recursive:true,force:true})\""
+  },
+  "keywords": [
+    "electoral-roll",
+    "ocr",
+    "kannada",
+    "search",
+    "typescript"
+  ],
+  "author": "Mohammed Shoaib U",
   "license": "ISC",
   "type": "commonjs",
-  "dependencies": {
-    "tesseract.js": "^7.0.0"
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^25.9.2",
+    "@vitest/coverage-v8": "^4.1.8",
+    "esbuild": "^0.25.12",
+    "eslint": "^9.39.4",
+    "globals": "^17.6.0",
+    "happy-dom": "^20.10.2",
+    "serve": "^14.2.4",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.8"
   }
 }
