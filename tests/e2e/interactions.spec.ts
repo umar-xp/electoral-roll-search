@@ -229,7 +229,9 @@ test.describe('This Is Me / Success Modal', () => {
     await page.waitForTimeout(500);
     
     // FIX: WebKit/Mobile Safari struggles with CSS fade animations. Force the click.
-    await page.locator('#btn-close-modal').click({ force: true });
+    const closeBtn = page.locator('#btn-close-modal');
+    await closeBtn.scrollIntoViewIfNeeded();
+    await closeBtn.click({ force: true });
     await page.waitForTimeout(500);
     await expect(page.locator('#successModal')).not.toHaveClass(/show/);
   });
@@ -373,9 +375,9 @@ test.describe('Secondary Content Section', () => {
     await page.locator('#secondary-content summary').click({ force: true });
     await page.waitForTimeout(300);
     
-    if (browserName !== 'webkit') {
-      await context.grantPermissions(['clipboard-write']);
-    }
+    if (browserName === 'chromium') {
+  await context.grantPermissions(['clipboard-write']);
+}
     await page.locator('#btn-copy-link').click({ force: true });
     await page.waitForTimeout(500);
     const btnText = await page.locator('#btn-copy-link').textContent();

@@ -504,7 +504,7 @@ async function continueDBAllPartsSearch(mode = 'next') {
  * @param {number} partNum - Part number
  * @returns {Promise<Array>} Voter records array
  */
-async function loadPartData(district, acNum, partNum) {
+async function loadPartData(district, acNum, partNum, signal) {
   const key = `${district}_${acNum}_${partNum}`;
   const cached = lruGetPart(key, dbState.loadedParts);
   if (cached) return cached;
@@ -515,7 +515,7 @@ async function loadPartData(district, acNum, partNum) {
   
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
     try {
-      const res = await fetch(url, { signal: dbState.abortCtrl ? dbState.abortCtrl.signal : undefined });
+      const res = await fetch(url, { signal });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       const voters = Array.isArray(data) ? data : (data && data.voters) ? data.voters : [];
@@ -556,9 +556,11 @@ async function loadPartData(district, acNum, partNum) {
   return [];
 }
 
+// runDBSearchOverParts — capture a LOCAL reference, don't re-read dbState
 async function runDBSearchOverParts({ district, acNum, partsToSearch, chunkStartIndex, totalAllParts, filters, voterName }) {
   if (dbState.abortCtrl) dbState.abortCtrl.abort();
-  dbState.abortCtrl = new AbortController();
+  const myAbortCtrl = new AbortController();
+  dbState.abortCtrl = myAbortCtrl;
   dbState.isSearching = true;
   document.getElementById('btn-search').disabled = true;
   hideMorePartsControl();
@@ -568,7 +570,7 @@ async function runDBSearchOverParts({ district, acNum, partsToSearch, chunkStart
   let searchedInChunk = 0;
 
   for (let i = 0; i < partsToSearch.length; i += BATCH) {
-    if (dbState.abortCtrl.signal.aborted) break;
+    if (myAbortCtrl.signal.aborted) break;          // was: dbState.abortCtrl.signal.aborted
     const batch = partsToSearch.slice(i, i + BATCH);
     const end = Math.min(i + BATCH, totalChunk);
     const searchedOverall = Math.min(totalAllParts, chunkStartIndex + i);
@@ -579,7 +581,9 @@ async function runDBSearchOverParts({ district, acNum, partsToSearch, chunkStart
       totalAllParts ? (searchedOverall / totalAllParts) * 100 : 0
     );
 
-    const batchData = await Promise.all(batch.map(pn => loadPartData(district, acNum, pn)));
+    const batchData = await Promise.all(
+      batch.map(pn => loadPartData(district, acNum, pn, myAbortCtrl.signal))  // pass it explicitly
+    );
     const matches = batchData
       .flat()
       .map(v => {
@@ -607,7 +611,7 @@ async function runDBSearchOverParts({ district, acNum, partsToSearch, chunkStart
     }
   }
 
-  if (dbState.abortCtrl.signal.aborted) {
+  if (myAbortCtrl.signal.aborted) {
     dbState.acAllPartsIndex = Math.min(totalAllParts, chunkStartIndex + searchedInChunk);
     dbState.isSearching = false;
     document.getElementById('btn-search').disabled = false;
@@ -675,6 +679,7 @@ function showValidationError(inputId, message) {
 }
 
 async function performDBSearch() {
+  if (dbState.isSearching) return;
   hideMorePartsControl();
 
   const district = dbState.selectedDist;
